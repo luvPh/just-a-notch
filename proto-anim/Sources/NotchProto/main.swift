@@ -69,10 +69,6 @@ enum ExpandedTab: String, CaseIterable, Identifiable {
     }
 }
 
-struct PanelHeightKey: PreferenceKey {
-    static let defaultValue: CGFloat = 200
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = nextValue() }
-}
 
 struct NotifItem: Identifiable, Equatable {
     let id: Int
@@ -105,7 +101,6 @@ struct RootView: View {
     @State private var reduceMotion = false
     @State private var notif: NotifItem? = nil
     @State private var notifIndex = 0
-    @State private var panelH: CGFloat = 200   // measured from expanded content
     @Namespace private var glue
 
     private let panelW: CGFloat = 470
@@ -124,7 +119,11 @@ struct RootView: View {
 
     private var showingNotif: Bool { notif != nil && !expanded }
     private var surfaceW: CGFloat { expanded ? panelW : (showingNotif ? 376 : phase.width) }
-    private var surfaceH: CGFloat { expanded ? panelH : (showingNotif ? 82 : phase.height) }
+    private var surfaceH: CGFloat { expanded ? panelHeight : (showingNotif ? 82 : phase.height) }
+    // Tight per-tab heights (layout is known, like a real notch app) — no async measuring.
+    private var panelHeight: CGFloat {
+        switch tab { case .media: 182; case .files: 300; case .alerts: 360 }
+    }
     private var bottomRadius: CGFloat { expanded ? 26 : (showingNotif ? 24 : (phase == .quiet ? 12 : 16)) }
     private var inverseRadius: CGFloat { expanded ? 14 : 10 }
     private var centerXOffset: CGFloat { (expanded || showingNotif) ? 0 : (phase.rightExtent - phase.leftExtent) / 2 }
@@ -145,13 +144,15 @@ struct RootView: View {
             // measured height animates.
             VStack(spacing: 0) {
                 surface
-                    .frame(width: surfaceW, height: surfaceH)
+                    // alignment: .top is critical — a plain .frame centres its content, so while the
+                    // height springs the full-size panel would grow from the CENTRE and shove the top
+                    // off-screen. Top alignment keeps the content pinned to the bezel; it grows DOWN.
+                    .frame(width: surfaceW, height: surfaceH, alignment: .top)
                     .offset(x: centerXOffset)   // horizontal core-anchor (asymmetric compact reveal)
                     .animation(revealSpring, value: phase)
                     .animation(revealSpring, value: notif)
                     .animation(openSpring, value: expanded)
-                    .animation(openSpring, value: panelH)
-                    .onPreferenceChange(PanelHeightKey.self) { h in panelH = h }
+                    .animation(openSpring, value: tab)
                 Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -330,9 +331,7 @@ struct ExpandedPanel: View {
         .padding(.horizontal, 26)
         .padding(.top, topInset - 6)   // keep header clear of the camera/notch zone
         .padding(.bottom, 18)
-        .background(GeometryReader { g in
-            Color.clear.preference(key: PanelHeightKey.self, value: g.size.height)
-        })
+        .frame(maxHeight: .infinity, alignment: .top)   // pin content to top; extra height (if any) sits below
     }
 
     @ViewBuilder private var tabBody: some View {
