@@ -83,7 +83,7 @@ final class NotchViewModel: ObservableObject {
 
     // Expanded window.
     let expandedWidth: CGFloat = 412
-    let expandedHeight: CGFloat = 184
+    let expandedHeight: CGFloat = 168
 
     var surfaceWidth: CGFloat { expanded ? expandedWidth : compactWidth }
     var surfaceHeight: CGFloat { expanded ? expandedHeight : compactHeight }

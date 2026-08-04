@@ -5,6 +5,7 @@ private let alcoveRed = Color(red: 0.96, green: 0.36, blue: 0.33)
 struct NotchRootView: View {
     @ObservedObject var vm: NotchViewModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Namespace private var railNS
 
     private var openSpring: Animation {
         reduceMotion ? .easeInOut(duration: 0.22) : .spring(response: 0.5, dampingFraction: 0.8)
@@ -77,52 +78,63 @@ struct NotchRootView: View {
     // MARK: Expanded Alcove player
 
     private var player: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            tabBar
-            HStack(spacing: 10) {
-                Artwork(data: vm.track?.artworkData, corner: 7).frame(width: 36, height: 36)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(vm.track?.title ?? "Not playing").font(.system(size: 13, weight: .bold))
-                        .foregroundStyle(.white).lineLimit(1)
-                    Text(vm.track?.artist ?? vm.track?.sourceAppName ?? "—")
-                        .font(.system(size: 11)).foregroundStyle(.white.opacity(0.5)).lineLimit(1)
+        HStack(alignment: .top, spacing: 14) {
+            rail
+            divider
+            VStack(alignment: .leading, spacing: 10) {
+                HStack(spacing: 10) {
+                    Artwork(data: vm.track?.artworkData, corner: 7).frame(width: 36, height: 36)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(vm.track?.title ?? "Not playing").font(.system(size: 13, weight: .bold))
+                            .foregroundStyle(.white).lineLimit(1)
+                        Text(vm.track?.artist ?? vm.track?.sourceAppName ?? "—")
+                            .font(.system(size: 11)).foregroundStyle(.white.opacity(0.5)).lineLimit(1)
+                    }
+                    Spacer(minLength: 4)
+                    OrganicWaveform(active: vm.isPlaying, reduceMotion: reduceMotion, bars: 6)
+                        .frame(width: 18, height: 11)
                 }
-                Spacer(minLength: 4)
-                OrganicWaveform(active: vm.isPlaying, reduceMotion: reduceMotion, bars: 6)
-                    .frame(width: 18, height: 11)
+                scrubber
+                HStack(spacing: 0) {
+                    ctlButton("backward.fill", 14) { vm.previous() }; Spacer()
+                    ctlButton(vm.isPlaying ? "pause.fill" : "play.fill", 18) { vm.playPause() }; Spacer()
+                    ctlButton("forward.fill", 14) { vm.next() }; Spacer()
+                    ctlButton("headphones", 13) {}
+                }
+                .padding(.horizontal, 4)
             }
-            scrubber
-            HStack(spacing: 0) {
-                ctlButton("backward.fill", 14) { vm.previous() }; Spacer()
-                ctlButton(vm.isPlaying ? "pause.fill" : "play.fill", 18) { vm.playPause() }; Spacer()
-                ctlButton("forward.fill", 14) { vm.next() }; Spacer()
-                ctlButton("headphones", 13) {}
-            }
-            .padding(.horizontal, 8)
         }
-        .padding(.horizontal, 18)
-        .padding(.top, vm.notchHeight - 2)
+        .padding(.leading, 16).padding(.trailing, 18)
+        .padding(.top, vm.notchHeight - 4)
         .padding(.bottom, 14)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    // Tab bar placeholder — Media active now; other tabs are inert placeholders.
-    private var tabBar: some View {
-        HStack(spacing: 8) {
-            tabChip("Media", active: true)
-            tabChip("Lyrics", active: false)
-            tabChip("Queue", active: false)
-            Spacer()
+    // Vertical icon rail (Media active; folder/bell are placeholders for now).
+    private var rail: some View {
+        VStack(spacing: 8) {
+            railIcon("music.note", active: true)
+            railIcon("folder.fill", active: false)
+            railIcon("bell.fill", active: false)
         }
     }
 
-    private func tabChip(_ title: String, active: Bool) -> some View {
-        Text(title)
-            .font(.system(size: 11, weight: .semibold))
+    private func railIcon(_ name: String, active: Bool) -> some View {
+        Image(systemName: name)
+            .font(.system(size: 13, weight: .semibold))
             .foregroundStyle(active ? .black : .white.opacity(0.55))
-            .padding(.horizontal, 12).padding(.vertical, 5)
-            .background(active ? AnyShapeStyle(.white) : AnyShapeStyle(.white.opacity(0.10)),
-                        in: Capsule())
+            .frame(width: 32, height: 32)
+            .background {
+                if active { Circle().fill(.white).matchedGeometryEffect(id: "railpill", in: railNS) }
+            }
+    }
+
+    // Bright hairline between rail and body (brighter in the middle).
+    private var divider: some View {
+        Capsule()
+            .fill(LinearGradient(colors: [.white.opacity(0.02), .white.opacity(0.26), .white.opacity(0.02)],
+                                 startPoint: .top, endPoint: .bottom))
+            .frame(width: 1).frame(maxHeight: .infinity)
     }
 
     private var scrubber: some View {
