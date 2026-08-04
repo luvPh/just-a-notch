@@ -10,8 +10,6 @@ final class NotchViewModel: ObservableObject {
     @Published var playback: PlaybackState = .unsupported
     @Published var expanded = false
     @Published var hovering = false
-    /// Picture-in-picture video frame pinned inside the expanded panel.
-    @Published var pipActive = false
     /// Transient title reveal, shown briefly only when the track changes.
     @Published var titleReveal = false
     private var lastIdentity: String?
@@ -97,10 +95,10 @@ final class NotchViewModel: ObservableObject {
 
     // MARK: Actions
     func toggleExpanded() { expanded.toggle() }
-    func togglePiP() { pipActive.toggle() }
     func collapse() { expanded = false }
     func playPause() { media.playPause() }
     func next() { media.nextTrack() }
     func previous() { media.previousTrack() }
+    func seek(toFraction fraction: Double) { media.seek(toFraction: fraction) }
     func start() { media.start(); media.refresh() }
 }

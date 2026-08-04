@@ -44,6 +44,10 @@ final class YouTubeBrowserAdapter: MediaAdapter {
     func playPause() { runJS("v.paused ? v.play() : v.pause();") }
     func next() { runJS("document.querySelector('.ytp-next-button')?.click();") }
     func previous() { runJS("window.history.back();") }
+    func seek(toFraction fraction: Double) {
+        let f = min(1, max(0, fraction))
+        runJS("if(v.duration){v.currentTime = \(f) * v.duration;}")
+    }
 
     // MARK: - Scripting
 

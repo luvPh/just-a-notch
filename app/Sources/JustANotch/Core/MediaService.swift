@@ -94,4 +94,5 @@ final class MediaService: MediaServiceProtocol {
     func playPause() { activeAdapter?.playPause(); refresh() }
     func nextTrack() { activeAdapter?.next(); refresh() }
     func previousTrack() { activeAdapter?.previous(); refresh() }
+    func seek(toFraction fraction: Double) { activeAdapter?.seek(toFraction: fraction); refresh() }
 }

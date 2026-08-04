@@ -6,6 +6,11 @@ struct NotchRootView: View {
     @ObservedObject var vm: NotchViewModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var railTab: RailTab = .music
+    // While the user is dragging the scrubber, show their position instead of the
+    // (2s-polled) real progress; hold it briefly after release so it doesn't snap
+    // back before the next poll catches up.
+    @State private var scrubFraction: Double?
+    @State private var scrubHold: DispatchWorkItem?
 
     private var openSpring: Animation {
         reduceMotion ? .easeInOut(duration: 0.22) : .spring(response: 0.5, dampingFraction: 0.8)
@@ -88,12 +93,13 @@ struct NotchRootView: View {
                     .transition(.blurFade)
             }
             .scrollIndicators(.hidden)
+            .scrollBounceBehavior(.basedOnSize)   // no rubber-band / scrollbar when content fits
             .animation(reduceMotion ? .easeInOut(duration: 0.18) : .spring(response: 0.34, dampingFraction: 0.82),
                        value: railTab)
         }
-        .padding(.leading, 22).padding(.trailing, 24)
+        .padding(.leading, 34).padding(.trailing, 24)   // small left inset so the rail's lit pill sits balanced, clear of the rounded notch edge
         .padding(.top, vm.notchHeight + 8)   // clear the physical camera + ~10px breathing room
-        .padding(.bottom, 16)
+        .padding(.bottom, 14)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
@@ -106,10 +112,7 @@ struct NotchRootView: View {
     }
 
     private var musicPanel: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            if vm.pipActive {
-                videoFrame.transition(.blurFade)
-            }
+        VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 10) {
                 Artwork(data: vm.track?.artworkData, corner: 7).frame(width: 36, height: 36)
                 VStack(alignment: .leading, spacing: 2) {
@@ -127,9 +130,7 @@ struct NotchRootView: View {
                 ctlButton("backward.fill", 14) { vm.previous() }; Spacer()
                 ctlButton(vm.isPlaying ? "pause.fill" : "play.fill", 18) { vm.playPause() }; Spacer()
                 ctlButton("forward.fill", 14) { vm.next() }; Spacer()
-                ctlButton(vm.pipActive ? "pip.exit" : "pip.enter", 15) {
-                    withAnimation(revealSpring) { vm.togglePiP() }
-                }
+                ctlButton("headphones", 13) {}
             }
             .padding(.horizontal, 4)
         }
@@ -162,50 +163,46 @@ struct NotchRootView: View {
             .frame(width: 1).frame(maxHeight: .infinity)
     }
 
-    // Placeholder video surface pinned inside the panel. This is the fixed slot
-    // that the real Picture-in-Picture window will later be clamped onto; for now
-    // it previews the layout using the track artwork behind a "PiP" affordance.
-    private var videoFrame: some View {
-        ZStack {
-            if let data = vm.track?.artworkData, let img = NSImage(data: data) {
-                Image(nsImage: img).resizable().aspectRatio(contentMode: .fill)
-            } else {
-                LinearGradient(colors: [.white.opacity(0.10), .black],
-                               startPoint: .top, endPoint: .bottom)
-            }
-            Rectangle().fill(.black.opacity(0.32))
-            VStack(spacing: 4) {
-                Image(systemName: "pip.fill")
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.92))
-                Text(vm.isPlaying ? "Picture in Picture" : "Paused")
-                    .font(.system(size: 10, weight: .medium))
-                    .foregroundStyle(.white.opacity(0.6))
-            }
-        }
-        .frame(maxWidth: .infinity)
-        .frame(height: 92)
-        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .strokeBorder(.white.opacity(0.08), lineWidth: 1)
-        )
-    }
-
     private var scrubber: some View {
-        let progress = CGFloat(vm.track?.progress ?? 0)
+        let progress = CGFloat(scrubFraction ?? Double(vm.track?.progress ?? 0))
+        let dragging = scrubFraction != nil
+        // Reserve the largest thumb's radius at each end so the knob never spills
+        // past the track (which the ScrollView / notch clip would otherwise cut at
+        // 0% and 100%). Progress maps into the inset track only.
+        let r: CGFloat = 6.5
         return GeometryReader { g in
             let w = g.size.width
+            let usable = max(1, w - 2 * r)
+            let cx = r + progress * usable           // thumb centre, always in [r, w-r]
+            let d: CGFloat = dragging ? 13 : 9
             ZStack(alignment: .leading) {
                 Capsule().fill(.white.opacity(0.14)).frame(height: 3)
-                Capsule().fill(.white).frame(width: max(3, w * progress), height: 3)
-                Circle().fill(.white).frame(width: 9, height: 9)
+                Capsule().fill(.white).frame(width: max(3, cx), height: 3)
+                Circle().fill(.white).frame(width: d, height: d)
                     .shadow(color: .black.opacity(0.45), radius: 2, y: 1)
-                    .offset(x: w * progress - 4.5)
+                    .offset(x: cx - d / 2)
             }
             .frame(maxHeight: .infinity, alignment: .center)
+            .contentShape(Rectangle())   // whole strip is draggable/clickable
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { v in
+                        scrubHold?.cancel()
+                        scrubFraction = min(1, max(0, Double((v.location.x - r) / usable)))
+                    }
+                    .onEnded { v in
+                        let f = min(1, max(0, Double((v.location.x - r) / usable)))
+                        scrubFraction = f
+                        vm.seek(toFraction: f)
+                        // Hold the shown position ~2.5s until the poll reflects the seek.
+                        let work = DispatchWorkItem { scrubFraction = nil }
+                        scrubHold = work
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: work)
+                    }
+            )
         }
-        .frame(height: 10)
+        .frame(height: 12)
+        .animation(.spring(response: 0.25, dampingFraction: 0.7), value: dragging)
     }
 
     private func ctlButton(_ name: String, _ size: CGFloat, _ action: @escaping () -> Void) -> some View {
@@ -302,6 +299,9 @@ struct ThemeCarousel: View {
 
     // One scroll "tick" past the threshold snaps exactly one tab further.
     private func handleScroll(_ dy: CGFloat) {
+        // Reversing direction: drop any stale accumulation from the previous
+        // direction so a leftover can't fire one step the wrong way first.
+        if scrollAcc != 0, (dy > 0) != (scrollAcc > 0) { scrollAcc = 0 }
         scrollAcc += dy
         guard !stepping, abs(scrollAcc) >= stepThreshold else { return }
         let dir = scrollAcc > 0 ? 1 : -1
@@ -358,7 +358,7 @@ struct ThemeCarousel: View {
             .frame(width: itemSize, height: itemSize)
             .background(
                 Circle().fill(.white).opacity(pill)
-                    .shadow(color: .white.opacity(0.9 * pill), radius: 6 * pill)   // white glow
+                    .shadow(color: .white.opacity(0.9 * pill), radius: 2.5 * pill)   // subtle white glow (kept tight so it doesn't clip on the notch edge)
             )
             .scaleEffect(scale)
             .opacity(selfOpacity)
@@ -400,10 +400,17 @@ private struct ScrollWheelCatcher: NSViewRepresentable {
                     guard let self, let win = self.window, e.window === win else { return e }
                     let p = self.convert(e.locationInWindow, from: nil)
                     guard self.bounds.contains(p) else { return e }
+                    // Ignore trackpad momentum — only active finger/wheel scrolling
+                    // drives tab steps, so leftover momentum in one direction can't
+                    // fire a step after the user has already reversed.
+                    if e.momentumPhase != [] {
+                        if e.momentumPhase == .ended { self.onEnded?() }
+                        return nil
+                    }
                     let dy = e.hasPreciseScrollingDeltas ? e.scrollingDeltaY : e.deltaY * 6
                     // Natural direction: content up → advance to the next tab.
                     self.onScroll?(-dy)
-                    if e.phase == .ended || e.phase == .cancelled || e.momentumPhase == .ended {
+                    if e.phase == .ended || e.phase == .cancelled {
                         self.onEnded?()
                     }
                     return nil   // consume so the right-hand panel doesn't also scroll

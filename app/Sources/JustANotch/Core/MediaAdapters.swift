@@ -12,6 +12,12 @@ protocol MediaAdapter: AnyObject {
     func playPause()
     func next()
     func previous()
+    /// Seek to a 0...1 fraction of the current track. No-op if unsupported.
+    func seek(toFraction fraction: Double)
+}
+
+extension MediaAdapter {
+    func seek(toFraction fraction: Double) {}
 }
 
 /// Shared AppleScript execution helper. Returns nil on any error (including a
@@ -62,6 +68,10 @@ final class AppleMusicAdapter: MediaAdapter {
     func playPause() { _ = AppleScriptRunner.run("tell application \"Music\" to playpause") }
     func next() { _ = AppleScriptRunner.run("tell application \"Music\" to next track") }
     func previous() { _ = AppleScriptRunner.run("tell application \"Music\" to previous track") }
+    func seek(toFraction fraction: Double) {
+        let f = min(1, max(0, fraction))
+        _ = AppleScriptRunner.run("tell application \"Music\" to set player position to ((duration of current track) * \(f))")
+    }
 
     static func parse(_ out: String, source: String) -> (MediaTrack?, PlaybackState) {
         let parts = out.components(separatedBy: "|")
@@ -120,6 +130,11 @@ final class SpotifyAdapter: MediaAdapter {
     func playPause() { _ = AppleScriptRunner.run("tell application \"Spotify\" to playpause") }
     func next() { _ = AppleScriptRunner.run("tell application \"Spotify\" to next track") }
     func previous() { _ = AppleScriptRunner.run("tell application \"Spotify\" to previous track") }
+    func seek(toFraction fraction: Double) {
+        let f = min(1, max(0, fraction))
+        // Spotify duration is in milliseconds; player position is in seconds.
+        _ = AppleScriptRunner.run("tell application \"Spotify\" to set player position to (((duration of current track) / 1000) * \(f))")
+    }
 }
 
 // MARK: - Mock (previews & tests)

@@ -9,6 +9,7 @@ protocol MediaServiceProtocol: AnyObject {
     func playPause()
     func nextTrack()
     func previousTrack()
+    func seek(toFraction fraction: Double)
     func refresh()
     func start()
     func stop()
