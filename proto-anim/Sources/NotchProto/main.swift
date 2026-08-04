@@ -103,7 +103,7 @@ struct RootView: View {
     @State private var notifIndex = 0
     @Namespace private var glue
 
-    private let panelW: CGFloat = 430
+    private let panelW: CGFloat = 384
     private let menuBarH: CGFloat = 34
 
     private var openSpring: Animation {
@@ -122,7 +122,7 @@ struct RootView: View {
     private var surfaceH: CGFloat { expanded ? panelHeight : (showingNotif ? 82 : phase.height) }
     // Tight per-tab heights (layout is known, like a real notch app) — no async measuring.
     private var panelHeight: CGFloat {
-        switch tab { case .media: 156; case .files: 196; case .alerts: 236 }
+        switch tab { case .media: 170; case .files: 196; case .alerts: 236 }
     }
     private var bottomRadius: CGFloat { expanded ? 26 : (showingNotif ? 24 : (phase == .quiet ? 12 : 16)) }
     private var inverseRadius: CGFloat { expanded ? 14 : 10 }
@@ -300,7 +300,7 @@ struct ExpandedPanel: View {
             rail
             content.frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(.leading, 16).padding(.trailing, 20)
+        .padding(.leading, 22).padding(.trailing, 22)
         .padding(.top, topInset - 4)   // keep clear of the camera/notch zone
         .padding(.bottom, 16)
         .frame(maxHeight: .infinity, alignment: .top)
@@ -342,13 +342,11 @@ struct ExpandedPanel: View {
                     Text("mocha.").font(.system(size: 12)).foregroundStyle(.white.opacity(0.5))
                 }
                 Spacer(minLength: 4)
-                Waveform(active: true, reduceMotion: reduceMotion, tint: Color(red: 0.95, green: 0.35, blue: 0.32))
-                    .frame(width: 22, height: 16)
+                Waveform(active: true, reduceMotion: reduceMotion,
+                         tint: Color(red: 0.96, green: 0.36, blue: 0.33), bars: 5)
+                    .frame(width: 26, height: 17)
             }
-            ZStack {
-                Capsule().fill(.white.opacity(0.16)).frame(height: 5)
-                Text("LIVE").font(.system(size: 9, weight: .bold)).tracking(1.5).foregroundStyle(.white.opacity(0.55))
-            }
+            scrubber
             HStack(spacing: 0) {
                 icon("backward.fill", 15); Spacer()
                 icon("pause.fill", 20);    Spacer()
@@ -356,6 +354,37 @@ struct ExpandedPanel: View {
                 icon("headphones", 15)
             }
             .padding(.horizontal, 6)
+        }
+    }
+
+    // Refined scrubber: slim track, gradient fill, soft knob, subtle time labels.
+    private var scrubber: some View {
+        let progress: CGFloat = 0.42
+        return VStack(spacing: 7) {
+            GeometryReader { g in
+                let w = g.size.width
+                ZStack(alignment: .leading) {
+                    Capsule().fill(.white.opacity(0.14)).frame(height: 3)
+                    Capsule()
+                        .fill(LinearGradient(colors: [.white.opacity(0.75), .white],
+                                             startPoint: .leading, endPoint: .trailing))
+                        .frame(width: max(3, w * progress), height: 3)
+                    Circle().fill(.white)
+                        .frame(width: 9, height: 9)
+                        .shadow(color: .black.opacity(0.45), radius: 2, y: 1)
+                        .offset(x: w * progress - 4.5)
+                }
+                .frame(height: 9)
+                .frame(maxHeight: .infinity, alignment: .center)
+            }
+            .frame(height: 9)
+            HStack {
+                Text("1:42").monospacedDigit()
+                Spacer()
+                Text("-3:18").monospacedDigit()
+            }
+            .font(.system(size: 9.5, weight: .medium))
+            .foregroundStyle(.white.opacity(0.42))
         }
     }
 
@@ -440,18 +469,28 @@ struct Waveform: View {
     let active: Bool
     let reduceMotion: Bool
     var tint: Color = .white.opacity(0.85)
+    var bars: Int = 4
+
+    // Per-bar amplitude + speed so the motion looks organic, not a uniform sine.
+    private let amp:   [Double] = [0.55, 1.0, 0.72, 0.9, 0.6, 0.85, 0.5]
+    private let speed: [Double] = [6.0, 8.5, 7.2, 9.0, 6.6, 8.0, 7.6]
+    private let phase: [Double] = [0.0, 1.3, 2.6, 0.7, 3.1, 1.9, 4.0]
+
     var body: some View {
-        TimelineView(.animation(minimumInterval: 1.0/30.0, paused: !active || reduceMotion)) { tl in
+        TimelineView(.animation(minimumInterval: 1.0/60.0, paused: !active || reduceMotion)) { tl in
             let t = tl.date.timeIntervalSinceReferenceDate
             Canvas { ctx, size in
-                let barW: CGFloat = 3, gap: CGFloat = 3.5
-                let ph: [Double] = [0.0, 1.1, 2.3]
-                for i in 0..<3 {
-                    let p = reduceMotion ? 0.5 : (sin(t*6 + ph[i]) * 0.5 + 0.5)
-                    let h = 5 + CGFloat(p) * (size.height - 5)
+                let n = max(1, bars)
+                let gap: CGFloat = 2.5
+                let barW = max(2, (size.width - gap * CGFloat(n - 1)) / CGFloat(n))
+                for i in 0..<n {
+                    let a = amp[i % amp.count]
+                    let raw = reduceMotion ? 0.6 : (sin(t * speed[i % speed.count] + phase[i % phase.count]) * 0.5 + 0.5)
+                    let p = a * raw
+                    let h = 3 + CGFloat(p) * (size.height - 3)
                     let x = CGFloat(i) * (barW + gap)
-                    let r = CGRect(x: x, y: (size.height - h)/2, width: barW, height: h)
-                    ctx.fill(Path(roundedRect: r, cornerRadius: 1.5), with: .color(tint))
+                    let r = CGRect(x: x, y: (size.height - h) / 2, width: barW, height: h)
+                    ctx.fill(Path(roundedRect: r, cornerRadius: barW / 2), with: .color(tint))
                 }
             }
         }
