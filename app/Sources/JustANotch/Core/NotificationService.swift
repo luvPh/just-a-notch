@@ -96,9 +96,11 @@ final class NotificationService: NotificationServiceProtocol {
 
     private func fetchNewRows() {
         guard let lastSeen = tracker.lastSeenId else { return }
+        // LEFT JOIN so a record whose app_id has no `app` row still surfaces
+        // (identifier NULL) instead of being silently dropped.
         let sql = """
         SELECT r.rec_id, a.identifier, r.data
-        FROM record r JOIN app a ON a.app_id = r.app_id
+        FROM record r LEFT JOIN app a ON a.app_id = r.app_id
         WHERE r.rec_id > ? ORDER BY r.rec_id ASC
         """
         var stmt: OpaquePointer?
