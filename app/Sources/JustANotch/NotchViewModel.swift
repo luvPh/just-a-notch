@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import AppKit
 
 /// Bridges the real MediaService to the SwiftUI island and owns the interaction
 /// state (hover / expanded). Geometry respects the physical camera core: content
@@ -15,6 +16,16 @@ final class NotchViewModel: ObservableObject {
     @Published var playlist: [MediaListItem] = []
     /// Transient title reveal, shown briefly only when the track changes.
     @Published var titleReveal = false
+
+    // MARK: Notifications
+    /// Banner currently popped over the compact surface, or nil.
+    @Published var hudNotification: NotificationRecord?
+    /// Retained history (newest first) for the Notifications tab.
+    @Published var notifications: [NotificationRecord] = []
+    /// True when the Notification Center DB can't be read (needs Full Disk Access).
+    @Published var notificationsPermissionDenied = false
+    private var hudClearWork: DispatchWorkItem?
+    let hudDuration: TimeInterval = 4
     private var lastIdentity: String?
     private var titleResetWork: DispatchWorkItem?
     let titleEntranceDuration: TimeInterval = 0.42
@@ -25,14 +36,23 @@ final class NotchViewModel: ObservableObject {
     @Published var notchHeight: CGFloat = 38
 
     private let media: MediaServiceProtocol
+    private let notifier: NotificationServiceProtocol
     private var bag = Set<AnyCancellable>()
 
-    init(media: MediaServiceProtocol) {
+    init(media: MediaServiceProtocol, notifier: NotificationServiceProtocol) {
         self.media = media
+        self.notifier = notifier
         media.currentTrack.receive(on: RunLoop.main).sink { [weak self] track in
             self?.handleTrack(track)
         }.store(in: &bag)
         media.playbackState.receive(on: RunLoop.main).sink { [weak self] in self?.playback = $0 }.store(in: &bag)
+
+        notifier.history.receive(on: RunLoop.main)
+            .sink { [weak self] in self?.notifications = $0 }.store(in: &bag)
+        notifier.permissionState.receive(on: RunLoop.main)
+            .sink { [weak self] in self?.notificationsPermissionDenied = ($0 == .denied) }.store(in: &bag)
+        notifier.latestArrival.receive(on: RunLoop.main)
+            .sink { [weak self] in self?.showHUD($0) }.store(in: &bag)
     }
 
     private func handleTrack(_ track: MediaTrack?) {
@@ -76,6 +96,14 @@ final class NotchViewModel: ObservableObject {
     var hasMedia: Bool { track != nil }
     var isPlaying: Bool { playback == .playing }
 
+    /// The HUD takes over the compact surface while a banner is showing and the
+    /// panel is not expanded.
+    var showingHUD: Bool { hudNotification != nil && !expanded }
+    let hudWidth: CGFloat = 412
+    /// Must clear the physical camera core (notchHeight) AND leave room for the
+    /// two-line banner body below it; a fixed 56 left only ~6pt for the text.
+    var hudHeight: CGFloat { notchHeight + 48 }
+
     enum CompactState { case quiet, resting, reading }
     var compactState: CompactState {
         guard let track, Self.hasRealTitle(track) else { return .quiet }
@@ -105,21 +133,66 @@ final class NotchViewModel: ObservableObject {
 
     var isListOpen: Bool { expanded && showList }
 
-    var surfaceWidth: CGFloat { expanded ? expandedWidth : compactWidth }
+    var surfaceWidth: CGFloat {
+        if showingHUD { return hudWidth }
+        return expanded ? expandedWidth : compactWidth
+    }
     var surfaceHeight: CGFloat {
-        isListOpen ? listExpandedHeight : (expanded ? expandedHeight : compactHeight)
+        if showingHUD { return hudHeight }
+        return isListOpen ? listExpandedHeight : (expanded ? expandedHeight : compactHeight)
     }
     /// Keep the camera core centred on the notch: shift by half the reveal imbalance.
-    var centerXOffset: CGFloat { expanded ? 0 : (rightReveal - leftReveal) / 2 }
+    /// HUD and expanded are both centred, so no shift.
+    var centerXOffset: CGFloat { (expanded || showingHUD) ? 0 : (rightReveal - leftReveal) / 2 }
 
-    var bottomRadius: CGFloat { expanded ? 26 : (compactState == .quiet ? 10 : 14) }
+    var bottomRadius: CGFloat {
+        if showingHUD { return 22 }
+        return expanded ? 26 : (compactState == .quiet ? 10 : 14)
+    }
     var topRadius: CGFloat { expanded ? 12 : 9 }
 
     // MARK: Actions
-    func toggleExpanded() { expanded.toggle() }
+    func toggleExpanded() { expanded.toggle(); if expanded { clearHUD() } }
     func collapse() { expanded = false; showList = false }
     /// Pull the latest media state now (e.g. right as the panel opens).
     func refreshMedia() { media.refresh() }
+
+    /// Icon for a notification's source app (delegates to the service cache).
+    func notificationIcon(_ bundleId: String) -> NSImage { notifier.icon(forBundle: bundleId) }
+
+    /// Grouped history for the Notifications tab.
+    var notificationGroups: [NotificationGroup] { groupByApp(notifications) }
+
+    /// Pop a HUD banner; latest arrival replaces any current one (no queue).
+    /// Suppressed while expanded so it doesn't fight the open player.
+    private func showHUD(_ record: NotificationRecord) {
+        guard !expanded else { return }
+        hudClearWork?.cancel()
+        withAnimation(.spring(response: 0.42, dampingFraction: 0.8)) { hudNotification = record }
+        let work = DispatchWorkItem { [weak self] in
+            withAnimation(.spring(response: 0.42, dampingFraction: 0.85)) { self?.hudNotification = nil }
+        }
+        hudClearWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + hudDuration, execute: work)
+    }
+
+    /// Activate an app by bundle id (used by both the HUD banner and the
+    /// Notifications tab rows).
+    func openApp(bundleId: String) {
+        guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleId) else { return }
+        NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration())
+    }
+
+    /// Activate the app that sent the current HUD notification, then clear it.
+    func openSourceApp() {
+        if let record = hudNotification { openApp(bundleId: record.bundleId) }
+        clearHUD()
+    }
+
+    func clearHUD() {
+        hudClearWork?.cancel()
+        withAnimation(.spring(response: 0.42, dampingFraction: 0.85)) { hudNotification = nil }
+    }
 
     /// Toggle the queue panel; (re)fetch the list whenever it opens.
     func toggleList() {
@@ -138,5 +211,5 @@ final class NotchViewModel: ObservableObject {
     func next() { media.nextTrack() }
     func previous() { media.previousTrack() }
     func seek(toFraction fraction: Double) { media.seek(toFraction: fraction) }
-    func start() { media.start(); media.refresh() }
+    func start() { media.start(); media.refresh(); notifier.start() }
 }
