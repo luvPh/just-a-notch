@@ -76,6 +76,7 @@ struct NotchRootView: View {
 
     private var player: some View {
         VStack(alignment: .leading, spacing: 10) {
+            tabBar
             HStack(spacing: 10) {
                 Artwork(data: vm.track?.artworkData, corner: 7).frame(width: 36, height: 36)
                 VStack(alignment: .leading, spacing: 2) {
@@ -98,9 +99,28 @@ struct NotchRootView: View {
             .padding(.horizontal, 8)
         }
         .padding(.horizontal, 18)
-        .padding(.top, vm.menuBarHeight - 2)
+        .padding(.top, vm.notchHeight - 2)
         .padding(.bottom, 14)
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    // Tab bar placeholder — Media active now; other tabs are inert placeholders.
+    private var tabBar: some View {
+        HStack(spacing: 8) {
+            tabChip("Media", active: true)
+            tabChip("Lyrics", active: false)
+            tabChip("Queue", active: false)
+            Spacer()
+        }
+    }
+
+    private func tabChip(_ title: String, active: Bool) -> some View {
+        Text(title)
+            .font(.system(size: 11, weight: .semibold))
+            .foregroundStyle(active ? .black : .white.opacity(0.55))
+            .padding(.horizontal, 12).padding(.vertical, 5)
+            .background(active ? AnyShapeStyle(.white) : AnyShapeStyle(.white.opacity(0.10)),
+                        in: Capsule())
     }
 
     private var scrubber: some View {

@@ -51,7 +51,9 @@ final class NotchWindowController {
         coreCenterX = geo.screenFrame.midX
         screenTopY = geo.screenFrame.maxY
         vm.coreWidth = geo.notchWidth
-        vm.menuBarHeight = geo.notchHeight
+        // Physical notch (camera) height = safe-area top when present; 38pt fallback.
+        let safeTop = screen.safeAreaInsets.top
+        vm.notchHeight = safeTop > 0 ? safeTop : 38
     }
 
     /// Surface bounding rect in screen (bottom-left origin) coordinates.
@@ -67,14 +69,14 @@ final class NotchWindowController {
         // Width is FIXED (widest envelope) so expand/collapse only changes height →
         // the surface grows straight down from the notch, no horizontal snap.
         let w = max(compactEnvelopeWidth, vm.expandedWidth)
-        let h = vm.expanded ? vm.expandedHeight : (vm.menuBarHeight + 4)
+        let h = vm.expanded ? vm.expandedHeight : 40
         let frame = CGRect(x: coreCenterX - w / 2, y: screenTopY - h, width: w, height: h)
         panel.setFrame(frame, display: true)
     }
 
     /// Compact envelope stays at the widest (reading) width so resting↔reading
     /// never resizes the window — motion happens purely in SwiftUI.
-    private var compactEnvelopeWidth: CGFloat { 138 + vm.coreWidth + 54 }
+    private var compactEnvelopeWidth: CGFloat { 150 + vm.coreWidth + 50 }
 
     private func handleExpandedChange(_ expanded: Bool) {
         if expanded {

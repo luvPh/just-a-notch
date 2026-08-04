@@ -17,7 +17,8 @@ final class NotchViewModel: ObservableObject {
 
     // Set by the window controller from the detected notch.
     @Published var coreWidth: CGFloat = 200
-    @Published var menuBarHeight: CGFloat = 32
+    /// Physical notch (camera) height — used as the quiet height and the expanded top inset.
+    @Published var notchHeight: CGFloat = 38
 
     private let media: MediaServiceProtocol
     private var bag = Set<AnyCancellable>()
@@ -67,20 +68,22 @@ final class NotchViewModel: ObservableObject {
 
     // MARK: Geometry (wings around the fixed camera core)
 
+    // Symmetric wings while playing; the reading state only grows the LEFT wing
+    // (the 150pt title expansion), keeping the right wing steady.
     var leftReveal: CGFloat {
-        switch compactState { case .quiet: 0; case .resting: 38; case .reading: 138 }
+        switch compactState { case .quiet: 10; case .resting: 50; case .reading: 150 }
     }
     var rightReveal: CGFloat {
-        switch compactState { case .quiet: 0; case .resting: 54; case .reading: 54 }
+        switch compactState { case .quiet: 10; case .resting: 50; case .reading: 50 }
     }
-    var compactHeight: CGFloat { compactState == .quiet ? menuBarHeight : menuBarHeight + 4 }
+    var compactHeight: CGFloat { compactState == .quiet ? 38 : 40 }
     var compactWidth: CGFloat { leftReveal + coreWidth + rightReveal }
-    /// Fixed marquee viewport for the title (part of the left reading wing).
-    var titleViewport: CGFloat { 138 - 18 - 10 - 8 }   // reading left - icon - lead pad - gap
+    /// Fixed marquee viewport for the title (left reading wing minus icon + pads).
+    var titleViewport: CGFloat { 150 - 18 - 13 - 8 }
 
-    // Expanded (Media-only for now) — ~20% smaller.
-    let expandedWidth: CGFloat = 308
-    var expandedHeight: CGFloat { menuBarHeight + 118 }
+    // Expanded window.
+    let expandedWidth: CGFloat = 412
+    let expandedHeight: CGFloat = 184
 
     var surfaceWidth: CGFloat { expanded ? expandedWidth : compactWidth }
     var surfaceHeight: CGFloat { expanded ? expandedHeight : compactHeight }
