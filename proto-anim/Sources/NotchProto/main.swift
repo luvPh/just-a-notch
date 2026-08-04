@@ -285,7 +285,8 @@ struct CompactContent: View {
             if phase.showsMedia {
                 Waveform(active: true, reduceMotion: reduceMotion,
                          tint: Color(red: 0.96, green: 0.36, blue: 0.33), bars: 6)   // identical to the media header
-                    .frame(width: 26, height: 15)
+                    .frame(width: 22, height: 13)
+                    .padding(.trailing, 4)   // keep it off the rounded edge
                     .transition(reduceMotion ? .opacity : .scale.combined(with: .opacity))
             }
         }
@@ -364,7 +365,7 @@ struct ExpandedPanel: View {
                 Spacer(minLength: 4)
                 Waveform(active: true, reduceMotion: reduceMotion,
                          tint: Color(red: 0.96, green: 0.36, blue: 0.33), bars: 6)
-                    .frame(width: 26, height: 15)
+                    .frame(width: 22, height: 13)
             }
             scrubber
             HStack(spacing: 0) {
@@ -514,14 +515,27 @@ struct Waveform: View {
             let t = tl.date.timeIntervalSinceReferenceDate
             Canvas { ctx, size in
                 let n = max(1, bars)
-                let barW: CGFloat = 2.0                       // slim bars
-                let gap = n > 1 ? (size.width - barW * CGFloat(n)) / CGFloat(n - 1) : 0
+                let barW: CGFloat = 2.0
+                let gap: CGFloat = 1.4                                   // tight, fixed spacing
+                let total = barW * CGFloat(n) + gap * CGFloat(n - 1)
+                let startX = (size.width - total) / 2                    // centred, so bars sit close together
+                let minH: CGFloat = 2.5
                 for i in 0..<n {
                     let a = amp[i % amp.count]
-                    let raw = reduceMotion ? 0.6 : (sin(t * speed[i % speed.count] + phase[i % phase.count]) * 0.5 + 0.5)
-                    let p = a * raw
-                    let h = 3 + CGFloat(p) * (size.height - 3)
-                    let x = CGFloat(i) * (barW + gap)
+                    let s = speed[i % speed.count], ph = phase[i % phase.count]
+                    let p: Double
+                    if reduceMotion {
+                        p = a * 0.6
+                    } else {
+                        // Sum of detuned harmonics → irregular, audio-like motion instead of a clean sine.
+                        let v = sin(t * s + ph) * 0.60
+                              + sin(t * s * 1.73 + ph * 2.1) * 0.28
+                              + sin(t * s * 2.91 + ph * 0.7) * 0.18
+                        let norm = min(1, max(0, (v + 1.06) / 2.12))
+                        p = a * pow(norm, 1.5)                           // shape: mostly low, with sharp punchy peaks
+                    }
+                    let h = minH + CGFloat(p) * (size.height - minH)
+                    let x = startX + CGFloat(i) * (barW + gap)
                     let r = CGRect(x: x, y: (size.height - h) / 2, width: barW, height: h)
                     ctx.fill(Path(roundedRect: r, cornerRadius: barW / 2), with: .color(tint))
                 }
