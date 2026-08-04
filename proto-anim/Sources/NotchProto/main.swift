@@ -196,13 +196,14 @@ struct RootView: View {
 
             if expanded {
                 ExpandedPanel(tab: $tab, glue: glue, reduceMotion: reduceMotion, topInset: menuBarH)
-                    .transition(.opacity)
+                    .transition(.blurFade)
             } else if let n = notif {
-                NotificationBanner(item: n, topInset: menuBarH).transition(.opacity)
+                NotificationBanner(item: n, topInset: menuBarH).transition(.blurFade)
             } else {
                 CompactContent(phase: phase, glue: glue, reduceMotion: reduceMotion)
                     .padding(.horizontal, 14)
                     .frame(width: phase.width, height: phase.height, alignment: .leading)
+                    .transition(.blurFade)
             }
         }
         .clipShape(shape)
@@ -304,7 +305,10 @@ struct ExpandedPanel: View {
         HStack(alignment: .top, spacing: 14) {
             rail
             divider
-            content.frame(maxWidth: .infinity, alignment: .leading)
+            content
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .id(tab)                        // new identity per tab → transition fires
+                .transition(.blurFade)          // blur+fade between tabs
         }
         .padding(.leading, 22).padding(.trailing, 22)
         .padding(.top, topInset - 4)   // keep clear of the camera/notch zone
@@ -470,6 +474,19 @@ struct NotificationBanner: View {
 
 // MARK: - Shared
 
+// Alcove-style transition: content blurs + fades as it enters/leaves, so state changes
+// (open/close, tab switch, notification) resolve softly instead of hard-cutting.
+private struct BlurOpacity: ViewModifier {
+    let radius: CGFloat
+    let opacity: Double
+    func body(content: Content) -> some View { content.blur(radius: radius).opacity(opacity) }
+}
+extension AnyTransition {
+    static var blurFade: AnyTransition {
+        .modifier(active: BlurOpacity(radius: 7, opacity: 0), identity: BlurOpacity(radius: 0, opacity: 1))
+    }
+}
+
 struct AlbumArt: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 8, style: .continuous)
@@ -496,13 +513,13 @@ struct Waveform: View {
             let t = tl.date.timeIntervalSinceReferenceDate
             Canvas { ctx, size in
                 let n = max(1, bars)
-                let gap: CGFloat = 2.5
-                let barW = max(2, (size.width - gap * CGFloat(n - 1)) / CGFloat(n))
+                let barW: CGFloat = 1.6                       // slim bars
+                let gap = n > 1 ? (size.width - barW * CGFloat(n)) / CGFloat(n - 1) : 0
                 for i in 0..<n {
                     let a = amp[i % amp.count]
                     let raw = reduceMotion ? 0.6 : (sin(t * speed[i % speed.count] + phase[i % phase.count]) * 0.5 + 0.5)
                     let p = a * raw
-                    let h = 3 + CGFloat(p) * (size.height - 3)
+                    let h = 2.5 + CGFloat(p) * (size.height - 2.5)
                     let x = CGFloat(i) * (barW + gap)
                     let r = CGRect(x: x, y: (size.height - h) / 2, width: barW, height: h)
                     ctx.fill(Path(roundedRect: r, cornerRadius: barW / 2), with: .color(tint))
