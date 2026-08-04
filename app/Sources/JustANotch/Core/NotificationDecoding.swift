@@ -15,15 +15,25 @@ func decodeNotification(id: Int64, bundleId: String, appName: String, payload: D
     let body = (req["body"] as? String) ?? ""
     guard !(title.isEmpty && subtitle.isEmpty && body.isEmpty) else { return nil }
 
-    let date: Date
-    if let ts = req["date"] as? Double {
-        date = Date(timeIntervalSinceReferenceDate: ts)
-    } else {
-        date = Date(timeIntervalSinceReferenceDate: 0)
-    }
+    // The delivery date lives at the TOP LEVEL of the payload, not in `req`.
+    // Fall back to "now" (never 2001) so a missing/unexpected date can't make the
+    // record look 25 years old and get pruned out of the 8-hour history.
+    let date = parseNotificationDate(top: dict, req: req) ?? Date()
 
     return NotificationRecord(id: id, bundleId: bundleId, appName: appName,
                               title: title, subtitle: subtitle, body: body, date: date)
+}
+
+/// Resolve a notification's timestamp. A binary-plist date value deserializes to
+/// `Date`; some payloads store it as a number of seconds in the Cocoa reference
+/// epoch (2001-01-01). The top-level `date` is preferred over any `req` date.
+/// Returns nil when neither carries a usable value.
+func parseNotificationDate(top: [String: Any], req: [String: Any]) -> Date? {
+    for value in [top["date"], req["date"]] {
+        if let d = value as? Date { return d }
+        if let n = value as? NSNumber { return Date(timeIntervalSinceReferenceDate: n.doubleValue) }
+    }
+    return nil
 }
 
 /// Tracks the highest already-seen `rec_id` so only genuinely new rows emit.

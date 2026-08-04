@@ -100,7 +100,9 @@ final class NotchViewModel: ObservableObject {
     /// panel is not expanded.
     var showingHUD: Bool { hudNotification != nil && !expanded }
     let hudWidth: CGFloat = 412
-    let hudHeight: CGFloat = 56
+    /// Must clear the physical camera core (notchHeight) AND leave room for the
+    /// two-line banner body below it; a fixed 56 left only ~6pt for the text.
+    var hudHeight: CGFloat { notchHeight + 48 }
 
     enum CompactState { case quiet, resting, reading }
     var compactState: CompactState {
@@ -174,13 +176,16 @@ final class NotchViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + hudDuration, execute: work)
     }
 
+    /// Activate an app by bundle id (used by both the HUD banner and the
+    /// Notifications tab rows).
+    func openApp(bundleId: String) {
+        guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleId) else { return }
+        NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration())
+    }
+
     /// Activate the app that sent the current HUD notification, then clear it.
     func openSourceApp() {
-        guard let record = hudNotification,
-              let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: record.bundleId) else {
-            clearHUD(); return
-        }
-        NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration())
+        if let record = hudNotification { openApp(bundleId: record.bundleId) }
         clearHUD()
     }
 

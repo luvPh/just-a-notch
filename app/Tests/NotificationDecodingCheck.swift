@@ -7,31 +7,58 @@ private func check(_ cond: Bool, _ message: String,
 }
 
 /// Build a Notification Center-style payload plist BLOB for testing decode.
-private func payload(titl: String? = nil, subt: String? = nil,
-                     body: String? = nil, date: Double? = nil) -> Data {
+/// The real payload carries the delivery date at the TOP LEVEL (`topDate`);
+/// `reqDate` covers the (rarer) case where a date sits inside `req`.
+private func payload(titl: String? = nil, subt: String? = nil, body: String? = nil,
+                     topDate: Any? = nil, reqDate: Double? = nil) -> Data {
     var req: [String: Any] = [:]
     if let titl { req["titl"] = titl }
     if let subt { req["subt"] = subt }
     if let body { req["body"] = body }
-    if let date { req["date"] = date }
-    let root: [String: Any] = ["req": req]
+    if let reqDate { req["date"] = reqDate }
+    var root: [String: Any] = ["req": req]
+    if let topDate { root["date"] = topDate }
     return try! PropertyListSerialization.data(fromPropertyList: root, format: .binary, options: 0)
 }
 
 @main
 struct NotificationDecodingCheck {
     static func main() {
-        // --- decode: full payload ---
-        let refDate = 700_000_000.0   // seconds since 2001-01-01
+        // --- decode: full payload, delivery date at the TOP LEVEL (real shape) ---
+        let refDate = Date(timeIntervalSinceReferenceDate: 700_000_000.0)
         let full = decodeNotification(id: 42, bundleId: "com.apple.iChat", appName: "Messages",
                                       payload: payload(titl: "Alice", subt: "iMessage",
-                                                       body: "Hello there", date: refDate))
+                                                       body: "Hello there", topDate: refDate))
         check(full != nil, "full payload should decode")
         check(full!.id == 42, "id maps from rec_id")
         check(full!.title == "Alice", "title maps from titl")
         check(full!.subtitle == "iMessage", "subtitle maps from subt")
         check(full!.body == "Hello there", "body maps from body")
-        check(full!.date == Date(timeIntervalSinceReferenceDate: refDate), "date uses Cocoa reference epoch")
+        check(full!.date == refDate, "date comes from the top-level plist date")
+
+        // --- decode: numeric top-level date parsed as Cocoa reference epoch ---
+        let numDate = decodeNotification(id: 43, bundleId: "x", appName: "X",
+                                         payload: payload(titl: "Hi", topDate: 700_000_000.0))
+        check(numDate?.date == Date(timeIntervalSinceReferenceDate: 700_000_000.0),
+              "numeric top-level date uses reference epoch")
+
+        // --- decode: req-level date still honored when no top-level date ---
+        let reqDate = decodeNotification(id: 44, bundleId: "x", appName: "X",
+                                         payload: payload(titl: "Hi", reqDate: 700_000_000.0))
+        check(reqDate?.date == Date(timeIntervalSinceReferenceDate: 700_000_000.0),
+              "req.date used as fallback when no top-level date")
+
+        // --- decode: no date anywhere → recent fallback, NOT 2001 (so it isn't pruned) ---
+        let noDate = decodeNotification(id: 45, bundleId: "x", appName: "X", payload: payload(titl: "Hi"))
+        check(noDate != nil, "record without any date still decodes")
+        check(abs(noDate!.date.timeIntervalSinceNow) < 5, "missing date falls back to ~now, not 2001")
+
+        // --- parseNotificationDate helper ---
+        check(parseNotificationDate(top: ["date": Date(timeIntervalSinceReferenceDate: 5)], req: ["date": 9.0])
+                == Date(timeIntervalSinceReferenceDate: 5), "top-level date preferred over req")
+        check(parseNotificationDate(top: [:], req: ["date": 9.0]) == Date(timeIntervalSinceReferenceDate: 9),
+              "falls back to req numeric date")
+        check(parseNotificationDate(top: [:], req: [:]) == nil, "nil when no date present")
 
         // --- decode: missing subtitle/body tolerated ---
         let titleOnly = decodeNotification(id: 1, bundleId: "x", appName: "X",

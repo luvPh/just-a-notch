@@ -304,20 +304,25 @@ struct NotchRootView: View {
     }
 
     private func notificationRow(_ rec: NotificationRecord) -> some View {
-        VStack(alignment: .leading, spacing: 1) {
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
-                Text(rec.title.isEmpty ? rec.appName : rec.title)
-                    .font(.system(size: 11.5, weight: .medium)).foregroundStyle(.white.opacity(0.92)).lineLimit(1)
-                Spacer(minLength: 4)
-                Text(Self.relativeTime(rec.date))
-                    .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
+        Button { vm.openApp(bundleId: rec.bundleId) } label: {
+            VStack(alignment: .leading, spacing: 1) {
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    Text(rec.title.isEmpty ? rec.appName : rec.title)
+                        .font(.system(size: 11.5, weight: .medium)).foregroundStyle(.white.opacity(0.92)).lineLimit(1)
+                    Spacer(minLength: 4)
+                    Text(Self.relativeTime(rec.date))
+                        .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
+                }
+                if !rec.detailLine.isEmpty {
+                    Text(rec.detailLine)
+                        .font(.system(size: 10.5)).foregroundStyle(.white.opacity(0.5)).lineLimit(1)
+                }
             }
-            if !rec.detailLine.isEmpty {
-                Text(rec.detailLine)
-                    .font(.system(size: 10.5)).foregroundStyle(.white.opacity(0.5)).lineLimit(1)
-            }
+            .padding(.leading, 23)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
         }
-        .padding(.leading, 23)
+        .buttonStyle(.plain)
     }
 
     private var notificationsPermissionPrompt: some View {
