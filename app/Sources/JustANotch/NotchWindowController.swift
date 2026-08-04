@@ -64,15 +64,17 @@ final class NotchWindowController {
     }
 
     private func layoutPanel() {
-        let w = vm.expanded ? vm.expandedWidth : compactEnvelopeWidth
-        let h = vm.expanded ? vm.expandedHeight : (vm.menuBarHeight + 6)
+        // Width is FIXED (widest envelope) so expand/collapse only changes height →
+        // the surface grows straight down from the notch, no horizontal snap.
+        let w = max(compactEnvelopeWidth, vm.expandedWidth)
+        let h = vm.expanded ? vm.expandedHeight : (vm.menuBarHeight + 4)
         let frame = CGRect(x: coreCenterX - w / 2, y: screenTopY - h, width: w, height: h)
         panel.setFrame(frame, display: true)
     }
 
     /// Compact envelope stays at the widest (reading) width so resting↔reading
     /// never resizes the window — motion happens purely in SwiftUI.
-    private var compactEnvelopeWidth: CGFloat { 168 + vm.coreWidth + 66 }
+    private var compactEnvelopeWidth: CGFloat { 138 + vm.coreWidth + 54 }
 
     private func handleExpandedChange(_ expanded: Bool) {
         if expanded {

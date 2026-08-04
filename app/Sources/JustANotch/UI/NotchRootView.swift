@@ -50,17 +50,12 @@ struct NotchRootView: View {
     private var compact: some View {
         HStack(spacing: 0) {
             HStack(spacing: 8) {
-                Artwork(data: vm.track?.artworkData).frame(width: 22, height: 22)
+                SourceIcon(sourceApp: vm.track?.sourceAppName ?? "", size: 18)
                 if vm.compactState == .reading, let track = vm.track {
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text(track.title).font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white).lineLimit(1)
-                        Text(track.artist ?? track.sourceAppName).font(.system(size: 8, weight: .medium))
-                            .foregroundStyle(.white.opacity(0.55)).lineLimit(1)
-                    }.fixedSize()
+                    MarqueeText(text: track.title, viewport: vm.titleViewport)
                 }
             }
-            .padding(.leading, 12)
+            .padding(.leading, 13)
             .frame(width: vm.leftReveal, alignment: .leading)
             .clipped()
 
@@ -69,9 +64,9 @@ struct NotchRootView: View {
             HStack(spacing: 8) {
                 Spacer(minLength: 0)
                 OrganicWaveform(active: vm.isPlaying, reduceMotion: reduceMotion, bars: 6)
-                    .frame(width: 22, height: 13)
+                    .frame(width: 18, height: 11)
             }
-            .padding(.trailing, 12)
+            .padding(.trailing, 15)
             .frame(width: vm.rightReveal, alignment: .trailing)
         }
         .frame(width: vm.compactWidth, height: vm.compactHeight)
@@ -80,31 +75,31 @@ struct NotchRootView: View {
     // MARK: Expanded Alcove player
 
     private var player: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 12) {
-                Artwork(data: vm.track?.artworkData, corner: 8).frame(width: 44, height: 44)
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 10) {
+                Artwork(data: vm.track?.artworkData, corner: 7).frame(width: 36, height: 36)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(vm.track?.title ?? "Not playing").font(.system(size: 14, weight: .bold))
+                    Text(vm.track?.title ?? "Not playing").font(.system(size: 13, weight: .bold))
                         .foregroundStyle(.white).lineLimit(1)
                     Text(vm.track?.artist ?? vm.track?.sourceAppName ?? "—")
-                        .font(.system(size: 12)).foregroundStyle(.white.opacity(0.5)).lineLimit(1)
+                        .font(.system(size: 11)).foregroundStyle(.white.opacity(0.5)).lineLimit(1)
                 }
                 Spacer(minLength: 4)
                 OrganicWaveform(active: vm.isPlaying, reduceMotion: reduceMotion, bars: 6)
-                    .frame(width: 22, height: 13)
+                    .frame(width: 18, height: 11)
             }
             scrubber
             HStack(spacing: 0) {
-                ctlButton("backward.fill", 15) { vm.previous() }; Spacer()
-                ctlButton(vm.isPlaying ? "pause.fill" : "play.fill", 20) { vm.playPause() }; Spacer()
-                ctlButton("forward.fill", 15) { vm.next() }; Spacer()
-                ctlButton("headphones", 15) {}
+                ctlButton("backward.fill", 14) { vm.previous() }; Spacer()
+                ctlButton(vm.isPlaying ? "pause.fill" : "play.fill", 18) { vm.playPause() }; Spacer()
+                ctlButton("forward.fill", 14) { vm.next() }; Spacer()
+                ctlButton("headphones", 13) {}
             }
-            .padding(.horizontal, 6)
+            .padding(.horizontal, 8)
         }
-        .padding(.horizontal, 22)
+        .padding(.horizontal, 18)
         .padding(.top, vm.menuBarHeight - 2)
-        .padding(.bottom, 16)
+        .padding(.bottom, 14)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 

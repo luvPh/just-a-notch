@@ -40,15 +40,20 @@ final class NotchViewModel: ObservableObject {
         if track == nil { lastIdentity = nil; titleReveal = false }
     }
 
-    /// Show the title for ~2.6s on a track change, then settle back to resting.
+    /// Reveal the title on a track change, hold long enough for the marquee to
+    /// slide through the whole title, then settle back to resting.
     private func revealTitleTransiently() {
         titleResetWork?.cancel()
         withAnimation(.spring(response: 0.42, dampingFraction: 0.8)) { titleReveal = true }
+        // Duration scales with title length so long titles finish scrolling before retract.
+        let len = track?.title.count ?? 0
+        let overflow = max(0, Double(len) * 7.0 - Double(titleViewport))
+        let duration = 1.4 + 0.6 /*delay*/ + overflow / 34.0 /*scroll*/ + 0.8 /*hold*/
         let work = DispatchWorkItem { [weak self] in
             withAnimation(.spring(response: 0.42, dampingFraction: 0.85)) { self?.titleReveal = false }
         }
         titleResetWork = work
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.6, execute: work)
+        DispatchQueue.main.asyncAfter(deadline: .now() + min(9.0, duration), execute: work)
     }
 
     var hasMedia: Bool { track != nil }
@@ -63,17 +68,19 @@ final class NotchViewModel: ObservableObject {
     // MARK: Geometry (wings around the fixed camera core)
 
     var leftReveal: CGFloat {
-        switch compactState { case .quiet: 0; case .resting: 46; case .reading: 168 }
+        switch compactState { case .quiet: 0; case .resting: 38; case .reading: 138 }
     }
     var rightReveal: CGFloat {
-        switch compactState { case .quiet: 0; case .resting: 66; case .reading: 66 }
+        switch compactState { case .quiet: 0; case .resting: 54; case .reading: 54 }
     }
-    var compactHeight: CGFloat { compactState == .quiet ? menuBarHeight : menuBarHeight + 6 }
+    var compactHeight: CGFloat { compactState == .quiet ? menuBarHeight : menuBarHeight + 4 }
     var compactWidth: CGFloat { leftReveal + coreWidth + rightReveal }
+    /// Fixed marquee viewport for the title (part of the left reading wing).
+    var titleViewport: CGFloat { 138 - 18 - 10 - 8 }   // reading left - icon - lead pad - gap
 
-    // Expanded (Media-only for now).
-    let expandedWidth: CGFloat = 384
-    var expandedHeight: CGFloat { menuBarHeight + 150 }
+    // Expanded (Media-only for now) — ~20% smaller.
+    let expandedWidth: CGFloat = 308
+    var expandedHeight: CGFloat { menuBarHeight + 118 }
 
     var surfaceWidth: CGFloat { expanded ? expandedWidth : compactWidth }
     var surfaceHeight: CGFloat { expanded ? expandedHeight : compactHeight }
