@@ -81,27 +81,30 @@ struct NotchRootView: View {
         HStack(alignment: .top, spacing: 14) {
             rail
             divider
-            VStack(alignment: .leading, spacing: 10) {
-                HStack(spacing: 10) {
-                    Artwork(data: vm.track?.artworkData, corner: 7).frame(width: 36, height: 36)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(vm.track?.title ?? "Not playing").font(.system(size: 13, weight: .bold))
-                            .foregroundStyle(.white).lineLimit(1)
-                        Text(vm.track?.artist ?? vm.track?.sourceAppName ?? "—")
-                            .font(.system(size: 11)).foregroundStyle(.white.opacity(0.5)).lineLimit(1)
+            // Scrolls when a feature inflates past the (short) window height.
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack(spacing: 10) {
+                        Artwork(data: vm.track?.artworkData, corner: 7).frame(width: 36, height: 36)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(vm.track?.title ?? "Not playing").font(.system(size: 13, weight: .bold))
+                                .foregroundStyle(.white).lineLimit(1)
+                            Text(vm.track?.artist ?? vm.track?.sourceAppName ?? "—")
+                                .font(.system(size: 11)).foregroundStyle(.white.opacity(0.5)).lineLimit(1)
+                        }
+                        Spacer(minLength: 4)
+                        OrganicWaveform(active: vm.isPlaying, reduceMotion: reduceMotion, bars: 6)
+                            .frame(width: 18, height: 11)
                     }
-                    Spacer(minLength: 4)
-                    OrganicWaveform(active: vm.isPlaying, reduceMotion: reduceMotion, bars: 6)
-                        .frame(width: 18, height: 11)
+                    scrubber
+                    HStack(spacing: 0) {
+                        ctlButton("backward.fill", 14) { vm.previous() }; Spacer()
+                        ctlButton(vm.isPlaying ? "pause.fill" : "play.fill", 18) { vm.playPause() }; Spacer()
+                        ctlButton("forward.fill", 14) { vm.next() }; Spacer()
+                        ctlButton("headphones", 13) {}
+                    }
+                    .padding(.horizontal, 4)
                 }
-                scrubber
-                HStack(spacing: 0) {
-                    ctlButton("backward.fill", 14) { vm.previous() }; Spacer()
-                    ctlButton(vm.isPlaying ? "pause.fill" : "play.fill", 18) { vm.playPause() }; Spacer()
-                    ctlButton("forward.fill", 14) { vm.next() }; Spacer()
-                    ctlButton("headphones", 13) {}
-                }
-                .padding(.horizontal, 4)
             }
         }
         .padding(.leading, 22).padding(.trailing, 24)
@@ -110,13 +113,18 @@ struct NotchRootView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    // Vertical icon rail (Media active; folder/bell are placeholders for now).
+    // Vertical icon rail — scrolls when there are more tabs than the window can show.
     private var rail: some View {
-        VStack(spacing: 8) {
-            railIcon("music.note", active: true)
-            railIcon("folder.fill", active: false)
-            railIcon("bell.fill", active: false)
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 8) {
+                railIcon("music.note", active: true)
+                railIcon("folder.fill", active: false)
+                railIcon("bell.fill", active: false)
+                railIcon("clock.fill", active: false)
+                railIcon("gearshape.fill", active: false)
+            }
         }
+        .frame(width: 32)
     }
 
     private func railIcon(_ name: String, active: Bool) -> some View {
