@@ -16,13 +16,16 @@ struct NotchRootView: View {
     var body: some View {
         VStack(spacing: 0) {
             surface
-                .frame(width: vm.surfaceWidth, height: vm.surfaceHeight, alignment: .top)
+                // Height springs (curtain drops down); width is NOT animated on expand
+                // (it snaps), so the window reads as top-down instead of ballooning out.
+                .frame(height: vm.surfaceHeight, alignment: .top)
+                .animation(openSpring, value: vm.expanded)
+                .frame(width: vm.surfaceWidth, alignment: .top)
+                .animation(revealSpring, value: vm.compactState)   // width animates only on reveal
                 .scaleEffect(vm.hovering && !vm.expanded ? 1.05 : 1.0, anchor: .top)
                 .offset(x: vm.centerXOffset)
                 .onHover { vm.hovering = $0 }
                 .animation(.spring(response: 0.3, dampingFraction: 0.5), value: vm.hovering)
-                .animation(revealSpring, value: vm.compactState)
-                .animation(openSpring, value: vm.expanded)
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

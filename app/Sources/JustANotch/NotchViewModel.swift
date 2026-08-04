@@ -49,7 +49,7 @@ final class NotchViewModel: ObservableObject {
         // Duration scales with title length so long titles finish scrolling before retract.
         let len = track?.title.count ?? 0
         let overflow = max(0, Double(len) * 7.0 - Double(titleViewport))
-        let duration = 1.4 + 0.6 /*delay*/ + overflow / 34.0 /*scroll*/ + 0.8 /*hold*/
+        let duration = 1.5 /*pre-slide hold*/ + overflow / 34.0 /*scroll*/ + 1.0 /*end hold*/
         let work = DispatchWorkItem { [weak self] in
             withAnimation(.spring(response: 0.42, dampingFraction: 0.85)) { self?.titleReveal = false }
         }

@@ -69,6 +69,6 @@ struct MarqueeText: View {
         var reset = Transaction(); reset.disablesAnimations = true
         withTransaction(reset) { offset = 0 }
         guard overflow > 4 else { return }
-        withAnimation(.easeInOut(duration: Double(overflow) / 34.0).delay(0.6)) { offset = -overflow }
+        withAnimation(.easeInOut(duration: Double(overflow) / 34.0).delay(1.5)) { offset = -overflow }
     }
 }
