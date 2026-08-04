@@ -28,11 +28,6 @@ final class NotchWindowController {
         installMonitors()
         vm.start()
 
-        vm.$expanded
-            .receive(on: RunLoop.main)
-            .sink { [weak self] expanded in self?.handleExpandedChange(expanded) }
-            .store(in: &bag)
-
         NotificationCenter.default.addObserver(
             forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main
         ) { [weak self] _ in Task { @MainActor in self?.applyGeometry(); self?.layoutPanel() } }
@@ -65,31 +60,20 @@ final class NotchWindowController {
         return CGRect(x: left, y: screenTopY - h, width: w, height: h)
     }
 
+    /// The panel is a FIXED transparent canvas (widest × tallest state), positioned
+    /// top-centre on the notch. Every state animates purely inside SwiftUI, top-anchored
+    /// — exactly like the prototype — so nothing resizes the window and motion is smooth.
+    /// Mouse pass-through outside the island keeps the transparent area click-through.
     private func layoutPanel() {
-        // Width is FIXED (widest envelope) so expand/collapse only changes height →
-        // the surface grows straight down from the notch, no horizontal snap.
-        let w = max(compactEnvelopeWidth, vm.expandedWidth)
-        let h = vm.expanded ? vm.expandedHeight : 40
+        let w = panelWidth
+        let h = vm.expandedHeight
         let frame = CGRect(x: coreCenterX - w / 2, y: screenTopY - h, width: w, height: h)
         panel.setFrame(frame, display: true)
     }
 
-    /// Panel width must contain the core-anchored surface at its widest asymmetric
-    /// extent. The reading state pushes the LEFT wing out to 150 while the core stays
-    /// centred, so the surface reaches coreWidth/2 + 150 on the left — the panel is
-    /// sized symmetrically to that half-extent so nothing clips.
-    private var compactEnvelopeWidth: CGFloat { max(vm.coreWidth + 2 * 150, vm.expandedWidth) }
-
-    private func handleExpandedChange(_ expanded: Bool) {
-        if expanded {
-            layoutPanel()                         // grow immediately, then content springs in
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.55) { [weak self] in
-                guard let self, !self.vm.expanded else { return }
-                self.layoutPanel()                // shrink only after the collapse animation
-            }
-        }
-    }
+    /// Contains the core-anchored surface at its widest asymmetric extent (reading
+    /// left wing 150) and the expanded width.
+    private var panelWidth: CGFloat { max(vm.coreWidth + 2 * 150, vm.expandedWidth) }
 
     // MARK: Mouse handling
 
