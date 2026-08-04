@@ -28,8 +28,12 @@ final class NotificationService: NotificationServiceProtocol {
     private var db: OpaquePointer?
     private var tracker = NewArrivalTracker()
 
-    // Accessed only on `queue`.
+    // `records` is accessed only on `queue`.
     private var records: [NotificationRecord] = []
+    // Icon/name caches are read from the main thread (view) and written from
+    // `queue` (poll), so they get their own lock rather than sharing the poll
+    // queue (which would block main behind an in-flight SQLite poll).
+    private let cacheLock = NSLock()
     private var iconCache: [String: NSImage] = [:]
     private var nameCache: [String: String] = [:]
 
@@ -47,8 +51,11 @@ final class NotificationService: NotificationServiceProtocol {
 
     func stop() {
         pollTimer?.cancel(); pollTimer = nil
-        if let db { sqlite3_close(db) }
-        db = nil
+        // Close on `queue` so it can't race an in-flight tick()'s use of `db`.
+        queue.sync {
+            if let db { sqlite3_close(db) }
+            db = nil
+        }
     }
 
     // MARK: - Poll loop (on `queue`)
@@ -78,8 +85,10 @@ final class NotificationService: NotificationServiceProtocol {
     private func seedWatermark() {
         var stmt: OpaquePointer?
         defer { sqlite3_finalize(stmt) }
+        // On prepare failure, don't seed — leaving lastSeenId nil retries next
+        // tick. Seeding 0 would replay all history as "new" and storm the HUD.
         guard sqlite3_prepare_v2(db, "SELECT IFNULL(MAX(rec_id), 0) FROM record", -1, &stmt, nil) == SQLITE_OK else {
-            tracker.seed(maxId: 0); return
+            return
         }
         let maxId: Int64 = sqlite3_step(stmt) == SQLITE_ROW ? sqlite3_column_int64(stmt, 0) : 0
         tracker.seed(maxId: maxId)
@@ -134,27 +143,27 @@ final class NotificationService: NotificationServiceProtocol {
     }
 
     private func displayName(forBundle bundleId: String) -> String {
-        if let cached = nameCache[bundleId] { return cached }
+        cacheLock.lock()
+        if let cached = nameCache[bundleId] { cacheLock.unlock(); return cached }
+        cacheLock.unlock()
         let name = appURL(forBundle: bundleId).flatMap {
             FileManager.default.displayName(atPath: $0.path)
         }?.replacingOccurrences(of: ".app", with: "") ?? bundleId
-        nameCache[bundleId] = name
+        cacheLock.lock(); nameCache[bundleId] = name; cacheLock.unlock()
         return name
     }
 
     func icon(forBundle bundleId: String) -> NSImage {
-        // Safe to call from the main thread; cache is only mutated on `queue`,
-        // but reads of NSImage here are fine for display. Guard with a sync hop.
-        queue.sync {
-            if let cached = iconCache[bundleId] { return cached }
-            let image: NSImage
-            if let url = appURL(forBundle: bundleId) {
-                image = NSWorkspace.shared.icon(forFile: url.path)
-            } else {
-                image = NSImage(systemSymbolName: "bell.fill", accessibilityDescription: nil) ?? NSImage()
-            }
-            iconCache[bundleId] = image
-            return image
+        cacheLock.lock()
+        if let cached = iconCache[bundleId] { cacheLock.unlock(); return cached }
+        cacheLock.unlock()
+        let image: NSImage
+        if let url = appURL(forBundle: bundleId) {
+            image = NSWorkspace.shared.icon(forFile: url.path)
+        } else {
+            image = NSImage(systemSymbolName: "bell.fill", accessibilityDescription: nil) ?? NSImage()
         }
+        cacheLock.lock(); iconCache[bundleId] = image; cacheLock.unlock()
+        return image
     }
 }

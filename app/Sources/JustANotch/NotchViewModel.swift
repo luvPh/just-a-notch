@@ -150,7 +150,7 @@ final class NotchViewModel: ObservableObject {
     var topRadius: CGFloat { expanded ? 12 : 9 }
 
     // MARK: Actions
-    func toggleExpanded() { expanded.toggle() }
+    func toggleExpanded() { expanded.toggle(); if expanded { clearHUD() } }
     func collapse() { expanded = false; showList = false }
     /// Pull the latest media state now (e.g. right as the panel opens).
     func refreshMedia() { media.refresh() }
