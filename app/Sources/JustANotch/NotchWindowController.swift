@@ -2,6 +2,14 @@ import AppKit
 import SwiftUI
 import Combine
 
+/// Hosting view that responds to the first click even when the panel isn't key,
+/// so the media controls work without activating the app first.
+private final class ClickableHostingView<Content: View>: NSHostingView<Content> {
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
+    required init(rootView: Content) { super.init(rootView: rootView) }
+    required init?(coder: NSCoder) { fatalError() }
+}
+
 /// Owns the notch panel: positions it over the physical notch, hosts the SwiftUI
 /// island, toggles mouse pass-through so only the island is interactive, and
 /// collapses on outside clicks.
@@ -20,13 +28,18 @@ final class NotchWindowController {
         media = MediaService()
         vm = NotchViewModel(media: media)
         panel = NotchPanel(contentRect: NSRect(x: 0, y: 0, width: 300, height: 40))
-        panel.contentView = NSHostingView(rootView: NotchRootView(vm: vm))
+        panel.contentView = ClickableHostingView(rootView: NotchRootView(vm: vm))
         panel.orderFrontRegardless()
 
         applyGeometry()
         layoutPanel()
         installMonitors()
         vm.start()
+
+        // While expanded the whole panel must receive clicks (so controls work).
+        vm.$expanded.receive(on: RunLoop.main).sink { [weak self] exp in
+            if exp { self?.panel.ignoresMouseEvents = false }
+        }.store(in: &bag)
 
         NotificationCenter.default.addObserver(
             forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main
@@ -86,6 +99,12 @@ final class NotchWindowController {
             guard let self, self.vm.expanded else { return }
             if !self.islandScreenRect.contains(NSEvent.mouseLocation) { self.vm.collapse() }
         } as Any)
+        // Clicks inside our own transparent panel but outside the island also collapse.
+        monitors.append(NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown]) { [weak self] e in
+            guard let self, self.vm.expanded else { return e }
+            if !self.islandScreenRect.contains(NSEvent.mouseLocation) { self.vm.collapse() }
+            return e
+        })
     }
 
     private func updateHover() {

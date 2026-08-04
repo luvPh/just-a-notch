@@ -104,9 +104,9 @@ struct NotchRootView: View {
                 .padding(.horizontal, 4)
             }
         }
-        .padding(.leading, 16).padding(.trailing, 18)
-        .padding(.top, vm.notchHeight - 4)
-        .padding(.bottom, 14)
+        .padding(.leading, 22).padding(.trailing, 24)
+        .padding(.top, vm.notchHeight + 8)   // clear the physical camera + ~10px breathing room
+        .padding(.bottom, 16)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
