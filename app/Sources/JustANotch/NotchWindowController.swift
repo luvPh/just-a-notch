@@ -74,9 +74,11 @@ final class NotchWindowController {
         panel.setFrame(frame, display: true)
     }
 
-    /// Compact envelope stays at the widest (reading) width so resting↔reading
-    /// never resizes the window — motion happens purely in SwiftUI.
-    private var compactEnvelopeWidth: CGFloat { 150 + vm.coreWidth + 50 }
+    /// Panel width must contain the core-anchored surface at its widest asymmetric
+    /// extent. The reading state pushes the LEFT wing out to 150 while the core stays
+    /// centred, so the surface reaches coreWidth/2 + 150 on the left — the panel is
+    /// sized symmetrically to that half-extent so nothing clips.
+    private var compactEnvelopeWidth: CGFloat { max(vm.coreWidth + 2 * 150, vm.expandedWidth) }
 
     private func handleExpandedChange(_ expanded: Bool) {
         if expanded {
