@@ -3,3 +3,5 @@
 *.xcuserstate
 app/.build/
 app/build/
+app/.build/
+app/build/

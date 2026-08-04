@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleName</key>
-    <string>Notch Island</string>
+    <string>Just a Notch</string>
     <key>CFBundleDisplayName</key>
-    <string>Notch Island</string>
+    <string>Just a Notch</string>
     <key>CFBundleIdentifier</key>
-    <string>com.notchisland.app</string>
+    <string>com.justanotch.app</string>
     <key>CFBundleExecutable</key>
-    <string>NotchIsland</string>
+    <string>JustANotch</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
@@ -17,14 +17,12 @@
     <key>CFBundleVersion</key>
     <string>1</string>
     <key>LSMinimumSystemVersion</key>
-    <string>13.0</string>
-    <!-- Menu-bar utility: no Dock icon, no main window. -->
+    <string>14.0</string>
     <key>LSUIElement</key>
     <true/>
     <key>NSHighResolutionCapable</key>
     <true/>
-    <!-- Usage descriptions are requested lazily when a feature is enabled. -->
     <key>NSAppleEventsUsageDescription</key>
-    <string>Notch Island uses Automation to read and control supported media apps like Music, Spotify, and YouTube in your browser.</string>
+    <string>Just a Notch uses Automation to read and control Music, Spotify, and browser media.</string>
 </dict>
 </plist>
