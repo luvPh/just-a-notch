@@ -5,7 +5,7 @@ private let alcoveRed = Color(red: 0.96, green: 0.36, blue: 0.33)
 struct NotchRootView: View {
     @ObservedObject var vm: NotchViewModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @Namespace private var railNS
+    @State private var railTab: RailTab = .music
 
     private var openSpring: Animation {
         reduceMotion ? .easeInOut(duration: 0.22) : .spring(response: 0.5, dampingFraction: 0.8)
@@ -79,33 +79,17 @@ struct NotchRootView: View {
 
     private var player: some View {
         HStack(alignment: .top, spacing: 14) {
-            rail
+            ThemeCarousel(tabs: RailTab.allCases, selection: $railTab, reduceMotion: reduceMotion)
             divider
             // Scrolls when a feature inflates past the (short) window height.
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 10) {
-                    HStack(spacing: 10) {
-                        Artwork(data: vm.track?.artworkData, corner: 7).frame(width: 36, height: 36)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(vm.track?.title ?? "Not playing").font(.system(size: 13, weight: .bold))
-                                .foregroundStyle(.white).lineLimit(1)
-                            Text(vm.track?.artist ?? vm.track?.sourceAppName ?? "—")
-                                .font(.system(size: 11)).foregroundStyle(.white.opacity(0.5)).lineLimit(1)
-                        }
-                        Spacer(minLength: 4)
-                        OrganicWaveform(active: vm.isPlaying, reduceMotion: reduceMotion, bars: 6)
-                            .frame(width: 18, height: 11)
-                    }
-                    scrubber
-                    HStack(spacing: 0) {
-                        ctlButton("backward.fill", 14) { vm.previous() }; Spacer()
-                        ctlButton(vm.isPlaying ? "pause.fill" : "play.fill", 18) { vm.playPause() }; Spacer()
-                        ctlButton("forward.fill", 14) { vm.next() }; Spacer()
-                        ctlButton("headphones", 13) {}
-                    }
-                    .padding(.horizontal, 4)
-                }
+            ScrollView(.vertical) {
+                content
+                    .id(railTab)                 // re-run the transition on tab change
+                    .transition(.blurFade)
             }
+            .scrollIndicators(.hidden)
+            .animation(reduceMotion ? .easeInOut(duration: 0.18) : .spring(response: 0.34, dampingFraction: 0.82),
+                       value: railTab)
         }
         .padding(.leading, 22).padding(.trailing, 24)
         .padding(.top, vm.notchHeight + 8)   // clear the physical camera + ~10px breathing room
@@ -113,28 +97,61 @@ struct NotchRootView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    // Vertical icon rail — scrolls when there are more tabs than the window can show.
-    private var rail: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: 8) {
-                railIcon("music.note", active: true)
-                railIcon("folder.fill", active: false)
-                railIcon("bell.fill", active: false)
-                railIcon("clock.fill", active: false)
-                railIcon("gearshape.fill", active: false)
-            }
+    // The right-hand panel — swaps with the centered carousel tab.
+    @ViewBuilder private var content: some View {
+        switch railTab {
+        case .music: musicPanel
+        default:     placeholderPanel(railTab)
         }
-        .frame(width: 32)
     }
 
-    private func railIcon(_ name: String, active: Bool) -> some View {
-        Image(systemName: name)
-            .font(.system(size: 13, weight: .semibold))
-            .foregroundStyle(active ? .black : .white.opacity(0.55))
-            .frame(width: 32, height: 32)
-            .background {
-                if active { Circle().fill(.white).matchedGeometryEffect(id: "railpill", in: railNS) }
+    private var musicPanel: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            if vm.pipActive {
+                videoFrame.transition(.blurFade)
             }
+            HStack(spacing: 10) {
+                Artwork(data: vm.track?.artworkData, corner: 7).frame(width: 36, height: 36)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(vm.track?.title ?? "Not playing").font(.system(size: 13, weight: .bold))
+                        .foregroundStyle(.white).lineLimit(1)
+                    Text(vm.track?.artist ?? vm.track?.sourceAppName ?? "—")
+                        .font(.system(size: 11)).foregroundStyle(.white.opacity(0.5)).lineLimit(1)
+                }
+                Spacer(minLength: 4)
+                OrganicWaveform(active: vm.isPlaying, reduceMotion: reduceMotion, bars: 6)
+                    .frame(width: 18, height: 11)
+            }
+            scrubber
+            HStack(spacing: 0) {
+                ctlButton("backward.fill", 14) { vm.previous() }; Spacer()
+                ctlButton(vm.isPlaying ? "pause.fill" : "play.fill", 18) { vm.playPause() }; Spacer()
+                ctlButton("forward.fill", 14) { vm.next() }; Spacer()
+                ctlButton(vm.pipActive ? "pip.exit" : "pip.enter", 15) {
+                    withAnimation(revealSpring) { vm.togglePiP() }
+                }
+            }
+            .padding(.horizontal, 4)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func placeholderPanel(_ tab: RailTab) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 10) {
+                Image(systemName: tab.icon)
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 36, height: 36)
+                    .background(Circle().fill(.white.opacity(0.08)))
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(tab.title).font(.system(size: 13, weight: .bold)).foregroundStyle(.white)
+                    Text("Coming soon").font(.system(size: 11)).foregroundStyle(.white.opacity(0.5))
+                }
+                Spacer(minLength: 0)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     // Bright hairline between rail and body (brighter in the middle).
@@ -143,6 +160,36 @@ struct NotchRootView: View {
             .fill(LinearGradient(colors: [.white.opacity(0.02), .white.opacity(0.26), .white.opacity(0.02)],
                                  startPoint: .top, endPoint: .bottom))
             .frame(width: 1).frame(maxHeight: .infinity)
+    }
+
+    // Placeholder video surface pinned inside the panel. This is the fixed slot
+    // that the real Picture-in-Picture window will later be clamped onto; for now
+    // it previews the layout using the track artwork behind a "PiP" affordance.
+    private var videoFrame: some View {
+        ZStack {
+            if let data = vm.track?.artworkData, let img = NSImage(data: data) {
+                Image(nsImage: img).resizable().aspectRatio(contentMode: .fill)
+            } else {
+                LinearGradient(colors: [.white.opacity(0.10), .black],
+                               startPoint: .top, endPoint: .bottom)
+            }
+            Rectangle().fill(.black.opacity(0.32))
+            VStack(spacing: 4) {
+                Image(systemName: "pip.fill")
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.92))
+                Text(vm.isPlaying ? "Picture in Picture" : "Paused")
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundStyle(.white.opacity(0.6))
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 92)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .strokeBorder(.white.opacity(0.08), lineWidth: 1)
+        )
     }
 
     private var scrubber: some View {
@@ -166,5 +213,204 @@ struct NotchRootView: View {
             Image(systemName: name).font(.system(size: size)).foregroundStyle(.white.opacity(0.92))
         }
         .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Rail tabs
+
+enum RailTab: String, CaseIterable, Identifiable {
+    case music, files, notifications, clock, settings
+
+    var id: String { rawValue }
+
+    var icon: String {
+        switch self {
+        case .music:         return "music.note"
+        case .files:         return "folder.fill"
+        case .notifications: return "bell.fill"
+        case .clock:         return "clock.fill"
+        case .settings:      return "gearshape.fill"
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .music:         return "Now Playing"
+        case .files:         return "Files"
+        case .notifications: return "Notifications"
+        case .clock:         return "Clock"
+        case .settings:      return "Settings"
+        }
+    }
+}
+
+// MARK: - ThemeCarousel
+//
+// Vertical, infinite-loop, focus-centre rail. Fully custom (no ScrollView →
+// no scrollbar, no one-way snapping bugs). `offset` is a continuous position
+// in points; the tab nearest the centre is scaled up + lit and drives
+// `selection`. Indices wrap with modulo, so it scrolls forever both ways.
+
+struct ThemeCarousel: View {
+    let tabs: [RailTab]
+    @Binding var selection: RailTab
+    var reduceMotion: Bool
+
+    private let itemSize: CGFloat = 34
+    private let spacing: CGFloat = 10
+    private var slot: CGFloat { itemSize + spacing }
+    private var count: Int { tabs.count }
+
+    // The whole rail column: wide enough for the icon + its glow, symmetric so
+    // the focused item sits dead-centre (not shoved against the divider).
+    private let railWidth: CGFloat = 46
+    private let stepThreshold: CGFloat = 3.5  // accumulated delta needed for one tab step
+    private let stepCooldown: Double = 0.16    // min seconds between steps in a long scroll
+
+    @State private var offset: CGFloat = 0          // scrolled distance, in points
+    @State private var scrollAcc: CGFloat = 0       // delta accumulated toward the next step
+    @State private var stepping = false             // cooldown gate
+
+    private func wrap(_ i: Int) -> RailTab { tabs[((i % count) + count) % count] }
+
+    var body: some View {
+        GeometryReader { geo in
+            let h = geo.size.height
+            let center = h / 2
+            let f = offset / slot                    // centred virtual index (fractional)
+            let span = Int(ceil((h / 2) / slot)) + 2 // how many items reach past each edge
+
+            ZStack {
+                ForEach((Int(f.rounded()) - span)...(Int(f.rounded()) + span), id: \.self) { vi in
+                    cell(vi: vi, f: f, center: center)
+                }
+            }
+            .frame(width: railWidth, height: h)
+            .contentShape(Rectangle())
+            .background(
+                ScrollWheelCatcher(
+                    onScroll: { dy in handleScroll(dy) },
+                    onEnded: { scrollAcc = 0 }
+                )
+            )
+        }
+        .frame(width: railWidth)
+        .onAppear {
+            offset = CGFloat(tabs.firstIndex(of: selection) ?? 0) * slot
+        }
+    }
+
+    // One scroll "tick" past the threshold snaps exactly one tab further.
+    private func handleScroll(_ dy: CGFloat) {
+        scrollAcc += dy
+        guard !stepping, abs(scrollAcc) >= stepThreshold else { return }
+        let dir = scrollAcc > 0 ? 1 : -1
+        scrollAcc = 0
+        stepping = true
+        step(dir)
+        DispatchQueue.main.asyncAfter(deadline: .now() + stepCooldown) { stepping = false }
+    }
+
+    private func step(_ dir: Int) {
+        let current = Int((offset / slot).rounded())
+        snapCenter(on: current + dir)
+    }
+
+    @ViewBuilder
+    private func cell(vi: Int, f: CGFloat, center: CGFloat) -> some View {
+        let dy: CGFloat = CGFloat(vi) - f
+        let dist: CGFloat = abs(dy)
+        let focus: Double = Double(max(CGFloat(0), 1 - dist / 1.6))   // 1 centred → 0 far
+        let y: CGFloat = center + dy * slot
+        // Fade an item out before it reaches the top/bottom edge (replaces a
+        // hard clip, which was cutting the glow).
+        let room: CGFloat = center - abs(y - center)
+        let edgeFade: Double = Double(max(CGFloat(0), min(CGFloat(1), room / (itemSize * 0.6))))
+        icon(wrap(vi), focus: focus)
+            .opacity(edgeFade)
+            .frame(width: railWidth, height: slot)   // full-width, tall hit target
+            .contentShape(Rectangle())
+            .position(x: railWidth / 2, y: y)
+            .onTapGesture { snapCenter(on: vi) }
+    }
+
+    private func snapCenter(on vi: Int) {
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.85)) {
+            offset = CGFloat(vi) * slot
+        }
+        updateSelection(at: vi)
+    }
+
+    private func updateSelection(at index: Int? = nil) {
+        let i = index ?? Int((offset / slot).rounded())
+        let tab = wrap(i)
+        if tab != selection { selection = tab }
+    }
+
+    private func icon(_ tab: RailTab, focus: Double) -> some View {
+        let pill: Double = max(0, (focus - 0.62) / 0.38)          // only the centred item lights up
+        let scale: CGFloat = reduceMotion ? 1 : CGFloat(0.82 + 0.18 * focus)
+        let tint: Color = pill > 0.5 ? Color.black : Color.white.opacity(0.32 + 0.4 * focus)
+        let selfOpacity: Double = reduceMotion ? (focus > 0.5 ? 1 : 0.45) : (0.45 + 0.55 * focus)
+        return Image(systemName: tab.icon)
+            .font(.system(size: 13, weight: .semibold))
+            .foregroundStyle(tint)
+            .frame(width: itemSize, height: itemSize)
+            .background(
+                Circle().fill(.white).opacity(pill)
+                    .shadow(color: .white.opacity(0.9 * pill), radius: 6 * pill)   // white glow
+            )
+            .scaleEffect(scale)
+            .opacity(selfOpacity)
+    }
+}
+
+// Captures two-finger / wheel scrolling over the rail without a scroll bar.
+// Click-transparent so the SwiftUI icons keep receiving taps.
+private struct ScrollWheelCatcher: NSViewRepresentable {
+    var onScroll: (CGFloat) -> Void
+    var onEnded: () -> Void
+
+    func makeNSView(context: Context) -> CatcherView {
+        let v = CatcherView()
+        v.onScroll = onScroll; v.onEnded = onEnded
+        return v
+    }
+
+    func updateNSView(_ v: CatcherView, context: Context) {
+        v.onScroll = onScroll; v.onEnded = onEnded
+    }
+
+    final class CatcherView: NSView {
+        var onScroll: ((CGFloat) -> Void)?
+        var onEnded: (() -> Void)?
+        private var monitor: Any?
+
+        // Never intercept mouse clicks — taps must fall through to the icons.
+        override func hitTest(_ point: NSPoint) -> NSView? { nil }
+
+        // The notch is a non-activating panel, so scrollWheel doesn't reach us
+        // via the responder chain. Catch it with a local monitor (same pattern
+        // the window controller uses for mouse-move / click), scoped to when the
+        // pointer is actually over the rail.
+        override func viewDidMoveToWindow() {
+            super.viewDidMoveToWindow()
+            if monitor == nil {
+                monitor = NSEvent.addLocalMonitorForEvents(matching: .scrollWheel) { [weak self] e in
+                    guard let self, let win = self.window, e.window === win else { return e }
+                    let p = self.convert(e.locationInWindow, from: nil)
+                    guard self.bounds.contains(p) else { return e }
+                    let dy = e.hasPreciseScrollingDeltas ? e.scrollingDeltaY : e.deltaY * 6
+                    // Natural direction: content up → advance to the next tab.
+                    self.onScroll?(-dy)
+                    if e.phase == .ended || e.phase == .cancelled || e.momentumPhase == .ended {
+                        self.onEnded?()
+                    }
+                    return nil   // consume so the right-hand panel doesn't also scroll
+                }
+            }
+        }
+
+        deinit { if let m = monitor { NSEvent.removeMonitor(m) } }
     }
 }

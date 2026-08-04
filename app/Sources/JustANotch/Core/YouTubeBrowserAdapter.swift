@@ -30,11 +30,12 @@ final class YouTubeBrowserAdapter: MediaAdapter {
                 let clean = title
                     .replacingOccurrences(of: " - YouTube", with: "")
                     .trimmingCharacters(in: .whitespaces)
-                let state = playbackState(browser: browser) ?? .playing
+                let (state, progress) = playbackStatus(browser: browser)
                 let track = MediaTrack(title: clean.isEmpty ? "YouTube" : clean,
                                        artist: nil,
-                                       sourceAppName: browserName(browser))
-                return (track, state)
+                                       sourceAppName: browserName(browser),
+                                       progress: progress)
+                return (track, state ?? .playing)
             }
         }
         return (nil, .unsupported)
@@ -97,16 +98,27 @@ final class YouTubeBrowserAdapter: MediaAdapter {
         return title
     }
 
-    /// Reads `video.paused` via injected JS. Returns nil if JS-from-Apple-Events
-    /// is disabled or no video is found.
-    private func playbackState(browser: String) -> PlaybackState? {
-        let js = "var v=document.querySelector('video'); v ? (v.paused ? 'paused' : 'playing') : 'none';"
-        guard let out = runJSReading(js, browser: browser) else { return nil }
-        switch out {
-        case "playing": return .playing
-        case "paused": return .paused
-        default: return nil
+    /// Reads `video.paused` and `currentTime/duration` via injected JS in one call.
+    /// Returns (nil, nil) if JS-from-Apple-Events is disabled or no video is found.
+    private func playbackStatus(browser: String) -> (state: PlaybackState?, progress: Double?) {
+        let js = """
+        var v=document.querySelector('video'); \
+        v ? ((v.paused ? 'paused' : 'playing') + '|' + \
+        (v.duration > 0 ? (v.currentTime / v.duration) : 0)) : 'none';
+        """
+        guard let out = runJSReading(js, browser: browser) else { return (nil, nil) }
+        let parts = out.components(separatedBy: "|")
+        let state: PlaybackState?
+        switch parts.first {
+        case "playing": state = .playing
+        case "paused": state = .paused
+        default: state = nil
         }
+        var progress: Double?
+        if parts.count >= 2, let p = Double(parts[1].trimmingCharacters(in: .whitespaces)), p.isFinite {
+            progress = min(1, max(0, p))
+        }
+        return (state, progress)
     }
 
     private func runJS(_ body: String) {

@@ -42,11 +42,16 @@ final class AppleMusicAdapter: MediaAdapter {
         tell application "Music"
             if it is running then
                 set st to (player state as string)
-                if st is "stopped" then return "stopped|||"
+                if st is "stopped" then return "stopped||||"
                 set t to name of current track
                 set a to artist of current track
                 set al to album of current track
-                return st & "|" & t & "|" & a & "|" & al
+                set prog to 0
+                try
+                    set d to duration of current track
+                    if d > 0 then set prog to (player position) / d
+                end try
+                return st & "|" & t & "|" & a & "|" & al & "|" & prog
             end if
         end tell
         """
@@ -63,10 +68,18 @@ final class AppleMusicAdapter: MediaAdapter {
         let stateStr = parts.first ?? ""
         let state: PlaybackState = stateStr == "playing" ? .playing : (stateStr == "paused" ? .paused : .stopped)
         guard parts.count >= 4, !parts[1].isEmpty else { return (nil, state) }
+        // Optional 5th field is a 0...1 progress fraction (AppleScript prints reals
+        // with a "." or "," depending on locale — normalise before parsing).
+        var progress: Double?
+        if parts.count >= 5 {
+            let raw = parts[4].trimmingCharacters(in: .whitespaces).replacingOccurrences(of: ",", with: ".")
+            if let p = Double(raw), p.isFinite { progress = min(1, max(0, p)) }
+        }
         let track = MediaTrack(title: parts[1],
                                artist: parts[2].isEmpty ? nil : parts[2],
                                album: parts[3].isEmpty ? nil : parts[3],
-                               sourceAppName: source)
+                               sourceAppName: source,
+                               progress: progress)
         return (track, state)
     }
 }
@@ -87,11 +100,16 @@ final class SpotifyAdapter: MediaAdapter {
         tell application "Spotify"
             if it is running then
                 set st to (player state as string)
-                if st is "stopped" then return "stopped|||"
+                if st is "stopped" then return "stopped||||"
                 set t to name of current track
                 set a to artist of current track
                 set al to album of current track
-                return st & "|" & t & "|" & a & "|" & al
+                set prog to 0
+                try
+                    set d to (duration of current track) / 1000
+                    if d > 0 then set prog to (player position) / d
+                end try
+                return st & "|" & t & "|" & a & "|" & al & "|" & prog
             end if
         end tell
         """
