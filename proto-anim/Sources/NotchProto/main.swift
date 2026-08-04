@@ -362,8 +362,8 @@ struct ExpandedPanel: View {
                 }
                 Spacer(minLength: 4)
                 Waveform(active: true, reduceMotion: reduceMotion,
-                         tint: Color(red: 0.96, green: 0.36, blue: 0.33), bars: 5)
-                    .frame(width: 22, height: 14)
+                         tint: Color(red: 0.96, green: 0.36, blue: 0.33), bars: 7)
+                    .frame(width: 26, height: 15)
             }
             scrubber
             HStack(spacing: 0) {
@@ -504,8 +504,8 @@ struct Waveform: View {
     var bars: Int = 4
 
     // Per-bar amplitude + speed so the motion looks organic, not a uniform sine.
-    private let amp:   [Double] = [0.55, 1.0, 0.72, 0.9, 0.6, 0.85, 0.5]
-    private let speed: [Double] = [6.0, 8.5, 7.2, 9.0, 6.6, 8.0, 7.6]
+    private let amp:   [Double] = [0.55, 0.78, 0.95, 1.0, 0.9, 0.72, 0.58]   // centre-peaked envelope
+    private let speed: [Double] = [6.4, 8.5, 7.2, 9.0, 7.6, 8.0, 6.8]
     private let phase: [Double] = [0.0, 1.3, 2.6, 0.7, 3.1, 1.9, 4.0]
 
     var body: some View {
@@ -519,7 +519,7 @@ struct Waveform: View {
                     let a = amp[i % amp.count]
                     let raw = reduceMotion ? 0.6 : (sin(t * speed[i % speed.count] + phase[i % phase.count]) * 0.5 + 0.5)
                     let p = a * raw
-                    let h = 2.5 + CGFloat(p) * (size.height - 2.5)
+                    let h = 3 + CGFloat(p) * (size.height - 3)
                     let x = CGFloat(i) * (barW + gap)
                     let r = CGRect(x: x, y: (size.height - h) / 2, width: barW, height: h)
                     ctx.fill(Path(roundedRect: r, cornerRadius: barW / 2), with: .color(tint))
