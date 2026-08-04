@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>Notch Island</string>
+    <key>CFBundleDisplayName</key>
+    <string>Notch Island</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.notchisland.app</string>
+    <key>CFBundleExecutable</key>
+    <string>NotchIsland</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>0.1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>13.0</string>
+    <!-- Menu-bar utility: no Dock icon, no main window. -->
+    <key>LSUIElement</key>
+    <true/>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <!-- Usage descriptions are requested lazily when a feature is enabled. -->
+    <key>NSAppleEventsUsageDescription</key>
+    <string>Notch Island uses Automation to read and control supported media apps like Music, Spotify, and YouTube in your browser.</string>
+</dict>
+</plist>
