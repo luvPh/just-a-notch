@@ -18,6 +18,7 @@ final class NotchWindowController {
     private let panel: NotchPanel
     private let vm: NotchViewModel
     private let media: MediaService
+    private let notifier: NotificationService
     private var bag = Set<AnyCancellable>()
     private var monitors: [Any] = []
 
@@ -26,7 +27,8 @@ final class NotchWindowController {
 
     init() {
         media = MediaService()
-        vm = NotchViewModel(media: media)
+        notifier = NotificationService()
+        vm = NotchViewModel(media: media, notifier: notifier)
         panel = NotchPanel(contentRect: NSRect(x: 0, y: 0, width: 300, height: 40))
         panel.contentView = ClickableHostingView(rootView: NotchRootView(vm: vm))
         panel.orderFrontRegardless()
@@ -36,10 +38,14 @@ final class NotchWindowController {
         installMonitors()
         vm.start()
 
-        // While expanded the whole panel must receive clicks (so controls work).
-        vm.$expanded.receive(on: RunLoop.main).sink { [weak self] exp in
-            if exp { self?.panel.ignoresMouseEvents = false }
-        }.store(in: &bag)
+        // While expanded OR while a HUD banner is showing, the panel must receive
+        // clicks (controls / tap-to-open-source-app).
+        vm.$expanded.combineLatest(vm.$hudNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] exp, hud in
+                if exp || hud != nil { self?.panel.ignoresMouseEvents = false }
+                self?.updateHover()
+            }.store(in: &bag)
 
         NotificationCenter.default.addObserver(
             forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main
@@ -67,7 +73,8 @@ final class NotchWindowController {
     /// Surface bounding rect in screen (bottom-left origin) coordinates.
     private var islandScreenRect: CGRect {
         let w = vm.surfaceWidth, h = vm.surfaceHeight
-        let left: CGFloat = vm.expanded
+        let centred = vm.expanded || vm.showingHUD
+        let left: CGFloat = centred
             ? coreCenterX - w / 2
             : coreCenterX - vm.coreWidth / 2 - vm.leftReveal
         return CGRect(x: left, y: screenTopY - h, width: w, height: h)
@@ -109,7 +116,7 @@ final class NotchWindowController {
 
     private func updateHover() {
         let inside = islandScreenRect.contains(NSEvent.mouseLocation)
-        panel.ignoresMouseEvents = vm.expanded ? false : !inside
+        panel.ignoresMouseEvents = (vm.expanded || vm.showingHUD) ? false : !inside
         let hover = inside && !vm.expanded
         if vm.hovering != hover { vm.hovering = hover }
     }
