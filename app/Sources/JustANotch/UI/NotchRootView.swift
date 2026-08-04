@@ -32,6 +32,7 @@ struct NotchRootView: View {
                 .animation(revealSpring, value: vm.compactState)
                 .animation(openSpring, value: vm.expanded)
                 .animation(openSpring, value: vm.showList)
+                .animation(revealSpring, value: vm.showingHUD)
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -43,7 +44,9 @@ struct NotchRootView: View {
             shape.fill(.black)
                 .shadow(color: .black.opacity(0.5), radius: vm.expanded ? 26 : 10, y: vm.expanded ? 14 : 5)
 
-            if vm.expanded {
+            if vm.showingHUD {
+                hudBanner.transition(.blurFade)
+            } else if vm.expanded {
                 player.transition(.blurFade)
             } else if vm.hasMedia {
                 compact.transition(.blurFade)
@@ -52,6 +55,7 @@ struct NotchRootView: View {
         .clipShape(shape)
         .contentShape(shape)
         .onTapGesture {
+            if vm.showingHUD { vm.openSourceApp(); return }
             if !vm.expanded { vm.refreshMedia(); withAnimation(openSpring) { vm.expanded = true } }
         }
     }
@@ -84,6 +88,32 @@ struct NotchRootView: View {
         .frame(width: vm.compactWidth, height: vm.compactHeight)
     }
 
+    // MARK: HUD banner (transient notification pop)
+
+    private var hudBanner: some View {
+        HStack(spacing: 11) {
+            if let n = vm.hudNotification {
+                Image(nsImage: vm.notificationIcon(n.bundleId))
+                    .resizable().interpolation(.high)
+                    .frame(width: 30, height: 30)
+                    .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(n.title.isEmpty ? n.appName : n.title)
+                        .font(.system(size: 12.5, weight: .bold)).foregroundStyle(.white).lineLimit(1)
+                    if !n.detailLine.isEmpty {
+                        Text(n.detailLine)
+                            .font(.system(size: 11)).foregroundStyle(.white.opacity(0.62)).lineLimit(1)
+                    }
+                }
+                Spacer(minLength: 0)
+            }
+        }
+        .padding(.top, vm.notchHeight + 4)
+        .padding(.horizontal, 18)
+        .padding(.bottom, 8)
+        .frame(width: vm.hudWidth, height: vm.hudHeight, alignment: .leading)
+    }
+
     // MARK: Expanded Alcove player
 
     private var player: some View {
@@ -114,8 +144,9 @@ struct NotchRootView: View {
     // The right-hand panel — swaps with the centered carousel tab.
     @ViewBuilder private var content: some View {
         switch railTab {
-        case .music: musicPanel
-        default:     placeholderPanel(railTab)
+        case .music:         musicPanel
+        case .notifications: notificationsPanel
+        default:             placeholderPanel(railTab)
         }
     }
 
@@ -231,6 +262,91 @@ struct NotchRootView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    // MARK: Notifications tab
+
+    @ViewBuilder private var notificationsPanel: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            if vm.notificationsPermissionDenied {
+                notificationsPermissionPrompt
+            } else if vm.notifications.isEmpty {
+                Text("Chưa có thông báo")
+                    .font(.system(size: 12)).foregroundStyle(.white.opacity(0.45))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            } else {
+                ScrollView(.vertical) {
+                    VStack(alignment: .leading, spacing: 12) {
+                        ForEach(vm.notificationGroups) { group in
+                            notificationGroupView(group)
+                        }
+                    }
+                }
+                .scrollIndicators(.hidden)
+                .scrollBounceBehavior(.basedOnSize)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+    }
+
+    private func notificationGroupView(_ group: NotificationGroup) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 7) {
+                Image(nsImage: vm.notificationIcon(group.bundleId))
+                    .resizable().interpolation(.high).frame(width: 16, height: 16)
+                    .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+                Text(group.appName)
+                    .font(.system(size: 11, weight: .semibold)).foregroundStyle(.white.opacity(0.6))
+                Spacer(minLength: 0)
+            }
+            ForEach(group.records) { rec in notificationRow(rec) }
+        }
+    }
+
+    private func notificationRow(_ rec: NotificationRecord) -> some View {
+        VStack(alignment: .leading, spacing: 1) {
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                Text(rec.title.isEmpty ? rec.appName : rec.title)
+                    .font(.system(size: 11.5, weight: .medium)).foregroundStyle(.white.opacity(0.92)).lineLimit(1)
+                Spacer(minLength: 4)
+                Text(Self.relativeTime(rec.date))
+                    .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
+            }
+            if !rec.detailLine.isEmpty {
+                Text(rec.detailLine)
+                    .font(.system(size: 10.5)).foregroundStyle(.white.opacity(0.5)).lineLimit(1)
+            }
+        }
+        .padding(.leading, 23)
+    }
+
+    private var notificationsPermissionPrompt: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Cần Full Disk Access")
+                .font(.system(size: 13, weight: .bold)).foregroundStyle(.white)
+            Text("Để hiện thông báo hệ thống, cấp quyền Full Disk Access cho Just a Notch trong System Settings.")
+                .font(.system(size: 11)).foregroundStyle(.white.opacity(0.55)).fixedSize(horizontal: false, vertical: true)
+            Button {
+                if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles") {
+                    NSWorkspace.shared.open(url)
+                }
+            } label: {
+                Text("Mở System Settings")
+                    .font(.system(size: 11, weight: .semibold)).foregroundStyle(.black)
+                    .padding(.horizontal, 12).padding(.vertical, 6)
+                    .background(Capsule().fill(.white.opacity(0.9)))
+            }
+            .buttonStyle(.plain)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// Compact Vietnamese relative time ("5 phút trước", "2 giờ trước").
+    private static func relativeTime(_ date: Date) -> String {
+        let s = max(0, Date().timeIntervalSince(date))
+        if s < 60 { return "vừa xong" }
+        if s < 3600 { return "\(Int(s / 60)) phút trước" }
+        return "\(Int(s / 3600)) giờ trước"
     }
 
     // Bright hairline between rail and body (brighter in the middle).
