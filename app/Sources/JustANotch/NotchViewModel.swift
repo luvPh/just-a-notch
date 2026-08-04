@@ -10,6 +10,10 @@ final class NotchViewModel: ObservableObject {
     @Published var playback: PlaybackState = .unsupported
     @Published var expanded = false
     @Published var hovering = false
+    /// Transient title reveal, shown briefly only when the track changes.
+    @Published var titleReveal = false
+    private var lastIdentity: String?
+    private var titleResetWork: DispatchWorkItem?
 
     // Set by the window controller from the detected notch.
     @Published var coreWidth: CGFloat = 200
@@ -20,8 +24,31 @@ final class NotchViewModel: ObservableObject {
 
     init(media: MediaServiceProtocol) {
         self.media = media
-        media.currentTrack.receive(on: RunLoop.main).sink { [weak self] in self?.track = $0 }.store(in: &bag)
+        media.currentTrack.receive(on: RunLoop.main).sink { [weak self] track in
+            self?.handleTrack(track)
+        }.store(in: &bag)
         media.playbackState.receive(on: RunLoop.main).sink { [weak self] in self?.playback = $0 }.store(in: &bag)
+    }
+
+    private func handleTrack(_ track: MediaTrack?) {
+        self.track = track
+        let id = track.map { $0.sourceAppName + "|" + $0.title }
+        if let id, id != lastIdentity {
+            lastIdentity = id
+            revealTitleTransiently()
+        }
+        if track == nil { lastIdentity = nil; titleReveal = false }
+    }
+
+    /// Show the title for ~2.6s on a track change, then settle back to resting.
+    private func revealTitleTransiently() {
+        titleResetWork?.cancel()
+        withAnimation(.spring(response: 0.42, dampingFraction: 0.8)) { titleReveal = true }
+        let work = DispatchWorkItem { [weak self] in
+            withAnimation(.spring(response: 0.42, dampingFraction: 0.85)) { self?.titleReveal = false }
+        }
+        titleResetWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.6, execute: work)
     }
 
     var hasMedia: Bool { track != nil }
@@ -30,7 +57,7 @@ final class NotchViewModel: ObservableObject {
     enum CompactState { case quiet, resting, reading }
     var compactState: CompactState {
         guard hasMedia else { return .quiet }
-        return hovering ? .reading : .resting
+        return titleReveal ? .reading : .resting   // title only on track change, never on hover
     }
 
     // MARK: Geometry (wings around the fixed camera core)

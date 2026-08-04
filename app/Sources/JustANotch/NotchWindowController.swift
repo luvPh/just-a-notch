@@ -41,8 +41,13 @@ final class NotchWindowController {
     // MARK: Geometry
 
     private func applyGeometry() {
-        let provider = NotchGeometryProvider(simulateNotch: true)
-        guard let geo = provider.geometry() else { return }
+        // Always target the screen that physically owns the notch (never NSScreen.main,
+        // which follows the active app to an external display).
+        let probe = NotchGeometryProvider(simulateNotch: false)
+        let notchScreen = NSScreen.screens.first { probe.physicalNotchWidth(of: $0) != nil }
+        let screen = notchScreen ?? NSScreen.main ?? NSScreen.screens.first
+        let provider = NotchGeometryProvider(simulateNotch: notchScreen == nil)
+        guard let screen, let geo = provider.geometry(for: screen) else { return }
         coreCenterX = geo.screenFrame.midX
         screenTopY = geo.screenFrame.maxY
         vm.coreWidth = geo.notchWidth
