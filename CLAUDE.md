@@ -15,3 +15,10 @@ Các quy tắc dưới đây được đọc lại ở **mỗi session mới**. 
 - **Đã tự động hoá:** Stop hook trong `.claude/settings.json` tự chạy
   `app/scripts/run_app.sh` (build debug + relaunch) sau mỗi lượt làm việc. Nếu
   build lỗi, hook sẽ tự đánh thức Claude để sửa.
+
+## 3. Tính năng Notifications cần Full Disk Access
+- Tính năng mirror thông báo đọc DB Notification Center của macOS → cần cấp
+  **Full Disk Access** cho "Just a Notch" một lần trong System Settings →
+  Privacy & Security → Full Disk Access.
+- Chưa cấp: tab Notifications hiện prompt hướng dẫn (nút mở System Settings);
+  app không crash, chỉ không có dữ liệu thông báo.
