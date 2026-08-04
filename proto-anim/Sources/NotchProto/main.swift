@@ -50,10 +50,10 @@ enum NotchPhase: String, CaseIterable, Identifiable {
         switch self { case .quiet: "Quiet"; case .mediaResting: "Resting"; case .mediaReading: "Reading" }
     }
     var leftExtent: CGFloat {
-        switch self { case .quiet: 90; case .mediaResting: 104; case .mediaReading: 224 }
+        switch self { case .quiet: 100; case .mediaResting: 124; case .mediaReading: 250 }
     }
     var rightExtent: CGFloat {
-        switch self { case .quiet: 90; case .mediaResting: 132; case .mediaReading: 132 }
+        switch self { case .quiet: 100; case .mediaResting: 156; case .mediaReading: 156 }
     }
     var height: CGFloat { self == .quiet ? 34 : 42 }   // grows a touch below the menu bar when active
     var width: CGFloat { leftExtent + rightExtent }
@@ -101,6 +101,7 @@ struct RootView: View {
     @State private var reduceMotion = false
     @State private var notif: NotifItem? = nil
     @State private var notifIndex = 0
+    @State private var hovering = false
     @Namespace private var glue
 
     private let panelW: CGFloat = 384
@@ -148,7 +149,11 @@ struct RootView: View {
                     // height springs the full-size panel would grow from the CENTRE and shove the top
                     // off-screen. Top alignment keeps the content pinned to the bezel; it grows DOWN.
                     .frame(width: surfaceW, height: surfaceH, alignment: .top)
+                    // Hover affordance: grow slightly from the top with a springy overshoot.
+                    .scaleEffect(hovering && !expanded ? 1.05 : 1.0, anchor: .top)
                     .offset(x: centerXOffset)   // horizontal core-anchor (asymmetric compact reveal)
+                    .onHover { hovering = $0 }
+                    .animation(.spring(response: 0.3, dampingFraction: 0.5), value: hovering)  // overshoot
                     .animation(revealSpring, value: phase)
                     .animation(revealSpring, value: notif)
                     .animation(openSpring, value: expanded)
@@ -298,12 +303,22 @@ struct ExpandedPanel: View {
     var body: some View {
         HStack(alignment: .top, spacing: 14) {
             rail
+            divider
             content.frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.leading, 22).padding(.trailing, 22)
         .padding(.top, topInset - 4)   // keep clear of the camera/notch zone
         .padding(.bottom, 16)
         .frame(maxHeight: .infinity, alignment: .top)
+    }
+
+    // Bright hairline separating the rail from the body (brighter in the middle, fading at the ends).
+    private var divider: some View {
+        Capsule()
+            .fill(LinearGradient(colors: [.white.opacity(0.02), .white.opacity(0.28), .white.opacity(0.02)],
+                                 startPoint: .top, endPoint: .bottom))
+            .frame(width: 1)
+            .frame(maxHeight: .infinity)
     }
 
     // Vertical icon-only rail (all features as icons, for compactness).
@@ -344,7 +359,7 @@ struct ExpandedPanel: View {
                 Spacer(minLength: 4)
                 Waveform(active: true, reduceMotion: reduceMotion,
                          tint: Color(red: 0.96, green: 0.36, blue: 0.33), bars: 5)
-                    .frame(width: 26, height: 17)
+                    .frame(width: 22, height: 14)
             }
             scrubber
             HStack(spacing: 0) {
