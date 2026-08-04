@@ -140,17 +140,21 @@ struct RootView: View {
 
             fauxMenuBar
 
-            // Top-pinned: the top edge is ALWAYS at the bezel (0), height only grows DOWN.
-            // This decouples the top edge from the animated height, so it can never clip.
-            surface
-                .frame(width: surfaceW, height: surfaceH)
-                .offset(x: centerXOffset)   // horizontal core-anchor (asymmetric compact reveal)
-                .animation(revealSpring, value: phase)
-                .animation(revealSpring, value: notif)
-                .animation(openSpring, value: expanded)
-                .animation(openSpring, value: panelH)
-                .onPreferenceChange(PanelHeightKey.self) { h in panelH = h }
-                .frame(maxWidth: .infinity, alignment: .center)
+            // Top-pinned BY LAYOUT: the surface sits at the top of a full-height VStack and the
+            // Spacer absorbs all growth downward. The top edge can never move, no matter how the
+            // measured height animates.
+            VStack(spacing: 0) {
+                surface
+                    .frame(width: surfaceW, height: surfaceH)
+                    .offset(x: centerXOffset)   // horizontal core-anchor (asymmetric compact reveal)
+                    .animation(revealSpring, value: phase)
+                    .animation(revealSpring, value: notif)
+                    .animation(openSpring, value: expanded)
+                    .animation(openSpring, value: panelH)
+                    .onPreferenceChange(PanelHeightKey.self) { h in panelH = h }
+                Spacer(minLength: 0)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 
             VStack { Spacer(); controls.padding(.bottom, 26) }
         }
@@ -316,7 +320,7 @@ struct ExpandedPanel: View {
                     .padding(.horizontal, 14).padding(.vertical, 8)
                     .background { if active { Capsule().fill(.white).matchedGeometryEffect(id: "tabpill", in: tabNS) } }
                     .contentShape(Capsule())
-                    .onTapGesture { tab = t }
+                    .onTapGesture { withAnimation(.spring(response: 0.42, dampingFraction: 0.82)) { tab = t } }
                 }
                 Spacer()
             }
