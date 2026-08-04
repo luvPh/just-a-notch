@@ -31,6 +31,7 @@ struct NotchRootView: View {
                 .animation(.spring(response: 0.3, dampingFraction: 0.5), value: vm.hovering)
                 .animation(revealSpring, value: vm.compactState)
                 .animation(openSpring, value: vm.expanded)
+                .animation(openSpring, value: vm.showList)
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -50,7 +51,9 @@ struct NotchRootView: View {
         }
         .clipShape(shape)
         .contentShape(shape)
-        .onTapGesture { if !vm.expanded { withAnimation(openSpring) { vm.expanded = true } } }
+        .onTapGesture {
+            if !vm.expanded { vm.refreshMedia(); withAnimation(openSpring) { vm.expanded = true } }
+        }
     }
 
     // MARK: Compact (content in the wings; camera core stays empty)
@@ -60,7 +63,8 @@ struct NotchRootView: View {
             HStack(spacing: 8) {
                 SourceIcon(sourceApp: vm.track?.sourceAppName ?? "", size: 18)
                 if vm.compactState == .reading, let track = vm.track {
-                    MarqueeText(text: track.title, viewport: vm.titleViewport)
+                    MarqueeText(text: track.title, viewport: vm.titleViewport,
+                                onPanDuration: vm.scheduleTitleRetraction)
                 }
             }
             .padding(.leading, 13)
@@ -85,17 +89,21 @@ struct NotchRootView: View {
     private var player: some View {
         HStack(alignment: .top, spacing: 14) {
             ThemeCarousel(tabs: RailTab.allCases, selection: $railTab, reduceMotion: reduceMotion)
+                .onChange(of: railTab) { _, _ in
+                    // Leaving music collapses the queue so the window shrinks back
+                    // to the default tab height instead of staying inflated.
+                    if vm.showList { withAnimation(openSpring) { vm.showList = false } }
+                }
             divider
-            // Scrolls when a feature inflates past the (short) window height.
-            ScrollView(.vertical) {
-                content
-                    .id(railTab)                 // re-run the transition on tab change
-                    .transition(.blurFade)
-            }
-            .scrollIndicators(.hidden)
-            .scrollBounceBehavior(.basedOnSize)   // no rubber-band / scrollbar when content fits
-            .animation(reduceMotion ? .easeInOut(duration: 0.18) : .spring(response: 0.34, dampingFraction: 0.82),
-                       value: railTab)
+            // Player controls stay fixed at the top; only the queue list scrolls
+            // (the list has its own ScrollView). Fill the fixed window height so
+            // that inner ScrollView gets a bounded height to scroll within.
+            content
+                .id(railTab)                 // re-run the transition on tab change
+                .transition(.blurFade)
+                .frame(maxHeight: .infinity, alignment: .top)
+                .animation(reduceMotion ? .easeInOut(duration: 0.18) : .spring(response: 0.34, dampingFraction: 0.82),
+                           value: railTab)
         }
         .padding(.leading, 34).padding(.trailing, 24)   // small left inset so the rail's lit pill sits balanced, clear of the rounded notch edge
         .padding(.top, vm.notchHeight + 8)   // clear the physical camera + ~10px breathing room
@@ -130,11 +138,81 @@ struct NotchRootView: View {
                 ctlButton("backward.fill", 14) { vm.previous() }; Spacer()
                 ctlButton(vm.isPlaying ? "pause.fill" : "play.fill", 18) { vm.playPause() }; Spacer()
                 ctlButton("forward.fill", 14) { vm.next() }; Spacer()
-                ctlButton("headphones", 13) {}
+                ctlButton(vm.showList ? "list.bullet.circle.fill" : "list.bullet", 15) {
+                    withAnimation(revealSpring) { vm.toggleList() }
+                }
             }
             .padding(.horizontal, 4)
+
+            if vm.showList {
+                queueList.transition(.blurFade)
+            }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+    }
+
+    // Queue / playlist pulled from the playing YouTube tab.
+    // The header + player controls above stay fixed; only the rows scroll here.
+    @ViewBuilder private var queueList: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Divider().overlay(.white.opacity(0.10))
+            HStack {
+                Text("Up Next").font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.55))
+                Spacer()
+                if !vm.playlist.isEmpty {
+                    Text("\(vm.playlist.count)").font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.35))
+                }
+            }
+            if vm.playlist.isEmpty {
+                Text("Không có danh sách\n(mở video YouTube có playlist / up-next)")
+                    .font(.system(size: 11)).foregroundStyle(.white.opacity(0.4))
+                    .padding(.vertical, 6)
+            } else {
+                ScrollView(.vertical) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        ForEach(vm.playlist) { item in queueRow(item) }
+                    }
+                }
+                .scrollIndicators(.hidden)
+                .scrollBounceBehavior(.basedOnSize)
+            }
+        }
+    }
+
+    private func queueRow(_ item: MediaListItem) -> some View {
+        Button { vm.playListItem(item) } label: {
+            HStack(spacing: 9) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 5, style: .continuous).fill(.white.opacity(0.06))
+                    if let s = item.thumbnailURL, let url = URL(string: s) {
+                        AsyncImage(url: url) { img in
+                            img.resizable().aspectRatio(contentMode: .fill)
+                        } placeholder: { Color.clear }
+                    }
+                    if item.isCurrent {
+                        Rectangle().fill(.black.opacity(0.35))
+                        Image(systemName: "speaker.wave.2.fill")
+                            .font(.system(size: 10, weight: .bold)).foregroundStyle(.white)
+                    }
+                }
+                .frame(width: 48, height: 27)
+                .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
+
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(item.title).font(.system(size: 11, weight: item.isCurrent ? .semibold : .regular))
+                        .foregroundStyle(item.isCurrent ? alcoveRed : .white.opacity(0.92))
+                        .lineLimit(1)
+                    Text([item.channel, item.duration].compactMap { $0 }.joined(separator: " · "))
+                        .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.45)).lineLimit(1)
+                }
+                Spacer(minLength: 0)
+            }
+            .padding(.vertical, 3)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 
     private func placeholderPanel(_ tab: RailTab) -> some View {

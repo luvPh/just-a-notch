@@ -38,37 +38,38 @@ struct SourceIcon: View {
     }
 }
 
-private struct MarqueeWidthKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = max(value, nextValue()) }
-}
-
 /// One-pass marquee: shows the start of the title, slides through to the end,
 /// then holds. Static if the title already fits.
 struct MarqueeText: View {
     let text: String
     var font: Font = .system(size: 11, weight: .semibold)
     let viewport: CGFloat
-    @State private var textWidth: CGFloat = 0
+    let onPanDuration: (TimeInterval) -> Void
     @State private var offset: CGFloat = 0
 
     var body: some View {
         Text(text)
             .font(font).foregroundStyle(.white).lineLimit(1).fixedSize()
-            .background(GeometryReader { g in
-                Color.clear.preference(key: MarqueeWidthKey.self, value: g.size.width) })
-            .onPreferenceChange(MarqueeWidthKey.self) { textWidth = $0; schedule() }
             .offset(x: offset)
             .frame(width: viewport, alignment: .leading)
             .clipped()
             .onAppear { schedule() }
+            // New title: snap back to the start immediately (show the beginning),
+            // then let it slide the overflow — never inherit the old scroll offset.
+            .onChange(of: text) { _, _ in schedule() }
     }
 
     private func schedule() {
-        let overflow = max(0, textWidth - viewport)
+        let plan = CompactTitleMarqueePlan(textWidth: Self.textWidth(text), viewport: viewport)
+        onPanDuration(plan.panDuration)
         var reset = Transaction(); reset.disablesAnimations = true
         withTransaction(reset) { offset = 0 }
-        guard overflow > 4 else { return }
-        withAnimation(.easeInOut(duration: Double(overflow) / 34.0).delay(1.5)) { offset = -overflow }
+        guard plan.overflow > 4 else { return }
+        withAnimation(.easeInOut(duration: plan.panDuration)) { offset = -plan.overflow }
+    }
+
+    private static func textWidth(_ text: String) -> CGFloat {
+        let font = NSFont.systemFont(ofSize: 11, weight: .semibold)
+        return (text as NSString).size(withAttributes: [.font: font]).width
     }
 }

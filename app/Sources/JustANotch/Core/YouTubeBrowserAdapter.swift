@@ -49,6 +49,69 @@ final class YouTubeBrowserAdapter: MediaAdapter {
         runJS("if(v.duration){v.currentTime = \(f) * v.duration;}")
     }
 
+    // MARK: - Playlist / queue
+
+    /// Reads the watch page's playlist panel (or "up next" recommendations) via
+    /// injected JS. Fields are joined with unit/record separators to survive the
+    /// AppleScript round-trip. Empty if JS-from-Apple-Events is off or no list.
+    func playlist() -> [MediaListItem] {
+        let js = """
+        (function(){var US=String.fromCharCode(31),RS=String.fromCharCode(30);
+        var els=document.querySelectorAll('ytd-playlist-panel-video-renderer');
+        if(!els.length)els=document.querySelectorAll('ytd-compact-video-renderer');
+        var out=[];for(var i=0;i<els.length;i++){var el=els[i];
+        var t=el.querySelector('#video-title');
+        var title=t?((t.getAttribute('title')||t.textContent)||'').trim():'';
+        var by=el.querySelector('#byline,#channel-name,.ytd-channel-name');
+        var ch=by?by.textContent.trim():'';
+        var du=el.querySelector('#text.ytd-thumbnail-overlay-time-status-renderer,.badge-shape-wiz__text,ytd-thumbnail-overlay-time-status-renderer #text');
+        var dur=du?du.textContent.trim():'';
+        var img=el.querySelector('img');var thumb=img?img.src:'';
+        var a=el.querySelector('a#wc-endpoint,a#thumbnail,a');var href=a?a.href:'';
+        var vid='';try{vid=new URL(href).searchParams.get('v')||'';}catch(e){}
+        var sel=el.hasAttribute('selected')?'1':'0';
+        out.push([vid,title,ch,dur,thumb,sel].join(US));}
+        return out.join(RS);})();
+        """
+        guard let out = firstBrowserJS(js), !out.isEmpty else { return [] }
+        let rs = Character(UnicodeScalar(30)), us = Character(UnicodeScalar(31))
+        return out.split(separator: rs).enumerated().compactMap { idx, row -> MediaListItem? in
+            let f = row.split(separator: us, omittingEmptySubsequences: false).map(String.init)
+            guard f.count >= 6, !f[1].isEmpty else { return nil }
+            let vid = f[0]
+            // Build the thumbnail from the video id — YouTube lazy-loads the panel's
+            // <img>, so its src is usually a placeholder for off-screen rows.
+            let thumb = vid.isEmpty ? (f[4].isEmpty ? nil : f[4])
+                                    : "https://i.ytimg.com/vi/\(vid)/mqdefault.jpg"
+            return MediaListItem(
+                id: vid.isEmpty ? "\(idx)" : vid,
+                index: idx,
+                title: f[1],
+                channel: f[2].isEmpty ? nil : f[2],
+                duration: f[3].isEmpty ? nil : f[3],
+                thumbnailURL: thumb,
+                isCurrent: f[5] == "1")
+        }
+    }
+
+    func play(item: MediaListItem) {
+        let js = """
+        (function(){var els=document.querySelectorAll('ytd-playlist-panel-video-renderer');
+        if(!els.length)els=document.querySelectorAll('ytd-compact-video-renderer');
+        var el=els[\(item.index)];if(el){var a=el.querySelector('a#wc-endpoint,a#thumbnail,a');
+        if(a){a.click();return 'ok';}}return 'no';})();
+        """
+        _ = firstBrowserJS(js)
+    }
+
+    /// Runs `js` on the first running browser's YouTube watch tab, returning its result.
+    private func firstBrowserJS(_ js: String) -> String? {
+        for browser in runningBrowsers {
+            if let out = runJSReading(js, browser: browser) { return out }
+        }
+        return nil
+    }
+
     // MARK: - Scripting
 
     private func browserName(_ bundleID: String) -> String {

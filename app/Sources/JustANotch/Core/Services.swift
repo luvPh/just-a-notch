@@ -10,6 +10,10 @@ protocol MediaServiceProtocol: AnyObject {
     func nextTrack()
     func previousTrack()
     func seek(toFraction fraction: Double)
+    /// Fetch the active source's queue/playlist off the main thread.
+    func fetchPlaylist(_ completion: @escaping ([MediaListItem]) -> Void)
+    /// Switch playback to a queue entry.
+    func play(item: MediaListItem)
     func refresh()
     func start()
     func stop()

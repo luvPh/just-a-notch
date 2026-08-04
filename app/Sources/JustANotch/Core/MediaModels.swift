@@ -10,6 +10,17 @@ enum PlaybackState: Equatable {
     var isPlaying: Bool { self == .playing }
 }
 
+/// One entry in the playing source's queue / playlist (currently YouTube only).
+struct MediaListItem: Equatable, Identifiable {
+    let id: String            // video id (or index fallback)
+    var index: Int            // position in the on-page list, used to switch to it
+    var title: String
+    var channel: String?
+    var duration: String?
+    var thumbnailURL: String?
+    var isCurrent: Bool
+}
+
 struct MediaTrack: Equatable {
     var title: String
     var artist: String?

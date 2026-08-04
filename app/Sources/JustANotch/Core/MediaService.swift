@@ -14,7 +14,9 @@ struct MediaAvailabilityDebouncer {
             return candidate
         }
         consecutiveMissing += 1
-        if consecutiveMissing < 2 { return stableTrack }
+        // Tolerate a few transient misses (a slow/failed AppleScript read) so the
+        // notch doesn't blink back to empty between polls.
+        if consecutiveMissing < 4 { return stableTrack }
         stableTrack = nil
         return nil
     }
@@ -46,7 +48,7 @@ final class MediaService: MediaServiceProtocol {
     func start() {
         stop()
         let t = DispatchSource.makeTimerSource(queue: queue)
-        t.schedule(deadline: .now(), repeating: 2.0)
+        t.schedule(deadline: .now(), repeating: 1.0)
         t.setEventHandler { [weak self] in self?.poll() }
         t.resume()
         timer = t
@@ -95,4 +97,18 @@ final class MediaService: MediaServiceProtocol {
     func nextTrack() { activeAdapter?.next(); refresh() }
     func previousTrack() { activeAdapter?.previous(); refresh() }
     func seek(toFraction fraction: Double) { activeAdapter?.seek(toFraction: fraction); refresh() }
+
+    func fetchPlaylist(_ completion: @escaping ([MediaListItem]) -> Void) {
+        queue.async { [weak self] in
+            let items = self?.activeAdapter?.playlist() ?? []
+            DispatchQueue.main.async { completion(items) }
+        }
+    }
+
+    func play(item: MediaListItem) {
+        queue.async { [weak self] in
+            self?.activeAdapter?.play(item: item)
+            self?.poll()
+        }
+    }
 }

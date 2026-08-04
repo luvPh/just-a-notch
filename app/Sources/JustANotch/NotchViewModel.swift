@@ -10,10 +10,14 @@ final class NotchViewModel: ObservableObject {
     @Published var playback: PlaybackState = .unsupported
     @Published var expanded = false
     @Published var hovering = false
+    /// "Up Next" / playlist panel for the playing source (YouTube).
+    @Published var showList = false
+    @Published var playlist: [MediaListItem] = []
     /// Transient title reveal, shown briefly only when the track changes.
     @Published var titleReveal = false
     private var lastIdentity: String?
     private var titleResetWork: DispatchWorkItem?
+    let titleEntranceDuration: TimeInterval = 0.42
 
     // Set by the window controller from the detected notch.
     @Published var coreWidth: CGFloat = 200
@@ -36,25 +40,37 @@ final class NotchViewModel: ObservableObject {
         let id = track.map { $0.sourceAppName + "|" + $0.title }
         if let id, id != lastIdentity {
             lastIdentity = id
-            revealTitleTransiently()
+            // Only pop the title open once we actually have a real name — while a
+            // new video is still loading the source can report an empty / "YouTube"
+            // placeholder, and we don't want the wing to expand onto a blank title.
+            if let track, Self.hasRealTitle(track) { revealTitleTransiently() }
         }
         if track == nil { lastIdentity = nil; titleReveal = false }
+    }
+
+    private static func hasRealTitle(_ track: MediaTrack) -> Bool {
+        let t = track.title.trimmingCharacters(in: .whitespaces)
+        return !t.isEmpty && t.caseInsensitiveCompare("YouTube") != .orderedSame
     }
 
     /// Reveal the title on a track change, hold long enough for the marquee to
     /// slide through the whole title, then settle back to resting.
     private func revealTitleTransiently() {
         titleResetWork?.cancel()
-        withAnimation(.spring(response: 0.42, dampingFraction: 0.8)) { titleReveal = true }
-        // Duration scales with title length so long titles finish scrolling before retract.
-        let len = track?.title.count ?? 0
-        let overflow = max(0, Double(len) * 7.0 - Double(titleViewport))
-        let duration = 1.5 /*pre-slide hold*/ + overflow / 34.0 /*scroll*/ + 1.0 /*end hold*/
+        withAnimation(.spring(response: titleEntranceDuration, dampingFraction: 0.8)) { titleReveal = true }
+    }
+
+    /// Called after the marquee has measured its actual overflow, so the wing
+    /// cannot retract before the last characters have been shown.
+    func scheduleTitleRetraction(afterPan panDuration: TimeInterval) {
+        guard titleReveal else { return }
+        titleResetWork?.cancel()
+        let timing = TitleRevealTiming(pan: panDuration)
         let work = DispatchWorkItem { [weak self] in
             withAnimation(.spring(response: 0.42, dampingFraction: 0.85)) { self?.titleReveal = false }
         }
         titleResetWork = work
-        DispatchQueue.main.asyncAfter(deadline: .now() + min(9.0, duration), execute: work)
+        DispatchQueue.main.asyncAfter(deadline: .now() + timing.retractionDelay, execute: work)
     }
 
     var hasMedia: Bool { track != nil }
@@ -62,8 +78,8 @@ final class NotchViewModel: ObservableObject {
 
     enum CompactState { case quiet, resting, reading }
     var compactState: CompactState {
-        guard hasMedia else { return .quiet }
-        return titleReveal ? .reading : .resting   // title only on track change, never on hover
+        guard let track, Self.hasRealTitle(track) else { return .quiet }
+        return titleReveal ? .reading : .resting
     }
 
     // MARK: Geometry (wings around the fixed camera core)
@@ -84,9 +100,15 @@ final class NotchViewModel: ObservableObject {
     // Expanded window.
     let expandedWidth: CGFloat = 412
     let expandedHeight: CGFloat = 150
+    // Taller window while the queue/playlist is open (list scrolls within).
+    let listExpandedHeight: CGFloat = 340
+
+    var isListOpen: Bool { expanded && showList }
 
     var surfaceWidth: CGFloat { expanded ? expandedWidth : compactWidth }
-    var surfaceHeight: CGFloat { expanded ? expandedHeight : compactHeight }
+    var surfaceHeight: CGFloat {
+        isListOpen ? listExpandedHeight : (expanded ? expandedHeight : compactHeight)
+    }
     /// Keep the camera core centred on the notch: shift by half the reveal imbalance.
     var centerXOffset: CGFloat { expanded ? 0 : (rightReveal - leftReveal) / 2 }
 
@@ -95,7 +117,23 @@ final class NotchViewModel: ObservableObject {
 
     // MARK: Actions
     func toggleExpanded() { expanded.toggle() }
-    func collapse() { expanded = false }
+    func collapse() { expanded = false; showList = false }
+    /// Pull the latest media state now (e.g. right as the panel opens).
+    func refreshMedia() { media.refresh() }
+
+    /// Toggle the queue panel; (re)fetch the list whenever it opens.
+    func toggleList() {
+        showList.toggle()
+        if showList { refreshList() }
+    }
+    func refreshList() {
+        media.fetchPlaylist { [weak self] items in self?.playlist = items }
+    }
+    func playListItem(_ item: MediaListItem) {
+        media.play(item: item)
+        // Optimistic: reflect the new current row until the next poll/refresh.
+        playlist = playlist.map { var m = $0; m.isCurrent = (m.id == item.id); return m }
+    }
     func playPause() { media.playPause() }
     func next() { media.nextTrack() }
     func previous() { media.previousTrack() }

@@ -14,10 +14,16 @@ protocol MediaAdapter: AnyObject {
     func previous()
     /// Seek to a 0...1 fraction of the current track. No-op if unsupported.
     func seek(toFraction fraction: Double)
+    /// The source's on-screen queue / playlist, if it exposes one.
+    func playlist() -> [MediaListItem]
+    /// Switch playback to a queue entry.
+    func play(item: MediaListItem)
 }
 
 extension MediaAdapter {
     func seek(toFraction fraction: Double) {}
+    func playlist() -> [MediaListItem] { [] }
+    func play(item: MediaListItem) {}
 }
 
 /// Shared AppleScript execution helper. Returns nil on any error (including a
