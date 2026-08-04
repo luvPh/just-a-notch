@@ -283,8 +283,9 @@ struct CompactContent: View {
             }
             Spacer(minLength: 0)
             if phase.showsMedia {
-                Waveform(active: true, reduceMotion: reduceMotion)
-                    .frame(width: 22, height: 18)
+                Waveform(active: true, reduceMotion: reduceMotion,
+                         tint: Color(red: 0.96, green: 0.36, blue: 0.33), bars: 6)   // identical to the media header
+                    .frame(width: 26, height: 15)
                     .transition(reduceMotion ? .opacity : .scale.combined(with: .opacity))
             }
         }
@@ -362,7 +363,7 @@ struct ExpandedPanel: View {
                 }
                 Spacer(minLength: 4)
                 Waveform(active: true, reduceMotion: reduceMotion,
-                         tint: Color(red: 0.96, green: 0.36, blue: 0.33), bars: 7)
+                         tint: Color(red: 0.96, green: 0.36, blue: 0.33), bars: 6)
                     .frame(width: 26, height: 15)
             }
             scrubber
@@ -513,7 +514,7 @@ struct Waveform: View {
             let t = tl.date.timeIntervalSinceReferenceDate
             Canvas { ctx, size in
                 let n = max(1, bars)
-                let barW: CGFloat = 1.6                       // slim bars
+                let barW: CGFloat = 2.0                       // slim bars
                 let gap = n > 1 ? (size.width - barW * CGFloat(n)) / CGFloat(n - 1) : 0
                 for i in 0..<n {
                     let a = amp[i % amp.count]
