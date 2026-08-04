@@ -65,7 +65,7 @@ enum ExpandedTab: String, CaseIterable, Identifiable {
     case media = "Media", files = "Files", alerts = "Alerts"
     var id: String { rawValue }
     var icon: String {
-        switch self { case .media: "play.circle.fill"; case .files: "folder.fill"; case .alerts: "bell.fill" }
+        switch self { case .media: "music.note"; case .files: "folder.fill"; case .alerts: "bell.fill" }
     }
 }
 
@@ -103,7 +103,7 @@ struct RootView: View {
     @State private var notifIndex = 0
     @Namespace private var glue
 
-    private let panelW: CGFloat = 470
+    private let panelW: CGFloat = 430
     private let menuBarH: CGFloat = 34
 
     private var openSpring: Animation {
@@ -122,7 +122,7 @@ struct RootView: View {
     private var surfaceH: CGFloat { expanded ? panelHeight : (showingNotif ? 82 : phase.height) }
     // Tight per-tab heights (layout is known, like a real notch app) — no async measuring.
     private var panelHeight: CGFloat {
-        switch tab { case .media: 182; case .files: 300; case .alerts: 360 }
+        switch tab { case .media: 156; case .files: 196; case .alerts: 236 }
     }
     private var bottomRadius: CGFloat { expanded ? 26 : (showingNotif ? 24 : (phase == .quiet ? 12 : 16)) }
     private var inverseRadius: CGFloat { expanded ? 14 : 10 }
@@ -293,87 +293,108 @@ struct ExpandedPanel: View {
     let reduceMotion: Bool
     let topInset: CGFloat
     @Namespace private var tabNS
+    private let switchAnim = Animation.spring(response: 0.42, dampingFraction: 0.82)
 
     var body: some View {
-        VStack(spacing: 14) {
-            HStack(spacing: 12) {
-                AlbumArt().matchedGeometryEffect(id: "art", in: glue).frame(width: 46, height: 46)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Weightless").font(.system(size: 15, weight: .semibold)).foregroundStyle(.white)
-                    Text("Marconi Union").font(.system(size: 12)).foregroundStyle(.white.opacity(0.55))
-                }
-                Spacer()
-                HStack(spacing: 16) {
-                    Image(systemName: "backward.fill")
-                    Image(systemName: "pause.fill").font(.system(size: 19))
-                    Image(systemName: "forward.fill")
-                }.font(.system(size: 14)).foregroundStyle(.white.opacity(0.9))
-            }
-
-            HStack(spacing: 8) {
-                ForEach(ExpandedTab.allCases) { t in
-                    let active = t == tab
-                    HStack(spacing: 6) {
-                        Image(systemName: t.icon).font(.system(size: 12, weight: .semibold))
-                        Text(t.rawValue).font(.system(size: 12, weight: .semibold))
-                    }
-                    .foregroundStyle(active ? .black : .white.opacity(0.72))
-                    .padding(.horizontal, 14).padding(.vertical, 8)
-                    .background { if active { Capsule().fill(.white).matchedGeometryEffect(id: "tabpill", in: tabNS) } }
-                    .contentShape(Capsule())
-                    .onTapGesture { withAnimation(.spring(response: 0.42, dampingFraction: 0.82)) { tab = t } }
-                }
-                Spacer()
-            }
-
-            tabBody.frame(maxWidth: .infinity, alignment: .leading)
+        HStack(alignment: .top, spacing: 14) {
+            rail
+            content.frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(.horizontal, 26)
-        .padding(.top, topInset - 6)   // keep header clear of the camera/notch zone
-        .padding(.bottom, 18)
-        .frame(maxHeight: .infinity, alignment: .top)   // pin content to top; extra height (if any) sits below
+        .padding(.leading, 16).padding(.trailing, 20)
+        .padding(.top, topInset - 4)   // keep clear of the camera/notch zone
+        .padding(.bottom, 16)
+        .frame(maxHeight: .infinity, alignment: .top)
     }
 
-    @ViewBuilder private var tabBody: some View {
+    // Vertical icon-only rail (all features as icons, for compactness).
+    private var rail: some View {
+        VStack(spacing: 8) {
+            ForEach(ExpandedTab.allCases) { t in
+                let active = t == tab
+                Image(systemName: t.icon)
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(active ? .black : .white.opacity(0.6))
+                    .frame(width: 34, height: 34)
+                    .background {
+                        if active { Circle().fill(.white).matchedGeometryEffect(id: "tabpill", in: tabNS) }
+                    }
+                    .contentShape(Circle())
+                    .onTapGesture { withAnimation(switchAnim) { tab = t } }
+            }
+        }
+    }
+
+    @ViewBuilder private var content: some View {
         switch tab {
-        case .media:
-            VStack(alignment: .leading, spacing: 10) {
+        case .media:  mediaPlayer
+        case .files:  fileList
+        case .alerts: alertList
+        }
+    }
+
+    // Alcove-style compact player.
+    private var mediaPlayer: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 12) {
+                AlbumArt().matchedGeometryEffect(id: "art", in: glue).frame(width: 44, height: 44)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("morning frog.").font(.system(size: 14, weight: .bold)).foregroundStyle(.white)
+                    Text("mocha.").font(.system(size: 12)).foregroundStyle(.white.opacity(0.5))
+                }
+                Spacer(minLength: 4)
+                Waveform(active: true, reduceMotion: reduceMotion, tint: Color(red: 0.95, green: 0.35, blue: 0.32))
+                    .frame(width: 22, height: 16)
+            }
+            ZStack {
                 Capsule().fill(.white.opacity(0.16)).frame(height: 5)
-                    .overlay(alignment: .leading) { Capsule().fill(.white).frame(width: 140, height: 5) }
-                HStack { Text("1:42"); Spacer(); Text("-3:18") }
-                    .font(.system(size: 11)).foregroundStyle(.white.opacity(0.5))
+                Text("LIVE").font(.system(size: 9, weight: .bold)).tracking(1.5).foregroundStyle(.white.opacity(0.55))
             }
-        case .files:
-            VStack(spacing: 8) {
-                ForEach(["Design spec.pdf", "reveal.mov", "notch-render.swift", "notes.md"], id: \.self) { f in
-                    HStack(spacing: 10) {
-                        Image(systemName: "doc.fill").foregroundStyle(.white.opacity(0.5))
-                        Text(f).font(.system(size: 12)).foregroundStyle(.white.opacity(0.85))
-                        Spacer()
-                    }
-                    .padding(.horizontal, 12).padding(.vertical, 8)
-                    .background(.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+            HStack(spacing: 0) {
+                icon("backward.fill", 15); Spacer()
+                icon("pause.fill", 20);    Spacer()
+                icon("forward.fill", 15);  Spacer()
+                icon("headphones", 15)
+            }
+            .padding(.horizontal, 6)
+        }
+    }
+
+    private func icon(_ name: String, _ size: CGFloat) -> some View {
+        Image(systemName: name).font(.system(size: size)).foregroundStyle(.white.opacity(0.92))
+    }
+
+    private var fileList: some View {
+        VStack(spacing: 7) {
+            ForEach(["Design spec.pdf", "reveal.mov", "notch-render.swift", "notes.md"], id: \.self) { f in
+                HStack(spacing: 10) {
+                    Image(systemName: "doc.fill").font(.system(size: 12)).foregroundStyle(.white.opacity(0.5))
+                    Text(f).font(.system(size: 12)).foregroundStyle(.white.opacity(0.85))
+                    Spacer()
                 }
+                .padding(.horizontal, 12).padding(.vertical, 7)
+                .background(.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
             }
-        case .alerts:
-            VStack(spacing: 8) {
-                ForEach(sampleNotifs) { n in
-                    HStack(spacing: 10) {
-                        RoundedRectangle(cornerRadius: 8, style: .continuous).fill(n.tint)
-                            .frame(width: 30, height: 30)
-                            .overlay(Image(systemName: n.icon).font(.system(size: 13, weight: .semibold)).foregroundStyle(.white))
-                        VStack(alignment: .leading, spacing: 1) {
-                            HStack {
-                                Text(n.title).font(.system(size: 12.5, weight: .semibold)).foregroundStyle(.white)
-                                Spacer()
-                                Text(n.time).font(.system(size: 10)).foregroundStyle(.white.opacity(0.4))
-                            }
-                            Text(n.message).font(.system(size: 11)).foregroundStyle(.white.opacity(0.65)).lineLimit(1)
+        }
+    }
+
+    private var alertList: some View {
+        VStack(spacing: 7) {
+            ForEach(sampleNotifs) { n in
+                HStack(spacing: 10) {
+                    RoundedRectangle(cornerRadius: 8, style: .continuous).fill(n.tint)
+                        .frame(width: 28, height: 28)
+                        .overlay(Image(systemName: n.icon).font(.system(size: 12, weight: .semibold)).foregroundStyle(.white))
+                    VStack(alignment: .leading, spacing: 1) {
+                        HStack {
+                            Text(n.title).font(.system(size: 12, weight: .semibold)).foregroundStyle(.white)
+                            Spacer()
+                            Text(n.time).font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.4))
                         }
+                        Text(n.message).font(.system(size: 10.5)).foregroundStyle(.white.opacity(0.6)).lineLimit(1)
                     }
-                    .padding(.horizontal, 12).padding(.vertical, 8)
-                    .background(.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                 }
+                .padding(.horizontal, 10).padding(.vertical, 7)
+                .background(.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
             }
         }
     }
@@ -418,6 +439,7 @@ struct AlbumArt: View {
 struct Waveform: View {
     let active: Bool
     let reduceMotion: Bool
+    var tint: Color = .white.opacity(0.85)
     var body: some View {
         TimelineView(.animation(minimumInterval: 1.0/30.0, paused: !active || reduceMotion)) { tl in
             let t = tl.date.timeIntervalSinceReferenceDate
@@ -429,7 +451,7 @@ struct Waveform: View {
                     let h = 5 + CGFloat(p) * (size.height - 5)
                     let x = CGFloat(i) * (barW + gap)
                     let r = CGRect(x: x, y: (size.height - h)/2, width: barW, height: h)
-                    ctx.fill(Path(roundedRect: r, cornerRadius: 1.5), with: .color(.white.opacity(0.85)))
+                    ctx.fill(Path(roundedRect: r, cornerRadius: 1.5), with: .color(tint))
                 }
             }
         }
