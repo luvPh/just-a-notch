@@ -89,7 +89,8 @@ struct CompactMediaMotionView: View {
         }
         .frame(width: geometry.totalWidth, height: height)
         // Single clip after the whole surface is composed — no join line.
-        .clipShape(NotchShape(bottomRadius: cornerRadius))
+        // Concave top corners melt the surface into the bezel (prototype look).
+        .clipShape(NotchShape(bottomRadius: cornerRadius, topRadius: 8))
         .onAppear { runOneShotEffectsIfNeeded() }
         .onChange(of: identity) { _ in
             runOneShotEffectsIfNeeded()
@@ -164,12 +165,26 @@ struct CompactMediaMotionView: View {
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.16), value: reading)
     }
 
+    @ViewBuilder
     private var thumbnail: some View {
-        Image(systemName: Self.symbolName(for: track.sourceAppName))
-            .font(.system(size: 14, weight: .semibold))
-            .foregroundStyle(.white.opacity(0.82))
-            .frame(width: 22, height: 22)
-            .accessibilityHidden(true)
+        if let data = track.artworkData, let nsImage = NSImage(data: data) {
+            Image(nsImage: nsImage)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 22, height: 22)
+                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                .accessibilityHidden(true)
+        } else {
+            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                .fill(LinearGradient(colors: [Color(red: 0.42, green: 0.55, blue: 0.98),
+                                              Color(red: 0.78, green: 0.42, blue: 0.92)],
+                                     startPoint: .topLeading, endPoint: .bottomTrailing))
+                .frame(width: 22, height: 22)
+                .overlay(Image(systemName: Self.symbolName(for: track.sourceAppName))
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.9)))
+                .accessibilityHidden(true)
+        }
     }
 
     private var titleMarquee: some View {
@@ -201,13 +216,10 @@ struct CompactMediaMotionView: View {
         .padding(.trailing, 6)
     }
 
-    @ViewBuilder
     private var waveform: some View {
-        if reduceMotion {
-            CompactWaveformBars(frame: 0, playing: false, reduceMotion: true)
-        } else {
-            AnimatedCompactWaveform(playbackState: playbackState, activeMotion: activeMotion)
-        }
+        OrganicWaveform(active: activeMotion && isPlaying, reduceMotion: reduceMotion, bars: 6)
+            .frame(width: 22, height: 13)
+            .padding(.trailing, 2)
     }
 
     private var playButton: some View {

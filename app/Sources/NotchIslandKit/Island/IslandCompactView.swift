@@ -87,7 +87,7 @@ struct IslandCompactView: View {
                 Rectangle()
                     .fill(Color.black)
                     .frame(width: geometry.totalWidth, height: height)
-                    .clipShape(NotchShape(bottomRadius: cornerRadius))
+                    .clipShape(NotchShape(bottomRadius: cornerRadius, topRadius: 8))
             }
         }
         .frame(height: height)
