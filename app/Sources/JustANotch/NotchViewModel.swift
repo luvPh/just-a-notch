@@ -20,6 +20,14 @@ final class NotchViewModel: ObservableObject {
     @Published var showList = false
     /// True khi tab đang mở là Lịch — panel cần chiều cao lớn hơn player.
     @Published var panelWantsTall = false
+    /// Cây shortcut cho tab Files.
+    let fileStore = FileShortcutStore()
+    /// True khi người dùng bấm ⤢ để phóng to panel Files. Ghi nhớ qua UserDefaults.
+    @Published var filesExpanded: Bool = UserDefaults.standard.bool(forKey: "filesExpanded") {
+        didSet { UserDefaults.standard.set(filesExpanded, forKey: "filesExpanded") }
+    }
+    /// Panel Files đang mở? (do NotchRootView set khi railTab == .files)
+    @Published var filesTabActive = false
     @Published var playlist: [MediaListItem] = []
     /// Transient title reveal, shown briefly only when the track changes.
     @Published var titleReveal = false
@@ -160,8 +168,12 @@ final class NotchViewModel: ObservableObject {
     let listExpandedHeight: CGFloat = 340
     /// Chiều cao panel khi mở tab Lịch (lưới tháng cần nhiều chỗ).
     let calendarExpandedHeight: CGFloat = 284
+    /// Chiều cao panel Files khi bấm ⤢ (đủ chỗ cho nhiều hàng).
+    let filesExpandedHeight: CGFloat = 340
     /// Chiều cao canvas cố định lớn nhất — panel window phải đủ cao cho mọi state.
-    var maxSurfaceHeight: CGFloat { max(expandedHeight, listExpandedHeight, calendarExpandedHeight) }
+    var maxSurfaceHeight: CGFloat {
+        max(expandedHeight, listExpandedHeight, calendarExpandedHeight, filesExpandedHeight)
+    }
 
     var isListOpen: Bool { expanded && showList }
 
@@ -173,6 +185,7 @@ final class NotchViewModel: ObservableObject {
         if showingHUD { return hudHeight }
         if !expanded { return compactHeight }
         if isListOpen { return listExpandedHeight }
+        if filesTabActive { return filesExpanded ? filesExpandedHeight : expandedHeight }
         if panelWantsTall { return calendarExpandedHeight }
         return expandedHeight
     }
