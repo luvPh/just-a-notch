@@ -96,8 +96,9 @@ Layout panel (từ trên xuống):
    - Chế độ Âm: tiêu đề "Tháng 7 — Giáp Thìn" (Can Chi năm).
 2. Hàng nhãn thứ: T2 T3 T4 T5 T6 T7 CN.
 3. Lưới 7 cột × (5–6 hàng) các ô ngày.
-4. Dòng chân: nếu `calSelected` (hoặc hôm nay) có lễ → hiện tên lễ; nếu không thì
-   hiện ngày âm/dương đối ứng của ngày được chọn.
+4. Dòng chân: nếu `calSelected` (hoặc hôm nay) có lễ → hiện **mọi** tên lễ (cả âm
+   lẫn dương, không phân biệt); nếu không thì hiện ngày âm/dương đối ứng của ngày
+   được chọn.
 
 Ô ngày (`DayCell`):
 - **Chế độ Dương**: số dương to giữa ô; góc dưới-phải số âm nhỏ (ô mùng 1 âm →
@@ -105,7 +106,11 @@ Layout panel (từ trên xuống):
 - **Chế độ Âm**: số âm to giữa ô; góc dưới-phải ngày dương `d/M` nhỏ.
 - Hôm nay: nền tròn/ago tô `alcoveRed`, chữ trắng.
 - Ngày được chọn: viền mảnh.
-- Có lễ public → chấm đỏ dưới số; lễ phụ → chấm mờ.
+- **Ngày lễ không phân biệt âm/dương**: mỗi ô đều biết cả ngày dương và ngày âm
+  của nó, nên luôn tra `holidays(solarY,solarM,solarD, lunar:)` (gộp lễ dương +
+  lễ âm). Ô có lễ public → chấm đỏ dưới số; chỉ lễ phụ → chấm mờ. Áp dụng **giống
+  nhau ở cả 2 chế độ** Dương và Âm (một lễ âm như Trung Thu hiện đánh dấu ở cả
+  lưới dương lẫn lưới âm, và ngược lại với lễ dương).
 - Bấm ô → set `calSelected`.
 
 Điều hướng:
