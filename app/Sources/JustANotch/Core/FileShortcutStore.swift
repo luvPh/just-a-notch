@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import AppKit
 
 /// Giữ cây shortcut và lưu bền ra JSON. UI quan sát `root`.
 final class FileShortcutStore: ObservableObject {
@@ -49,5 +50,44 @@ extension FileShortcutStore {
     func deleteFile(id: UUID, atParentPath path: [UUID]) {
         root.removeFile(id: id, atParentPath: path)
         save()
+    }
+}
+
+extension FileShortcutStore {
+    /// Kết quả resolve một bookmark.
+    struct Resolved {
+        var resolved: URL?      // nil nếu không tạo được URL
+        var isMissing: Bool     // true nếu file không còn tồn tại / bookmark hỏng
+    }
+
+    func addFile(url: URL, atPath path: [UUID]) {
+        guard let bookmark = try? url.bookmarkData(
+            options: .withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil
+        ) else { return }
+        root.insert(file: FileShortcut(name: url.lastPathComponent, bookmark: bookmark), atPath: path)
+        save()
+    }
+
+    /// Resolve bookmark → URL; đánh dấu missing nếu hỏng hoặc file không tồn tại.
+    func resolveURL(for file: FileShortcut) -> Resolved {
+        var isStale = false
+        guard let url = try? URL(
+            resolvingBookmarkData: file.bookmark,
+            options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &isStale
+        ) else {
+            return Resolved(resolved: nil, isMissing: true)
+        }
+        let exists = FileManager.default.fileExists(atPath: url.path)
+        return Resolved(resolved: url, isMissing: !exists)
+    }
+
+    /// Mở file bằng app mặc định. Trả về false nếu file không mở được.
+    @discardableResult
+    func open(_ file: FileShortcut) -> Bool {
+        let r = resolveURL(for: file)
+        guard let url = r.resolved, !r.isMissing else { return false }
+        let scoped = url.startAccessingSecurityScopedResource()
+        defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+        return NSWorkspace.shared.open(url)
     }
 }

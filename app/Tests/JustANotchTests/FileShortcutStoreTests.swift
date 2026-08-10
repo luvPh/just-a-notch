@@ -81,4 +81,28 @@ final class FileShortcutStoreTests: XCTestCase {
         store.deleteCatalogue(id: id, atParentPath: [])
         XCTAssertTrue(store.root.children.isEmpty)
     }
+
+    func testAddFileFromURLStoresResolvableBookmark() throws {
+        let tmpFile = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent("target-\(UUID()).txt")
+        try "hi".write(to: tmpFile, atomically: true, encoding: .utf8)
+        defer { try? FileManager.default.removeItem(at: tmpFile) }
+
+        let store = FileShortcutStore(fileURL: URL(fileURLWithPath: "/nonexistent-\(UUID()).json"))
+        store.addFile(url: tmpFile, atPath: [])
+
+        let file = store.root.files[0]
+        XCTAssertEqual(file.name, tmpFile.lastPathComponent)
+
+        let resolved = store.resolveURL(for: file)
+        XCTAssertEqual(resolved.resolved?.lastPathComponent, tmpFile.lastPathComponent)
+        XCTAssertFalse(resolved.isMissing)
+    }
+
+    func testResolveBrokenBookmarkReportsMissing() {
+        let store = FileShortcutStore(fileURL: URL(fileURLWithPath: "/nonexistent-\(UUID()).json"))
+        let bogus = FileShortcut(name: "gone.txt", bookmark: Data([0x00, 0x01, 0x02]))
+        let resolved = store.resolveURL(for: bogus)
+        XCTAssertTrue(resolved.isMissing)
+    }
 }
