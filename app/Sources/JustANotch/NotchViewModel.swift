@@ -10,9 +10,33 @@ final class NotchViewModel: ObservableObject {
     @Published var track: MediaTrack?
     @Published var playback: PlaybackState = .unsupported
     @Published var expanded = false
-    @Published var hovering = false
+    @Published var hovering = false { didSet { scheduleTransportReveal() } }
+    /// The ◀ ⏯ ▶ transport is revealed only after the pointer has rested on the
+    /// island for `transportRevealDelay`; it hides immediately on leave.
+    @Published private(set) var transportVisible = false
+    private var transportWork: DispatchWorkItem?
+    let transportRevealDelay: TimeInterval = 0.75
     /// "Up Next" / playlist panel for the playing source (YouTube).
     @Published var showList = false
+    /// True khi tab đang mở là Lịch — panel cần chiều cao lớn hơn player.
+    @Published var panelWantsTall = false
+    /// Cây shortcut cho tab Files.
+    let fileStore = FileShortcutStore()
+    /// True khi người dùng bấm ⤢ để phóng to panel Files. Ghi nhớ qua UserDefaults.
+    @Published var filesExpanded: Bool = UserDefaults.standard.bool(forKey: "filesExpanded") {
+        didSet { UserDefaults.standard.set(filesExpanded, forKey: "filesExpanded") }
+    }
+    /// Panel Files đang mở? (do NotchRootView set khi railTab == .files)
+    @Published var filesTabActive = false
+    /// Panel Lịch đang mở? (do NotchRootView set khi railTab == .calendar)
+    @Published var calTabActive = false
+    /// True khi người dùng bấm ⤢ để phóng Lịch từ tuần → tháng. Ghi nhớ qua UserDefaults.
+    @Published var calExpanded: Bool = UserDefaults.standard.bool(forKey: "calExpanded") {
+        didSet { UserDefaults.standard.set(calExpanded, forKey: "calExpanded") }
+    }
+    /// Số hàng tuần của tháng đang xem (4–6). CalendarPanel cập nhật ⇒ panel co/giãn
+    /// đúng theo chiều cao lưới, không thừa một hàng trống khi tháng chỉ có 5 tuần.
+    @Published var calendarRows: Int = 6
     @Published var playlist: [MediaListItem] = []
     /// Transient title reveal, shown briefly only when the track changes.
     @Published var titleReveal = false
@@ -115,21 +139,57 @@ final class NotchViewModel: ObservableObject {
     // Symmetric wings while playing; the reading state only grows the LEFT wing
     // (the 150pt title expansion), keeping the right wing steady.
     var leftReveal: CGFloat {
-        switch compactState { case .quiet: 10; case .resting: 50; case .reading: 150 }
+        switch compactState { case .quiet: 10; case .resting: 40; case .reading: 150 }
     }
     var rightReveal: CGFloat {
-        switch compactState { case .quiet: 10; case .resting: 50; case .reading: 50 }
+        // Hovering the compact island reveals ◀ ⏯ ▶ in the right wing, so it
+        // grows to fit the transport controls (the waveform lived here before).
+        if hoverControls { return 106 }
+        switch compactState { case .quiet: return 10; case .resting: return 40; case .reading: return 40 }
+    }
+    /// True once the delayed reveal has fired — the trigger for morphing the
+    /// waveform into transport buttons and widening the right wing.
+    var hoverControls: Bool { transportVisible }
+
+    /// Arm/cancel the delayed transport reveal as hover state changes.
+    private func scheduleTransportReveal() {
+        transportWork?.cancel()
+        let canShow = hovering && hasMedia && !expanded && !showingHUD
+        if canShow {
+            let work = DispatchWorkItem { [weak self] in
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.78)) { self?.transportVisible = true }
+            }
+            transportWork = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + transportRevealDelay, execute: work)
+        } else if transportVisible {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.78)) { transportVisible = false }
+        }
     }
     var compactHeight: CGFloat { compactState == .quiet ? 38 : 40 }
     var compactWidth: CGFloat { leftReveal + coreWidth + rightReveal }
     /// Fixed marquee viewport for the title (left reading wing minus icon + pads).
     var titleViewport: CGFloat { 150 - 18 - 13 - 8 }
 
-    // Expanded window.
-    let expandedWidth: CGFloat = 412
+    // Expanded window. (Bề ngang gọn; chiều cao giữ nguyên.)
+    let expandedWidth: CGFloat = 380
     let expandedHeight: CGFloat = 150
     // Taller window while the queue/playlist is open (list scrolls within).
     let listExpandedHeight: CGFloat = 340
+    /// Chiều cao panel khi mở tab Lịch — co giãn theo số hàng tuần thực tế của tháng
+    /// (mỗi hàng ~30px). 6 hàng = 322 (đủ chỗ, không cắt ngày); 5 hàng thấp hơn 30px…
+    private let calendarRowSlot: CGFloat = 30
+    private var calendarBaseHeight: CGFloat { 322 - 6 * calendarRowSlot }   // phần khung ngoài lưới
+    var calendarExpandedHeight: CGFloat {
+        calendarBaseHeight + CGFloat(min(max(calendarRows, 4), 6)) * calendarRowSlot
+    }
+    /// Chiều cao lớn nhất tab Lịch có thể cần (6 hàng) — dùng cho canvas cố định.
+    var calendarMaxHeight: CGFloat { calendarBaseHeight + 6 * calendarRowSlot }
+    /// Chiều cao panel Files khi bấm ⤢ (đủ chỗ cho nhiều hàng).
+    let filesExpandedHeight: CGFloat = 340
+    /// Chiều cao canvas cố định lớn nhất — panel window phải đủ cao cho mọi state.
+    var maxSurfaceHeight: CGFloat {
+        max(expandedHeight, listExpandedHeight, calendarMaxHeight, filesExpandedHeight)
+    }
 
     var isListOpen: Bool { expanded && showList }
 
@@ -139,7 +199,12 @@ final class NotchViewModel: ObservableObject {
     }
     var surfaceHeight: CGFloat {
         if showingHUD { return hudHeight }
-        return isListOpen ? listExpandedHeight : (expanded ? expandedHeight : compactHeight)
+        if !expanded { return compactHeight }
+        if isListOpen { return listExpandedHeight }
+        if filesTabActive { return filesExpanded ? filesExpandedHeight : expandedHeight }
+        if calTabActive { return calExpanded ? calendarExpandedHeight : expandedHeight }
+        if panelWantsTall { return calendarExpandedHeight }
+        return expandedHeight
     }
     /// Keep the camera core centred on the notch: shift by half the reveal imbalance.
     /// HUD and expanded are both centred, so no shift.
@@ -181,6 +246,15 @@ final class NotchViewModel: ObservableObject {
     func openApp(bundleId: String) {
         guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleId) else { return }
         NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration())
+    }
+
+    /// Activate the app currently playing media (resolved from its localized
+    /// name, since the media track carries no bundle id). Used by the media
+    /// source icon in the compact wing and the artwork in the expanded player.
+    /// Bring the playing source's window to the front. For YouTube this focuses
+    /// the exact browser tab; for native players it activates the app.
+    func openSourceMediaApp() {
+        media.focusSource()
     }
 
     /// Activate the app that sent the current HUD notification, then clear it.

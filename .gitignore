@@ -5,3 +5,6 @@ app/.build/
 app/build/
 app/.build/
 app/build/
+
+# Brainstorming visual companion
+.superpowers/

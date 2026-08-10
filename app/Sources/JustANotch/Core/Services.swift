@@ -14,6 +14,8 @@ protocol MediaServiceProtocol: AnyObject {
     func fetchPlaylist(_ completion: @escaping ([MediaListItem]) -> Void)
     /// Switch playback to a queue entry.
     func play(item: MediaListItem)
+    /// Bring the active source's window/tab to the front.
+    func focusSource()
     func refresh()
     func start()
     func stop()

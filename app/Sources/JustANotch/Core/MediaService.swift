@@ -111,4 +111,8 @@ final class MediaService: MediaServiceProtocol {
             self?.poll()
         }
     }
+
+    func focusSource() {
+        queue.async { [weak self] in self?.activeAdapter?.focusSource() }
+    }
 }
