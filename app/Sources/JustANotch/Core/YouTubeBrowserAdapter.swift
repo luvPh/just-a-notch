@@ -34,6 +34,7 @@ final class YouTubeBrowserAdapter: MediaAdapter {
                 let track = MediaTrack(title: clean.isEmpty ? "YouTube" : clean,
                                        artist: nil,
                                        sourceAppName: browserName(browser),
+                                       sourceBundleID: browser,
                                        progress: progress)
                 return (track, state ?? .playing)
             }
@@ -124,6 +125,70 @@ final class YouTubeBrowserAdapter: MediaAdapter {
             || url.contains("youtube.com/shorts/")
             || url.contains("youtube.com/live/")
             || url.contains("youtu.be/")
+    }
+
+    /// Bring the YouTube tab to the front: select it inside its window, raise
+    /// that window, and activate the browser.
+    func focusSource() {
+        // If YouTube is installed as a standalone app (a Chrome PWA lives at
+        // ~/Applications/Chrome Apps.localized/YouTube.app with a
+        // "com.google.Chrome.app.*" bundle id, or a real native app), prefer it.
+        if let ytApp = NSWorkspace.shared.runningApplications.first(where: { app in
+            (app.localizedName ?? "").localizedCaseInsensitiveContains("youtube")
+        }) {
+            ytApp.unhide()
+            ytApp.activate(options: [.activateAllWindows])
+            return
+        }
+
+        for browser in runningBrowsers {
+            let script: String
+            if browser == chromeID {
+                script = """
+                tell application "Google Chrome"
+                    repeat with w in windows
+                        set i to 0
+                        repeat with t in tabs of w
+                            set i to i + 1
+                            set u to URL of t
+                            if (u contains "youtube.com/watch") or (u contains "youtube.com/shorts/") or (u contains "youtube.com/live/") or (u contains "youtu.be/") then
+                                set active tab index of w to i
+                                set index of w to 1
+                                activate
+                                return "ok"
+                            end if
+                        end repeat
+                    end repeat
+                end tell
+                return ""
+                """
+            } else {
+                script = """
+                tell application "Safari"
+                    repeat with w in windows
+                        repeat with t in tabs of w
+                            set u to URL of t
+                            if (u contains "youtube.com/watch") or (u contains "youtube.com/shorts/") or (u contains "youtube.com/live/") or (u contains "youtu.be/") then
+                                set current tab of w to t
+                                set index of w to 1
+                                activate
+                                return "ok"
+                            end if
+                        end repeat
+                    end repeat
+                end tell
+                return ""
+                """
+            }
+            if AppleScriptRunner.run(script) == "ok" {
+                // AppleScript `activate` is unreliable from a background agent app;
+                // nudge the browser forward explicitly too.
+                NSWorkspace.shared.runningApplications
+                    .first { $0.bundleIdentifier == browser }?
+                    .activate(options: [.activateAllWindows])
+                return
+            }
+        }
     }
 
     private func tabTitle(browser: String) -> String? {

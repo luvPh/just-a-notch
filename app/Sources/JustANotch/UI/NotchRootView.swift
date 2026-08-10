@@ -66,6 +66,8 @@ struct NotchRootView: View {
         HStack(spacing: 0) {
             HStack(spacing: 8) {
                 SourceIcon(sourceApp: vm.track?.sourceAppName ?? "", size: 18)
+                    .contentShape(Rectangle())
+                    .onTapGesture { vm.openSourceMediaApp() }
                 if vm.compactState == .reading, let track = vm.track {
                     MarqueeText(text: track.title, viewport: vm.titleViewport,
                                 onPanDuration: vm.scheduleTitleRetraction)
@@ -153,7 +155,10 @@ struct NotchRootView: View {
     private var musicPanel: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 10) {
-                Artwork(data: vm.track?.artworkData, corner: 7).frame(width: 36, height: 36)
+                Button { vm.openSourceMediaApp() } label: {
+                    Artwork(data: vm.track?.artworkData, corner: 7).frame(width: 36, height: 36)
+                }
+                .buttonStyle(.plain)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(vm.track?.title ?? "Not playing").font(.system(size: 13, weight: .bold))
                         .foregroundStyle(.white).lineLimit(1)
@@ -206,7 +211,7 @@ struct NotchRootView: View {
                         ForEach(vm.playlist) { item in queueRow(item) }
                     }
                 }
-                .scrollIndicators(.hidden)
+                .scrollIndicators(.never)
                 .scrollBounceBehavior(.basedOnSize)
             }
         }
@@ -282,7 +287,7 @@ struct NotchRootView: View {
                         }
                     }
                 }
-                .scrollIndicators(.hidden)
+                .scrollIndicators(.never)
                 .scrollBounceBehavior(.basedOnSize)
             }
         }

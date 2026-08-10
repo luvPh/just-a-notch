@@ -18,12 +18,21 @@ protocol MediaAdapter: AnyObject {
     func playlist() -> [MediaListItem]
     /// Switch playback to a queue entry.
     func play(item: MediaListItem)
+    /// Bring the source's window to the front (and focus the exact tab, for
+    /// browser-hosted sources). Falls back to activating the app.
+    func focusSource()
 }
 
 extension MediaAdapter {
     func seek(toFraction fraction: Double) {}
     func playlist() -> [MediaListItem] { [] }
     func play(item: MediaListItem) {}
+    func focusSource() {
+        guard let app = NSWorkspace.shared.runningApplications
+            .first(where: { $0.bundleIdentifier == appBundleID }) else { return }
+        app.unhide()
+        app.activate(options: [.activateAllWindows])
+    }
 }
 
 /// Shared AppleScript execution helper. Returns nil on any error (including a
@@ -68,7 +77,7 @@ final class AppleMusicAdapter: MediaAdapter {
         end tell
         """
         guard let out = AppleScriptRunner.run(script) else { return (nil, .unsupported) }
-        return Self.parse(out, source: displayName)
+        return Self.parse(out, source: displayName, bundleID: appBundleID)
     }
 
     func playPause() { _ = AppleScriptRunner.run("tell application \"Music\" to playpause") }
@@ -79,7 +88,7 @@ final class AppleMusicAdapter: MediaAdapter {
         _ = AppleScriptRunner.run("tell application \"Music\" to set player position to ((duration of current track) * \(f))")
     }
 
-    static func parse(_ out: String, source: String) -> (MediaTrack?, PlaybackState) {
+    static func parse(_ out: String, source: String, bundleID: String? = nil) -> (MediaTrack?, PlaybackState) {
         let parts = out.components(separatedBy: "|")
         let stateStr = parts.first ?? ""
         let state: PlaybackState = stateStr == "playing" ? .playing : (stateStr == "paused" ? .paused : .stopped)
@@ -95,6 +104,7 @@ final class AppleMusicAdapter: MediaAdapter {
                                artist: parts[2].isEmpty ? nil : parts[2],
                                album: parts[3].isEmpty ? nil : parts[3],
                                sourceAppName: source,
+                               sourceBundleID: bundleID,
                                progress: progress)
         return (track, state)
     }
@@ -130,7 +140,7 @@ final class SpotifyAdapter: MediaAdapter {
         end tell
         """
         guard let out = AppleScriptRunner.run(script) else { return (nil, .unsupported) }
-        return AppleMusicAdapter.parse(out, source: displayName)
+        return AppleMusicAdapter.parse(out, source: displayName, bundleID: appBundleID)
     }
 
     func playPause() { _ = AppleScriptRunner.run("tell application \"Spotify\" to playpause") }

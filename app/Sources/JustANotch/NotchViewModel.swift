@@ -183,6 +183,15 @@ final class NotchViewModel: ObservableObject {
         NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration())
     }
 
+    /// Activate the app currently playing media (resolved from its localized
+    /// name, since the media track carries no bundle id). Used by the media
+    /// source icon in the compact wing and the artwork in the expanded player.
+    /// Bring the playing source's window to the front. For YouTube this focuses
+    /// the exact browser tab; for native players it activates the app.
+    func openSourceMediaApp() {
+        media.focusSource()
+    }
+
     /// Activate the app that sent the current HUD notification, then clear it.
     func openSourceApp() {
         if let record = hudNotification { openApp(bundleId: record.bundleId) }

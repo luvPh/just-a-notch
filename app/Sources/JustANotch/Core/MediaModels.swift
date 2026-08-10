@@ -26,17 +26,22 @@ struct MediaTrack: Equatable {
     var artist: String?
     var album: String?
     var sourceAppName: String
+    /// Bundle id of the underlying app (e.g. the browser hosting a YouTube tab),
+    /// used to reliably activate/open its window. Nil when unknown.
+    var sourceBundleID: String?
     /// Progress 0...1 when known.
     var progress: Double?
     /// Artwork bytes when the source provides them (kept small; not cached to disk).
     var artworkData: Data?
 
     init(title: String, artist: String? = nil, album: String? = nil,
-         sourceAppName: String, progress: Double? = nil, artworkData: Data? = nil) {
+         sourceAppName: String, sourceBundleID: String? = nil,
+         progress: Double? = nil, artworkData: Data? = nil) {
         self.title = title
         self.artist = artist
         self.album = album
         self.sourceAppName = sourceAppName
+        self.sourceBundleID = sourceBundleID
         self.progress = progress
         self.artworkData = artworkData
     }
