@@ -203,7 +203,6 @@ struct NotchRootView: View {
         FilesPanel(store: vm.fileStore,
                    expanded: Binding(get: { vm.filesExpanded },
                                      set: { vm.filesExpanded = $0 }))
-            .padding(.top, vm.notchHeight + 8)
     }
 
     private var musicPanel: some View {
