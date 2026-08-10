@@ -1,4 +1,5 @@
 import SwiftUI
+import AppKit
 
 /// Tab Files: duyệt catalogue lồng nhau + mở file. Điều hướng drill-down.
 struct FilesPanel: View {
@@ -8,6 +9,8 @@ struct FilesPanel: View {
     /// Đường dẫn id từ root xuống catalogue đang mở (rỗng = Home).
     @State private var path: [UUID] = []
     @State private var hoveringAdd = false
+    @State private var creatingCatalogue = false
+    @State private var newName = ""
 
     private var current: Catalogue { store.root.node(atPath: path) ?? store.root }
     private var atHome: Bool { path.isEmpty }
@@ -87,9 +90,59 @@ struct FilesPanel: View {
         }
     }
 
-    // Placeholder — hoàn thiện ở Task 8.
     private var addControls: some View {
-        iconButton("plus") { }
+        HStack(spacing: 7) {
+            if hoveringAdd {
+                pillButton("folder.badge.plus", tint: Color(red: 0.56, green: 0.71, blue: 1.0)) {
+                    creatingCatalogue = true
+                }
+                pillButton("doc.badge.plus", tint: Color(red: 0.60, green: 0.83, blue: 0.56)) {
+                    pickFiles()
+                }
+            } else {
+                iconButton("plus") { }
+                    .foregroundStyle(Color(red: 0.56, green: 0.71, blue: 1.0))
+            }
+        }
+        .onHover { hoveringAdd = $0 }
+        .popover(isPresented: $creatingCatalogue, arrowEdge: .bottom) {
+            catalogueNameField
+        }
+    }
+
+    private var catalogueNameField: some View {
+        HStack(spacing: 6) {
+            TextField("Tên catalogue", text: $newName)
+                .textFieldStyle(.roundedBorder).frame(width: 160)
+                .onSubmit(commitCatalogue)
+            Button("Tạo", action: commitCatalogue)
+        }
+        .padding(10)
+    }
+
+    private func commitCatalogue() {
+        let name = newName.trimmingCharacters(in: .whitespaces)
+        guard !name.isEmpty else { return }
+        store.addCatalogue(named: name, atPath: path)
+        newName = ""
+        creatingCatalogue = false
+    }
+
+    private func pickFiles() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = true
+        if panel.runModal() == .OK {
+            for url in panel.urls { store.addFile(url: url, atPath: path) }
+        }
+    }
+
+    private func pillButton(_ symbol: String, tint: Color, _ action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: symbol).font(.system(size: 12, weight: .semibold)).foregroundStyle(tint)
+                .frame(width: 26, height: 24).background(tint.opacity(0.16), in: RoundedRectangle(cornerRadius: 6))
+        }.buttonStyle(.plain)
     }
 
     private func navButton(_ symbol: String, enabled: Bool, _ action: @escaping () -> Void) -> some View {
