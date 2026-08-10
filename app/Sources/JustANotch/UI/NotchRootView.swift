@@ -42,6 +42,8 @@ struct NotchRootView: View {
                 .animation(openSpring, value: vm.showList)
                 // Notch phình ra/thu lại mềm khi mở tab cao hơn (Lịch).
                 .animation(openSpring, value: vm.panelWantsTall)
+                // Lịch co/giãn theo số hàng tuần của tháng (5 vs 6 tuần).
+                .animation(openSpring, value: vm.surfaceHeight)
                 .animation(revealSpring, value: vm.showingHUD)
             Spacer(minLength: 0)
         }
@@ -163,6 +165,7 @@ struct NotchRootView: View {
                 .onChange(of: railTab) { _, newTab in
                     vm.panelWantsTall = (newTab == .calendar)
                     vm.filesTabActive = (newTab == .files)
+                    vm.calTabActive = (newTab == .calendar)
                     // Leaving music collapses the queue so the window shrinks back
                     // to the default tab height instead of staying inflated.
                     if vm.showList { withAnimation(openSpring) { vm.showList = false } }
@@ -196,7 +199,10 @@ struct NotchRootView: View {
     }
 
     private var calendarPanel: some View {
-        CalendarPanel(mode: $calMode, anchor: $calAnchor)
+        CalendarPanel(mode: $calMode, anchor: $calAnchor,
+                      expanded: Binding(get: { vm.calExpanded },
+                                        set: { vm.calExpanded = $0 }),
+                      onRowsChange: { vm.calendarRows = $0 })
     }
 
     private var filesPanel: some View {

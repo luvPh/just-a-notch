@@ -109,7 +109,20 @@ enum VietnameseLunar {
 
     // MARK: Public API
 
+    /// Bộ nhớ đệm quy đổi Dương→Âm. Phép tính thiên văn (vòng lặp sunLongitude…) khá
+    /// nặng và bị gọi ~42 lần mỗi lần dựng lưới; đệm lại giúp cuộn/đổi trang mượt,
+    /// không nghẽn main thread. Khoá gói (year, month, day) vào một Int.
+    private static var lunarCache: [Int: LunarDate] = [:]
+
     static func lunar(fromSolar year: Int, _ month: Int, _ day: Int) -> LunarDate {
+        let key = (year * 100 + month) * 100 + day
+        if let hit = lunarCache[key] { return hit }
+        let result = computeLunar(fromSolar: year, month, day)
+        lunarCache[key] = result
+        return result
+    }
+
+    private static func computeLunar(fromSolar year: Int, _ month: Int, _ day: Int) -> LunarDate {
         let dayNumber = jdFromDate(day: day, month: month, year: year)
         let k = Int((Double(dayNumber) - 2415021.076998695) / 29.530588853)
         var monthStart = newMoon(k + 1)

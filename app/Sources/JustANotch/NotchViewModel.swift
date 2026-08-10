@@ -28,6 +28,15 @@ final class NotchViewModel: ObservableObject {
     }
     /// Panel Files đang mở? (do NotchRootView set khi railTab == .files)
     @Published var filesTabActive = false
+    /// Panel Lịch đang mở? (do NotchRootView set khi railTab == .calendar)
+    @Published var calTabActive = false
+    /// True khi người dùng bấm ⤢ để phóng Lịch từ tuần → tháng. Ghi nhớ qua UserDefaults.
+    @Published var calExpanded: Bool = UserDefaults.standard.bool(forKey: "calExpanded") {
+        didSet { UserDefaults.standard.set(calExpanded, forKey: "calExpanded") }
+    }
+    /// Số hàng tuần của tháng đang xem (4–6). CalendarPanel cập nhật ⇒ panel co/giãn
+    /// đúng theo chiều cao lưới, không thừa một hàng trống khi tháng chỉ có 5 tuần.
+    @Published var calendarRows: Int = 6
     @Published var playlist: [MediaListItem] = []
     /// Transient title reveal, shown briefly only when the track changes.
     @Published var titleReveal = false
@@ -166,13 +175,20 @@ final class NotchViewModel: ObservableObject {
     let expandedHeight: CGFloat = 150
     // Taller window while the queue/playlist is open (list scrolls within).
     let listExpandedHeight: CGFloat = 340
-    /// Chiều cao panel khi mở tab Lịch (lưới tháng cần nhiều chỗ).
-    let calendarExpandedHeight: CGFloat = 284
+    /// Chiều cao panel khi mở tab Lịch — co giãn theo số hàng tuần thực tế của tháng
+    /// (mỗi hàng ~30px). 6 hàng = 322 (đủ chỗ, không cắt ngày); 5 hàng thấp hơn 30px…
+    private let calendarRowSlot: CGFloat = 30
+    private var calendarBaseHeight: CGFloat { 322 - 6 * calendarRowSlot }   // phần khung ngoài lưới
+    var calendarExpandedHeight: CGFloat {
+        calendarBaseHeight + CGFloat(min(max(calendarRows, 4), 6)) * calendarRowSlot
+    }
+    /// Chiều cao lớn nhất tab Lịch có thể cần (6 hàng) — dùng cho canvas cố định.
+    var calendarMaxHeight: CGFloat { calendarBaseHeight + 6 * calendarRowSlot }
     /// Chiều cao panel Files khi bấm ⤢ (đủ chỗ cho nhiều hàng).
     let filesExpandedHeight: CGFloat = 340
     /// Chiều cao canvas cố định lớn nhất — panel window phải đủ cao cho mọi state.
     var maxSurfaceHeight: CGFloat {
-        max(expandedHeight, listExpandedHeight, calendarExpandedHeight, filesExpandedHeight)
+        max(expandedHeight, listExpandedHeight, calendarMaxHeight, filesExpandedHeight)
     }
 
     var isListOpen: Bool { expanded && showList }
@@ -186,6 +202,7 @@ final class NotchViewModel: ObservableObject {
         if !expanded { return compactHeight }
         if isListOpen { return listExpandedHeight }
         if filesTabActive { return filesExpanded ? filesExpandedHeight : expandedHeight }
+        if calTabActive { return calExpanded ? calendarExpandedHeight : expandedHeight }
         if panelWantsTall { return calendarExpandedHeight }
         return expandedHeight
     }
