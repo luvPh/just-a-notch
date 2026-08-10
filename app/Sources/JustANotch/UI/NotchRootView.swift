@@ -6,6 +6,9 @@ struct NotchRootView: View {
     @ObservedObject var vm: NotchViewModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var railTab: RailTab = .music
+    @State private var calMode: CalMode = .solar
+    @State private var calAnchor: Date = Date()
+    @State private var calSelected: Date? = nil
     // While the user is dragging the scrubber, show their position instead of the
     // (2s-polled) real progress; hold it briefly after release so it doesn't snap
     // back before the next poll catches up.
@@ -121,7 +124,8 @@ struct NotchRootView: View {
     private var player: some View {
         HStack(alignment: .top, spacing: 14) {
             ThemeCarousel(tabs: RailTab.allCases, selection: $railTab, reduceMotion: reduceMotion)
-                .onChange(of: railTab) { _, _ in
+                .onChange(of: railTab) { _, newTab in
+                    vm.panelWantsTall = (newTab == .calendar)
                     // Leaving music collapses the queue so the window shrinks back
                     // to the default tab height instead of staying inflated.
                     if vm.showList { withAnimation(openSpring) { vm.showList = false } }
@@ -148,8 +152,13 @@ struct NotchRootView: View {
         switch railTab {
         case .music:         musicPanel
         case .notifications: notificationsPanel
+        case .calendar:      calendarPanel
         default:             placeholderPanel(railTab)
         }
+    }
+
+    private var calendarPanel: some View {
+        CalendarPanel(mode: $calMode, anchor: $calAnchor, selected: $calSelected)
     }
 
     private var musicPanel: some View {
