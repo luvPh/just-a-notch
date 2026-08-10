@@ -10,7 +10,12 @@ final class NotchViewModel: ObservableObject {
     @Published var track: MediaTrack?
     @Published var playback: PlaybackState = .unsupported
     @Published var expanded = false
-    @Published var hovering = false
+    @Published var hovering = false { didSet { scheduleTransportReveal() } }
+    /// The ◀ ⏯ ▶ transport is revealed only after the pointer has rested on the
+    /// island for `transportRevealDelay`; it hides immediately on leave.
+    @Published private(set) var transportVisible = false
+    private var transportWork: DispatchWorkItem?
+    let transportRevealDelay: TimeInterval = 0.75
     /// "Up Next" / playlist panel for the playing source (YouTube).
     @Published var showList = false
     /// True khi tab đang mở là Lịch — panel cần chiều cao lớn hơn player.
@@ -117,10 +122,31 @@ final class NotchViewModel: ObservableObject {
     // Symmetric wings while playing; the reading state only grows the LEFT wing
     // (the 150pt title expansion), keeping the right wing steady.
     var leftReveal: CGFloat {
-        switch compactState { case .quiet: 10; case .resting: 50; case .reading: 150 }
+        switch compactState { case .quiet: 10; case .resting: 40; case .reading: 150 }
     }
     var rightReveal: CGFloat {
-        switch compactState { case .quiet: 10; case .resting: 50; case .reading: 50 }
+        // Hovering the compact island reveals ◀ ⏯ ▶ in the right wing, so it
+        // grows to fit the transport controls (the waveform lived here before).
+        if hoverControls { return 106 }
+        switch compactState { case .quiet: return 10; case .resting: return 40; case .reading: return 40 }
+    }
+    /// True once the delayed reveal has fired — the trigger for morphing the
+    /// waveform into transport buttons and widening the right wing.
+    var hoverControls: Bool { transportVisible }
+
+    /// Arm/cancel the delayed transport reveal as hover state changes.
+    private func scheduleTransportReveal() {
+        transportWork?.cancel()
+        let canShow = hovering && hasMedia && !expanded && !showingHUD
+        if canShow {
+            let work = DispatchWorkItem { [weak self] in
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.78)) { self?.transportVisible = true }
+            }
+            transportWork = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + transportRevealDelay, execute: work)
+        } else if transportVisible {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.78)) { transportVisible = false }
+        }
     }
     var compactHeight: CGFloat { compactState == .quiet ? 38 : 40 }
     var compactWidth: CGFloat { leftReveal + coreWidth + rightReveal }

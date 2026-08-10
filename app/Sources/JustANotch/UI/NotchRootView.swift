@@ -20,6 +20,10 @@ struct NotchRootView: View {
     private var revealSpring: Animation {
         reduceMotion ? .easeInOut(duration: 0.2) : .spring(response: 0.42, dampingFraction: 0.74)
     }
+    // Smooth, barely-settling spring for the hover wing-expand + waveform morph.
+    private var hoverSpring: Animation {
+        reduceMotion ? .easeInOut(duration: 0.2) : .spring(response: 0.4, dampingFraction: 0.78)
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -27,10 +31,12 @@ struct NotchRootView: View {
                 // Everything animates INSIDE the fixed panel, top-anchored — the surface
                 // grows straight down from the notch (prototype behaviour).
                 .frame(width: vm.surfaceWidth, height: vm.surfaceHeight, alignment: .top)
-                .scaleEffect(vm.hovering && !vm.expanded ? 1.05 : 1.0, anchor: .top)
+                // A whisper of lift on hover; the real reveal is the wing widening
+                // to expose the transport controls (see `compactRight`).
+                .scaleEffect(vm.hovering && !vm.expanded ? 1.03 : 1.0, anchor: .top)
                 .offset(x: vm.centerXOffset)
                 .onHover { vm.hovering = $0 }
-                .animation(.spring(response: 0.3, dampingFraction: 0.5), value: vm.hovering)
+                .animation(hoverSpring, value: vm.hovering)
                 .animation(revealSpring, value: vm.compactState)
                 .animation(openSpring, value: vm.expanded)
                 .animation(openSpring, value: vm.showList)
@@ -83,15 +89,44 @@ struct NotchRootView: View {
 
             Color.clear.frame(width: vm.coreWidth)
 
-            HStack(spacing: 8) {
-                Spacer(minLength: 0)
-                OrganicWaveform(active: vm.isPlaying, reduceMotion: reduceMotion, bars: 6)
-                    .frame(width: 18, height: 11)
-            }
-            .padding(.trailing, 15)
-            .frame(width: vm.rightReveal, alignment: .trailing)
+            compactRight
+                .padding(.trailing, 15)
+                .frame(width: vm.rightReveal, alignment: .trailing)
+                .clipped()
         }
         .frame(width: vm.compactWidth, height: vm.compactHeight)
+    }
+
+    // Right wing: the soundwave morphs into ◀ ⏯ ▶ transport controls on hover.
+    // Both layers share the trailing edge and cross-dissolve (opacity + blur +
+    // scale) so the waveform appears to *become* the play/pause button while the
+    // skip buttons unfold outward from it.
+    private var compactRight: some View {
+        let on = vm.hoverControls
+        return ZStack(alignment: .trailing) {
+            OrganicWaveform(active: vm.isPlaying, reduceMotion: reduceMotion, bars: 6)
+                .frame(width: 18, height: 11)
+                .opacity(on ? 0 : 1)
+                .blur(radius: on ? 5 : 0)
+                .scaleEffect(on ? 0.55 : 1, anchor: .trailing)
+
+            HStack(spacing: 4) {
+                compactCtl("backward.fill", 11) { vm.previous() }
+                compactCtl(vm.isPlaying ? "pause.fill" : "play.fill", 14) { vm.playPause() }
+                    .contentTransition(.symbolEffect(.replace))
+                compactCtl("forward.fill", 11) { vm.next() }
+            }
+            .opacity(on ? 1 : 0)
+            .blur(radius: on ? 0 : 5)
+            .scaleEffect(on ? 1 : 0.62, anchor: .trailing)
+            .allowsHitTesting(on)
+        }
+        .frame(maxHeight: .infinity, alignment: .trailing)
+    }
+
+    // Compact transport button with hover highlight + press feedback.
+    private func compactCtl(_ name: String, _ size: CGFloat, _ action: @escaping () -> Void) -> some View {
+        CompactCtlButton(name: name, size: size, action: action)
     }
 
     // MARK: HUD banner (transient notification pop)
@@ -424,6 +459,47 @@ struct NotchRootView: View {
             Image(systemName: name).font(.system(size: size)).foregroundStyle(.white.opacity(0.92))
         }
         .buttonStyle(.plain)
+    }
+}
+
+// Compact transport button: a soft circular highlight fades in under the glyph
+// on hover, and the whole thing dips + brightens on press.
+private struct CompactCtlButton: View {
+    let name: String
+    let size: CGFloat
+    let action: () -> Void
+    @State private var hovering = false
+
+    var body: some View {
+        Button(action: action) {
+            ZStack {
+                Circle()
+                    .fill(.white.opacity(hovering ? 0.18 : 0))
+                    .frame(width: 26, height: 26)
+                    .scaleEffect(hovering ? 1 : 0.6)
+                    .blur(radius: 4)
+                Image(systemName: name)
+                    .font(.system(size: size, weight: .semibold))
+                    .foregroundStyle(.white.opacity(hovering ? 1 : 0.9))
+            }
+            // Generous invisible hit target so you don't have to nail the glyph.
+            .frame(width: size + 15, height: 36)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(CompactCtlStyle())
+        .onHover { h in
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) { hovering = h }
+        }
+    }
+}
+
+// Springy press feedback for the compact transport buttons.
+private struct CompactCtlStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.82 : 1)
+            .opacity(configuration.isPressed ? 0.7 : 1)
+            .animation(.spring(response: 0.28, dampingFraction: 0.55), value: configuration.isPressed)
     }
 }
 
