@@ -420,7 +420,7 @@ struct NotchRootView: View {
 // MARK: - Rail tabs
 
 enum RailTab: String, CaseIterable, Identifiable {
-    case music, files, notifications, clock, settings
+    case music, files, notifications, calendar, settings
 
     var id: String { rawValue }
 
@@ -429,7 +429,7 @@ enum RailTab: String, CaseIterable, Identifiable {
         case .music:         return "music.note"
         case .files:         return "folder.fill"
         case .notifications: return "bell.fill"
-        case .clock:         return "clock.fill"
+        case .calendar:      return "calendar"
         case .settings:      return "gearshape.fill"
         }
     }
@@ -439,7 +439,7 @@ enum RailTab: String, CaseIterable, Identifiable {
         case .music:         return "Now Playing"
         case .files:         return "Files"
         case .notifications: return "Notifications"
-        case .clock:         return "Clock"
+        case .calendar:      return "Lịch"
         case .settings:      return "Settings"
         }
     }
