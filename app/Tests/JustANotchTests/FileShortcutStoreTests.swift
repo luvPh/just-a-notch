@@ -41,4 +41,24 @@ final class FileShortcutStoreTests: XCTestCase {
         root.rename(catalogueId: id, atParentPath: [], to: "Job")
         XCTAssertEqual(root.children[0].name, "Job")
     }
+
+    func testSaveThenLoadRoundTrips() throws {
+        let tmp = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent("shortcuts-\(UUID()).json")
+        defer { try? FileManager.default.removeItem(at: tmp) }
+
+        let store = FileShortcutStore(fileURL: tmp)
+        store.root.children.append(Catalogue(name: "Work"))
+        store.save()
+
+        let reloaded = FileShortcutStore(fileURL: tmp)
+        XCTAssertEqual(reloaded.root.children.map(\.name), ["Work"])
+    }
+
+    func testLoadMissingFileGivesEmptyRoot() {
+        let missing = URL(fileURLWithPath: "/nonexistent-\(UUID()).json")
+        let store = FileShortcutStore(fileURL: missing)
+        XCTAssertTrue(store.root.children.isEmpty)
+        XCTAssertTrue(store.root.files.isEmpty)
+    }
 }
