@@ -29,3 +29,25 @@ final class FileShortcutStore: ObservableObject {
         try? data.write(to: fileURL, options: .atomic)
     }
 }
+
+extension FileShortcutStore {
+    func addCatalogue(named name: String, atPath path: [UUID]) {
+        root.insert(child: Catalogue(name: name), atPath: path)
+        save()
+    }
+
+    func deleteCatalogue(id: UUID, atParentPath path: [UUID]) {
+        root.removeCatalogue(id: id, atParentPath: path)
+        save()
+    }
+
+    func renameCatalogue(id: UUID, atParentPath path: [UUID], to newName: String) {
+        root.rename(catalogueId: id, atParentPath: path, to: newName)
+        save()
+    }
+
+    func deleteFile(id: UUID, atParentPath path: [UUID]) {
+        root.removeFile(id: id, atParentPath: path)
+        save()
+    }
+}

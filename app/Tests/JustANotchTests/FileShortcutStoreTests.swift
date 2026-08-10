@@ -61,4 +61,24 @@ final class FileShortcutStoreTests: XCTestCase {
         XCTAssertTrue(store.root.children.isEmpty)
         XCTAssertTrue(store.root.files.isEmpty)
     }
+
+    func testAddCatalogueAutoSaves() {
+        let tmp = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent("sc-\(UUID()).json")
+        defer { try? FileManager.default.removeItem(at: tmp) }
+
+        let store = FileShortcutStore(fileURL: tmp)
+        store.addCatalogue(named: "Work", atPath: [])
+
+        let reloaded = FileShortcutStore(fileURL: tmp)
+        XCTAssertEqual(reloaded.root.children.map(\.name), ["Work"])
+    }
+
+    func testDeleteCatalogue() {
+        let store = FileShortcutStore(fileURL: URL(fileURLWithPath: "/nonexistent-\(UUID()).json"))
+        store.addCatalogue(named: "Work", atPath: [])
+        let id = store.root.children[0].id
+        store.deleteCatalogue(id: id, atParentPath: [])
+        XCTAssertTrue(store.root.children.isEmpty)
+    }
 }
