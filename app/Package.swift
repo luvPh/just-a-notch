@@ -8,6 +8,11 @@ let package = Package(
         .executableTarget(
             name: "JustANotch",
             path: "Sources/JustANotch"
+        ),
+        .testTarget(
+            name: "JustANotchTests",
+            dependencies: ["JustANotch"],
+            path: "Tests/JustANotchTests"
         )
     ],
     swiftLanguageModes: [.v5]
