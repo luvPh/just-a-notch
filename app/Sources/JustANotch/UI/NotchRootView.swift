@@ -162,6 +162,7 @@ struct NotchRootView: View {
             ThemeCarousel(tabs: RailTab.allCases, selection: $railTab, reduceMotion: reduceMotion)
                 .onChange(of: railTab) { _, newTab in
                     vm.panelWantsTall = (newTab == .calendar)
+                    vm.filesTabActive = (newTab == .files)
                     // Leaving music collapses the queue so the window shrinks back
                     // to the default tab height instead of staying inflated.
                     if vm.showList { withAnimation(openSpring) { vm.showList = false } }
@@ -189,12 +190,20 @@ struct NotchRootView: View {
         case .music:         musicPanel
         case .notifications: notificationsPanel
         case .calendar:      calendarPanel
+        case .files:         filesPanel
         default:             placeholderPanel(railTab)
         }
     }
 
     private var calendarPanel: some View {
         CalendarPanel(mode: $calMode, anchor: $calAnchor)
+    }
+
+    private var filesPanel: some View {
+        FilesPanel(store: vm.fileStore,
+                   expanded: Binding(get: { vm.filesExpanded },
+                                     set: { vm.filesExpanded = $0 }))
+            .padding(.top, vm.notchHeight + 8)
     }
 
     private var musicPanel: some View {
