@@ -8,7 +8,6 @@ struct NotchRootView: View {
     @State private var railTab: RailTab = .music
     @State private var calMode: CalMode = .solar
     @State private var calAnchor: Date = Date()
-    @State private var calSelected: Date? = nil
     // While the user is dragging the scrubber, show their position instead of the
     // (2s-polled) real progress; hold it briefly after release so it doesn't snap
     // back before the next poll catches up.
@@ -35,6 +34,8 @@ struct NotchRootView: View {
                 .animation(revealSpring, value: vm.compactState)
                 .animation(openSpring, value: vm.expanded)
                 .animation(openSpring, value: vm.showList)
+                // Notch phình ra/thu lại mềm khi mở tab cao hơn (Lịch).
+                .animation(openSpring, value: vm.panelWantsTall)
                 .animation(revealSpring, value: vm.showingHUD)
             Spacer(minLength: 0)
         }
@@ -158,7 +159,7 @@ struct NotchRootView: View {
     }
 
     private var calendarPanel: some View {
-        CalendarPanel(mode: $calMode, anchor: $calAnchor, selected: $calSelected)
+        CalendarPanel(mode: $calMode, anchor: $calAnchor)
     }
 
     private var musicPanel: some View {

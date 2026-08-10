@@ -127,13 +127,13 @@ final class NotchViewModel: ObservableObject {
     /// Fixed marquee viewport for the title (left reading wing minus icon + pads).
     var titleViewport: CGFloat { 150 - 18 - 13 - 8 }
 
-    // Expanded window.
-    let expandedWidth: CGFloat = 412
+    // Expanded window. (Bề ngang gọn; chiều cao giữ nguyên.)
+    let expandedWidth: CGFloat = 380
     let expandedHeight: CGFloat = 150
     // Taller window while the queue/playlist is open (list scrolls within).
     let listExpandedHeight: CGFloat = 340
     /// Chiều cao panel khi mở tab Lịch (lưới tháng cần nhiều chỗ).
-    let calendarExpandedHeight: CGFloat = 300
+    let calendarExpandedHeight: CGFloat = 284
     /// Chiều cao canvas cố định lớn nhất — panel window phải đủ cao cho mọi state.
     var maxSurfaceHeight: CGFloat { max(expandedHeight, listExpandedHeight, calendarExpandedHeight) }
 
