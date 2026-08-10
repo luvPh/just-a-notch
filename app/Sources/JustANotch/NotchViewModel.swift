@@ -13,6 +13,8 @@ final class NotchViewModel: ObservableObject {
     @Published var hovering = false
     /// "Up Next" / playlist panel for the playing source (YouTube).
     @Published var showList = false
+    /// True khi tab đang mở là Lịch — panel cần chiều cao lớn hơn player.
+    @Published var panelWantsTall = false
     @Published var playlist: [MediaListItem] = []
     /// Transient title reveal, shown briefly only when the track changes.
     @Published var titleReveal = false
@@ -130,6 +132,10 @@ final class NotchViewModel: ObservableObject {
     let expandedHeight: CGFloat = 150
     // Taller window while the queue/playlist is open (list scrolls within).
     let listExpandedHeight: CGFloat = 340
+    /// Chiều cao panel khi mở tab Lịch (lưới tháng cần nhiều chỗ).
+    let calendarExpandedHeight: CGFloat = 300
+    /// Chiều cao canvas cố định lớn nhất — panel window phải đủ cao cho mọi state.
+    var maxSurfaceHeight: CGFloat { max(expandedHeight, listExpandedHeight, calendarExpandedHeight) }
 
     var isListOpen: Bool { expanded && showList }
 
@@ -139,7 +145,10 @@ final class NotchViewModel: ObservableObject {
     }
     var surfaceHeight: CGFloat {
         if showingHUD { return hudHeight }
-        return isListOpen ? listExpandedHeight : (expanded ? expandedHeight : compactHeight)
+        if !expanded { return compactHeight }
+        if isListOpen { return listExpandedHeight }
+        if panelWantsTall { return calendarExpandedHeight }
+        return expandedHeight
     }
     /// Keep the camera core centred on the notch: shift by half the reveal imbalance.
     /// HUD and expanded are both centred, so no shift.

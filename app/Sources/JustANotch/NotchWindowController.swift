@@ -86,7 +86,7 @@ final class NotchWindowController {
     /// Mouse pass-through outside the island keeps the transparent area click-through.
     private func layoutPanel() {
         let w = panelWidth
-        let h = vm.expandedHeight
+        let h = vm.maxSurfaceHeight
         let frame = CGRect(x: coreCenterX - w / 2, y: screenTopY - h, width: w, height: h)
         panel.setFrame(frame, display: true)
     }
