@@ -187,7 +187,9 @@ struct NotchRootView: View {
     // MARK: Expanded Alcove player
 
     private var player: some View {
-        HStack(alignment: .top, spacing: vm.filesWide ? 0 : (vm.filesTabActive ? 6 : 14)) {
+        // spacing 0: tự kiểm soát từng khoảng để rail↔divider luôn 14 (icon căn giữa
+        // như cũ), chỉ khoảng divider↔content mới thu hẹp ở tab Files.
+        HStack(alignment: .top, spacing: 0) {
             // Ẩn sidebar (rail + divider) khi Files mở rộng — dồn toàn bộ chiều ngang cho tab.
             if !vm.filesWide {
                 ThemeCarousel(tabs: RailTab.allCases, selection: $railTab, reduceMotion: reduceMotion)
@@ -201,9 +203,11 @@ struct NotchRootView: View {
                         if vm.showList { withAnimation(openSpring) { vm.showList = false } }
                     }
                     .padding(.top, vm.notchHeight + 8)   // sidebar LUÔN dưới camera, không đổi theo tab
+                    .padding(.trailing, 14)              // khoảng rail↔divider cố định
                     .transition(.blurFade)
                 divider
                     .padding(.top, vm.notchHeight + 8)
+                    .padding(.trailing, vm.filesTabActive ? 6 : 14)   // divider↔content: files thu hẹp
                     .transition(.opacity)
             }
             // Player controls stay fixed at the top; only the queue list scrolls
