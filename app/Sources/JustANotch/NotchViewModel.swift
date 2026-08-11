@@ -24,6 +24,18 @@ final class NotchViewModel: ObservableObject {
     let fileStore = FileShortcutStore()
     /// Clipboard history store backing the Clipboard tab.
     let clipboard = ClipboardStore()
+    /// Pomodoro/plain countdown timer backing the Timer tab.
+    lazy var timer: TimerService = {
+        let s = AppSettings.shared
+        return TimerService(config: { s.pomodoroConfig },
+                            autoStartNext: { s.pomoAutoStart },
+                            chime: { [weak s] in
+                                guard let s, s.timerSoundEnabled,
+                                      let snd = NSSound(named: s.timerSoundName) else { return }
+                                snd.volume = Float(s.timerVolume)
+                                snd.play()
+                            })
+    }()
     /// True khi người dùng bấm ⤢ để phóng to panel Files. Ghi nhớ qua UserDefaults.
     @Published var filesExpanded: Bool = UserDefaults.standard.bool(forKey: "filesExpanded") {
         didSet { UserDefaults.standard.set(filesExpanded, forKey: "filesExpanded") }

@@ -18,6 +18,7 @@ struct NotchRootView: View {
         if settings.showNotifications { t.append(.notifications) }
         if settings.showCalendar { t.append(.calendar) }
         if settings.showClipboard { t.append(.clipboard) }
+        if settings.showTimer { t.append(.timer) }
         t.append(.settings)
         return t
     }
@@ -200,6 +201,24 @@ struct NotchRootView: View {
                 .transition(.opacity)
             }
         }
+        // Countdown ring khi Timer đang chạy và notch đang thu gọn — đặt ở wing phải.
+        .overlay(alignment: .topTrailing) {
+            if !vm.expanded, vm.timer.isRunning {
+                ZStack {
+                    Circle().trim(from: 0, to: max(0.001, 1 - (vm.timer.remaining / max(1, vm.timer.phaseLength))))
+                        .stroke(vm.timer.phase == .work ? Color.red : Color.green,
+                                style: StrokeStyle(lineWidth: 2, lineCap: .round))
+                        .rotationEffect(.degrees(-90))
+                        .frame(width: 14, height: 14)
+                    Text("\(Int(vm.timer.remaining / 60))")
+                        .font(.system(size: 9, weight: .bold, design: .rounded))
+                        .foregroundStyle(.white)
+                }
+                .padding(.trailing, 12).padding(.top, 12)
+                .allowsHitTesting(false)
+                .transition(.opacity)
+            }
+        }
     }
 
     // MARK: Compact (content in the wings; camera core stays empty)
@@ -341,6 +360,7 @@ struct NotchRootView: View {
         case .calendar:      calendarPanel
         case .files:         filesPanel
         case .clipboard:     ClipboardPanel(store: vm.clipboard)
+        case .timer:         TimerPanel(timer: vm.timer, settings: AppSettings.shared)
         case .settings:      SettingsPanel(settings: settings, vm: vm)
         default:             placeholderPanel(railTab)
         }
