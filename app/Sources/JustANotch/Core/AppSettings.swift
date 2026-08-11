@@ -17,6 +17,21 @@ final class AppSettings: ObservableObject {
     @Published var showClipboard: Bool { didSet { d.set(showClipboard, forKey: "cfg.showClipboard") } }
     @Published var showTimer: Bool { didSet { d.set(showTimer, forKey: "cfg.showTimer") } }
 
+    // MARK: Pomodoro — tuỳ biến chu kỳ + chuông.
+    @Published var pomoWorkMinutes: Int { didSet { d.set(pomoWorkMinutes, forKey: "cfg.pomoWork") } }
+    @Published var pomoShortMinutes: Int { didSet { d.set(pomoShortMinutes, forKey: "cfg.pomoShort") } }
+    @Published var pomoLongMinutes: Int { didSet { d.set(pomoLongMinutes, forKey: "cfg.pomoLong") } }
+    @Published var pomoRounds: Int { didSet { d.set(pomoRounds, forKey: "cfg.pomoRounds") } }
+    @Published var pomoAutoStart: Bool { didSet { d.set(pomoAutoStart, forKey: "cfg.pomoAutoStart") } }
+    @Published var timerSoundEnabled: Bool { didSet { d.set(timerSoundEnabled, forKey: "cfg.timerSoundOn") } }
+    @Published var timerSoundName: String { didSet { d.set(timerSoundName, forKey: "cfg.timerSound") } }
+    @Published var timerVolume: Double { didSet { d.set(timerVolume, forKey: "cfg.timerVolume") } }
+
+    var pomodoroConfig: PomodoroConfig {
+        PomodoroConfig(workMinutes: pomoWorkMinutes, shortBreakMinutes: pomoShortMinutes,
+                       longBreakMinutes: pomoLongMinutes, roundsBeforeLongBreak: pomoRounds)
+    }
+
     // MARK: Motion — force reduced motion regardless of the system setting.
     @Published var forceReduceMotion: Bool { didSet { d.set(forceReduceMotion, forKey: "cfg.forceReduceMotion") } }
 
@@ -37,12 +52,23 @@ final class AppSettings: ObservableObject {
             "cfg.showTimer": true,
             "cfg.forceReduceMotion": false,
             "cfg.doubleTapCommand": false,
+            "cfg.pomoWork": 25, "cfg.pomoShort": 5, "cfg.pomoLong": 15,
+            "cfg.pomoRounds": 4, "cfg.pomoAutoStart": true,
+            "cfg.timerSoundOn": true, "cfg.timerSound": "Glass", "cfg.timerVolume": 0.8,
         ])
         showFiles = d.bool(forKey: "cfg.showFiles")
         showNotifications = d.bool(forKey: "cfg.showNotifications")
         showCalendar = d.bool(forKey: "cfg.showCalendar")
         showClipboard = d.bool(forKey: "cfg.showClipboard")
         showTimer = d.bool(forKey: "cfg.showTimer")
+        pomoWorkMinutes = d.integer(forKey: "cfg.pomoWork")
+        pomoShortMinutes = d.integer(forKey: "cfg.pomoShort")
+        pomoLongMinutes = d.integer(forKey: "cfg.pomoLong")
+        pomoRounds = d.integer(forKey: "cfg.pomoRounds")
+        pomoAutoStart = d.bool(forKey: "cfg.pomoAutoStart")
+        timerSoundEnabled = d.bool(forKey: "cfg.timerSoundOn")
+        timerSoundName = d.string(forKey: "cfg.timerSound") ?? "Glass"
+        timerVolume = d.double(forKey: "cfg.timerVolume")
         forceReduceMotion = d.bool(forKey: "cfg.forceReduceMotion")
         doubleTapCommand = d.bool(forKey: "cfg.doubleTapCommand")
         launchAtLogin = (SMAppService.mainApp.status == .enabled)
