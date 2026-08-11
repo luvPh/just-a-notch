@@ -64,6 +64,34 @@ extension FileShortcutStore {
 }
 
 extension FileShortcutStore {
+    /// Tra cứu file / catalogue theo id + đường dẫn cha.
+    func file(id: UUID, atParentPath path: [UUID]) -> FileShortcut? {
+        root.node(atPath: path)?.files.first { $0.id == id }
+    }
+    func catalogue(id: UUID, atParentPath path: [UUID]) -> Catalogue? {
+        root.node(atPath: path)?.children.first { $0.id == id }
+    }
+
+    /// Di chuyển file sang catalogue khác (không tự save — gọi save() sau khi xong lô).
+    func moveFile(id: UUID, from src: [UUID], to dest: [UUID]) {
+        guard src != dest, let f = file(id: id, atParentPath: src) else { return }
+        root.removeFile(id: id, atParentPath: src)
+        root.insert(file: f, atPath: dest)
+    }
+
+    /// Di chuyển catalogue (kèm toàn bộ nội dung). Bỏ qua nếu chuyển vào chính nó
+    /// hoặc vào một hậu duệ của nó (sẽ tạo vòng lặp).
+    func moveCatalogue(id: UUID, from src: [UUID], to dest: [UUID]) {
+        guard src != dest else { return }
+        let selfPath = src + [id]
+        if dest.count >= selfPath.count && Array(dest.prefix(selfPath.count)) == selfPath { return }
+        guard let c = catalogue(id: id, atParentPath: src) else { return }
+        root.removeCatalogue(id: id, atParentPath: src)
+        root.insert(child: c, atPath: dest)
+    }
+}
+
+extension FileShortcutStore {
     func addFavoriteCatalogue(path: [UUID], name: String) {
         guard !favorites.contains(where: { $0.isCatalogue && $0.cataloguePath == path }) else { return }
         favorites.append(Favorite(name: name, isCatalogue: true, cataloguePath: path))

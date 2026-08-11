@@ -82,6 +82,21 @@ struct NotchRootView: View {
                     .onTapGesture { withAnimation(openSpring) { vm.collapse() } }
             }
         }
+        // Số favorite đang chọn (tab Files nhỏ) — đặt ở WING TRÁI, ngang lõi camera.
+        .overlay(alignment: .topLeading) {
+            if vm.expanded && vm.filesTabActive && !vm.filesExpanded && vm.filesSelCount > 0 {
+                HStack(spacing: 4) {
+                    Text("\(vm.filesSelCount)").font(.system(size: 12, weight: .bold))
+                    Image(systemName: "doc.fill").font(.system(size: 10, weight: .semibold))
+                }
+                .foregroundStyle(Color(red: 0.75, green: 0.6, blue: 1.0))
+                .shadow(color: Color(red: 0.66, green: 0.46, blue: 1.0).opacity(0.85), radius: 6)
+                .shadow(color: Color(red: 0.66, green: 0.46, blue: 1.0).opacity(0.5), radius: 12)
+                .padding(.leading, 46).padding(.top, 12)
+                .allowsHitTesting(false)
+                .transition(.opacity)
+            }
+        }
     }
 
     // MARK: Compact (content in the wings; camera core stays empty)
@@ -172,7 +187,7 @@ struct NotchRootView: View {
     // MARK: Expanded Alcove player
 
     private var player: some View {
-        HStack(alignment: .top, spacing: vm.filesWide ? 0 : 14) {
+        HStack(alignment: .top, spacing: vm.filesWide ? 0 : (vm.filesTabActive ? 6 : 14)) {
             // Ẩn sidebar (rail + divider) khi Files mở rộng — dồn toàn bộ chiều ngang cho tab.
             if !vm.filesWide {
                 ThemeCarousel(tabs: RailTab.allCases, selection: $railTab, reduceMotion: reduceMotion)
@@ -180,6 +195,7 @@ struct NotchRootView: View {
                         vm.panelWantsTall = (newTab == .calendar)
                         vm.filesTabActive = (newTab == .files)
                         vm.calTabActive = (newTab == .calendar)
+                        if newTab != .files { vm.filesSelCount = 0 }   // rời tab Files → xoá đếm
                         // Leaving music collapses the queue so the window shrinks back
                         // to the default tab height instead of staying inflated.
                         if vm.showList { withAnimation(openSpring) { vm.showList = false } }
@@ -232,7 +248,9 @@ struct NotchRootView: View {
                    expanded: Binding(get: { vm.filesExpanded },
                                      set: { vm.filesExpanded = $0 }),
                    pinned: Binding(get: { vm.pinnedOpen },
-                                   set: { vm.pinnedOpen = $0 }))
+                                   set: { vm.pinnedOpen = $0 }),
+                   selCount: Binding(get: { vm.filesSelCount },
+                                     set: { vm.filesSelCount = $0 }))
     }
 
     private var musicPanel: some View {

@@ -28,6 +28,8 @@ final class NotchViewModel: ObservableObject {
     }
     /// Panel Files đang mở? (do NotchRootView set khi railTab == .files)
     @Published var filesTabActive = false
+    /// Số favorite đang chọn ở tab Files nhỏ — hiển thị ở wing trái (FilesPanel cập nhật).
+    @Published var filesSelCount = 0
     /// Người dùng bấm nút ghim (📌) để GIỮ notch mở dù bấm ra ngoài — cho kéo-thả
     /// ở dạng nhỏ. Ghi nhớ qua UserDefaults.
     @Published var pinnedOpen: Bool = UserDefaults.standard.bool(forKey: "pinnedOpen") {
@@ -237,7 +239,7 @@ final class NotchViewModel: ObservableObject {
 
     // MARK: Actions
     func toggleExpanded() { expanded.toggle(); if expanded { clearHUD() } }
-    func collapse() { expanded = false; showList = false }
+    func collapse() { expanded = false; showList = false; filesSelCount = 0 }
     /// Pull the latest media state now (e.g. right as the panel opens).
     func refreshMedia() { media.refresh() }
 

@@ -7,6 +7,8 @@ struct FilesPanel: View {
     @ObservedObject var store: FileShortcutStore
     @Binding var expanded: Bool
     @Binding var pinned: Bool
+    /// Số favorite đang chọn — đẩy lên VM để hiển thị ở wing trái.
+    @Binding var selCount: Int
 
     /// Đường dẫn id từ root xuống catalogue đang mở (rỗng = Home). Nằm trong
     /// store để giữ nguyên khi panel bị dựng lại (đóng/mở notch, đổi tab).
@@ -23,6 +25,15 @@ struct FilesPanel: View {
     @State private var history: [[UUID]] = []
     /// Đang kéo file/folder tới panel (để tô sáng vùng thả).
     @State private var dropTargeted = false
+    /// Multi-select trong cây (id → thông tin mục). Cmd/Shift-click.
+    @State private var selection: [UUID: Selected] = [:]
+    @State private var lastTreeTap: UUID?
+    /// Multi-select trong lưới favorites.
+    @State private var favSelection: Set<UUID> = []
+    @State private var lastFavTap: UUID?
+    /// Tự phát hiện double-click (không dùng count:2 để tránh trễ single-click).
+    @State private var lastClickID: UUID?
+    @State private var lastClickAt: Date = .distantPast
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var navSpring: Animation {
@@ -48,6 +59,192 @@ struct FilesPanel: View {
         navigate(to: Array(path.dropLast()))
     }
 
+    // MARK: - Multi-select (cây thư mục)
+
+    /// Thứ tự hiển thị phẳng của cây tại `current` (theo expandedIDs) — cho Shift-range.
+    private func flatVisibleIDs() -> [UUID] {
+        func walk(_ cats: [Catalogue], _ files: [FileShortcut]) -> [UUID] {
+            var out: [UUID] = []
+            for c in cats {
+                out.append(c.id)
+                if expandedIDs.contains(c.id) { out += walk(c.children, c.files) }
+            }
+            out += files.map { $0.id }
+            return out
+        }
+        return walk(current.children, current.files)
+    }
+
+    /// Bảng tra id → Selected cho mọi mục đang hiển thị (để Shift-range dựng entry).
+    private func visibleSelectables() -> [UUID: Selected] {
+        var map: [UUID: Selected] = [:]
+        func walk(_ cats: [Catalogue], _ files: [FileShortcut], parent: [UUID]) {
+            for c in cats {
+                map[c.id] = Selected(id: c.id, isCatalogue: true, parentPath: parent, name: c.name, file: nil)
+                if expandedIDs.contains(c.id) { walk(c.children, c.files, parent: parent + [c.id]) }
+            }
+            for f in files {
+                map[f.id] = Selected(id: f.id, isCatalogue: false, parentPath: parent, name: f.name, file: f)
+            }
+        }
+        walk(current.children, current.files, parent: path)
+        return map
+    }
+
+    private func toggleTreeSelect(_ item: Selected) {
+        if selection[item.id] != nil { selection[item.id] = nil } else { selection[item.id] = item }
+        lastTreeTap = item.id
+    }
+
+    /// 1 click: chọn duy nhất mục này (thay cả lựa chọn hiện tại).
+    private func selectOnly(_ item: Selected) {
+        selection = [item.id: item]
+        lastTreeTap = item.id
+    }
+
+    /// Click 1 phát: chọn NGAY (không trễ). Nếu là click thứ 2 nhanh (<0.3s) trên
+    /// cùng mục → mở. Tự phát hiện double-click, tránh độ trễ của count:2.
+    private func handleTreeClick(_ item: Selected, open: () -> Void) {
+        let now = Date()
+        if lastClickID == item.id, now.timeIntervalSince(lastClickAt) < 0.3 {
+            clearSelection(); open(); lastClickID = nil
+        } else {
+            selectOnly(item); lastClickID = item.id; lastClickAt = now
+        }
+    }
+    private func handleFavClick(_ id: UUID, open: () -> Void) {
+        let now = Date()
+        if lastClickID == id, now.timeIntervalSince(lastClickAt) < 0.3 {
+            clearFavSelection(); open(); lastClickID = nil
+        } else {
+            favSelection = [id]; lastFavTap = id; lastClickID = id; lastClickAt = now
+        }
+    }
+
+    private func rangeTreeSelect(_ id: UUID) {
+        let order = flatVisibleIDs()
+        let table = visibleSelectables()
+        guard let end = order.firstIndex(of: id) else { return }
+        let startId = lastTreeTap ?? id
+        let start = order.firstIndex(of: startId) ?? end
+        for i in stride(from: min(start, end), through: max(start, end), by: 1) {
+            if let sel = table[order[i]] { selection[sel.id] = sel }
+        }
+        lastTreeTap = id
+    }
+
+    private func clearSelection() { selection.removeAll(); lastTreeTap = nil }
+
+    // MARK: Hành động hàng loạt (cây)
+
+    private func deleteSelected() {
+        // Xoá file trước, catalogue sau (tránh path đổi giữa chừng cho file).
+        for s in selection.values where !s.isCatalogue { store.deleteFile(id: s.id, atParentPath: s.parentPath) }
+        for s in selection.values where s.isCatalogue { store.deleteCatalogue(id: s.id, atParentPath: s.parentPath) }
+        clearSelection()
+    }
+
+    private func favoriteSelected() {
+        for s in selection.values {
+            if s.isCatalogue {
+                store.addFavoriteCatalogue(path: s.parentPath + [s.id], name: s.name)
+            } else if let f = s.file {
+                store.addFavoriteFile(f)
+            }
+        }
+        clearSelection()
+    }
+
+    private func openSelected() {
+        for s in selection.values { if let f = s.file { store.open(f) } }
+        clearSelection()
+    }
+
+    private func moveSelected(to dest: [UUID]) {
+        // File trước rồi catalogue (giữ path nguồn ổn định).
+        for s in selection.values where !s.isCatalogue { store.moveFile(id: s.id, from: s.parentPath, to: dest) }
+        for s in selection.values where s.isCatalogue { store.moveCatalogue(id: s.id, from: s.parentPath, to: dest) }
+        store.save()
+        clearSelection()
+    }
+
+    // MARK: Thanh hành động cho lựa chọn (cây)
+
+    private var selectionBar: some View {
+        HStack(spacing: 6) {
+            Text("\(selection.count) đã chọn")
+                .font(.system(size: 11, weight: .semibold)).foregroundStyle(.white)
+            Spacer(minLength: 4)
+            if selection.values.contains(where: { !$0.isCatalogue }) {
+                selActionButton("arrow.up.forward.app", tint: fileTint) { openSelected() }
+            }
+            selActionButton("star", tint: catTint) { favoriteSelected() }
+            Menu {
+                Button { moveSelected(to: []) } label: { Label("Home (gốc)", systemImage: "house") }
+                if !store.root.children.isEmpty {
+                    Divider()
+                    moveTargetMenu(store.root.children, parentPath: [])
+                }
+            } label: {
+                Image(systemName: "folder").font(.system(size: 12)).foregroundStyle(.white.opacity(0.9))
+                    .frame(width: 26, height: 24)
+                    .background(Color.white.opacity(0.10), in: RoundedRectangle(cornerRadius: 6))
+            }
+            .menuStyle(.borderlessButton).menuIndicator(.hidden).fixedSize()
+            selActionButton("trash", tint: Color(red: 1, green: 0.42, blue: 0.42)) { deleteSelected() }
+            selActionButton("xmark", tint: .white.opacity(0.7)) { clearSelection() }
+        }
+        .padding(.vertical, 5).padding(.horizontal, 8)
+        .background(.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 8))
+    }
+
+    private func selActionButton(_ symbol: String, tint: Color, _ action: @escaping () -> Void) -> some View {
+        SelActionButton(symbol: symbol, tint: tint, action: action)
+    }
+
+    private func moveTargetMenu(_ cats: [Catalogue], parentPath: [UUID]) -> AnyView {
+        AnyView(
+            ForEach(cats) { cat in
+                let full = parentPath + [cat.id]
+                if cat.children.isEmpty {
+                    Button(cat.name) { moveSelected(to: full) }
+                } else {
+                    Menu {
+                        Button { moveSelected(to: full) } label: { Label("Vào \(cat.name)", systemImage: "arrow.down.right.circle") }
+                        Divider()
+                        moveTargetMenu(cat.children, parentPath: full)
+                    } label: { Label(cat.name, systemImage: "folder") }
+                }
+            }
+        )
+    }
+
+    // MARK: Multi-select (lưới favorites)
+
+    private func toggleFavSelect(_ id: UUID) {
+        if favSelection.contains(id) { favSelection.remove(id) } else { favSelection.insert(id) }
+        lastFavTap = id
+    }
+    private func rangeFavSelect(_ id: UUID) {
+        let order = store.favorites.map { $0.id }
+        guard let end = order.firstIndex(of: id) else { return }
+        let start = order.firstIndex(of: lastFavTap ?? id) ?? end
+        for i in stride(from: min(start, end), through: max(start, end), by: 1) { favSelection.insert(order[i]) }
+        lastFavTap = id
+    }
+    private func clearFavSelection() { favSelection.removeAll(); lastFavTap = nil }
+    private func deleteFavSelected() {
+        for id in favSelection { store.removeFavorite(id: id) }
+        clearFavSelection()
+    }
+    private func openFavSelected() {
+        for id in favSelection {
+            if let f = store.favorites.first(where: { $0.id == id }), !f.isCatalogue { store.openFavoriteFile(f) }
+        }
+        clearFavSelection()
+    }
+
+
     private var addMenuSpring: Animation {
         reduceMotion ? .easeInOut(duration: 0.16) : .spring(response: 0.32, dampingFraction: 0.72)
     }
@@ -64,12 +261,14 @@ struct FilesPanel: View {
                 // WIDE: toolbar ở hàng wing + cây thư mục đầy đủ. Drop → thêm vào thư mục đang mở.
                 VStack(alignment: .leading, spacing: 8) {
                     topBar.frame(height: 34)
+                    if !selection.isEmpty { selectionBar.transition(.move(edge: .top).combined(with: .opacity)) }
                     dropZone(list, toFavorites: false)
                 }
+                .animation(.spring(response: 0.32, dampingFraction: 0.8), value: selection.isEmpty)
             } else {
                 // NHỎ: nút ghim + expand ở hàng wing bên phải + lưới Truy cập nhanh.
                 // Drop → ghim thẳng vào Truy cập nhanh.
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 6) {
                     HStack(spacing: 7) {
                         Spacer()
                         PinButton(pinned: $pinned)
@@ -81,9 +280,14 @@ struct FilesPanel: View {
                 }
             }
         }
-        .padding(.horizontal, 12)
-        .padding(.bottom, 12)
+        .padding(.leading, expanded ? 12 : 4)   // tab nhỏ: sát divider, tránh cắt tile
+        .padding(.trailing, 12)
+        .padding(.bottom, expanded ? 12 : 4)   // tab nhỏ: bớt chân để thêm chỗ cho favorites
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .contentShape(Rectangle())
+        .onTapGesture { clearSelection(); clearFavSelection() }   // bấm khoảng trống → bỏ chọn
+        .onChange(of: favSelection.count) { _, n in selCount = n }
+        .onDisappear { selCount = 0 }   // rời panel → xoá đếm ở wing
     }
 
     /// Bọc vùng nội dung (list/favorites) làm vùng thả — KHÔNG gồm toolbar.
@@ -153,7 +357,7 @@ struct FilesPanel: View {
                           alignment: .leading, spacing: 8) {
                     ForEach(store.favorites) { fav in favoriteTile(fav) }
                 }
-                .padding(.top, 2)
+                .padding(4)   // chừa chỗ cho hiệu ứng hover (phóng to) không bị ScrollView cắt
             }
             .scrollIndicators(.never)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -169,21 +373,36 @@ struct FilesPanel: View {
 
     private func favoriteTile(_ fav: Favorite) -> some View {
         let (symbol, tint) = favoriteIcon(fav)
-        return Button { openFavorite(fav) } label: {
-            VStack(spacing: 4) {
-                Image(systemName: symbol)
-                    .font(.system(size: 12)).foregroundStyle(tint)          // nhỏ hơn ~15%
-                    .frame(width: 29, height: 26)
-                    .background(tint.opacity(0.16), in: RoundedRectangle(cornerRadius: 7))
-                    .overlay(RoundedRectangle(cornerRadius: 7).strokeBorder(tint.opacity(0.22), lineWidth: 0.5))
-                Text(fav.name).font(.system(size: 8.5, weight: .medium)).foregroundStyle(.white.opacity(0.9))
-                    .lineLimit(1).truncationMode(.middle)
-                    .frame(width: 46)
-            }
-            .frame(width: 48)
+        let selected = favSelection.contains(fav.id)
+        return VStack(spacing: 4) {
+            Image(systemName: symbol)
+                .font(.system(size: 12)).foregroundStyle(tint)          // nhỏ hơn ~15%
+                .frame(width: 29, height: 26)
+                .background(tint.opacity(0.16), in: RoundedRectangle(cornerRadius: 7))
+                .overlay(RoundedRectangle(cornerRadius: 7).strokeBorder(tint.opacity(0.22), lineWidth: 0.5))
+            Text(fav.name).font(.system(size: 8.5, weight: .medium)).foregroundStyle(.white.opacity(0.9))
+                .lineLimit(1).truncationMode(.middle)
+                .frame(width: 46)
         }
-        .buttonStyle(PressableButtonStyle())
+        .frame(width: 48)
+        .padding(4)
+        .background(RoundedRectangle(cornerRadius: 9).fill(catTint.opacity(selected ? 0.28 : 0)))
+        .overlay(RoundedRectangle(cornerRadius: 9)
+            .strokeBorder(catTint.opacity(selected ? 0.6 : 0), lineWidth: 1))
+        .modifier(TileHoverStyle())
+        .contentShape(RoundedRectangle(cornerRadius: 9))
+        .highPriorityGesture(TapGesture().modifiers(.command).onEnded { toggleFavSelect(fav.id) })
+        .highPriorityGesture(TapGesture().modifiers(.shift).onEnded { rangeFavSelect(fav.id) })
+        .onTapGesture {   // 1 click chọn ngay · double-click mở
+            handleFavClick(fav.id) { openFavorite(fav) }
+        }
         .contextMenu {
+            if !favSelection.isEmpty {
+                Button { openFavSelected() } label: { Label("Mở tất cả (\(favSelection.count))", systemImage: "arrow.up.forward.app") }
+                Button("Bỏ ghim đã chọn (\(favSelection.count))", role: .destructive) { deleteFavSelected() }
+                Button("Bỏ chọn") { clearFavSelection() }
+                Divider()
+            }
             Button("Bỏ ghim", role: .destructive) { store.removeFavorite(id: fav.id) }
         }
     }
@@ -260,14 +479,32 @@ struct FilesPanel: View {
         .padding(.vertical, 7).padding(.horizontal, 8)
         .padding(.leading, CGFloat(depth) * 16)
         .modifier(RowHoverStyle())
+        .background(selectionBg(cat.id))
         .contentShape(Rectangle())
-        .onTapGesture { navigate(to: parentPath + [cat.id]) }   // drill-down: đi hẳn vào folder
+        // Cmd-click: chọn/bỏ 1 mục · Shift-click: chọn dải · click thường: drill-down.
+        .highPriorityGesture(TapGesture().modifiers(.command).onEnded {
+            toggleTreeSelect(Selected(id: cat.id, isCatalogue: true, parentPath: parentPath, name: cat.name, file: nil))
+        })
+        .highPriorityGesture(TapGesture().modifiers(.shift).onEnded { rangeTreeSelect(cat.id) })
+        .onTapGesture {   // 1 click chọn ngay · double-click mở
+            handleTreeClick(Selected(id: cat.id, isCatalogue: true, parentPath: parentPath, name: cat.name, file: nil)) {
+                navigate(to: parentPath + [cat.id])
+            }
+        }
         .contextMenu {
             Button { store.addFavoriteCatalogue(path: parentPath + [cat.id], name: cat.name) } label: {
                 Label("Ghim vào Truy cập nhanh", systemImage: "star")
             }
             Button("Xoá", role: .destructive) { store.deleteCatalogue(id: cat.id, atParentPath: parentPath) }
         }
+    }
+
+    /// Nền tô sáng khi mục được chọn (multi-select).
+    @ViewBuilder private func selectionBg(_ id: UUID) -> some View {
+        RoundedRectangle(cornerRadius: 7)
+            .fill(catTint.opacity(selection[id] != nil ? 0.28 : 0))
+            .overlay(RoundedRectangle(cornerRadius: 7)
+                .strokeBorder(catTint.opacity(selection[id] != nil ? 0.6 : 0), lineWidth: 1))
     }
 
     private func toggleExpand(_ id: UUID) {
@@ -291,8 +528,17 @@ struct FilesPanel: View {
         }
         .padding(.vertical, 7).padding(.horizontal, 8)
         .modifier(RowHoverStyle())
+        .background(selectionBg(file.id))
         .contentShape(Rectangle())
-        .onTapGesture { store.open(file) }
+        .highPriorityGesture(TapGesture().modifiers(.command).onEnded {
+            toggleTreeSelect(Selected(id: file.id, isCatalogue: false, parentPath: path, name: file.name, file: file))
+        })
+        .highPriorityGesture(TapGesture().modifiers(.shift).onEnded { rangeTreeSelect(file.id) })
+        .onTapGesture {   // 1 click chọn ngay · double-click mở
+            handleTreeClick(Selected(id: file.id, isCatalogue: false, parentPath: path, name: file.name, file: file)) {
+                store.open(file)
+            }
+        }
         .contextMenu {
             Button { store.addFavoriteFile(file) } label: {
                 Label("Ghim vào Truy cập nhanh", systemImage: "star")
@@ -514,6 +760,34 @@ private struct IconButton: View {
     }
 }
 
+/// Nút trong thanh hành động multi-select — có hover riêng: nền tint đậm hơn + phóng nhẹ.
+private struct SelActionButton: View {
+    let symbol: String
+    let tint: Color
+    let action: () -> Void
+    @State private var hovering = false
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: symbol).font(.system(size: 12, weight: .semibold)).foregroundStyle(tint)
+                .frame(width: 26, height: 24)
+                .background(tint.opacity(hovering ? 0.32 : 0.16), in: RoundedRectangle(cornerRadius: 6))
+                .scaleEffect(hovering ? 1.08 : 1)
+        }
+        .buttonStyle(PressableButtonStyle())
+        .onHover { hovering = $0 }
+        .animation(.easeOut(duration: 0.12), value: hovering)
+    }
+}
+
+/// Một mục đã chọn trong cây (đủ thông tin để xoá/ghim/mở/di chuyển).
+private struct Selected {
+    let id: UUID
+    let isCatalogue: Bool
+    let parentPath: [UUID]
+    let name: String
+    let file: FileShortcut?
+}
+
 /// Mũi tên xổ/thu catalogue — có hover riêng: nền sáng + mũi tên rõ hơn khi rê.
 private struct DiscloseButton: View {
     let isOpen: Bool
@@ -535,6 +809,18 @@ private struct DiscloseButton: View {
         .disabled(!enabled)
         .onHover { hovering = $0 }
         .animation(.easeOut(duration: 0.12), value: hovering)
+    }
+}
+
+/// Hover cho ô favorite (tab nhỏ): phóng nhẹ + sáng lên.
+private struct TileHoverStyle: ViewModifier {
+    @State private var hovering = false
+    func body(content: Content) -> some View {
+        content
+            .scaleEffect(hovering ? 1.06 : 1)
+            .brightness(hovering ? 0.06 : 0)
+            .onHover { hovering = $0 }
+            .animation(.easeOut(duration: 0.12), value: hovering)
     }
 }
 
