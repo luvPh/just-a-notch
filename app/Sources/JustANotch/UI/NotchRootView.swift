@@ -4,8 +4,22 @@ private let alcoveRed = Color(red: 0.96, green: 0.36, blue: 0.33)
 
 struct NotchRootView: View {
     @ObservedObject var vm: NotchViewModel
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @ObservedObject private var settings = AppSettings.shared
+    @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @State private var railTab: RailTab = .music
+
+    // System setting OR the user's manual override in Settings → Motion.
+    private var reduceMotion: Bool { systemReduceMotion || settings.forceReduceMotion }
+
+    // Music + Settings are always present; the middle tabs follow user toggles.
+    private var visibleTabs: [RailTab] {
+        var t: [RailTab] = [.music]
+        if settings.showFiles { t.append(.files) }
+        if settings.showNotifications { t.append(.notifications) }
+        if settings.showCalendar { t.append(.calendar) }
+        t.append(.settings)
+        return t
+    }
     @State private var calMode: CalMode = .solar
     @State private var calAnchor: Date = Date()
     // While the user is dragging the scrubber, show their position instead of the
@@ -15,6 +29,8 @@ struct NotchRootView: View {
     @State private var scrubHold: DispatchWorkItem?
     // Notifications: which app-piles are expanded (by bundleId).
     @State private var expandedGroups: Set<String> = []
+    // Local keyDown monitor active while the panel is expanded (installed on appear).
+    @State private var keyMonitor: Any?
 
     private var openSpring: Animation {
         reduceMotion ? .easeInOut(duration: 0.22) : .spring(response: 0.5, dampingFraction: 0.8)
@@ -52,6 +68,90 @@ struct NotchRootView: View {
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .onAppear { installKeyMonitor() }
+        .onDisappear {
+            if let m = keyMonitor { NSEvent.removeMonitor(m); keyMonitor = nil }
+        }
+        // Global hotkey ⌃⌥1/2/3 → nhảy tới tab thứ N trong danh sách đang hiển thị.
+        .onChange(of: vm.pendingTabIndex) { _, idx in
+            guard let idx else { return }
+            if idx >= 1, idx <= visibleTabs.count { selectTab(visibleTabs[idx - 1]) }
+            vm.pendingTabIndex = nil
+        }
+    }
+
+    // MARK: Keyboard shortcuts (active only while the panel is expanded)
+    //
+    // The controller makes the (non-activating) panel key on expand, so keyDown
+    // events route here. We consume the ones we handle (return nil) and pass the
+    // rest through — including everything while a text field is being edited.
+
+    private func installKeyMonitor() {
+        guard keyMonitor == nil else { return }
+        keyMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown]) { event in
+            handleKey(event) ? nil : event
+        }
+    }
+
+    /// Returns true if the event was handled (and should be swallowed).
+    private func handleKey(_ event: NSEvent) -> Bool {
+        guard vm.expanded else { return false }
+        // Never steal keys while editing a text field (rename / new catalogue).
+        if NSApp.keyWindow?.firstResponder is NSText { return false }
+        // Leave app-level combos (⌘Q, ⌘W, …) alone — only bare keys are shortcuts.
+        let mods = event.modifierFlags.intersection([.command, .option, .control])
+        guard mods.isEmpty else { return false }
+
+        switch event.keyCode {
+        case 53:                                    // Esc → collapse
+            withAnimation(openSpring) { vm.collapse() }
+            return true
+        case 49:                                    // Space → play/pause
+            vm.playPause()
+            return true
+        case 123:                                   // ← : prev track / prev month
+            return handleLeftRight(forward: false)
+        case 124:                                   // → : next track / next month
+            return handleLeftRight(forward: true)
+        default:
+            break
+        }
+
+        // Digits 1…N → jump to the Nth visible tab.
+        if let ch = event.charactersIgnoringModifiers, let n = Int(ch), n >= 1, n <= visibleTabs.count {
+            selectTab(visibleTabs[n - 1])
+            return true
+        }
+        return false
+    }
+
+    private func handleLeftRight(forward: Bool) -> Bool {
+        switch railTab {
+        case .music:
+            forward ? vm.next() : vm.previous()
+            return true
+        case .calendar:
+            let delta = forward ? 1 : -1
+            if let d = Calendar.current.date(byAdding: .month, value: delta, to: calAnchor) {
+                withAnimation(openSpring) { calAnchor = d }
+            }
+            return true
+        default:
+            return false
+        }
+    }
+
+    /// Switch tabs from the keyboard, mirroring the ThemeCarousel's onChange side
+    /// effects so panel height / active-tab flags stay in sync.
+    private func selectTab(_ tab: RailTab) {
+        guard tab != railTab else { return }
+        withAnimation(openSpring) { railTab = tab }
+        vm.panelWantsTall = (tab == .calendar || tab == .settings)
+        vm.filesTabActive = (tab == .files)
+        vm.calTabActive = (tab == .calendar)
+        vm.notifTabActive = (tab == .notifications)
+        if tab != .files { vm.filesSelCount = 0 }
+        if vm.showList { withAnimation(openSpring) { vm.showList = false } }
     }
 
     private var surface: some View {
@@ -194,9 +294,9 @@ struct NotchRootView: View {
         HStack(alignment: .top, spacing: 0) {
             // Ẩn sidebar (rail + divider) khi Files mở rộng — dồn toàn bộ chiều ngang cho tab.
             if !vm.filesWide {
-                ThemeCarousel(tabs: RailTab.allCases, selection: $railTab, reduceMotion: reduceMotion)
+                ThemeCarousel(tabs: visibleTabs, selection: $railTab, reduceMotion: reduceMotion)
                     .onChange(of: railTab) { _, newTab in
-                        vm.panelWantsTall = (newTab == .calendar)
+                        vm.panelWantsTall = (newTab == .calendar || newTab == .settings)
                         vm.filesTabActive = (newTab == .files)
                         vm.calTabActive = (newTab == .calendar)
                         vm.notifTabActive = (newTab == .notifications)
@@ -239,6 +339,7 @@ struct NotchRootView: View {
         case .notifications: notificationsPanel
         case .calendar:      calendarPanel
         case .files:         filesPanel
+        case .settings:      SettingsPanel(settings: settings, vm: vm)
         default:             placeholderPanel(railTab)
         }
     }
@@ -713,6 +814,14 @@ struct ThemeCarousel: View {
         .frame(width: railWidth)
         .onAppear {
             offset = CGFloat(tabs.firstIndex(of: selection) ?? 0) * slot
+        }
+        // Selection changed from outside (keyboard 1/2/3) → snap the rail to it.
+        .onChange(of: selection) { _, newSel in
+            guard let i = tabs.firstIndex(of: newSel) else { return }
+            let target = CGFloat(i) * slot
+            if abs(offset - target) > 0.5 {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.85)) { offset = target }
+            }
         }
     }
 

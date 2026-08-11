@@ -240,9 +240,17 @@ final class NotchViewModel: ObservableObject {
     }
     var topRadius: CGFloat { expanded ? 12 : 9 }
 
+    /// Đặt bởi global hotkey (⌃⌥1/2/3) — NotchRootView phân giải theo danh sách tab
+    /// đang hiển thị rồi tự xoá về nil. 1-based.
+    @Published var pendingTabIndex: Int?
+
     // MARK: Actions
     func toggleExpanded() { expanded.toggle(); if expanded { clearHUD() } }
     func collapse() { expanded = false; showList = false; filesSelCount = 0 }
+    /// Mở/đóng notch từ global hotkey — thu gọn đầy đủ khi đang mở.
+    func toggleNotch() { if expanded { collapse() } else { expanded = true; clearHUD() } }
+    /// Mở notch (nếu đang thu) và yêu cầu nhảy tới tab thứ `n` (1-based).
+    func requestTab(_ n: Int) { if !expanded { expanded = true; clearHUD() }; pendingTabIndex = n }
     /// Pull the latest media state now (e.g. right as the panel opens).
     func refreshMedia() { media.refresh() }
 

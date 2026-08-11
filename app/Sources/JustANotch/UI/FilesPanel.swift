@@ -31,6 +31,8 @@ struct FilesPanel: View {
     @State private var history: [[UUID]] = []
     /// Đang kéo file/folder tới panel (để tô sáng vùng thả).
     @State private var dropTargeted = false
+    /// Catalogue con đang được nhắm để thả file vào (tô sáng tile tương ứng).
+    @State private var dropOnCatID: UUID? = nil
     /// Multi-select trong cây (id → thông tin mục). Cmd/Shift-click.
     @State private var selection: [UUID: Selected] = [:]
     @State private var lastTreeTap: UUID?
@@ -369,13 +371,22 @@ struct FilesPanel: View {
 
     /// Nhận file/folder thả vào. `toFavorites`: true → ghim; false → thêm vào thư mục hiện tại.
     private func handleDrop(_ providers: [NSItemProvider], toFavorites: Bool) -> Bool {
+        collect(providers) { url in
+            if toFavorites { store.addFavoriteURL(url) } else { store.addFile(url: url, atPath: path) }
+        }
+    }
+
+    /// Thả file/folder thẳng vào một catalogue con cụ thể (theo drop target trên tile).
+    private func handleDrop(_ providers: [NSItemProvider], intoCatalogueAt destPath: [UUID]) -> Bool {
+        collect(providers) { url in store.addFile(url: url, atPath: destPath) }
+    }
+
+    /// Rút URL từ NSItemProvider (2 đường: loadObject + loadItem fallback) rồi gọi `sink`.
+    private func collect(_ providers: [NSItemProvider], _ sink: @escaping (URL) -> Void) -> Bool {
         var handled = false
-        let dest = path
         let add: (URL?) -> Void = { url in
             guard let url, url.isFileURL else { return }
-            DispatchQueue.main.async {
-                if toFavorites { store.addFavoriteURL(url) } else { store.addFile(url: url, atPath: dest) }
-            }
+            DispatchQueue.main.async { sink(url) }
         }
         for provider in providers {
             if provider.canLoadObject(ofClass: URL.self) {
@@ -584,7 +595,24 @@ struct FilesPanel: View {
         }
         .padding(.vertical, 7).padding(.leading, 9).padding(.trailing, 3)
         .modifier(GridTileStyle(selected: selection[cat.id] != nil, selTint: catTint))
+        .overlay {
+            if dropOnCatID == cat.id {
+                RoundedRectangle(cornerRadius: 8)
+                    .strokeBorder(catTint, style: StrokeStyle(lineWidth: 1.5, dash: [4, 3]))
+                    .background(RoundedRectangle(cornerRadius: 8).fill(catTint.opacity(0.14)))
+                    .allowsHitTesting(false)
+            }
+        }
+        .animation(.easeOut(duration: 0.12), value: dropOnCatID == cat.id)
         .contentShape(Rectangle())
+        // Thả file từ ngoài vào ĐÚNG catalogue con này (không phụ thuộc thư mục đang mở).
+        .onDrop(of: [.fileURL], isTargeted: Binding(
+            get: { dropOnCatID == cat.id },
+            set: { hit in
+                if hit { dropOnCatID = cat.id }
+                else if dropOnCatID == cat.id { dropOnCatID = nil }
+            }
+        )) { handleDrop($0, intoCatalogueAt: parentPath + [cat.id]) }
         // Cmd-click: chọn/bỏ 1 mục · Shift-click: chọn dải · click thường: chọn / double: drill-down.
         .highPriorityGesture(TapGesture().modifiers(.command).onEnded { toggleTreeSelect(sel) })
         .highPriorityGesture(TapGesture().modifiers(.shift).onEnded { rangeTreeSelect(cat.id) })

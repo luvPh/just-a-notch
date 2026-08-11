@@ -1,6 +1,8 @@
 import AppKit
 import SwiftUI
 import Combine
+import Carbon.HIToolbox
+import ApplicationServices
 
 /// Hosting view that responds to the first click even when the panel isn't key,
 /// so the media controls work without activating the app first.
@@ -22,6 +24,11 @@ final class NotchWindowController {
     private var bag = Set<AnyCancellable>()
     private var monitors: [Any] = []
     private var hoverTimer: Timer?
+    private let hotKeys = HotKeyCenter()
+    // Double-tap ⌘ → toggle notch. Global keyboard monitors ⇒ cần Accessibility.
+    private var cmdTapMonitors: [Any] = []
+    private var lastCmdTapTime: TimeInterval = 0
+    private var cmdWasDown = false
 
     private var coreCenterX: CGFloat = 0
     private var screenTopY: CGFloat = 0
@@ -37,6 +44,7 @@ final class NotchWindowController {
         applyGeometry()
         layoutPanel()
         installMonitors()
+        installHotKeys()
         vm.start()
 
         // While expanded OR while a HUD banner is showing, the panel must receive
@@ -49,9 +57,32 @@ final class NotchWindowController {
                 self?.setHoverTracking(active: exp || hud != nil)
             }.store(in: &bag)
 
+        // While expanded the panel becomes key so keyboard shortcuts (Esc, 1/2/3,
+        // Space, ←/→) route to us. A .nonactivatingPanel can be key without
+        // activating the app, so the frontmost app keeps its menu bar. On collapse
+        // we resign key and keyboard returns to whatever app is in front.
+        vm.$expanded
+            .receive(on: RunLoop.main)
+            .sink { [weak self] exp in
+                guard let self else { return }
+                if exp {
+                    self.panel.allowsKey = true
+                    self.panel.makeKey()
+                } else {
+                    self.panel.allowsKey = false
+                    self.panel.resignKey()
+                }
+            }.store(in: &bag)
+
         NotificationCenter.default.addObserver(
             forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main
         ) { [weak self] _ in Task { @MainActor in self?.applyGeometry(); self?.layoutPanel() } }
+
+        // Bật/tắt bộ phát hiện double-tap ⌘ theo Settings (emit ngay giá trị hiện tại).
+        AppSettings.shared.$doubleTapCommand
+            .receive(on: RunLoop.main)
+            .sink { [weak self] on in self?.setDoubleTapCommand(active: on) }
+            .store(in: &bag)
     }
 
     // MARK: Geometry
@@ -116,6 +147,51 @@ final class NotchWindowController {
             if !self.islandScreenRect.contains(NSEvent.mouseLocation) { self.vm.collapse() }
             return e
         })
+    }
+
+    /// Global hotkeys (đồng nhất dưới ⌥): mở/đóng notch, điều khiển nhạc, nhảy tab.
+    private func installHotKeys() {
+        let m = HotKeyCenter.opt
+        hotKeys.register(keyCode: kVK_ANSI_N, modifiers: m) { [weak self] in self?.vm.toggleNotch() }
+        hotKeys.register(keyCode: kVK_Space, modifiers: m) { [weak self] in self?.vm.playPause() }
+        hotKeys.register(keyCode: kVK_RightArrow, modifiers: m) { [weak self] in self?.vm.next() }
+        hotKeys.register(keyCode: kVK_LeftArrow, modifiers: m) { [weak self] in self?.vm.previous() }
+        hotKeys.register(keyCode: kVK_ANSI_1, modifiers: m) { [weak self] in self?.vm.requestTab(1) }
+        hotKeys.register(keyCode: kVK_ANSI_2, modifiers: m) { [weak self] in self?.vm.requestTab(2) }
+        hotKeys.register(keyCode: kVK_ANSI_3, modifiers: m) { [weak self] in self?.vm.requestTab(3) }
+    }
+
+    /// Cài/gỡ monitor double-tap ⌘. Khi bật lần đầu sẽ xin quyền Accessibility
+    /// (global keyboard monitor không nhận sự kiện nếu chưa được cấp).
+    private func setDoubleTapCommand(active: Bool) {
+        for m in cmdTapMonitors { NSEvent.removeMonitor(m) }
+        cmdTapMonitors.removeAll()
+        lastCmdTapTime = 0; cmdWasDown = false
+        guard active else { return }
+
+        // Nhắc cấp quyền Accessibility nếu chưa có (chỉ hiện dialog khi chưa trust).
+        let opts = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary
+        _ = AXIsProcessTrustedWithOptions(opts)
+
+        if let g = NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged],
+            handler: { [weak self] e in self?.handleFlags(e) }) { cmdTapMonitors.append(g) }
+        let l = NSEvent.addLocalMonitorForEvents(matching: [.flagsChanged]) { [weak self] e in
+            self?.handleFlags(e); return e
+        }
+        if let l { cmdTapMonitors.append(l) }
+    }
+
+    /// Nhận diện hai lần nhấn ⌘ (một mình) liên tiếp < 0.35s → toggle notch.
+    private func handleFlags(_ e: NSEvent) {
+        let flags = e.modifierFlags.intersection([.command, .option, .control, .shift])
+        let down = flags.contains(.command)
+        let onlyCmd = flags == [.command]
+        if down, onlyCmd, !cmdWasDown {
+            let t = e.timestamp
+            if t - lastCmdTapTime < 0.35 { vm.toggleNotch(); lastCmdTapTime = 0 }
+            else { lastCmdTapTime = t }
+        }
+        cmdWasDown = down
     }
 
     private func updateHover() {
