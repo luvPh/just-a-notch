@@ -19,6 +19,12 @@ struct FilesPanel: View {
     @State private var addMenuOpen = false
     @State private var creatingCatalogue = false
     @State private var newName = ""
+    /// Nơi tạo catalogue con (nil = tạo ở cấp đang xem). Dùng cho menu "Catalogue con mới".
+    @State private var createTargetPath: [UUID]? = nil
+    /// Đổi tên file shortcut qua menu chuột phải.
+    @State private var renamingFile = false
+    @State private var renameSel: Selected? = nil
+    @State private var renameText = ""
     /// Các catalogue đang xổ inline (disclosure) trong cây.
     @State private var expandedIDs: Set<UUID> = []
     /// Lịch sử điều hướng cho nút "step back" (quay lại nơi vừa xem).
@@ -34,6 +40,8 @@ struct FilesPanel: View {
     /// Tự phát hiện double-click (không dùng count:2 để tránh trễ single-click).
     @State private var lastClickID: UUID?
     @State private var lastClickAt: Date = .distantPast
+    /// Hover cho nút menu "di chuyển" (Menu không tự có hover như SelActionButton).
+    @State private var moveHovering = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var navSpring: Animation {
@@ -69,7 +77,9 @@ struct FilesPanel: View {
                 out.append(c.id)
                 if expandedIDs.contains(c.id) { out += walk(c.children, c.files) }
             }
-            out += files.map { $0.id }
+            // Theo thứ tự hiển thị mới: folder trước, file sau.
+            out += files.filter { isFolderShortcut($0) }.map { $0.id }
+            out += files.filter { !isFolderShortcut($0) }.map { $0.id }
             return out
         }
         return walk(current.children, current.files)
@@ -186,11 +196,17 @@ struct FilesPanel: View {
                     moveTargetMenu(store.root.children, parentPath: [])
                 }
             } label: {
-                Image(systemName: "folder").font(.system(size: 12)).foregroundStyle(.white.opacity(0.9))
+                Image(systemName: "folder").font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(folderTint)
                     .frame(width: 26, height: 24)
-                    .background(Color.white.opacity(0.10), in: RoundedRectangle(cornerRadius: 6))
+                    .contentShape(Rectangle())
             }
             .menuStyle(.borderlessButton).menuIndicator(.hidden).fixedSize()
+            .tint(folderTint)
+            .frame(width: 26, height: 24)
+            .background(folderTint.opacity(moveHovering ? 0.32 : 0.16), in: RoundedRectangle(cornerRadius: 6))
+            .onHover { moveHovering = $0 }
+            .animation(.easeOut(duration: 0.12), value: moveHovering)
             selActionButton("trash", tint: Color(red: 1, green: 0.42, blue: 0.42)) { deleteSelected() }
             selActionButton("xmark", tint: .white.opacity(0.7)) { clearSelection() }
         }
@@ -213,6 +229,43 @@ struct FilesPanel: View {
                         Button { moveSelected(to: full) } label: { Label("Vào \(cat.name)", systemImage: "arrow.down.right.circle") }
                         Divider()
                         moveTargetMenu(cat.children, parentPath: full)
+                    } label: { Label(cat.name, systemImage: "folder") }
+                }
+            }
+        )
+    }
+
+    /// Di chuyển 1 mục (dùng cho menu chuột phải trên đúng mục đó).
+    private func moveOne(_ item: Selected, to dest: [UUID]) {
+        if item.isCatalogue { store.moveCatalogue(id: item.id, from: item.parentPath, to: dest) }
+        else { store.moveFile(id: item.id, from: item.parentPath, to: dest) }
+        store.save()
+    }
+
+    /// Submenu "Di chuyển vào…" cho menu chuột phải trên một mục cụ thể.
+    @ViewBuilder private func moveMenu(for item: Selected) -> some View {
+        Menu {
+            Button { moveOne(item, to: []) } label: { Label("Home (gốc)", systemImage: "house") }
+            if !store.root.children.isEmpty {
+                Divider()
+                moveOneTargetMenu(item, cats: store.root.children, parentPath: [])
+            }
+        } label: { Label("Di chuyển vào…", systemImage: "folder") }
+    }
+
+    private func moveOneTargetMenu(_ item: Selected, cats: [Catalogue], parentPath: [UUID]) -> AnyView {
+        AnyView(
+            ForEach(cats) { cat in
+                let full = parentPath + [cat.id]
+                if cat.id == item.id {
+                    EmptyView()   // không cho di chuyển vào chính nó
+                } else if cat.children.isEmpty {
+                    Button(cat.name) { moveOne(item, to: full) }
+                } else {
+                    Menu {
+                        Button { moveOne(item, to: full) } label: { Label("Vào \(cat.name)", systemImage: "arrow.down.right.circle") }
+                        Divider()
+                        moveOneTargetMenu(item, cats: cat.children, parentPath: full)
                     } label: { Label(cat.name, systemImage: "folder") }
                 }
             }
@@ -251,6 +304,7 @@ struct FilesPanel: View {
     private let catTint = Color(red: 0.56, green: 0.71, blue: 1.0)
     private let fileTint = Color(red: 0.60, green: 0.83, blue: 0.56)
     private let folderTint = Color(red: 0.98, green: 0.74, blue: 0.42)
+    private let catTitleColor = Color(red: 1.0, green: 0.84, blue: 0.35)   // vàng cho tên catalogue đang mở
 
     private var current: Catalogue { store.root.node(atPath: path) ?? store.root }
     private var atHome: Bool { path.isEmpty }
@@ -261,10 +315,10 @@ struct FilesPanel: View {
                 // WIDE: toolbar ở hàng wing + cây thư mục đầy đủ. Drop → thêm vào thư mục đang mở.
                 VStack(alignment: .leading, spacing: 8) {
                     topBar.frame(height: 34)
-                    if !selection.isEmpty { selectionBar.transition(.move(edge: .top).combined(with: .opacity)) }
+                    if selection.count > 1 { selectionBar.transition(.move(edge: .top).combined(with: .opacity)) }
                     dropZone(list, toFavorites: false)
                 }
-                .animation(.spring(response: 0.32, dampingFraction: 0.8), value: selection.isEmpty)
+                .animation(.spring(response: 0.32, dampingFraction: 0.8), value: selection.count > 1)
             } else {
                 // NHỎ: nút ghim + expand ở hàng wing bên phải + lưới Truy cập nhanh.
                 // Drop → ghim thẳng vào Truy cập nhanh.
@@ -425,125 +479,228 @@ struct FilesPanel: View {
             navButton("house", enabled: !atHome) { navigate(to: []) }
             navButton("arrow.up.backward", enabled: canFolderUp) { folderUp() }   // folder back: lên 1 cấp
             navButton("arrow.uturn.backward", enabled: canStepBack) { stepBack() } // step back: lịch sử
+            if !atHome {
+                // Tên catalogue đang mở — vàng + glow nhẹ cho rõ đang ở đâu.
+                HStack(spacing: 4) {
+                    Image(systemName: "folder.fill").font(.system(size: 11))
+                    Text(current.name).font(.system(size: 12.5, weight: .bold))
+                        .lineLimit(1).truncationMode(.middle)
+                }
+                .foregroundStyle(catTitleColor)
+                .shadow(color: catTitleColor.opacity(0.65), radius: 5)
+                .shadow(color: catTitleColor.opacity(0.35), radius: 10)
+                .padding(.leading, 2)
+                .transition(.opacity)
+            }
             Spacer(minLength: 4)
             addControls
             // Không cần nút ghim ở wide: wide đã tự giữ notch mở.
             ExpandButton(expanded: $expanded)
         }
+        .popover(isPresented: $renamingFile, arrowEdge: .bottom) { renameField }
+    }
+
+    /// 3 cột đều nhau cho lưới item/catalogue.
+    private var gridCols: [GridItem] { Array(repeating: GridItem(.flexible(), spacing: 7), count: 3) }
+
+    /// Một shortcut trỏ tới thư mục thật (folder) hay file?
+    private func isFolderShortcut(_ f: FileShortcut) -> Bool {
+        store.resolveURL(for: f).resolved?.hasDirectoryPath ?? false
     }
 
     private var list: some View {
         ScrollView {
-            VStack(spacing: 2) {
-                tree(current.children, files: current.files, parentPath: path, depth: 0)
-            }
+            catalogueBody(current.children, files: current.files, parentPath: path)
+                .padding(.top, 2)
         }
         .scrollIndicators(.never)
     }
 
-    /// Cây thư mục đệ quy: folder có thể xổ inline (disclosure), vẫn drill-down được.
-    /// Trả về `AnyView` để phá vòng lặp kiểu của `some View` khi tự gọi lại.
-    private func tree(_ cats: [Catalogue], files: [FileShortcut], parentPath: [UUID], depth: Int) -> AnyView {
-        AnyView(
-            VStack(spacing: 2) {
-                ForEach(cats) { cat in
-                    catalogueRow(cat, parentPath: parentPath, depth: depth)
-                    if expandedIDs.contains(cat.id) {
-                        tree(cat.children, files: cat.files, parentPath: parentPath + [cat.id], depth: depth + 1)
-                            .transition(.opacity.combined(with: .move(edge: .top)))
-                    }
+    /// Nội dung 1 catalogue: mỗi type là 1 group riêng (catalogue con · folder · file),
+    /// phân cách bằng line kẻ mảnh. Đệ quy cho nhánh xổ inline → trả `AnyView`.
+    private func catalogueBody(_ cats: [Catalogue], files: [FileShortcut], parentPath: [UUID]) -> AnyView {
+        let folders = files.filter { isFolderShortcut($0) }
+        let plainFiles = files.filter { !isFolderShortcut($0) }
+        let empty = cats.isEmpty && folders.isEmpty && plainFiles.isEmpty
+        return AnyView(
+            VStack(alignment: .leading, spacing: 0) {
+                if !cats.isEmpty {
+                    catalogueGroup(cats, parentPath: parentPath)
                 }
-                ForEach(files) { file in
-                    fileRow(file).padding(.leading, CGFloat(depth) * 16)
+                if !folders.isEmpty {
+                    if !cats.isEmpty { thinDivider }
+                    itemGrid(folders, parentPath: parentPath)
+                }
+                if !plainFiles.isEmpty {
+                    if !cats.isEmpty || !folders.isEmpty { thinDivider }
+                    itemGrid(plainFiles, parentPath: parentPath)
+                }
+                if empty {
+                    Text("— trống —").font(.system(size: 12)).foregroundStyle(.white.opacity(0.3))
+                        .padding(.vertical, 6).padding(.horizontal, 4)
                 }
             }
         )
     }
 
-    private func catalogueRow(_ cat: Catalogue, parentPath: [UUID], depth: Int) -> some View {
-        let isOpen = expandedIDs.contains(cat.id)
-        let count = cat.children.count + cat.files.count
-        let hasContents = count > 0
-        return HStack(spacing: 6) {
-            DiscloseButton(isOpen: isOpen, enabled: hasContents) { toggleExpand(cat.id) }
+    private var thinDivider: some View {
+        Rectangle().fill(.white.opacity(0.10)).frame(height: 1)
+            .padding(.vertical, 11).padding(.horizontal, 2)
+    }
 
-            Image(systemName: isOpen ? "folder.fill" : "folder.fill")
-                .font(.system(size: 13)).frame(width: 18).foregroundStyle(.white)
-            Text(cat.name).font(.system(size: 12.5, weight: .semibold))
-                .foregroundStyle(.white).lineLimit(1).truncationMode(.middle)
-            Spacer(minLength: 4)
-            if hasContents {
-                Text("\(count)").font(.system(size: 10.5)).foregroundStyle(.white.opacity(0.4))
+    /// Group catalogue con: lưới 3 cột + các nhánh xổ inline hiện ngay dưới (thụt lề).
+    private func catalogueGroup(_ cats: [Catalogue], parentPath: [UUID]) -> some View {
+        let siblings = cats.map { $0.id }
+        return VStack(alignment: .leading, spacing: 7) {
+            LazyVGrid(columns: gridCols, alignment: .leading, spacing: 7) {
+                ForEach(cats) { cat in catalogueTile(cat, parentPath: parentPath, siblings: siblings) }
+            }
+            ForEach(cats) { cat in
+                if expandedIDs.contains(cat.id) {
+                    catalogueBody(cat.children, files: cat.files, parentPath: parentPath + [cat.id])
+                        .padding(.leading, 11)
+                        .overlay(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: 1).fill(.white.opacity(0.14)).frame(width: 1.5)
+                        }
+                        .padding(.top, 1)
+                        .transition(.opacity.combined(with: .move(edge: .top)))
+                }
             }
         }
-        .padding(.vertical, 7).padding(.horizontal, 8)
-        .padding(.leading, CGFloat(depth) * 16)
-        .modifier(RowHoverStyle())
-        .background(selectionBg(cat.id))
-        .contentShape(Rectangle())
-        // Cmd-click: chọn/bỏ 1 mục · Shift-click: chọn dải · click thường: drill-down.
-        .highPriorityGesture(TapGesture().modifiers(.command).onEnded {
-            toggleTreeSelect(Selected(id: cat.id, isCatalogue: true, parentPath: parentPath, name: cat.name, file: nil))
-        })
-        .highPriorityGesture(TapGesture().modifiers(.shift).onEnded { rangeTreeSelect(cat.id) })
-        .onTapGesture {   // 1 click chọn ngay · double-click mở
-            handleTreeClick(Selected(id: cat.id, isCatalogue: true, parentPath: parentPath, name: cat.name, file: nil)) {
-                navigate(to: parentPath + [cat.id])
+    }
+
+    private func catalogueTile(_ cat: Catalogue, parentPath: [UUID], siblings: [UUID]) -> some View {
+        let isOpen = expandedIDs.contains(cat.id)
+        let hasContents = (cat.children.count + cat.files.count) > 0
+        let sel = Selected(id: cat.id, isCatalogue: true, parentPath: parentPath, name: cat.name, file: nil)
+        return HStack(spacing: 6) {
+            Image(systemName: "folder.fill").font(.system(size: 12.5)).foregroundStyle(catTint)
+            Text(cat.name).font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(.white).lineLimit(1).truncationMode(.tail)
+            Spacer(minLength: 2)
+            DiscloseButton(isOpen: isOpen, enabled: hasContents) {
+                toggleExpand(cat.id, siblings: siblings)
             }
+        }
+        .padding(.vertical, 7).padding(.leading, 9).padding(.trailing, 3)
+        .modifier(GridTileStyle(selected: selection[cat.id] != nil, selTint: catTint))
+        .contentShape(Rectangle())
+        // Cmd-click: chọn/bỏ 1 mục · Shift-click: chọn dải · click thường: chọn / double: drill-down.
+        .highPriorityGesture(TapGesture().modifiers(.command).onEnded { toggleTreeSelect(sel) })
+        .highPriorityGesture(TapGesture().modifiers(.shift).onEnded { rangeTreeSelect(cat.id) })
+        .onTapGesture {
+            handleTreeClick(sel) { navigate(to: parentPath + [cat.id]) }
         }
         .contextMenu {
             Button { store.addFavoriteCatalogue(path: parentPath + [cat.id], name: cat.name) } label: {
                 Label("Ghim vào Truy cập nhanh", systemImage: "star")
             }
+            Button { beginNewSubCatalogue(at: parentPath + [cat.id]) } label: {
+                Label("Catalogue con mới", systemImage: "folder.badge.plus")
+            }
+            moveMenu(for: sel)
             Button("Xoá", role: .destructive) { store.deleteCatalogue(id: cat.id, atParentPath: parentPath) }
         }
     }
 
-    /// Nền tô sáng khi mục được chọn (multi-select).
-    @ViewBuilder private func selectionBg(_ id: UUID) -> some View {
-        RoundedRectangle(cornerRadius: 7)
-            .fill(catTint.opacity(selection[id] != nil ? 0.28 : 0))
-            .overlay(RoundedRectangle(cornerRadius: 7)
-                .strokeBorder(catTint.opacity(selection[id] != nil ? 0.6 : 0), lineWidth: 1))
-    }
-
-    private func toggleExpand(_ id: UUID) {
-        withAnimation(addMenuSpring) {
-            if expandedIDs.contains(id) { expandedIDs.remove(id) } else { expandedIDs.insert(id) }
+    /// Lưới 3 cột cho folder/file (item shortcut).
+    private func itemGrid(_ files: [FileShortcut], parentPath: [UUID]) -> some View {
+        LazyVGrid(columns: gridCols, alignment: .leading, spacing: 7) {
+            ForEach(files) { file in fileTile(file, parentPath: parentPath) }
         }
     }
 
-    @ViewBuilder private func fileRow(_ file: FileShortcut) -> some View {
+    private func fileTile(_ file: FileShortcut, parentPath: [UUID]) -> some View {
         let resolved = store.resolveURL(for: file)
         let missing = resolved.isMissing
         let isDir = resolved.resolved?.hasDirectoryPath ?? false
-        let icon = missing ? "exclamationmark.triangle.fill" : (isDir ? "folder" : "doc")
-        HStack(spacing: 9) {
-            Image(systemName: icon)
-                .font(.system(size: 13)).frame(width: 18)
-                .foregroundStyle(missing ? .yellow.opacity(0.8) : (isDir ? folderTint : .white.opacity(0.85)))
-            Text(file.name).font(.system(size: 12.5))
+        let icon = missing ? "exclamationmark.triangle.fill" : (isDir ? "folder.fill" : "doc.fill")
+        let tint: Color = missing ? .yellow.opacity(0.8) : (isDir ? folderTint : .white.opacity(0.82))
+        let sel = Selected(id: file.id, isCatalogue: false, parentPath: parentPath, name: file.name, file: file)
+        return HStack(spacing: 7) {
+            Image(systemName: icon).font(.system(size: 12.5)).frame(width: 16).foregroundStyle(tint)
+            Text(file.name).font(.system(size: 12))
                 .foregroundStyle(.white.opacity(missing ? 0.45 : 1)).lineLimit(1).truncationMode(.middle)
-            Spacer(minLength: 4)
+            Spacer(minLength: 2)
         }
-        .padding(.vertical, 7).padding(.horizontal, 8)
-        .modifier(RowHoverStyle())
-        .background(selectionBg(file.id))
+        .padding(.vertical, 7).padding(.horizontal, 9)
+        .modifier(GridTileStyle(selected: selection[file.id] != nil, selTint: catTint))
         .contentShape(Rectangle())
-        .highPriorityGesture(TapGesture().modifiers(.command).onEnded {
-            toggleTreeSelect(Selected(id: file.id, isCatalogue: false, parentPath: path, name: file.name, file: file))
-        })
+        .highPriorityGesture(TapGesture().modifiers(.command).onEnded { toggleTreeSelect(sel) })
         .highPriorityGesture(TapGesture().modifiers(.shift).onEnded { rangeTreeSelect(file.id) })
-        .onTapGesture {   // 1 click chọn ngay · double-click mở
-            handleTreeClick(Selected(id: file.id, isCatalogue: false, parentPath: path, name: file.name, file: file)) {
-                store.open(file)
-            }
+        .onTapGesture {
+            handleTreeClick(sel) { store.open(file) }
         }
         .contextMenu {
+            if !missing {
+                Button { revealInFinder(file) } label: { Label("Hiện trong Finder", systemImage: "magnifyingglass") }
+                Button { openInTerminal(file) } label: { Label("Mở trong Terminal", systemImage: "terminal") }
+                Button { openInVSCode(file) } label: { Label("Mở bằng VS Code", systemImage: "chevron.left.forwardslash.chevron.right") }
+                Divider()
+            }
+            Button { beginRename(sel) } label: { Label("Đổi tên", systemImage: "pencil") }
             Button { store.addFavoriteFile(file) } label: {
                 Label("Ghim vào Truy cập nhanh", systemImage: "star")
             }
-            Button("Xoá", role: .destructive) { store.deleteFile(id: file.id, atParentPath: path) }
+            moveMenu(for: sel)
+            Button("Xoá", role: .destructive) { store.deleteFile(id: file.id, atParentPath: parentPath) }
+        }
+    }
+
+    // MARK: - Hành vi kiểu Finder (menu chuột phải)
+
+    /// Hiện mục trong Finder.
+    private func revealInFinder(_ file: FileShortcut) {
+        guard let url = store.resolveURL(for: file).resolved else { return }
+        NSWorkspace.shared.activateFileViewerSelecting([url])
+    }
+
+    /// Thư mục chứa: folder → chính nó, file → thư mục cha.
+    private func containerDir(_ file: FileShortcut) -> URL? {
+        guard let url = store.resolveURL(for: file).resolved else { return nil }
+        return url.hasDirectoryPath ? url : url.deletingLastPathComponent()
+    }
+
+    private func openInTerminal(_ file: FileShortcut) {
+        guard let dir = containerDir(file) else { return }
+        let term = URL(fileURLWithPath: "/System/Applications/Utilities/Terminal.app")
+        NSWorkspace.shared.open([dir], withApplicationAt: term,
+                                configuration: NSWorkspace.OpenConfiguration())
+    }
+
+    /// Mở bằng VS Code nếu đã cài (bundle id com.microsoft.VSCode).
+    private func openInVSCode(_ file: FileShortcut) {
+        guard let url = store.resolveURL(for: file).resolved,
+              let vscode = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.microsoft.VSCode")
+        else { return }
+        NSWorkspace.shared.open([url], withApplicationAt: vscode,
+                                configuration: NSWorkspace.OpenConfiguration())
+    }
+
+    private func beginRename(_ sel: Selected) {
+        renameSel = sel; renameText = sel.name; renamingFile = true
+    }
+    private func commitRename() {
+        defer { renameSel = nil; renamingFile = false }
+        guard let sel = renameSel else { return }
+        let name = renameText.trimmingCharacters(in: .whitespaces)
+        guard !name.isEmpty else { return }
+        store.renameFile(id: sel.id, atParentPath: sel.parentPath, to: name)
+    }
+
+    private func beginNewSubCatalogue(at parentPath: [UUID]) {
+        createTargetPath = parentPath; newName = ""; creatingCatalogue = true
+    }
+
+    /// Accordion: xổ 1 catalogue thì các catalogue anh em (cùng cha) thu lại.
+    private func toggleExpand(_ id: UUID, siblings: [UUID]) {
+        withAnimation(addMenuSpring) {
+            if expandedIDs.contains(id) {
+                expandedIDs.remove(id)
+            } else {
+                for s in siblings where s != id { expandedIDs.remove(s) }
+                expandedIDs.insert(id)
+            }
         }
     }
 
@@ -599,10 +756,19 @@ struct FilesPanel: View {
 
     private func commitCatalogue() {
         let name = newName.trimmingCharacters(in: .whitespaces)
+        defer { newName = ""; creatingCatalogue = false; createTargetPath = nil }
         guard !name.isEmpty else { return }
-        store.addCatalogue(named: name, atPath: path)
-        newName = ""
-        creatingCatalogue = false
+        store.addCatalogue(named: name, atPath: createTargetPath ?? path)
+    }
+
+    private var renameField: some View {
+        HStack(spacing: 6) {
+            TextField("Tên mới", text: $renameText)
+                .textFieldStyle(.roundedBorder).frame(width: 160)
+                .onSubmit(commitRename)
+            Button("Lưu", action: commitRename)
+        }
+        .padding(10)
     }
 
     private func pickFiles() {
@@ -771,7 +937,6 @@ private struct SelActionButton: View {
             Image(systemName: symbol).font(.system(size: 12, weight: .semibold)).foregroundStyle(tint)
                 .frame(width: 26, height: 24)
                 .background(tint.opacity(hovering ? 0.32 : 0.16), in: RoundedRectangle(cornerRadius: 6))
-                .scaleEffect(hovering ? 1.08 : 1)
         }
         .buttonStyle(PressableButtonStyle())
         .onHover { hovering = $0 }
@@ -819,6 +984,24 @@ private struct TileHoverStyle: ViewModifier {
         content
             .scaleEffect(hovering ? 1.06 : 1)
             .brightness(hovering ? 0.06 : 0)
+            .onHover { hovering = $0 }
+            .animation(.easeOut(duration: 0.12), value: hovering)
+    }
+}
+
+/// Nền ô lưới (catalogue/folder/file): nền mờ + sáng lên khi hover, viền xanh khi chọn.
+private struct GridTileStyle: ViewModifier {
+    let selected: Bool
+    let selTint: Color
+    @State private var hovering = false
+    func body(content: Content) -> some View {
+        content
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(selected ? selTint.opacity(0.26) : .white.opacity(hovering ? 0.09 : 0.05))
+                    .overlay(RoundedRectangle(cornerRadius: 10)
+                        .strokeBorder(selTint.opacity(selected ? 0.55 : 0), lineWidth: 1))
+            )
             .onHover { hovering = $0 }
             .animation(.easeOut(duration: 0.12), value: hovering)
     }

@@ -89,4 +89,12 @@ extension Catalogue {
             }
         }
     }
+
+    mutating func rename(fileId: UUID, atParentPath path: [UUID], to newName: String) {
+        update(atPath: path) { parent in
+            if let idx = parent.files.firstIndex(where: { $0.id == fileId }) {
+                parent.files[idx].name = newName
+            }
+        }
+    }
 }

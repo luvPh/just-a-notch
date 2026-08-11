@@ -61,6 +61,11 @@ extension FileShortcutStore {
         root.removeFile(id: id, atParentPath: path)
         save()
     }
+
+    func renameFile(id: UUID, atParentPath path: [UUID], to newName: String) {
+        root.rename(fileId: id, atParentPath: path, to: newName)
+        save()
+    }
 }
 
 extension FileShortcutStore {
