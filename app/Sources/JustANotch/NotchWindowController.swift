@@ -21,6 +21,7 @@ final class NotchWindowController {
     private let notifier: NotificationService
     private var bag = Set<AnyCancellable>()
     private var monitors: [Any] = []
+    private var hoverTimer: Timer?
 
     private var coreCenterX: CGFloat = 0
     private var screenTopY: CGFloat = 0
@@ -39,12 +40,13 @@ final class NotchWindowController {
         vm.start()
 
         // While expanded OR while a HUD banner is showing, the panel must receive
-        // clicks (controls / tap-to-open-source-app).
+        // clicks (controls / tap-to-open-source-app). Cũng bật/tắt timer bám con trỏ.
         vm.$expanded.combineLatest(vm.$hudNotification)
             .receive(on: RunLoop.main)
             .sink { [weak self] exp, hud in
                 if exp || hud != nil { self?.panel.ignoresMouseEvents = false }
                 self?.updateHover()
+                self?.setHoverTracking(active: exp || hud != nil)
             }.store(in: &bag)
 
         NotificationCenter.default.addObserver(
@@ -93,7 +95,7 @@ final class NotchWindowController {
 
     /// Contains the core-anchored surface at its widest asymmetric extent (reading
     /// left wing 150) and the expanded width.
-    private var panelWidth: CGFloat { max(vm.coreWidth + 2 * 150, vm.expandedWidth) }
+    private var panelWidth: CGFloat { max(vm.coreWidth + 2 * 150, vm.maxSurfaceWidth) }
 
     // MARK: Mouse handling
 
@@ -102,13 +104,15 @@ final class NotchWindowController {
         monitors.append(NSEvent.addGlobalMonitorForEvents(matching: [.mouseMoved], handler: moved) as Any)
         monitors.append(NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) { [weak self] e in
             self?.updateHover(); return e })
+        // Bấm ra ngoài island khi đang expand thì thu notch — TRỪ tab Files (đang
+        // expand): giữ panel mở để kéo-thả file/folder vào. Thu tab Files bằng cách
+        // bấm vùng trống trong notch (xem onTapGesture ở surface).
         monitors.append(NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown]) { [weak self] _ in
-            guard let self, self.vm.expanded else { return }
+            guard let self, self.vm.expanded, !self.vm.keepOpenOnOutsideClick else { return }
             if !self.islandScreenRect.contains(NSEvent.mouseLocation) { self.vm.collapse() }
         } as Any)
-        // Clicks inside our own transparent panel but outside the island also collapse.
         monitors.append(NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown]) { [weak self] e in
-            guard let self, self.vm.expanded else { return e }
+            guard let self, self.vm.expanded, !self.vm.keepOpenOnOutsideClick else { return e }
             if !self.islandScreenRect.contains(NSEvent.mouseLocation) { self.vm.collapse() }
             return e
         })
@@ -116,9 +120,29 @@ final class NotchWindowController {
 
     private func updateHover() {
         let inside = islandScreenRect.contains(NSEvent.mouseLocation)
-        panel.ignoresMouseEvents = (vm.expanded || vm.showingHUD) ? false : !inside
+        // Luôn chỉ nuốt sự kiện trong đúng vùng island đang hiển thị → không có vùng
+        // vô hình chặn click phía sau (kể cả khi pin). Timer bám con trỏ (khi expand)
+        // giúp cập nhật kịp lúc kéo-thả để cửa sổ nhận drop khi con trỏ vào island.
+        panel.ignoresMouseEvents = !inside
         let hover = inside && !vm.expanded
         if vm.hovering != hover { vm.hovering = hover }
+    }
+
+    /// Timer bám vị trí con trỏ khi panel mở rộng. Vì kéo-thả từ Finder không phát
+    /// mouseMoved cho app ta, nên poll nhẹ để cập nhật vùng nhận chuột kịp lúc con
+    /// trỏ (đang kéo) vào island → cửa sổ nhận drop mà không cần nuốt cả canvas.
+    private func setHoverTracking(active: Bool) {
+        if active {
+            guard hoverTimer == nil else { return }
+            let t = Timer(timeInterval: 0.05, repeats: true) { [weak self] _ in
+                Task { @MainActor in self?.updateHover() }
+            }
+            RunLoop.main.add(t, forMode: .common)
+            hoverTimer = t
+        } else {
+            hoverTimer?.invalidate()
+            hoverTimer = nil
+        }
     }
 
     func toggleVisibility() { panel.isVisible ? panel.orderOut(nil) : panel.orderFrontRegardless() }

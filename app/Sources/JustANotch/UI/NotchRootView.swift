@@ -44,6 +44,8 @@ struct NotchRootView: View {
                 .animation(openSpring, value: vm.panelWantsTall)
                 // Lịch co/giãn theo số hàng tuần của tháng (5 vs 6 tuần).
                 .animation(openSpring, value: vm.surfaceHeight)
+                // Files mở rộng cả chiều ngang (ẩn sidebar) — phình mềm sang hai bên.
+                .animation(openSpring, value: vm.surfaceWidth)
                 .animation(revealSpring, value: vm.showingHUD)
             Spacer(minLength: 0)
         }
@@ -69,6 +71,16 @@ struct NotchRootView: View {
         .onTapGesture {
             if vm.showingHUD { vm.openSourceApp(); return }
             if !vm.expanded { vm.refreshMedia(); withAnimation(openSpring) { vm.expanded = true } }
+        }
+        // Chỉ thu notch khi bấm vùng header 220×40px ở giữa trên (trên lõi camera).
+        // Hai wing hai bên để trống cho các nút chức năng, không lỡ tay thu app.
+        .overlay(alignment: .top) {
+            if vm.expanded {
+                Color.clear
+                    .frame(width: 220, height: 40)
+                    .contentShape(Rectangle())
+                    .onTapGesture { withAnimation(openSpring) { vm.collapse() } }
+            }
         }
     }
 
@@ -160,31 +172,41 @@ struct NotchRootView: View {
     // MARK: Expanded Alcove player
 
     private var player: some View {
-        HStack(alignment: .top, spacing: 14) {
-            ThemeCarousel(tabs: RailTab.allCases, selection: $railTab, reduceMotion: reduceMotion)
-                .onChange(of: railTab) { _, newTab in
-                    vm.panelWantsTall = (newTab == .calendar)
-                    vm.filesTabActive = (newTab == .files)
-                    vm.calTabActive = (newTab == .calendar)
-                    // Leaving music collapses the queue so the window shrinks back
-                    // to the default tab height instead of staying inflated.
-                    if vm.showList { withAnimation(openSpring) { vm.showList = false } }
-                }
-            divider
+        HStack(alignment: .top, spacing: vm.filesWide ? 0 : 14) {
+            // Ẩn sidebar (rail + divider) khi Files mở rộng — dồn toàn bộ chiều ngang cho tab.
+            if !vm.filesWide {
+                ThemeCarousel(tabs: RailTab.allCases, selection: $railTab, reduceMotion: reduceMotion)
+                    .onChange(of: railTab) { _, newTab in
+                        vm.panelWantsTall = (newTab == .calendar)
+                        vm.filesTabActive = (newTab == .files)
+                        vm.calTabActive = (newTab == .calendar)
+                        // Leaving music collapses the queue so the window shrinks back
+                        // to the default tab height instead of staying inflated.
+                        if vm.showList { withAnimation(openSpring) { vm.showList = false } }
+                    }
+                    .padding(.top, vm.notchHeight + 8)   // sidebar LUÔN dưới camera, không đổi theo tab
+                    .transition(.blurFade)
+                divider
+                    .padding(.top, vm.notchHeight + 8)
+                    .transition(.opacity)
+            }
             // Player controls stay fixed at the top; only the queue list scrolls
             // (the list has its own ScrollView). Fill the fixed window height so
             // that inner ScrollView gets a bounded height to scroll within.
             content
                 .id(railTab)                 // re-run the transition on tab change
                 .transition(.blurFade)
+                // Tab Files: content đẩy lên hàng wing (chừa 6px); tab khác chừa đủ camera.
+                .padding(.top, vm.filesTabActive ? 6 : vm.notchHeight + 8)
                 .frame(maxHeight: .infinity, alignment: .top)
                 .animation(reduceMotion ? .easeInOut(duration: 0.18) : .spring(response: 0.34, dampingFraction: 0.82),
                            value: railTab)
         }
-        .padding(.leading, 34).padding(.trailing, 24)   // small left inset so the rail's lit pill sits balanced, clear of the rounded notch edge
-        .padding(.top, vm.notchHeight + 8)   // clear the physical camera + ~10px breathing room
+        // Bỏ inset trái của rail khi ẩn sidebar để Files dùng trọn chiều ngang.
+        .padding(.leading, vm.filesWide ? 12 : 34).padding(.trailing, vm.filesTabActive ? 12 : 24)
         .padding(.bottom, 14)
         .frame(maxWidth: .infinity, alignment: .leading)
+        .animation(openSpring, value: vm.filesWide)
     }
 
     // The right-hand panel — swaps with the centered carousel tab.
@@ -208,7 +230,9 @@ struct NotchRootView: View {
     private var filesPanel: some View {
         FilesPanel(store: vm.fileStore,
                    expanded: Binding(get: { vm.filesExpanded },
-                                     set: { vm.filesExpanded = $0 }))
+                                     set: { vm.filesExpanded = $0 }),
+                   pinned: Binding(get: { vm.pinnedOpen },
+                                   set: { vm.pinnedOpen = $0 }))
     }
 
     private var musicPanel: some View {

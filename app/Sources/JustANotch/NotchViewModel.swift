@@ -28,6 +28,11 @@ final class NotchViewModel: ObservableObject {
     }
     /// Panel Files đang mở? (do NotchRootView set khi railTab == .files)
     @Published var filesTabActive = false
+    /// Người dùng bấm nút ghim (📌) để GIỮ notch mở dù bấm ra ngoài — cho kéo-thả
+    /// ở dạng nhỏ. Ghi nhớ qua UserDefaults.
+    @Published var pinnedOpen: Bool = UserDefaults.standard.bool(forKey: "pinnedOpen") {
+        didSet { UserDefaults.standard.set(pinnedOpen, forKey: "pinnedOpen") }
+    }
     /// Panel Lịch đang mở? (do NotchRootView set khi railTab == .calendar)
     @Published var calTabActive = false
     /// True khi người dùng bấm ⤢ để phóng Lịch từ tuần → tháng. Ghi nhớ qua UserDefaults.
@@ -186,15 +191,29 @@ final class NotchViewModel: ObservableObject {
     var calendarMaxHeight: CGFloat { calendarBaseHeight + 6 * calendarRowSlot }
     /// Chiều cao panel Files khi bấm ⤢ (đủ chỗ cho nhiều hàng).
     let filesExpandedHeight: CGFloat = 340
+    /// Bề ngang panel Files khi bấm ⤢ — mở rộng để làm việc chính với tab này.
+    let filesExpandedWidth: CGFloat = 640
     /// Chiều cao canvas cố định lớn nhất — panel window phải đủ cao cho mọi state.
     var maxSurfaceHeight: CGFloat {
         max(expandedHeight, listExpandedHeight, calendarMaxHeight, filesExpandedHeight)
     }
+    /// Bề ngang canvas cố định lớn nhất — panel window phải đủ rộng cho mọi state.
+    var maxSurfaceWidth: CGFloat {
+        max(expandedWidth, hudWidth, filesExpandedWidth)
+    }
 
     var isListOpen: Bool { expanded && showList }
 
+    /// Files đang mở rộng toàn chiều ngang (ẩn sidebar, làm việc chính với tab).
+    var filesWide: Bool { expanded && filesTabActive && filesExpanded }
+
+    /// KHÔNG thu notch khi bấm ra ngoài khi: Files wide (⤢) HOẶC người dùng bật ghim
+    /// (📌). Còn lại (dạng nhỏ không ghim, tab khác) vẫn thu như cũ.
+    var keepOpenOnOutsideClick: Bool { filesWide || (filesTabActive && pinnedOpen) }
+
     var surfaceWidth: CGFloat {
         if showingHUD { return hudWidth }
+        if filesWide { return filesExpandedWidth }
         return expanded ? expandedWidth : compactWidth
     }
     var surfaceHeight: CGFloat {

@@ -5,6 +5,11 @@ import AppKit
 /// Giữ cây shortcut và lưu bền ra JSON. UI quan sát `root`.
 final class FileShortcutStore: ObservableObject {
     @Published var root: Catalogue
+    /// Mục Truy cập nhanh (favorites) hiển thị ở tab Files dạng nhỏ.
+    @Published var favorites: [Favorite] = []
+    /// Vị trí catalogue đang duyệt (id từ root xuống). Giữ ở đây để không bị
+    /// reset về Home mỗi khi panel Files được dựng lại (đóng/mở notch, đổi tab).
+    @Published var browsePath: [UUID] = []
     private let fileURL: URL
 
     /// Đường dẫn mặc định: ~/Library/Application Support/Just a Notch/shortcuts.json
@@ -17,16 +22,21 @@ final class FileShortcutStore: ObservableObject {
 
     init(fileURL: URL = FileShortcutStore.defaultURL) {
         self.fileURL = fileURL
-        if let data = try? Data(contentsOf: fileURL),
-           let decoded = try? JSONDecoder().decode(Catalogue.self, from: data) {
-            self.root = decoded
+        let data = try? Data(contentsOf: fileURL)
+        if let data, let bundle = try? JSONDecoder().decode(FileStoreData.self, from: data) {
+            self.root = bundle.root
+            self.favorites = bundle.favorites
+        } else if let data, let legacy = try? JSONDecoder().decode(Catalogue.self, from: data) {
+            // Định dạng cũ chỉ có root — nạp và giữ favorites rỗng.
+            self.root = legacy
         } else {
             self.root = Catalogue(name: "")
         }
     }
 
     func save() {
-        guard let data = try? JSONEncoder().encode(root) else { return }
+        let bundle = FileStoreData(root: root, favorites: favorites)
+        guard let data = try? JSONEncoder().encode(bundle) else { return }
         try? data.write(to: fileURL, options: .atomic)
     }
 }
@@ -50,6 +60,44 @@ extension FileShortcutStore {
     func deleteFile(id: UUID, atParentPath path: [UUID]) {
         root.removeFile(id: id, atParentPath: path)
         save()
+    }
+}
+
+extension FileShortcutStore {
+    func addFavoriteCatalogue(path: [UUID], name: String) {
+        guard !favorites.contains(where: { $0.isCatalogue && $0.cataloguePath == path }) else { return }
+        favorites.append(Favorite(name: name, isCatalogue: true, cataloguePath: path))
+        save()
+    }
+
+    func addFavoriteFile(_ file: FileShortcut) {
+        guard !favorites.contains(where: { !$0.isCatalogue && $0.bookmark == file.bookmark }) else { return }
+        let isDir = resolveURL(for: file).resolved?.hasDirectoryPath ?? false
+        favorites.append(Favorite(name: file.name, isCatalogue: false, bookmark: file.bookmark, isDirectory: isDir))
+        save()
+    }
+
+    func removeFavorite(id: UUID) {
+        favorites.removeAll { $0.id == id }
+        save()
+    }
+
+    /// Ghim thẳng một URL (file/folder thả từ Finder) vào Truy cập nhanh.
+    func addFavoriteURL(_ url: URL) {
+        guard let bookmark = try? url.bookmarkData(
+            options: .withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil
+        ) else { return }
+        guard !favorites.contains(where: { !$0.isCatalogue && $0.bookmark == bookmark }) else { return }
+        favorites.append(Favorite(name: url.lastPathComponent, isCatalogue: false,
+                                  bookmark: bookmark, isDirectory: url.hasDirectoryPath))
+        save()
+    }
+
+    /// Mở favorite dạng file (giải bookmark rồi mở app mặc định).
+    @discardableResult
+    func openFavoriteFile(_ fav: Favorite) -> Bool {
+        guard let bookmark = fav.bookmark else { return false }
+        return open(FileShortcut(name: fav.name, bookmark: bookmark))
     }
 }
 
