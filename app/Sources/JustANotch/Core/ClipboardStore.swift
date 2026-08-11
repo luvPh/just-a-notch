@@ -104,6 +104,51 @@ final class ClipboardStore: ObservableObject {
         try? FileManager.default.removeItem(at: dir.appendingPathComponent(fileName))
     }
 
-    // startPolling() / pasteboard reading added in Task 3.
-    private func startPolling() {}
+    private func startPolling() {
+        let t = Timer(timeInterval: 0.4, repeats: true) { [weak self] _ in
+            self?.poll()
+        }
+        RunLoop.main.add(t, forMode: .common)
+        pollTimer = t
+    }
+
+    private func poll() {
+        let pb = NSPasteboard.general
+        let cc = pb.changeCount
+        guard cc != lastSeenChangeCount else { return }
+        lastSeenChangeCount = cc
+        guard cc != selfChangeCount else { return }   // do chính ta copy-back
+
+        if let s = pb.string(forType: .string), !s.isEmpty {
+            recordText(s)
+        } else if let img = captureImage(from: pb) {
+            recordImage(img)
+        }
+    }
+
+    private func captureImage(from pb: NSPasteboard) -> NSImage? {
+        guard let items = pb.readObjects(forClasses: [NSImage.self], options: nil),
+              let img = items.first as? NSImage else { return nil }
+        return img
+    }
+
+    private func recordImage(_ img: NSImage) {
+        guard let dir = imagesDir,
+              let tiff = img.tiffRepresentation,
+              let rep = NSBitmapImageRep(data: tiff),
+              let png = rep.representation(using: .png, properties: [:]) else { return }
+        let fileName = "\(UUID().uuidString).png"
+        try? png.write(to: dir.appendingPathComponent(fileName), options: .atomic)
+        let item = ClipboardItem(id: UUID(), createdAt: Date(), pinned: false,
+                                 kind: .image(fileName: fileName))
+        applyRecorded(history.record(item))
+    }
+
+    /// Ảnh thumbnail cho UI (nil nếu không đọc được file).
+    func image(for item: ClipboardItem) -> NSImage? {
+        guard case let .image(fileName) = item.kind, let dir = imagesDir else { return nil }
+        return NSImage(contentsOf: dir.appendingPathComponent(fileName))
+    }
+
+    deinit { pollTimer?.invalidate() }
 }
