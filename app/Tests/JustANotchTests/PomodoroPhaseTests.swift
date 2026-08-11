@@ -33,4 +33,40 @@ final class PomodoroPhaseTests: XCTestCase {
         XCTAssertEqual(cfg.duration(for: .shortBreak), 5 * 60)
         XCTAssertEqual(cfg.duration(for: .longBreak), 15 * 60)
     }
+
+    @MainActor
+    func testCountdownUsesInjectedClockAndAdvancesPhaseWhenElapsed() {
+        var now = Date(timeIntervalSince1970: 0)
+        let cfg = PomodoroConfig(workMinutes: 1, shortBreakMinutes: 1,
+                                 longBreakMinutes: 1, roundsBeforeLongBreak: 4)
+        var chimes = 0
+        let svc = TimerService(config: { cfg }, now: { now },
+                               autoStartNext: { true }, chime: { chimes += 1 })
+        svc.startPomodoro()
+        XCTAssertEqual(svc.phase, .work)
+        XCTAssertEqual(svc.remaining, 60, accuracy: 0.5)
+
+        now = Date(timeIntervalSince1970: 30)   // 30s later
+        svc.tickForTest()
+        XCTAssertEqual(svc.remaining, 30, accuracy: 0.5)
+
+        now = Date(timeIntervalSince1970: 61)   // past end
+        svc.tickForTest()
+        XCTAssertEqual(svc.phase, .shortBreak)  // auto-advanced
+        XCTAssertEqual(chimes, 1)
+    }
+
+    @MainActor
+    func testPauseWaitsForUserWhenAutoStartOff() {
+        var now = Date(timeIntervalSince1970: 0)
+        let cfg = PomodoroConfig(workMinutes: 1, shortBreakMinutes: 1,
+                                 longBreakMinutes: 1, roundsBeforeLongBreak: 4)
+        let svc = TimerService(config: { cfg }, now: { now },
+                               autoStartNext: { false }, chime: {})
+        svc.startPomodoro()
+        now = Date(timeIntervalSince1970: 61)
+        svc.tickForTest()
+        XCTAssertEqual(svc.phase, .shortBreak)
+        XCTAssertFalse(svc.isRunning)           // chờ user bấm
+    }
 }
