@@ -37,6 +37,8 @@ final class NotchViewModel: ObservableObject {
     }
     /// Panel Lịch đang mở? (do NotchRootView set khi railTab == .calendar)
     @Published var calTabActive = false
+    /// Panel Notifications đang mở? (do NotchRootView set khi railTab == .notifications)
+    @Published var notifTabActive = false
     /// True khi người dùng bấm ⤢ để phóng Lịch từ tuần → tháng. Ghi nhớ qua UserDefaults.
     @Published var calExpanded: Bool = UserDefaults.standard.bool(forKey: "calExpanded") {
         didSet { UserDefaults.standard.set(calExpanded, forKey: "calExpanded") }
@@ -224,6 +226,7 @@ final class NotchViewModel: ObservableObject {
         if isListOpen { return listExpandedHeight }
         if filesTabActive { return filesExpanded ? filesExpandedHeight : expandedHeight }
         if calTabActive { return calExpanded ? calendarExpandedHeight : expandedHeight }
+        if notifTabActive { return expandedHeight }   // 150px như tab mặc định
         if panelWantsTall { return calendarExpandedHeight }
         return expandedHeight
     }

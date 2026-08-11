@@ -13,6 +13,8 @@ struct NotchRootView: View {
     // back before the next poll catches up.
     @State private var scrubFraction: Double?
     @State private var scrubHold: DispatchWorkItem?
+    // Notifications: which app-piles are expanded (by bundleId).
+    @State private var expandedGroups: Set<String> = []
 
     private var openSpring: Animation {
         reduceMotion ? .easeInOut(duration: 0.22) : .spring(response: 0.5, dampingFraction: 0.8)
@@ -197,6 +199,7 @@ struct NotchRootView: View {
                         vm.panelWantsTall = (newTab == .calendar)
                         vm.filesTabActive = (newTab == .files)
                         vm.calTabActive = (newTab == .calendar)
+                        vm.notifTabActive = (newTab == .notifications)
                         if newTab != .files { vm.filesSelCount = 0 }   // rời tab Files → xoá đếm
                         // Leaving music collapses the queue so the window shrinks back
                         // to the default tab height instead of staying inflated.
@@ -399,40 +402,106 @@ struct NotchRootView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 
+    /// An app's notifications. Collapsed → a "pile" (newest card + peeking edges
+    /// + count badge) that expands on click. Single-notification apps skip the
+    /// pile and render as one plain card.
     private func notificationGroupView(_ group: NotificationGroup) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 7) {
-                Image(nsImage: vm.notificationIcon(group.bundleId))
-                    .resizable().interpolation(.high).frame(width: 16, height: 16)
-                    .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
-                Text(group.appName)
-                    .font(.system(size: 11, weight: .semibold)).foregroundStyle(.white.opacity(0.6))
-                Spacer(minLength: 0)
+        let expanded = expandedGroups.contains(group.bundleId)
+        let count = group.records.count
+        return Group {
+            if count <= 1 {
+                notificationCard(group.records[0], action: { vm.openApp(bundleId: group.records[0].bundleId) })
+            } else if expanded {
+                VStack(alignment: .leading, spacing: 6) {
+                    // Collapse control at the TOP so it's always reachable even
+                    // when the expanded stack overflows the fixed panel height.
+                    Button { toggleGroup(group.bundleId) } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.up")
+                                .font(.system(size: 8, weight: .bold))
+                            Text("Thu gọn \(count) thông báo").font(.system(size: 9.5, weight: .medium))
+                            Spacer(minLength: 0)
+                        }
+                        .foregroundStyle(.white.opacity(0.45))
+                        .padding(.horizontal, 8).padding(.vertical, 3)
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    ForEach(group.records) { rec in
+                        notificationCard(rec, action: { vm.openApp(bundleId: rec.bundleId) })
+                    }
+                }
+            } else {
+                // Collapsed pile: newest card on top, with real (space-reserving)
+                // peeking edges below so nothing clips into the next group.
+                Button { toggleGroup(group.bundleId) } label: {
+                    VStack(spacing: 3) {
+                        notificationCard(group.records[0], action: nil)
+                            .overlay(alignment: .topTrailing) {
+                                Text("\(count)")
+                                    .font(.system(size: 9.5, weight: .bold))
+                                    .foregroundStyle(.black)
+                                    .frame(minWidth: 16, minHeight: 16)
+                                    .background(Circle().fill(.white.opacity(0.92)))
+                                    .padding(6)
+                            }
+                        RoundedRectangle(cornerRadius: 4, style: .continuous)
+                            .fill(.white.opacity(0.09))
+                            .frame(height: 4).padding(.horizontal, 10)
+                        if count > 2 {
+                            RoundedRectangle(cornerRadius: 4, style: .continuous)
+                                .fill(.white.opacity(0.05))
+                                .frame(height: 4).padding(.horizontal, 20)
+                        }
+                    }
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
             }
-            ForEach(group.records) { rec in notificationRow(rec) }
         }
     }
 
-    private func notificationRow(_ rec: NotificationRecord) -> some View {
-        Button { vm.openApp(bundleId: rec.bundleId) } label: {
-            VStack(alignment: .leading, spacing: 1) {
+    private func toggleGroup(_ bundleId: String) {
+        withAnimation(revealSpring) {
+            if expandedGroups.contains(bundleId) { expandedGroups.remove(bundleId) }
+            else { expandedGroups.insert(bundleId) }
+        }
+    }
+
+    /// One notification as a horizontal card: app icon on the left, two sliding
+    /// text lines on the right (no app name — the icon carries identity).
+    private func notificationCard(_ rec: NotificationRecord, action: (() -> Void)?) -> AnyView {
+        // Fresh arrivals scroll a few times; older items scroll once on view.
+        let loops = Date().timeIntervalSince(rec.date) < 60 ? 3 : 1
+        let body = HStack(alignment: .center, spacing: 9) {
+            Image(nsImage: vm.notificationIcon(rec.bundleId))
+                .resizable().interpolation(.high).frame(width: 28, height: 28)
+                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+            VStack(alignment: .leading, spacing: 2) {
                 HStack(alignment: .firstTextBaseline, spacing: 6) {
-                    Text(rec.title.isEmpty ? rec.appName : rec.title)
-                        .font(.system(size: 11.5, weight: .medium)).foregroundStyle(.white.opacity(0.92)).lineLimit(1)
-                    Spacer(minLength: 4)
+                    SlidingText(text: rec.title.isEmpty ? rec.appName : rec.title,
+                                font: .system(size: 11.5, weight: .semibold),
+                                color: .white.opacity(0.92), loops: loops, lineHeight: 15)
                     Text(Self.relativeTime(rec.date))
                         .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
+                        .fixedSize()
                 }
                 if !rec.detailLine.isEmpty {
-                    Text(rec.detailLine)
-                        .font(.system(size: 10.5)).foregroundStyle(.white.opacity(0.5)).lineLimit(1)
+                    SlidingText(text: rec.detailLine,
+                                font: .system(size: 10.5, weight: .regular),
+                                color: .white.opacity(0.5), loops: loops, lineHeight: 14)
                 }
             }
-            .padding(.leading, 23)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .padding(.horizontal, 8).padding(.vertical, 6)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(RoundedRectangle(cornerRadius: 10, style: .continuous).fill(.white.opacity(0.06)))
+        .contentShape(Rectangle())
+
+        if let action {
+            return AnyView(Button(action: action) { body }.buttonStyle(.plain))
+        }
+        return AnyView(body)
     }
 
     private var notificationsPermissionPrompt: some View {
