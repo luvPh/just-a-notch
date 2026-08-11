@@ -17,6 +17,7 @@ struct NotchRootView: View {
         if settings.showFiles { t.append(.files) }
         if settings.showNotifications { t.append(.notifications) }
         if settings.showCalendar { t.append(.calendar) }
+        if settings.showClipboard { t.append(.clipboard) }
         t.append(.settings)
         return t
     }
@@ -339,6 +340,7 @@ struct NotchRootView: View {
         case .notifications: notificationsPanel
         case .calendar:      calendarPanel
         case .files:         filesPanel
+        case .clipboard:     ClipboardPanel(store: vm.clipboard)
         case .settings:      SettingsPanel(settings: settings, vm: vm)
         default:             placeholderPanel(railTab)
         }
@@ -736,7 +738,7 @@ private struct CompactCtlStyle: ButtonStyle {
 // MARK: - Rail tabs
 
 enum RailTab: String, CaseIterable, Identifiable {
-    case music, files, notifications, calendar, settings
+    case music, files, notifications, calendar, clipboard, timer, settings
 
     var id: String { rawValue }
 
@@ -746,6 +748,8 @@ enum RailTab: String, CaseIterable, Identifiable {
         case .files:         return "folder.fill"
         case .notifications: return "bell.fill"
         case .calendar:      return "calendar"
+        case .clipboard:     return "doc.on.clipboard"
+        case .timer:         return "timer"
         case .settings:      return "gearshape.fill"
         }
     }
@@ -756,6 +760,8 @@ enum RailTab: String, CaseIterable, Identifiable {
         case .files:         return "Files"
         case .notifications: return "Notifications"
         case .calendar:      return "Lịch"
+        case .clipboard:     return "Clipboard"
+        case .timer:         return "Timer"
         case .settings:      return "Settings"
         }
     }

@@ -22,6 +22,8 @@ final class NotchViewModel: ObservableObject {
     @Published var panelWantsTall = false
     /// Cây shortcut cho tab Files.
     let fileStore = FileShortcutStore()
+    /// Clipboard history store backing the Clipboard tab.
+    let clipboard = ClipboardStore()
     /// True khi người dùng bấm ⤢ để phóng to panel Files. Ghi nhớ qua UserDefaults.
     @Published var filesExpanded: Bool = UserDefaults.standard.bool(forKey: "filesExpanded") {
         didSet { UserDefaults.standard.set(filesExpanded, forKey: "filesExpanded") }
