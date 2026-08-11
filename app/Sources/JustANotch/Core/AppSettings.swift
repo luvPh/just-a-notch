@@ -14,6 +14,8 @@ final class AppSettings: ObservableObject {
     @Published var showFiles: Bool { didSet { d.set(showFiles, forKey: "cfg.showFiles") } }
     @Published var showNotifications: Bool { didSet { d.set(showNotifications, forKey: "cfg.showNotifications") } }
     @Published var showCalendar: Bool { didSet { d.set(showCalendar, forKey: "cfg.showCalendar") } }
+    @Published var showClipboard: Bool { didSet { d.set(showClipboard, forKey: "cfg.showClipboard") } }
+    @Published var showTimer: Bool { didSet { d.set(showTimer, forKey: "cfg.showTimer") } }
 
     // MARK: Motion — force reduced motion regardless of the system setting.
     @Published var forceReduceMotion: Bool { didSet { d.set(forceReduceMotion, forKey: "cfg.forceReduceMotion") } }
@@ -31,12 +33,16 @@ final class AppSettings: ObservableObject {
             "cfg.showFiles": true,
             "cfg.showNotifications": true,
             "cfg.showCalendar": true,
+            "cfg.showClipboard": true,
+            "cfg.showTimer": true,
             "cfg.forceReduceMotion": false,
             "cfg.doubleTapCommand": false,
         ])
         showFiles = d.bool(forKey: "cfg.showFiles")
         showNotifications = d.bool(forKey: "cfg.showNotifications")
         showCalendar = d.bool(forKey: "cfg.showCalendar")
+        showClipboard = d.bool(forKey: "cfg.showClipboard")
+        showTimer = d.bool(forKey: "cfg.showTimer")
         forceReduceMotion = d.bool(forKey: "cfg.forceReduceMotion")
         doubleTapCommand = d.bool(forKey: "cfg.doubleTapCommand")
         launchAtLogin = (SMAppService.mainApp.status == .enabled)
