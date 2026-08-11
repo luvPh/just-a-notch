@@ -42,4 +42,19 @@ final class ClipboardHistoryTests: XCTestCase {
         let removedB = h.record(text("b"))   // "a" evicted
         XCTAssertEqual(removedB.map { $0.plainText }, ["a"])
     }
+
+    func testStoreSaveThenLoadRoundTripsTextItems() throws {
+        let tmp = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent("clip-\(UUID()).json")
+        defer { try? FileManager.default.removeItem(at: tmp) }
+
+        let store = ClipboardStore(fileURL: tmp, imagesDir: nil, autoPoll: false)
+        store.recordText("hello")
+        store.recordText("world")
+        store.togglePin(store.items[0].id)   // pin "world"
+
+        let reloaded = ClipboardStore(fileURL: tmp, imagesDir: nil, autoPoll: false)
+        XCTAssertEqual(reloaded.items.map { $0.plainText }, ["world", "hello"])
+        XCTAssertTrue(reloaded.items[0].pinned)
+    }
 }
