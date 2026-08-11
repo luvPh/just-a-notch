@@ -31,9 +31,61 @@ struct SettingsPanel: View {
                     toggleRow("Files", icon: "folder.fill", isOn: $settings.showFiles)
                     toggleRow("Notifications", icon: "bell.fill", isOn: $settings.showNotifications)
                     toggleRow("Lịch", icon: "calendar", isOn: $settings.showCalendar)
+                    toggleRow("Clipboard", icon: "doc.on.clipboard", isOn: $settings.showClipboard)
+                    toggleRow("Timer", icon: "timer", isOn: $settings.showTimer)
                     Text("Now Playing và Settings luôn được bật.")
                         .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
                         .padding(.horizontal, 4).padding(.top, 1)
+                }
+
+                // MARK: Timer / Pomodoro
+                section("Timer / Pomodoro") {
+                    stepperRow("Làm", value: $settings.pomoWorkMinutes, range: 1...120, suffix: "m")
+                    stepperRow("Nghỉ ngắn", value: $settings.pomoShortMinutes, range: 1...60, suffix: "m")
+                    stepperRow("Nghỉ dài", value: $settings.pomoLongMinutes, range: 1...60, suffix: "m")
+                    stepperRow("Số vòng trước nghỉ dài", value: $settings.pomoRounds, range: 1...12, suffix: "")
+                    toggleRow("Tự chạy pha kế tiếp", icon: "arrow.triangle.2.circlepath", isOn: $settings.pomoAutoStart)
+                    toggleRow("Chuông báo", icon: "bell.badge", isOn: $settings.timerSoundEnabled)
+
+                    HStack(spacing: 9) {
+                        Image(systemName: "music.note")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.7))
+                            .frame(width: 18)
+                        Text("Âm chuông").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+                        Spacer(minLength: 0)
+                        Picker("", selection: $settings.timerSoundName) {
+                            ForEach(["Glass", "Ping", "Submarine", "Funk", "Blow"], id: \.self) { name in
+                                Text(name).tag(name)
+                            }
+                        }
+                        .labelsHidden()
+                        .frame(width: 110)
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+
+                    HStack(spacing: 9) {
+                        Image(systemName: "speaker.wave.2.fill")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.7))
+                            .frame(width: 18)
+                        Text("Âm lượng").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+                        Slider(value: $settings.timerVolume, in: 0...1)
+                        Button("Nghe thử") {
+                            if let snd = NSSound(named: settings.timerSoundName) {
+                                snd.volume = Float(settings.timerVolume)
+                                snd.play()
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        .font(.system(size: 10.5, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.75))
+                        .padding(.horizontal, 8).padding(.vertical, 3)
+                        .background(RoundedRectangle(cornerRadius: 6, style: .continuous).fill(.white.opacity(0.08)))
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
                 }
 
                 // MARK: Notifications
@@ -123,6 +175,18 @@ struct SettingsPanel: View {
             Toggle("", isOn: isOn)
                 .labelsHidden()
                 .toggleStyle(GlowToggleStyle())
+        }
+        .padding(.horizontal, 8).padding(.vertical, 4)
+        .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+    }
+
+    private func stepperRow(_ label: String, value: Binding<Int>, range: ClosedRange<Int>, suffix: String) -> some View {
+        HStack(spacing: 9) {
+            Text("\(label): \(value.wrappedValue)\(suffix)")
+                .font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+            Spacer(minLength: 0)
+            Stepper("", value: value, in: range)
+                .labelsHidden()
         }
         .padding(.horizontal, 8).padding(.vertical, 4)
         .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
