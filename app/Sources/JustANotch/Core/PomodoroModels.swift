@@ -11,9 +11,9 @@ struct PomodoroConfig: Equatable {
 
     func duration(for phase: TimerPhase) -> TimeInterval {
         switch phase {
-        case .work:       return TimeInterval(workMinutes * 60)
-        case .shortBreak: return TimeInterval(shortBreakMinutes * 60)
-        case .longBreak:  return TimeInterval(longBreakMinutes * 60)
+        case .work:       return TimeInterval(max(1, workMinutes) * 60)
+        case .shortBreak: return TimeInterval(max(1, shortBreakMinutes) * 60)
+        case .longBreak:  return TimeInterval(max(1, longBreakMinutes) * 60)
         }
     }
 }
