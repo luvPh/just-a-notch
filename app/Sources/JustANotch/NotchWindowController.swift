@@ -25,6 +25,7 @@ final class NotchWindowController {
     private var monitors: [Any] = []
     private var hoverTimer: Timer?
     private let hotKeys = HotKeyCenter()
+    private let filesPopup: FilesPopupController
     // Double-tap ⌘ → toggle notch. Global keyboard monitors ⇒ cần Accessibility.
     private var cmdTapMonitors: [Any] = []
     private var lastCmdTapTime: TimeInterval = 0
@@ -37,6 +38,7 @@ final class NotchWindowController {
         media = MediaService()
         notifier = NotificationService()
         vm = NotchViewModel(media: media, notifier: notifier)
+        filesPopup = FilesPopupController(store: vm.fileStore)
         panel = NotchPanel(contentRect: NSRect(x: 0, y: 0, width: 300, height: 40))
         panel.contentView = ClickableHostingView(rootView: NotchRootView(vm: vm))
         panel.orderFrontRegardless()
@@ -159,6 +161,10 @@ final class NotchWindowController {
         hotKeys.register(keyCode: kVK_ANSI_1, modifiers: m) { [weak self] in self?.vm.requestTab(1) }
         hotKeys.register(keyCode: kVK_ANSI_2, modifiers: m) { [weak self] in self?.vm.requestTab(2) }
         hotKeys.register(keyCode: kVK_ANSI_3, modifiers: m) { [weak self] in self?.vm.requestTab(3) }
+        // ⌥⇧N → popup tab Files (mở rộng) canh giữa màn hình đang focus.
+        hotKeys.register(keyCode: kVK_ANSI_N, modifiers: UInt32(optionKey | shiftKey)) {
+            [weak self] in self?.filesPopup.toggle()
+        }
     }
 
     /// Cài/gỡ monitor double-tap ⌘. Khi bật lần đầu sẽ xin quyền Accessibility

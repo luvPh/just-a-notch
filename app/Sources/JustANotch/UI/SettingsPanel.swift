@@ -38,56 +38,6 @@ struct SettingsPanel: View {
                         .padding(.horizontal, 4).padding(.top, 1)
                 }
 
-                // MARK: Timer / Pomodoro
-                section("Timer / Pomodoro") {
-                    stepperRow("Làm", value: $settings.pomoWorkMinutes, range: 1...120, suffix: "m")
-                    stepperRow("Nghỉ ngắn", value: $settings.pomoShortMinutes, range: 1...60, suffix: "m")
-                    stepperRow("Nghỉ dài", value: $settings.pomoLongMinutes, range: 1...60, suffix: "m")
-                    stepperRow("Số vòng trước nghỉ dài", value: $settings.pomoRounds, range: 1...12, suffix: "")
-                    toggleRow("Tự chạy pha kế tiếp", icon: "arrow.triangle.2.circlepath", isOn: $settings.pomoAutoStart)
-                    toggleRow("Chuông báo", icon: "bell.badge", isOn: $settings.timerSoundEnabled)
-
-                    HStack(spacing: 9) {
-                        Image(systemName: "music.note")
-                            .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.7))
-                            .frame(width: 18)
-                        Text("Âm chuông").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
-                        Spacer(minLength: 0)
-                        Picker("", selection: $settings.timerSoundName) {
-                            ForEach(["Glass", "Ping", "Submarine", "Funk", "Blow"], id: \.self) { name in
-                                Text(name).tag(name)
-                            }
-                        }
-                        .labelsHidden()
-                        .frame(width: 110)
-                    }
-                    .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
-
-                    HStack(spacing: 9) {
-                        Image(systemName: "speaker.wave.2.fill")
-                            .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.7))
-                            .frame(width: 18)
-                        Text("Âm lượng").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
-                        Slider(value: $settings.timerVolume, in: 0...1)
-                        Button("Nghe thử") {
-                            if let snd = NSSound(named: settings.timerSoundName) {
-                                snd.volume = Float(settings.timerVolume)
-                                snd.play()
-                            }
-                        }
-                        .buttonStyle(.plain)
-                        .font(.system(size: 10.5, weight: .medium))
-                        .foregroundStyle(.white.opacity(0.75))
-                        .padding(.horizontal, 8).padding(.vertical, 3)
-                        .background(RoundedRectangle(cornerRadius: 6, style: .continuous).fill(.white.opacity(0.08)))
-                    }
-                    .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
-                }
-
                 // MARK: Notifications
                 section("Notifications") {
                     HStack(spacing: 8) {
@@ -104,6 +54,42 @@ struct SettingsPanel: View {
                             NSWorkspace.shared.open(url)
                         }
                     }
+
+                    toggleRow("Âm báo thông báo", icon: "bell.badge", isOn: $settings.notifSoundEnabled)
+
+                    HStack(spacing: 9) {
+                        Image(systemName: "music.note")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.7))
+                            .frame(width: 18)
+                        Text("Âm báo").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+                        Spacer(minLength: 0)
+                        StyledSoundPicker(selection: $settings.notifSoundName)
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+
+                    HStack(spacing: 9) {
+                        Image(systemName: "speaker.wave.2.fill")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.7))
+                            .frame(width: 18)
+                        Text("Âm lượng").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+                        Slider(value: $settings.notifVolume, in: 0...1)
+                        Button("Nghe thử") {
+                            if let snd = NSSound(named: settings.notifSoundName) {
+                                snd.volume = Float(settings.notifVolume)
+                                snd.play()
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        .font(.system(size: 10.5, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.75))
+                        .padding(.horizontal, 8).padding(.vertical, 3)
+                        .background(RoundedRectangle(cornerRadius: 6, style: .continuous).fill(.white.opacity(0.08)))
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
                 }
 
                 // MARK: Phím tắt
@@ -217,8 +203,53 @@ struct SettingsPanel: View {
     }
 }
 
+/// A dropdown styled to match the notch (dark chip + custom chevron) instead of
+/// the stock blue macOS Picker. Menu-based so we control the whole label.
+struct StyledSoundPicker: View {
+    @Binding var selection: String
+    var options: [String] = ["Glass", "Ping", "Submarine", "Funk", "Blow"]
+
+    @State private var hovering = false
+    private let purple = Color(red: 0.64, green: 0.55, blue: 0.98)
+
+    var body: some View {
+        Menu {
+            ForEach(options, id: \.self) { name in
+                Button {
+                    selection = name
+                    // Nghe ngay khi chọn để dễ so sánh.
+                    NSSound(named: name)?.play()
+                } label: {
+                    if selection == name { Label(name, systemImage: "checkmark") }
+                    else { Text(name) }
+                }
+            }
+        } label: {
+            HStack(spacing: 6) {
+                Text(selection)
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.white.opacity(hovering ? 1 : 0.9))
+                Image(systemName: "chevron.up.chevron.down")
+                    .font(.system(size: 8, weight: .bold))
+                    .foregroundStyle(.white.opacity(hovering ? 0.85 : 0.5))
+            }
+            .padding(.horizontal, 10).padding(.vertical, 5)
+            .background(RoundedRectangle(cornerRadius: 7, style: .continuous)
+                .fill(.white.opacity(hovering ? 0.18 : 0.10)))
+            .overlay(RoundedRectangle(cornerRadius: 7, style: .continuous)
+                .stroke(purple.opacity(hovering ? 0.7 : 0), lineWidth: 1))
+            .shadow(color: purple.opacity(hovering ? 0.3 : 0), radius: 4)
+        }
+        .menuStyle(.borderlessButton)
+        .menuIndicator(.hidden)
+        .fixedSize()
+        .onHover { hovering = $0 }
+        .animation(.easeOut(duration: 0.15), value: hovering)
+    }
+}
+
 /// Compact switch: soft purple track + glow when ON, neutral grey when OFF.
-private struct GlowToggleStyle: ToggleStyle {
+struct GlowToggleStyle: ToggleStyle {
     // A gentle lavender that reads as "purple" without being loud.
     private let purple = Color(red: 0.64, green: 0.55, blue: 0.98)
 

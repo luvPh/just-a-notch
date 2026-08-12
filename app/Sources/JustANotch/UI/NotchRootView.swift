@@ -4,7 +4,15 @@ private let alcoveRed = Color(red: 0.96, green: 0.36, blue: 0.33)
 
 struct NotchRootView: View {
     @ObservedObject var vm: NotchViewModel
+    // Observe the timer directly so compact-wing geometry + the countdown badge
+    // refresh on its 1s ticks (nested ObservableObjects don't republish `vm`).
+    @ObservedObject private var timer: TimerService
     @ObservedObject private var settings = AppSettings.shared
+
+    init(vm: NotchViewModel) {
+        _vm = ObservedObject(wrappedValue: vm)
+        _timer = ObservedObject(wrappedValue: vm.timer)
+    }
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @State private var railTab: RailTab = .music
 
@@ -201,23 +209,32 @@ struct NotchRootView: View {
                 .transition(.opacity)
             }
         }
-        // Countdown ring khi Timer đang chạy và notch đang thu gọn — đặt ở wing phải.
+        // Không có media → không có compact wing/waveform, nên hiện badge đếm ngược
+        // ngay ở wing phải. Có media thì badge nằm trong `compactRight` (thay chỗ
+        // waveform) để không đè lên nhau.
         .overlay(alignment: .topTrailing) {
-            if !vm.expanded, vm.timer.isRunning {
-                ZStack {
-                    Circle().trim(from: 0, to: max(0.001, 1 - (vm.timer.remaining / max(1, vm.timer.phaseLength))))
-                        .stroke(vm.timer.phase == .work ? Color.red : Color.green,
-                                style: StrokeStyle(lineWidth: 2, lineCap: .round))
-                        .rotationEffect(.degrees(-90))
-                        .frame(width: 14, height: 14)
-                    Text("\(Int(vm.timer.remaining / 60))")
-                        .font(.system(size: 9, weight: .bold, design: .rounded))
-                        .foregroundStyle(.white)
-                }
-                .padding(.trailing, 12).padding(.top, 12)
-                .allowsHitTesting(false)
-                .transition(.opacity)
+            if !vm.expanded, timer.isRunning, !vm.hasMedia {
+                countdownBadge
+                    .padding(.trailing, 12).padding(.top, 12)
+                    .allowsHitTesting(false)
+                    .transition(.opacity)
             }
+        }
+    }
+
+    // Small countdown ring + remaining-minutes number, shared by the no-media
+    // overlay and the compact right wing.
+    private var countdownBadge: some View {
+        ZStack {
+            Circle().trim(from: 0, to: max(0.001, 1 - (timer.remaining / max(1, timer.phaseLength))))
+                .stroke(timer.phase == .work ? Color(red: 0.96, green: 0.36, blue: 0.33)
+                                             : Color(red: 0.30, green: 0.82, blue: 0.52),
+                        style: StrokeStyle(lineWidth: 2, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+                .frame(width: 15, height: 15)
+            Text("\(max(0, Int(timer.remaining / 60)))")
+                .font(.system(size: 9, weight: .bold, design: .rounded))
+                .foregroundStyle(.white)
         }
     }
 
@@ -254,12 +271,21 @@ struct NotchRootView: View {
     // skip buttons unfold outward from it.
     private var compactRight: some View {
         let on = vm.hoverControls
+        // While a timer runs (and the user isn't hovering controls), the countdown
+        // badge takes the waveform's slot so the two never overlap.
+        let showTimer = timer.isRunning && !on
         return ZStack(alignment: .trailing) {
             OrganicWaveform(active: vm.isPlaying, reduceMotion: reduceMotion, bars: 6)
                 .frame(width: 18, height: 11)
-                .opacity(on ? 0 : 1)
-                .blur(radius: on ? 5 : 0)
+                .opacity(on || timer.isRunning ? 0 : 1)
+                .blur(radius: on || timer.isRunning ? 5 : 0)
                 .scaleEffect(on ? 0.55 : 1, anchor: .trailing)
+
+            countdownBadge
+                .opacity(showTimer ? 1 : 0)
+                .blur(radius: showTimer ? 0 : 5)
+                .scaleEffect(showTimer ? 1 : 0.6, anchor: .trailing)
+                .allowsHitTesting(false)
 
             HStack(spacing: 4) {
                 compactCtl("backward.fill", 11) { vm.previous() }

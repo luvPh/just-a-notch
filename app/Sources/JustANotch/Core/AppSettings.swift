@@ -13,6 +13,10 @@ final class AppSettings: ObservableObject {
     // MARK: Tabs — which rail tabs are shown. Music + Settings are always on.
     @Published var showFiles: Bool { didSet { d.set(showFiles, forKey: "cfg.showFiles") } }
     @Published var showNotifications: Bool { didSet { d.set(showNotifications, forKey: "cfg.showNotifications") } }
+    // MARK: Notifications — âm báo khi có thông báo mới (độc lập với chuông timer).
+    @Published var notifSoundEnabled: Bool { didSet { d.set(notifSoundEnabled, forKey: "cfg.notifSoundOn") } }
+    @Published var notifSoundName: String { didSet { d.set(notifSoundName, forKey: "cfg.notifSound") } }
+    @Published var notifVolume: Double { didSet { d.set(notifVolume, forKey: "cfg.notifVolume") } }
     @Published var showCalendar: Bool { didSet { d.set(showCalendar, forKey: "cfg.showCalendar") } }
     @Published var showClipboard: Bool { didSet { d.set(showClipboard, forKey: "cfg.showClipboard") } }
     @Published var showTimer: Bool { didSet { d.set(showTimer, forKey: "cfg.showTimer") } }
@@ -55,9 +59,13 @@ final class AppSettings: ObservableObject {
             "cfg.pomoWork": 25, "cfg.pomoShort": 5, "cfg.pomoLong": 15,
             "cfg.pomoRounds": 4, "cfg.pomoAutoStart": true,
             "cfg.timerSoundOn": true, "cfg.timerSound": "Glass", "cfg.timerVolume": 0.8,
+            "cfg.notifSoundOn": true, "cfg.notifSound": "Ping", "cfg.notifVolume": 0.7,
         ])
         showFiles = d.bool(forKey: "cfg.showFiles")
         showNotifications = d.bool(forKey: "cfg.showNotifications")
+        notifSoundEnabled = d.bool(forKey: "cfg.notifSoundOn")
+        notifSoundName = d.string(forKey: "cfg.notifSound") ?? "Ping"
+        notifVolume = d.double(forKey: "cfg.notifVolume")
         showCalendar = d.bool(forKey: "cfg.showCalendar")
         showClipboard = d.bool(forKey: "cfg.showClipboard")
         showTimer = d.bool(forKey: "cfg.showTimer")

@@ -3,17 +3,10 @@ import SwiftUI
 struct ClipboardPanel: View {
     @ObservedObject var store: ClipboardStore
 
+    @State private var hoveringPanel = false
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Text("Clipboard").font(.headline)
-                Spacer()
-                Button {
-                    store.clearUnpinned()
-                } label: { Image(systemName: "trash") }
-                .buttonStyle(.plain)
-                .help("Xoá tất cả (giữ mục ghim)")
-            }
+        Group {
             if store.items.isEmpty {
                 Text("Chưa có gì được sao chép.")
                     .font(.caption).foregroundStyle(.secondary)
@@ -26,9 +19,29 @@ struct ClipboardPanel: View {
                         }
                     }
                 }
+                .scrollIndicators(.never)
+                // Nút xoá-tất-cả nổi góc trên-phải, chỉ hiện khi rê chuột vào panel,
+                // không chiếm 1 hàng header riêng.
+                .overlay(alignment: .topTrailing) {
+                    if hoveringPanel {
+                        Button { store.clearUnpinned() } label: {
+                            Image(systemName: "trash")
+                                .font(.system(size: 10, weight: .semibold))
+                                .foregroundStyle(.white.opacity(0.8))
+                                .padding(5)
+                                .background(Circle().fill(.black.opacity(0.55)))
+                        }
+                        .buttonStyle(.plain)
+                        .help("Xoá tất cả (giữ mục ghim)")
+                        .padding(2)
+                        .transition(.opacity)
+                    }
+                }
             }
         }
-        .padding(10)
+        .padding(4)
+        .onHover { hoveringPanel = $0 }
+        .animation(.easeInOut(duration: 0.15), value: hoveringPanel)
     }
 }
 
@@ -52,8 +65,9 @@ private struct ClipboardRow: View {
                 }.buttonStyle(.plain).help("Xoá")
             }
         }
-        .padding(.horizontal, 8).padding(.vertical, 6)
-        .background(RoundedRectangle(cornerRadius: 8).fill(.white.opacity(hovering ? 0.10 : 0.05)))
+        .foregroundStyle(.black)
+        .padding(.horizontal, 8).padding(.vertical, 5)
+        .background(RoundedRectangle(cornerRadius: 8).fill(.white.opacity(hovering ? 1.0 : 0.92)))
         .contentShape(Rectangle())
         .onTapGesture { store.copyBack(item.id) }
         .onHover { hovering = $0 }
@@ -62,7 +76,8 @@ private struct ClipboardRow: View {
     @ViewBuilder private var preview: some View {
         switch item.kind {
         case let .text(s):
-            Text(s).lineLimit(2).font(.system(.callout, design: .monospaced))
+            Text(s).lineLimit(1).truncationMode(.tail)
+                .font(.system(size: 11.5, design: .monospaced))
         case .image:
             if let img = store.image(for: item) {
                 Image(nsImage: img).resizable().scaledToFill()

@@ -99,7 +99,18 @@ final class NotchViewModel: ObservableObject {
         notifier.permissionState.receive(on: RunLoop.main)
             .sink { [weak self] in self?.notificationsPermissionDenied = ($0 == .denied) }.store(in: &bag)
         notifier.latestArrival.receive(on: RunLoop.main)
-            .sink { [weak self] in self?.showHUD($0) }.store(in: &bag)
+            .sink { [weak self] in
+                self?.playNotifSound()
+                self?.showHUD($0)
+            }.store(in: &bag)
+    }
+
+    /// Phát âm báo khi có thông báo mới (độc lập với chuông timer).
+    private func playNotifSound() {
+        let s = AppSettings.shared
+        guard s.notifSoundEnabled, let snd = NSSound(named: s.notifSoundName) else { return }
+        snd.volume = Float(s.notifVolume)
+        snd.play()
     }
 
     private func handleTrack(_ track: MediaTrack?) {
@@ -168,7 +179,10 @@ final class NotchViewModel: ObservableObject {
         // Hovering the compact island reveals ◀ ⏯ ▶ in the right wing, so it
         // grows to fit the transport controls (the waveform lived here before).
         if hoverControls { return 106 }
-        switch compactState { case .quiet: return 10; case .resting: return 40; case .reading: return 40 }
+        let base: CGFloat
+        switch compactState { case .quiet: base = 10; case .resting: base = 40; case .reading: base = 40 }
+        // Đồng hồ đếm ngược chiếm chỗ waveform ở wing phải → nới rộng để badge đủ chỗ.
+        return timer.isRunning ? max(base, 42) : base
     }
     /// True once the delayed reveal has fired — the trigger for morphing the
     /// waveform into transport buttons and widening the right wing.

@@ -10,6 +10,10 @@ final class TimerService: ObservableObject {
     @Published private(set) var remaining: TimeInterval = 0
     @Published private(set) var completedWorkRounds = 0
     @Published private(set) var phaseLength: TimeInterval = 0   // để UI vẽ vòng %
+    /// Nhãn/thông điệp do người dùng đặt cho hẹn giờ tuỳ chỉnh (mode .plain).
+    @Published private(set) var label: String = ""
+    /// True trong khoảnh khắc hẹn giờ tuỳ chỉnh vừa kết thúc (để panel hiện message).
+    @Published private(set) var justFinished = false
 
     private var endDate: Date?
     private var ticker: Timer?
@@ -33,13 +37,17 @@ final class TimerService: ObservableObject {
     // MARK: Controls
     func startPomodoro() {
         mode = .pomodoro
+        label = ""
+        justFinished = false
         beginPhase(.work, resetRounds: true)
     }
 
-    func startPlain(minutes: Int) {
+    func startPlain(minutes: Int, label: String = "") {
         mode = .plain
         phase = .work
-        phaseLength = TimeInterval(minutes * 60)
+        justFinished = false
+        self.label = label.trimmingCharacters(in: .whitespacesAndNewlines)
+        phaseLength = TimeInterval(max(1, minutes) * 60)
         arm(phaseLength)
     }
 
@@ -53,12 +61,20 @@ final class TimerService: ObservableObject {
 
     func resume() {
         guard !isRunning, remaining > 0 else { return }
+        justFinished = false
         arm(remaining)
     }
 
     func reset() {
         isRunning = false; endDate = nil; stopTicker()
         remaining = 0; phaseLength = 0; completedWorkRounds = 0
+        label = ""; justFinished = false
+    }
+
+    /// Người dùng đã xem xong thông điệp kết thúc → dọn trạng thái finished.
+    func dismissFinished() {
+        justFinished = false
+        label = ""
     }
 
     func skip() { advancePhase() }
@@ -81,7 +97,10 @@ final class TimerService: ObservableObject {
     private func advancePhase() {
         chime()
         if mode == .plain {
-            reset()
+            // Giữ lại nhãn để panel hiện thông điệp kết thúc; dừng đồng hồ.
+            isRunning = false; endDate = nil; stopTicker()
+            remaining = 0
+            justFinished = true
             return
         }
         let (next, rounds) = nextPhase(after: phase,
