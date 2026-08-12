@@ -76,6 +76,7 @@ struct NotchRootView: View {
                 .animation(hoverSpring, value: vm.hovering)
                 .animation(revealSpring, value: vm.compactState)
                 .animation(openSpring, value: vm.expanded)
+                .animation(openSpring, value: vm.shelfActive)
                 .animation(openSpring, value: vm.showList)
                 // Notch phình ra/thu lại mềm khi mở tab cao hơn (Lịch).
                 .animation(openSpring, value: vm.panelWantsTall)
@@ -181,6 +182,10 @@ struct NotchRootView: View {
 
             if vm.showingHUD {
                 hudBanner.transition(.blurFade)
+            } else if vm.shelfActive {
+                ShelfPanel(store: vm.shelf,
+                           onClose: { withAnimation(openSpring) { vm.dismissShelf() } })
+                    .transition(.blurFade)
             } else if vm.expanded {
                 player.transition(.blurFade)
             } else if vm.hasMedia {
@@ -188,9 +193,19 @@ struct NotchRootView: View {
             }
         }
         .clipShape(shape)
+        // Viền notch nhấp nháy chậm khi đóng + đang giữ file (mời hover mở shelf).
+        // Đặt SAU clipShape để glow/nửa ngoài của nét không bị cắt.
+        .overlay {
+            if vm.shelfGlowing {
+                NotchEdgePulse(bottom: vm.bottomRadius, inverse: vm.topRadius, reduceMotion: reduceMotion)
+                    .allowsHitTesting(false)
+                    .transition(.opacity)
+            }
+        }
         .contentShape(shape)
         .onTapGesture {
             if vm.showingHUD { vm.openSourceApp(); return }
+            if vm.shelfActive { vm.dismissShelf() }
             if !vm.expanded { vm.refreshMedia(); withAnimation(openSpring) { vm.expanded = true } }
         }
         // Chỉ thu notch khi bấm vùng header 220×40px ở giữa trên (trên lõi camera).
@@ -232,19 +247,12 @@ struct NotchRootView: View {
         // Nút ⚙️ cài đặt Timer sống ở WING PHẢI khi mở tab Timer.
         .overlay(alignment: .topTrailing) {
             if vm.expanded, railTab == .timer {
-                Button {
+                WingGearButton(open: timerSettingsOpen) {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) {
                         timerSettingsOpen.toggle()
                     }
-                } label: {
-                    Image(systemName: timerSettingsOpen ? "xmark" : "gearshape.fill")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(.white.opacity(0.7))
-                        .frame(width: 24, height: 24)
-                        .background(Circle().fill(.white.opacity(0.08)))
                 }
-                .buttonStyle(.plain)
-                .padding(.trailing, 12).padding(.top, 9)
+                .padding(.trailing, 17).padding(.top, 9)   // dịch vào trái 5px
                 .transition(.opacity)
             }
         }
@@ -840,6 +848,27 @@ enum RailTab: String, CaseIterable, Identifiable {
         case .timer:         return "Timer"
         case .settings:      return "Settings"
         }
+    }
+}
+
+// Nút ⚙️/✕ ở wing phải tab Timer: to hơn 10%, sáng + phóng nhẹ khi hover.
+private struct WingGearButton: View {
+    let open: Bool
+    let action: () -> Void
+    @State private var hovering = false
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: open ? "xmark" : "gearshape.fill")
+                .font(.system(size: 13, weight: .semibold))          // 12 → 13 (~+10%)
+                .foregroundStyle(.white.opacity(hovering ? 1 : 0.7))
+                .frame(width: 26, height: 26)                        // 24 → 26 (~+10%)
+                .background(Circle().fill(.white.opacity(hovering ? 0.16 : 0.08)))
+                .scaleEffect(hovering ? 1.12 : 1.0)
+        }
+        .buttonStyle(.plain)
+        .onHover { hovering = $0 }
+        .animation(.easeOut(duration: 0.15), value: hovering)
     }
 }
 

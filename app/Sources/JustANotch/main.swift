@@ -23,6 +23,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = item
     }
 
+    func applicationWillTerminate(_ notification: Notification) {
+        controller?.cleanupShelf()
+    }
+
     @objc private func toggle() { controller?.toggleVisibility() }
     @objc private func quit() { NSApp.terminate(nil) }
 }

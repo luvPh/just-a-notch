@@ -24,6 +24,8 @@ final class NotchViewModel: ObservableObject {
     let fileStore = FileShortcutStore()
     /// Clipboard history store backing the Clipboard tab.
     let clipboard = ClipboardStore()
+    /// Kệ giữ tạm file kéo-thả (chỉ trong phiên).
+    let shelf = ShelfStore()
     /// Ba đồng hồ ĐỘC LẬP, mỗi trang carousel một cái, chạy song song được:
     /// Đơn/stopwatch, Pomodoro, Chuỗi tự tạo.
     lazy var timerSingle: TimerService = Self.makeTimer()
@@ -91,6 +93,43 @@ final class NotchViewModel: ObservableObject {
     private var lastIdentity: String?
     private var titleResetWork: DispatchWorkItem?
     let titleEntranceDuration: TimeInterval = 0.42
+
+    // MARK: Shelf (kệ giữ tạm)
+    /// Shelf đang bung trên bề mặt notch (do kéo file vào hoặc hover khi có file).
+    /// Thu sau 1s khi chuột rời hover.
+    @Published var shelfActive = false
+    private var shelfHideWork: DispatchWorkItem?
+    let shelfWidth: CGFloat = 600
+    /// Lưới 6 cột/hàng; cao 150 cho 1 hàng, phình thêm mỗi hàng, tối đa 2 hàng.
+    private let shelfRowExtra: CGFloat = 86
+    var shelfRows: Int {
+        guard !shelf.isEmpty else { return 1 }
+        return min(2, (shelf.count + 5) / 6)
+    }
+    var shelfHeight: CGFloat { 150 + CGFloat(shelfRows - 1) * shelfRowExtra }
+
+    /// Bung shelf.
+    func presentShelf() {
+        cancelShelfHide()
+        clearHUD()
+        shelfActive = true
+    }
+    /// Hẹn thu shelf sau 1s (gọi khi chuột rời hover). Chỉ hẹn một lần.
+    func scheduleShelfHide() {
+        guard shelfHideWork == nil else { return }
+        let work = DispatchWorkItem { [weak self] in
+            self?.shelfActive = false
+            self?.shelfHideWork = nil
+        }
+        shelfHideWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: work)
+    }
+    func cancelShelfHide() { shelfHideWork?.cancel(); shelfHideWork = nil }
+    func dismissShelf() { cancelShelfHide(); shelfActive = false }
+    /// Notch đóng + đang giữ file → tô ánh sáng chạy viền mời hover.
+    var shelfGlowing: Bool {
+        !shelfActive && !expanded && !showingHUD && !shelf.isEmpty
+    }
 
     // Set by the window controller from the detected notch.
     @Published var coreWidth: CGFloat = 200
@@ -170,7 +209,7 @@ final class NotchViewModel: ObservableObject {
 
     /// The HUD takes over the compact surface while a banner is showing and the
     /// panel is not expanded.
-    var showingHUD: Bool { hudNotification != nil && !expanded }
+    var showingHUD: Bool { hudNotification != nil && !expanded && !shelfActive }
     let hudWidth: CGFloat = 412
     /// Must clear the physical camera core (notchHeight) AND leave room for the
     /// two-line banner body below it; a fixed 56 left only ~6pt for the text.
@@ -241,11 +280,11 @@ final class NotchViewModel: ObservableObject {
     let filesExpandedWidth: CGFloat = 640
     /// Chiều cao canvas cố định lớn nhất — panel window phải đủ cao cho mọi state.
     var maxSurfaceHeight: CGFloat {
-        max(expandedHeight, listExpandedHeight, calendarMaxHeight, filesExpandedHeight)
+        max(expandedHeight, listExpandedHeight, calendarMaxHeight, filesExpandedHeight, shelfHeight)
     }
     /// Bề ngang canvas cố định lớn nhất — panel window phải đủ rộng cho mọi state.
     var maxSurfaceWidth: CGFloat {
-        max(expandedWidth, hudWidth, filesExpandedWidth)
+        max(expandedWidth, hudWidth, filesExpandedWidth, shelfWidth)
     }
 
     var isListOpen: Bool { expanded && showList }
@@ -258,6 +297,7 @@ final class NotchViewModel: ObservableObject {
     var keepOpenOnOutsideClick: Bool { filesWide || (filesTabActive && pinnedOpen) }
 
     var surfaceWidth: CGFloat {
+        if shelfActive { return shelfWidth }
         if showingHUD { return hudWidth }
         if filesWide { return filesExpandedWidth }
         return expanded ? expandedWidth : compactWidth
@@ -266,6 +306,7 @@ final class NotchViewModel: ObservableObject {
     @Published var timerEditorTall = false
 
     var surfaceHeight: CGFloat {
+        if shelfActive { return shelfHeight }
         if showingHUD { return hudHeight }
         if !expanded { return compactHeight }
         if timerEditorTall { return 300 }
@@ -278,13 +319,14 @@ final class NotchViewModel: ObservableObject {
     }
     /// Keep the camera core centred on the notch: shift by half the reveal imbalance.
     /// HUD and expanded are both centred, so no shift.
-    var centerXOffset: CGFloat { (expanded || showingHUD) ? 0 : (rightReveal - leftReveal) / 2 }
+    var centerXOffset: CGFloat { (expanded || showingHUD || shelfActive) ? 0 : (rightReveal - leftReveal) / 2 }
 
     var bottomRadius: CGFloat {
+        if shelfActive { return 26 }
         if showingHUD { return 22 }
         return expanded ? 26 : (compactState == .quiet ? 10 : 14)
     }
-    var topRadius: CGFloat { expanded ? 12 : 9 }
+    var topRadius: CGFloat { (expanded || shelfActive) ? 12 : 9 }
 
     /// Đặt bởi global hotkey (⌃⌥1/2/3) — NotchRootView phân giải theo danh sách tab
     /// đang hiển thị rồi tự xoá về nil. 1-based.
@@ -309,7 +351,7 @@ final class NotchViewModel: ObservableObject {
     /// Pop a HUD banner; latest arrival replaces any current one (no queue).
     /// Suppressed while expanded so it doesn't fight the open player.
     private func showHUD(_ record: NotificationRecord) {
-        guard !expanded else { return }
+        guard !expanded, !shelfActive else { return }
         hudClearWork?.cancel()
         withAnimation(.spring(response: 0.42, dampingFraction: 0.8)) { hudNotification = record }
         let work = DispatchWorkItem { [weak self] in
