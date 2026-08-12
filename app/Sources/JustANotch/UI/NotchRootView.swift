@@ -386,7 +386,7 @@ struct NotchRootView: View {
         case .calendar:      calendarPanel
         case .files:         filesPanel
         case .clipboard:     ClipboardPanel(store: vm.clipboard)
-        case .timer:         TimerPanel(timer: vm.timer, settings: AppSettings.shared)
+        case .timer:         TimerCarousel(timer: vm.timer, settings: AppSettings.shared)
         case .settings:      SettingsPanel(settings: settings, vm: vm)
         default:             placeholderPanel(railTab)
         }

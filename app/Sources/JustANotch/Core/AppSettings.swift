@@ -30,6 +30,8 @@ final class AppSettings: ObservableObject {
     @Published var timerSoundEnabled: Bool { didSet { d.set(timerSoundEnabled, forKey: "cfg.timerSoundOn") } }
     @Published var timerSoundName: String { didSet { d.set(timerSoundName, forKey: "cfg.timerSound") } }
     @Published var timerVolume: Double { didSet { d.set(timerVolume, forKey: "cfg.timerVolume") } }
+    // Trang carousel đang xem trong tab Timer (0=Đơn, 1=Pomodoro, 2=Chuỗi tự tạo).
+    @Published var timerPage: Int { didSet { d.set(timerPage, forKey: "cfg.timerPage") } }
 
     var pomodoroConfig: PomodoroConfig {
         PomodoroConfig(workMinutes: pomoWorkMinutes, shortBreakMinutes: pomoShortMinutes,
@@ -77,6 +79,7 @@ final class AppSettings: ObservableObject {
         timerSoundEnabled = d.bool(forKey: "cfg.timerSoundOn")
         timerSoundName = d.string(forKey: "cfg.timerSound") ?? "Glass"
         timerVolume = d.double(forKey: "cfg.timerVolume")
+        timerPage = d.integer(forKey: "cfg.timerPage")
         forceReduceMotion = d.bool(forKey: "cfg.forceReduceMotion")
         doubleTapCommand = d.bool(forKey: "cfg.doubleTapCommand")
         launchAtLogin = (SMAppService.mainApp.status == .enabled)

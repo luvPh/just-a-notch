@@ -1,44 +1,28 @@
 import SwiftUI
 
-// Flip-clock timer that fits inside the fixed 150px notch panel (≈90px usable
-// height below the camera core). Three states share the panel:
-//   • clock   — split-flap MM:SS + controls (running / idle)
-//   • editor  — user sets a custom duration + reminder message
-//   • done    — the custom timer finished; shows the message until dismissed
+// Trang "Đơn" của carousel Timer: hẹn giờ một lần (đếm ngược) hoặc stopwatch
+// (đếm lên). Không dính tới Pomodoro (trang riêng).
 struct TimerPanel: View {
     @ObservedObject var timer: TimerService
     @ObservedObject var settings: AppSettings
 
     @State private var editing = false
-    @State private var showingSettings = false
+    @State private var countUp = false
     @State private var customMinutes = 15
     @State private var customMessage = ""
 
-    private var phaseColor: Color {
-        switch timer.phase {
-        case .work:                   return Color(red: 0.96, green: 0.36, blue: 0.33)
-        case .shortBreak, .longBreak: return Color(red: 0.30, green: 0.82, blue: 0.52)
-        }
+    private let accent = Color(red: 0.64, green: 0.55, blue: 0.98)
+
+    private var shownSeconds: Int {
+        countUp ? Int(timer.elapsed.rounded()) : max(0, Int(timer.remaining.rounded()))
     }
-    // Custom label (plain timer) wins over the generic phase name.
-    private var titleLine: String {
-        if timer.mode == .plain, !timer.label.isEmpty { return timer.label }
-        switch timer.phase {
-        case .work:       return "Làm việc"
-        case .shortBreak: return "Nghỉ ngắn"
-        case .longBreak:  return "Nghỉ dài"
-        }
-    }
-    private var totalSeconds: Int { max(0, Int(timer.remaining.rounded())) }
-    private var mm: String { String(format: "%02d", totalSeconds / 60) }
-    private var ss: String { String(format: "%02d", totalSeconds % 60) }
+    private var mm: String { String(format: "%02d", shownSeconds / 60) }
+    private var ss: String { String(format: "%02d", shownSeconds % 60) }
 
     var body: some View {
         Group {
             if timer.justFinished {
                 doneView
-            } else if showingSettings {
-                settingsView
             } else if editing {
                 editorView
             } else {
@@ -52,68 +36,80 @@ struct TimerPanel: View {
 
     private var clockView: some View {
         VStack(spacing: 9) {
+            modeToggle
+
             HStack(spacing: 5) {
-                FlipDigit(char: mm.first!, accent: phaseColor)
-                FlipDigit(char: mm.last!,  accent: phaseColor)
+                FlipDigit(char: mm.first!, accent: accent)
+                FlipDigit(char: mm.last!,  accent: accent)
                 Text(":")
                     .font(.system(size: 26, weight: .bold, design: .rounded))
                     .foregroundStyle(.white.opacity(0.55)).padding(.bottom, 3)
-                FlipDigit(char: ss.first!, accent: phaseColor)
-                FlipDigit(char: ss.last!,  accent: phaseColor)
-
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(titleLine)
-                        .font(.system(size: 9.5, weight: .bold))
-                        .foregroundStyle(phaseColor)
-                        .lineLimit(2).fixedSize(horizontal: false, vertical: true)
-                    if timer.mode == .pomodoro {
-                        Text("Vòng \(timer.completedWorkRounds + 1)/\(settings.pomoRounds)")
-                            .font(.system(size: 9, weight: .medium))
-                            .foregroundStyle(.white.opacity(0.45)).fixedSize()
-                    }
-                }
-                .frame(width: 74, alignment: .leading)
-                .padding(.leading, 4)
+                FlipDigit(char: ss.first!, accent: accent)
+                FlipDigit(char: ss.last!,  accent: accent)
             }
 
             HStack(spacing: 7) {
                 if timer.isRunning {
-                    ctl("pause.fill", tint: phaseColor) { timer.pause() }
+                    ctl("pause.fill", tint: accent) { timer.pause() }
                 } else {
-                    ctl("play.fill", tint: phaseColor) {
-                        if timer.remaining > 0 { timer.resume() } else { timer.startPomodoro() }
+                    ctl("play.fill", tint: accent) {
+                        if countUp { timer.startStopwatch() }
+                        else if timer.remaining > 0 { timer.resume() }
+                        else { timer.startPlain(minutes: customMinutes) }
                     }
                 }
                 ctl("arrow.counterclockwise") { timer.reset() }
-                ctl("forward.end.fill") { timer.skip() }
 
-                Divider().frame(height: 16).overlay(.white.opacity(0.12))
-
-                ForEach([5, 10, 25], id: \.self) { m in
-                    Button { timer.startPlain(minutes: m) } label: {
-                        Text("\(m)′")
-                            .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.85))
-                            .frame(width: 25, height: 24)
-                            .background(RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                .fill(.white.opacity(0.08)))
+                if !countUp {
+                    Divider().frame(height: 16).overlay(.white.opacity(0.12))
+                    ForEach([5, 10, 25], id: \.self) { m in
+                        Button { timer.startPlain(minutes: m) } label: {
+                            Text("\(m)′")
+                                .font(.system(size: 11, weight: .semibold))
+                                .foregroundStyle(.white.opacity(0.85))
+                                .frame(width: 25, height: 24)
+                                .background(RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                    .fill(.white.opacity(0.08)))
+                        }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
-                }
-                // Custom duration + message.
-                ctl("slider.horizontal.3") {
-                    customMessage = timer.label
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) { editing = true }
-                }
-                // Cấu hình Pomodoro + âm báo.
-                ctl("gearshape.fill") {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) { showingSettings = true }
+                    ctl("slider.horizontal.3") {
+                        customMessage = ""
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) { editing = true }
+                    }
                 }
             }
         }
     }
 
-    // MARK: Editor
+    private var modeToggle: some View {
+        HStack(spacing: 0) {
+            segButton("Đếm ngược", on: !countUp) { setCountUp(false) }
+            segButton("Đếm lên", on: countUp) { setCountUp(true) }
+        }
+        .padding(2)
+        .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.06)))
+    }
+
+    private func segButton(_ label: String, on: Bool, _ action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(label)
+                .font(.system(size: 10.5, weight: .semibold))
+                .foregroundStyle(on ? .black : .white.opacity(0.7))
+                .padding(.horizontal, 12).frame(height: 20)
+                .background(RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .fill(on ? .white.opacity(0.9) : .clear))
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func setCountUp(_ up: Bool) {
+        guard up != countUp else { return }
+        timer.reset()
+        withAnimation(.easeOut(duration: 0.15)) { countUp = up }
+    }
+
+    // MARK: Editor (custom minutes + message)
 
     private var editorView: some View {
         VStack(spacing: 8) {
@@ -163,108 +159,12 @@ struct TimerPanel: View {
                     Text("Bắt đầu").font(.system(size: 11, weight: .bold))
                         .foregroundStyle(.black)
                         .frame(maxWidth: .infinity).frame(height: 26)
-                        .background(RoundedRectangle(cornerRadius: 7, style: .continuous)
-                            .fill(Color(red: 0.96, green: 0.36, blue: 0.33)))
+                        .background(RoundedRectangle(cornerRadius: 7, style: .continuous).fill(accent))
                 }
                 .buttonStyle(.plain)
             }
         }
         .padding(.horizontal, 2)
-    }
-
-    // MARK: Settings (Pomodoro + âm báo) — sống ngay trong tab Timer.
-
-    private var settingsView: some View {
-        VStack(spacing: 6) {
-            HStack(spacing: 7) {
-                Button {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) { showingSettings = false }
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 11, weight: .bold)).foregroundStyle(.white.opacity(0.8))
-                        .frame(width: 24, height: 24)
-                        .background(Circle().fill(.white.opacity(0.1)))
-                }
-                .buttonStyle(.plain)
-                Text("Cấu hình Timer")
-                    .font(.system(size: 11.5, weight: .bold)).foregroundStyle(.white.opacity(0.9))
-                Spacer(minLength: 0)
-            }
-
-            ScrollView(.vertical) {
-                VStack(spacing: 5) {
-                    stepRow("Làm", value: $settings.pomoWorkMinutes, range: 1...120, suffix: "m")
-                    stepRow("Nghỉ ngắn", value: $settings.pomoShortMinutes, range: 1...60, suffix: "m")
-                    stepRow("Nghỉ dài", value: $settings.pomoLongMinutes, range: 1...60, suffix: "m")
-                    stepRow("Số vòng", value: $settings.pomoRounds, range: 1...12, suffix: "")
-                    switchRow("Tự chạy pha kế tiếp", icon: "arrow.triangle.2.circlepath",
-                              isOn: $settings.pomoAutoStart)
-                    switchRow("Chuông báo", icon: "bell.badge", isOn: $settings.timerSoundEnabled)
-
-                    HStack(spacing: 9) {
-                        Image(systemName: "music.note")
-                            .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
-                        Text("Âm chuông").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
-                        Spacer(minLength: 0)
-                        StyledSoundPicker(selection: $settings.timerSoundName)
-                    }
-                    .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(rowBG)
-
-                    HStack(spacing: 9) {
-                        Image(systemName: "speaker.wave.2.fill")
-                            .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
-                        Slider(value: $settings.timerVolume, in: 0...1)
-                        Button {
-                            if let snd = NSSound(named: settings.timerSoundName) {
-                                snd.volume = Float(settings.timerVolume); snd.play()
-                            }
-                        } label: {
-                            Text("Nghe thử").font(.system(size: 10.5, weight: .medium))
-                                .foregroundStyle(.white.opacity(0.75))
-                                .padding(.horizontal, 8).padding(.vertical, 3)
-                                .background(RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                    .fill(.white.opacity(0.08)))
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(rowBG)
-                }
-            }
-            .scrollIndicators(.never)
-            .scrollBounceBehavior(.basedOnSize)
-        }
-    }
-
-    private var rowBG: some View {
-        RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05))
-    }
-
-    private func stepRow(_ label: String, value: Binding<Int>, range: ClosedRange<Int>, suffix: String) -> some View {
-        HStack(spacing: 9) {
-            Text("\(label): \(value.wrappedValue)\(suffix)")
-                .font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
-            Spacer(minLength: 0)
-            Stepper("", value: value, in: range).labelsHidden()
-        }
-        .padding(.horizontal, 8).padding(.vertical, 4)
-        .background(rowBG)
-    }
-
-    private func switchRow(_ label: String, icon: String, isOn: Binding<Bool>) -> some View {
-        HStack(spacing: 9) {
-            Image(systemName: icon)
-                .font(.system(size: 11, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
-            Text(label).font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
-            Spacer(minLength: 0)
-            Toggle("", isOn: isOn).labelsHidden().toggleStyle(GlowToggleStyle())
-        }
-        .padding(.horizontal, 8).padding(.vertical, 4)
-        .background(rowBG)
     }
 
     // MARK: Done
@@ -313,8 +213,8 @@ struct TimerPanel: View {
 }
 
 // A single split-flap digit card with a center seam; the digit flips vertically
-// when it changes.
-private struct FlipDigit: View {
+// when it changes. Dùng chung cho các trang timer.
+struct FlipDigit: View {
     let char: Character
     let accent: Color
 
