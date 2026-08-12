@@ -4,6 +4,7 @@ import SwiftUI
 struct PomodoroPage: View {
     @ObservedObject var timer: TimerService
     @ObservedObject var settings: AppSettings
+    @Binding var locked: Bool
 
     @State private var configuring = false
 
@@ -33,6 +34,7 @@ struct PomodoroPage: View {
             if configuring { configView } else { clockView }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .onChange(of: configuring) { _, v in locked = v }
     }
 
     private var clockView: some View {

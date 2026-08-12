@@ -24,8 +24,13 @@ final class NotchViewModel: ObservableObject {
     let fileStore = FileShortcutStore()
     /// Clipboard history store backing the Clipboard tab.
     let clipboard = ClipboardStore()
-    /// Pomodoro/plain countdown timer backing the Timer tab.
-    lazy var timer: TimerService = {
+    /// Ba đồng hồ ĐỘC LẬP, mỗi trang carousel một cái, chạy song song được:
+    /// Đơn/stopwatch, Pomodoro, Chuỗi tự tạo.
+    lazy var timerSingle: TimerService = Self.makeTimer()
+    lazy var timerPomodoro: TimerService = Self.makeTimer()
+    lazy var timerSequence: TimerService = Self.makeTimer()
+
+    private static func makeTimer() -> TimerService {
         let s = AppSettings.shared
         return TimerService(config: { s.pomodoroConfig },
                             autoStartNext: { s.pomoAutoStart },
@@ -34,7 +39,18 @@ final class NotchViewModel: ObservableObject {
                                 guard let s, s.timerSoundEnabled else { return }
                                 SoundLibrary.shared.play(name, volume: Float(s.timerVolume))
                             })
-    }()
+    }
+
+    /// Đồng hồ dùng để hiển thị badge/đếm ngược ở wing: ưu tiên cái đang chạy.
+    var displayTimer: TimerService {
+        if timerPomodoro.isRunning { return timerPomodoro }
+        if timerSingle.isRunning { return timerSingle }
+        if timerSequence.isRunning { return timerSequence }
+        return timerPomodoro
+    }
+    var anyTimerRunning: Bool {
+        timerSingle.isRunning || timerPomodoro.isRunning || timerSequence.isRunning
+    }
     /// True khi người dùng bấm ⤢ để phóng to panel Files. Ghi nhớ qua UserDefaults.
     @Published var filesExpanded: Bool = UserDefaults.standard.bool(forKey: "filesExpanded") {
         didSet { UserDefaults.standard.set(filesExpanded, forKey: "filesExpanded") }
@@ -180,7 +196,7 @@ final class NotchViewModel: ObservableObject {
         let base: CGFloat
         switch compactState { case .quiet: base = 10; case .resting: base = 40; case .reading: base = 40 }
         // Đồng hồ đếm ngược chiếm chỗ waveform ở wing phải → nới rộng để badge đủ chỗ.
-        return timer.isRunning ? max(base, 42) : base
+        return anyTimerRunning ? max(base, 42) : base
     }
     /// True once the delayed reveal has fired — the trigger for morphing the
     /// waveform into transport buttons and widening the right wing.
@@ -246,9 +262,13 @@ final class NotchViewModel: ObservableObject {
         if filesWide { return filesExpandedWidth }
         return expanded ? expandedWidth : compactWidth
     }
+    /// Tab Chuỗi tự tạo đang mở trình sửa → panel cao 300px cho thoải mái.
+    @Published var timerEditorTall = false
+
     var surfaceHeight: CGFloat {
         if showingHUD { return hudHeight }
         if !expanded { return compactHeight }
+        if timerEditorTall { return 300 }
         if isListOpen { return listExpandedHeight }
         if filesTabActive { return filesExpanded ? filesExpandedHeight : expandedHeight }
         if calTabActive { return calExpanded ? calendarExpandedHeight : expandedHeight }

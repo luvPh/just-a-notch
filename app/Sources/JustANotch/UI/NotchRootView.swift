@@ -4,17 +4,26 @@ private let alcoveRed = Color(red: 0.96, green: 0.36, blue: 0.33)
 
 struct NotchRootView: View {
     @ObservedObject var vm: NotchViewModel
-    // Observe the timer directly so compact-wing geometry + the countdown badge
-    // refresh on its 1s ticks (nested ObservableObjects don't republish `vm`).
-    @ObservedObject private var timer: TimerService
+    // Observe cả ba đồng hồ để wing/badge refresh theo tick của bất kỳ cái nào
+    // (nested ObservableObjects không tự republish `vm`).
+    @ObservedObject private var timerSingle: TimerService
+    @ObservedObject private var timerPomodoro: TimerService
+    @ObservedObject private var timerSequence: TimerService
     @ObservedObject private var settings = AppSettings.shared
+
+    // Đồng hồ để hiển thị ở wing (ưu tiên cái đang chạy).
+    private var timer: TimerService { vm.displayTimer }
 
     init(vm: NotchViewModel) {
         _vm = ObservedObject(wrappedValue: vm)
-        _timer = ObservedObject(wrappedValue: vm.timer)
+        _timerSingle = ObservedObject(wrappedValue: vm.timerSingle)
+        _timerPomodoro = ObservedObject(wrappedValue: vm.timerPomodoro)
+        _timerSequence = ObservedObject(wrappedValue: vm.timerSequence)
     }
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @State private var railTab: RailTab = .music
+    // Nút ⚙️ ở wing phải notch (tab Timer) mở panel cài đặt tổng.
+    @State private var timerSettingsOpen = false
 
     // System setting OR the user's manual override in Settings → Motion.
     private var reduceMotion: Bool { systemReduceMotion || settings.forceReduceMotion }
@@ -220,6 +229,25 @@ struct NotchRootView: View {
                     .transition(.opacity)
             }
         }
+        // Nút ⚙️ cài đặt Timer sống ở WING PHẢI khi mở tab Timer.
+        .overlay(alignment: .topTrailing) {
+            if vm.expanded, railTab == .timer {
+                Button {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) {
+                        timerSettingsOpen.toggle()
+                    }
+                } label: {
+                    Image(systemName: timerSettingsOpen ? "xmark" : "gearshape.fill")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(.white.opacity(0.7))
+                        .frame(width: 24, height: 24)
+                        .background(Circle().fill(.white.opacity(0.08)))
+                }
+                .buttonStyle(.plain)
+                .padding(.trailing, 12).padding(.top, 9)
+                .transition(.opacity)
+            }
+        }
     }
 
     // Small countdown ring + remaining-minutes number, shared by the no-media
@@ -386,7 +414,9 @@ struct NotchRootView: View {
         case .calendar:      calendarPanel
         case .files:         filesPanel
         case .clipboard:     ClipboardPanel(store: vm.clipboard)
-        case .timer:         TimerCarousel(timer: vm.timer, settings: AppSettings.shared)
+        case .timer:         TimerCarousel(single: vm.timerSingle, pomodoro: vm.timerPomodoro,
+                                           sequence: vm.timerSequence, settings: AppSettings.shared,
+                                           showingSettings: $timerSettingsOpen, tall: $vm.timerEditorTall)
         case .settings:      SettingsPanel(settings: settings, vm: vm)
         default:             placeholderPanel(railTab)
         }
@@ -947,7 +977,7 @@ struct ThemeCarousel: View {
 
 // Captures two-finger / wheel scrolling over the rail without a scroll bar.
 // Click-transparent so the SwiftUI icons keep receiving taps.
-private struct ScrollWheelCatcher: NSViewRepresentable {
+struct ScrollWheelCatcher: NSViewRepresentable {
     var onScroll: (CGFloat) -> Void
     var onEnded: () -> Void
 

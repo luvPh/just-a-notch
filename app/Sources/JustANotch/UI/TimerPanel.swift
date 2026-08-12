@@ -1,21 +1,19 @@
 import SwiftUI
 
-// Trang "Đơn" của carousel Timer: hẹn giờ một lần (đếm ngược) hoặc stopwatch
-// (đếm lên). Không dính tới Pomodoro (trang riêng).
+// Trang "Đơn" của carousel Timer: hẹn giờ một lần (đếm ngược). Không dính tới
+// Pomodoro (trang riêng).
 struct TimerPanel: View {
     @ObservedObject var timer: TimerService
     @ObservedObject var settings: AppSettings
+    @Binding var locked: Bool
 
     @State private var editing = false
-    @State private var countUp = false
     @State private var customMinutes = 15
     @State private var customMessage = ""
 
     private let accent = Color(red: 0.64, green: 0.55, blue: 0.98)
 
-    private var shownSeconds: Int {
-        countUp ? Int(timer.elapsed.rounded()) : max(0, Int(timer.remaining.rounded()))
-    }
+    private var shownSeconds: Int { max(0, Int(timer.remaining.rounded())) }
     private var mm: String { String(format: "%02d", shownSeconds / 60) }
     private var ss: String { String(format: "%02d", shownSeconds % 60) }
 
@@ -30,83 +28,47 @@ struct TimerPanel: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .onChange(of: editing) { _, v in locked = v }
     }
 
     // MARK: Clock
 
+    // Đồng hồ nhỏ (trái) + điều khiển (phải), gọn trong khung.
     private var clockView: some View {
-        VStack(spacing: 9) {
-            modeToggle
-
-            HStack(spacing: 5) {
-                FlipDigit(char: mm.first!, accent: accent)
-                FlipDigit(char: mm.last!,  accent: accent)
-                Text(":")
-                    .font(.system(size: 26, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.55)).padding(.bottom, 3)
-                FlipDigit(char: ss.first!, accent: accent)
-                FlipDigit(char: ss.last!,  accent: accent)
-            }
-
+        HStack(alignment: .center, spacing: 14) {
+            clockDigits
             HStack(spacing: 7) {
                 if timer.isRunning {
                     ctl("pause.fill", tint: accent) { timer.pause() }
                 } else {
                     ctl("play.fill", tint: accent) {
-                        if countUp { timer.startStopwatch() }
-                        else if timer.remaining > 0 { timer.resume() }
+                        if timer.remaining > 0 { timer.resume() }
                         else { timer.startPlain(minutes: customMinutes) }
                     }
                 }
                 ctl("arrow.counterclockwise") { timer.reset() }
-
-                if !countUp {
-                    Divider().frame(height: 16).overlay(.white.opacity(0.12))
-                    ForEach([5, 10, 25], id: \.self) { m in
-                        Button { timer.startPlain(minutes: m) } label: {
-                            Text("\(m)′")
-                                .font(.system(size: 11, weight: .semibold))
-                                .foregroundStyle(.white.opacity(0.85))
-                                .frame(width: 25, height: 24)
-                                .background(RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                    .fill(.white.opacity(0.08)))
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    ctl("slider.horizontal.3") {
-                        customMessage = ""
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) { editing = true }
-                    }
-                }
             }
         }
+        .frame(maxWidth: .infinity)
     }
 
-    private var modeToggle: some View {
-        HStack(spacing: 0) {
-            segButton("Đếm ngược", on: !countUp) { setCountUp(false) }
-            segButton("Đếm lên", on: countUp) { setCountUp(true) }
+    private var clockDigits: some View {
+        HStack(spacing: 3) {
+            FlipDigit(char: mm.first!, accent: accent, fontSize: 24, w: 24, h: 34)
+            FlipDigit(char: mm.last!,  accent: accent, fontSize: 24, w: 24, h: 34)
+            Text(":")
+                .font(.system(size: 22, weight: .bold, design: .rounded))
+                .foregroundStyle(.white.opacity(0.55)).padding(.bottom, 2)
+            FlipDigit(char: ss.first!, accent: accent, fontSize: 24, w: 24, h: 34)
+            FlipDigit(char: ss.last!,  accent: accent, fontSize: 24, w: 24, h: 34)
         }
-        .padding(2)
-        .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.06)))
-    }
-
-    private func segButton(_ label: String, on: Bool, _ action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Text(label)
-                .font(.system(size: 10.5, weight: .semibold))
-                .foregroundStyle(on ? .black : .white.opacity(0.7))
-                .padding(.horizontal, 12).frame(height: 20)
-                .background(RoundedRectangle(cornerRadius: 6, style: .continuous)
-                    .fill(on ? .white.opacity(0.9) : .clear))
+        // Bấm vào đồng hồ (khi rảnh) để nhập phút tuỳ chỉnh.
+        .contentShape(Rectangle())
+        .onTapGesture {
+            guard !timer.isRunning else { return }
+            customMessage = ""
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) { editing = true }
         }
-        .buttonStyle(.plain)
-    }
-
-    private func setCountUp(_ up: Bool) {
-        guard up != countUp else { return }
-        timer.reset()
-        withAnimation(.easeOut(duration: 0.15)) { countUp = up }
     }
 
     // MARK: Editor (custom minutes + message)
@@ -217,13 +179,16 @@ struct TimerPanel: View {
 struct FlipDigit: View {
     let char: Character
     let accent: Color
+    var fontSize: CGFloat = 30
+    var w: CGFloat = 30
+    var h: CGFloat = 44
 
     var body: some View {
         Text(String(char))
-            .font(.system(size: 30, weight: .heavy, design: .rounded))
+            .font(.system(size: fontSize, weight: .heavy, design: .rounded))
             .monospacedDigit()
             .foregroundStyle(.white)
-            .frame(width: 30, height: 44)
+            .frame(width: w, height: h)
             .background(
                 ZStack {
                     RoundedRectangle(cornerRadius: 6, style: .continuous)

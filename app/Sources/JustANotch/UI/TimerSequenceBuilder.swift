@@ -5,6 +5,8 @@ import SwiftUI
 struct TimerSequenceBuilder: View {
     @ObservedObject var timer: TimerService
     @ObservedObject var settings: AppSettings
+    @Binding var locked: Bool
+    @Binding var tall: Bool
     @StateObject private var store = SequenceStore()
 
     @State private var editing: TimerSequence?
@@ -21,6 +23,9 @@ struct TimerSequenceBuilder: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        // Đang sửa chuỗi → khoá cuộn + nới panel cao lên.
+        .onChange(of: editing != nil) { _, v in locked = v; tall = v }
+        .onDisappear { locked = false; tall = false }
     }
 
     private var listView: some View {
@@ -139,26 +144,32 @@ private struct SequenceEditor: View {
     }
 
     private func segmentRow(_ idx: Int) -> some View {
-        HStack(spacing: 6) {
-            Text("\(idx + 1)").font(.system(size: 9, weight: .bold)).foregroundStyle(.white.opacity(0.4))
-                .frame(width: 12)
-            TextField("Tên", text: $seq.segments[idx].name)
-                .textFieldStyle(.plain).font(.system(size: 11)).foregroundStyle(.white)
-                .frame(width: 60)
-            Stepper("\(seq.segments[idx].minutes)′", value: $seq.segments[idx].minutes, in: 1...180)
-                .labelsHidden().fixedSize()
-            Text("\(seq.segments[idx].minutes)′").font(.system(size: 10)).foregroundStyle(.white.opacity(0.7))
-                .frame(width: 28)
-            StyledSoundPicker(selection: $seq.segments[idx].soundName)
-            Spacer(minLength: 0)
-            if seq.segments.count > 1 {
-                Button { seq.segments.remove(at: idx) } label: {
-                    Image(systemName: "minus.circle.fill").font(.system(size: 12))
-                        .foregroundStyle(.white.opacity(0.35))
-                }.buttonStyle(.plain)
+        VStack(spacing: 5) {
+            HStack(spacing: 6) {
+                Text("\(idx + 1)").font(.system(size: 9, weight: .bold)).foregroundStyle(.white.opacity(0.4))
+                    .frame(width: 12)
+                TextField("Tên", text: $seq.segments[idx].name)
+                    .textFieldStyle(.plain).font(.system(size: 11)).foregroundStyle(.white)
+                Spacer(minLength: 0)
+                Text("\(seq.segments[idx].minutes)′").font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.8)).frame(width: 30, alignment: .trailing)
+                Stepper("", value: $seq.segments[idx].minutes, in: 1...180)
+                    .labelsHidden().fixedSize()
+                if seq.segments.count > 1 {
+                    Button { seq.segments.remove(at: idx) } label: {
+                        Image(systemName: "minus.circle.fill").font(.system(size: 13))
+                            .foregroundStyle(.white.opacity(0.35))
+                    }.buttonStyle(.plain)
+                }
+            }
+            HStack(spacing: 6) {
+                Image(systemName: "music.note").font(.system(size: 10))
+                    .foregroundStyle(.white.opacity(0.5)).frame(width: 12)
+                StyledSoundPicker(selection: $seq.segments[idx].soundName)
+                Spacer(minLength: 0)
             }
         }
-        .padding(.horizontal, 8).padding(.vertical, 4)
+        .padding(.horizontal, 8).padding(.vertical, 6)
         .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
     }
 
