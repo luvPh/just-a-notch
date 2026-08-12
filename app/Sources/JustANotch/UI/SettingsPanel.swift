@@ -77,10 +77,7 @@ struct SettingsPanel: View {
                         Text("Âm lượng").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
                         Slider(value: $settings.notifVolume, in: 0...1)
                         Button("Nghe thử") {
-                            if let snd = NSSound(named: settings.notifSoundName) {
-                                snd.volume = Float(settings.notifVolume)
-                                snd.play()
-                            }
+                            SoundLibrary.shared.play(settings.notifSoundName, volume: Float(settings.notifVolume))
                         }
                         .buttonStyle(.plain)
                         .font(.system(size: 10.5, weight: .medium))
@@ -207,7 +204,9 @@ struct SettingsPanel: View {
 /// the stock blue macOS Picker. Menu-based so we control the whole label.
 struct StyledSoundPicker: View {
     @Binding var selection: String
-    var options: [String] = ["Glass", "Ping", "Submarine", "Funk", "Blow"]
+    /// Mặc định lấy toàn bộ âm từ SoundLibrary (hệ thống + bundle). Có thể truyền
+    /// danh sách riêng nếu cần.
+    var options: [String] = SoundLibrary.shared.names
 
     @State private var hovering = false
     private let purple = Color(red: 0.64, green: 0.55, blue: 0.98)
@@ -218,7 +217,7 @@ struct StyledSoundPicker: View {
                 Button {
                     selection = name
                     // Nghe ngay khi chọn để dễ so sánh.
-                    NSSound(named: name)?.play()
+                    SoundLibrary.shared.play(name)
                 } label: {
                     if selection == name { Label(name, systemImage: "checkmark") }
                     else { Text(name) }

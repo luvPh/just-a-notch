@@ -16,6 +16,10 @@ rm -rf "$BUNDLE"
 mkdir -p "$BUNDLE/Contents/MacOS" "$BUNDLE/Contents/Resources"
 cp "$BIN_PATH/JustANotch" "$BUNDLE/Contents/MacOS/JustANotch"
 cp "$ROOT/scripts/Info.plist" "$BUNDLE/Contents/Info.plist"
+# Đóng gói thư viện âm người dùng (Resources/Sounds → bundle Resources/Sounds).
+if [ -d "$ROOT/Resources/Sounds" ]; then
+  cp -R "$ROOT/Resources/Sounds" "$BUNDLE/Contents/Resources/Sounds"
+fi
 # Sign with a stable self-signed identity so the code signature (and thus its
 # TCC designated requirement) stays constant across rebuilds — otherwise macOS
 # revokes Full Disk Access every build and the Notifications feature can't read

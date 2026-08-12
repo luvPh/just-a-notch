@@ -107,9 +107,8 @@ final class NotchViewModel: ObservableObject {
     /// Phát âm báo khi có thông báo mới (độc lập với chuông timer).
     private func playNotifSound() {
         let s = AppSettings.shared
-        guard s.notifSoundEnabled, let snd = NSSound(named: s.notifSoundName) else { return }
-        snd.volume = Float(s.notifVolume)
-        snd.play()
+        guard s.notifSoundEnabled else { return }
+        SoundLibrary.shared.play(s.notifSoundName, volume: Float(s.notifVolume))
     }
 
     private func handleTrack(_ track: MediaTrack?) {
