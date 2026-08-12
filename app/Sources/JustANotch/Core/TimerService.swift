@@ -14,23 +14,37 @@ final class TimerService: ObservableObject {
     @Published private(set) var label: String = ""
     /// True trong khoảnh khắc hẹn giờ tuỳ chỉnh vừa kết thúc (để panel hiện message).
     @Published private(set) var justFinished = false
+    /// Tên đoạn đang chạy (chế độ chuỗi tự tạo).
+    @Published private(set) var currentSegmentName: String = ""
+    /// Thời gian đã trôi (chế độ stopwatch, đếm lên).
+    @Published private(set) var elapsed: TimeInterval = 0
 
     private var endDate: Date?
     private var ticker: Timer?
+
+    // Trạng thái chạy chuỗi đoạn (mode .plain, runSegments không rỗng).
+    private var runSegments: [TimerSegment] = []
+    private var segIndex = 0
+    private var countingUp = false
 
     // Injectable cho test; production dùng AppSettings + Date().
     private let configProvider: () -> PomodoroConfig
     private let now: () -> Date
     private let autoStartNextProvider: () -> Bool
-    private let chime: () -> Void
+    /// Tên âm mặc định cho Pomodoro/plain (chuỗi tự tạo dùng âm của từng đoạn).
+    private let defaultSound: () -> String
+    /// Phát âm theo tên (SoundLibrary tra cứu hệ thống/bundle).
+    private let chime: (String) -> Void
 
     init(config: @escaping () -> PomodoroConfig,
          now: @escaping () -> Date = { Date() },
          autoStartNext: @escaping () -> Bool,
-         chime: @escaping () -> Void) {
+         defaultSound: @escaping () -> String = { "Glass" },
+         chime: @escaping (String) -> Void) {
         self.configProvider = config
         self.now = now
         self.autoStartNextProvider = autoStartNext
+        self.defaultSound = defaultSound
         self.chime = chime
     }
 
@@ -46,9 +60,40 @@ final class TimerService: ObservableObject {
         mode = .plain
         phase = .work
         justFinished = false
+        countingUp = false
+        runSegments = []
         self.label = label.trimmingCharacters(in: .whitespacesAndNewlines)
         phaseLength = TimeInterval(max(1, minutes) * 60)
         arm(phaseLength)
+    }
+
+    /// Chạy một chuỗi đoạn đã trải phẳng; mỗi đoạn phát âm riêng khi kết thúc.
+    func startSequence(_ segments: [TimerSegment], label: String = "") {
+        mode = .plain
+        phase = .work
+        justFinished = false
+        countingUp = false
+        self.label = label.trimmingCharacters(in: .whitespacesAndNewlines)
+        runSegments = segments
+        segIndex = 0
+        guard let first = segments.first else { runSegments = []; return }
+        currentSegmentName = first.name
+        phaseLength = TimeInterval(max(1, first.minutes) * 60)
+        arm(phaseLength)
+    }
+
+    /// Đồng hồ đếm lên không giới hạn (dùng endDate làm mốc bắt đầu).
+    func startStopwatch() {
+        mode = .plain
+        justFinished = false
+        countingUp = true
+        runSegments = []
+        label = ""
+        elapsed = 0
+        endDate = now()
+        remaining = 0
+        isRunning = true
+        startTicker()
     }
 
     func pause() {
@@ -69,6 +114,8 @@ final class TimerService: ObservableObject {
         isRunning = false; endDate = nil; stopTicker()
         remaining = 0; phaseLength = 0; completedWorkRounds = 0
         label = ""; justFinished = false
+        runSegments = []; segIndex = 0; countingUp = false; elapsed = 0
+        currentSegmentName = ""
     }
 
     /// Người dùng đã xem xong thông điệp kết thúc → dọn trạng thái finished.
@@ -95,7 +142,23 @@ final class TimerService: ObservableObject {
     }
 
     private func advancePhase() {
-        chime()
+        // Chế độ chuỗi tự tạo: chime theo âm của đoạn vừa kết thúc, rồi sang đoạn kế.
+        if !runSegments.isEmpty {
+            chime(runSegments[segIndex].soundName)
+            segIndex += 1
+            if segIndex >= runSegments.count {
+                isRunning = false; endDate = nil; stopTicker()
+                remaining = 0
+                justFinished = true
+                return
+            }
+            let next = runSegments[segIndex]
+            currentSegmentName = next.name
+            phaseLength = TimeInterval(max(1, next.minutes) * 60)
+            arm(phaseLength)
+            return
+        }
+        chime(defaultSound())
         if mode == .plain {
             // Giữ lại nhãn để panel hiện thông điệp kết thúc; dừng đồng hồ.
             isRunning = false; endDate = nil; stopTicker()
@@ -135,6 +198,10 @@ final class TimerService: ObservableObject {
 
     private func tick() {
         guard isRunning, let end = endDate else { return }
+        if countingUp {
+            elapsed = max(0, now().timeIntervalSince(end))
+            return
+        }
         remaining = max(0, end.timeIntervalSince(now()))
         if remaining <= 0 { advancePhase() }
     }

@@ -41,7 +41,7 @@ final class PomodoroPhaseTests: XCTestCase {
                                  longBreakMinutes: 1, roundsBeforeLongBreak: 4)
         var chimes = 0
         let svc = TimerService(config: { cfg }, now: { now },
-                               autoStartNext: { true }, chime: { chimes += 1 })
+                               autoStartNext: { true }, chime: { _ in chimes += 1 })
         svc.startPomodoro()
         XCTAssertEqual(svc.phase, .work)
         XCTAssertEqual(svc.remaining, 60, accuracy: 0.5)
@@ -62,7 +62,7 @@ final class PomodoroPhaseTests: XCTestCase {
         let cfg = PomodoroConfig(workMinutes: 1, shortBreakMinutes: 1,
                                  longBreakMinutes: 1, roundsBeforeLongBreak: 4)
         let svc = TimerService(config: { cfg }, now: { now },
-                               autoStartNext: { false }, chime: {})
+                               autoStartNext: { false }, chime: { _ in })
         svc.startPomodoro()
         now = Date(timeIntervalSince1970: 61)
         svc.tickForTest()

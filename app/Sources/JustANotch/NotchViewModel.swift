@@ -29,11 +29,10 @@ final class NotchViewModel: ObservableObject {
         let s = AppSettings.shared
         return TimerService(config: { s.pomodoroConfig },
                             autoStartNext: { s.pomoAutoStart },
-                            chime: { [weak s] in
-                                guard let s, s.timerSoundEnabled,
-                                      let snd = NSSound(named: s.timerSoundName) else { return }
-                                snd.volume = Float(s.timerVolume)
-                                snd.play()
+                            defaultSound: { s.timerSoundName },
+                            chime: { [weak s] name in
+                                guard let s, s.timerSoundEnabled else { return }
+                                SoundLibrary.shared.play(name, volume: Float(s.timerVolume))
                             })
     }()
     /// True khi người dùng bấm ⤢ để phóng to panel Files. Ghi nhớ qua UserDefaults.
