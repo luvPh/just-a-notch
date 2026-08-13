@@ -11,14 +11,20 @@ struct SourceIcon: View {
             Image(nsImage: icon).resizable().interpolation(.high)
                 .frame(width: size, height: size)
         } else {
+            let sym = Self.symbol(for: sourceApp)
+            let isVideo = sym == "play.rectangle.fill"
             RoundedRectangle(cornerRadius: size * 0.28, style: .continuous)
-                .fill(LinearGradient(colors: [Color(red: 0.42, green: 0.55, blue: 0.98),
-                                              Color(red: 0.78, green: 0.42, blue: 0.92)],
+                .fill(LinearGradient(colors: isVideo
+                                        ? [Color(red: 1.0, green: 0.30, blue: 0.28),   // đỏ YouTube
+                                           Color(red: 0.80, green: 0.09, blue: 0.12)]
+                                        : [Color(red: 0.42, green: 0.55, blue: 0.98),
+                                           Color(red: 0.78, green: 0.42, blue: 0.92)],
                                      startPoint: .topLeading, endPoint: .bottomTrailing))
                 .frame(width: size, height: size)
-                .overlay(Image(systemName: Self.symbol(for: sourceApp))
+                .overlay(Image(systemName: sym)
                     .font(.system(size: size * 0.5, weight: .semibold))
                     .foregroundStyle(.white.opacity(0.95)))
+                .offset(x: isVideo ? 2 : 0)   // nhích cả icon (nền + glyph) sang phải 2px
         }
     }
 

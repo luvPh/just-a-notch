@@ -53,8 +53,11 @@ final class NotchWindowController {
             },
             onClick: { [weak vm] in
                 guard let vm else { return }
-                if vm.shelfActive { vm.dismissShelf() }
-                if !vm.expanded { vm.refreshMedia(); vm.expanded = true }
+                // Catcher phủ lõi notch nên phải thay luôn hành vi bấm island:
+                // đang mở shelf → thu shelf; đang expand → THU notch; còn lại → mở.
+                if vm.shelfActive { vm.dismissShelf(); return }
+                if vm.expanded { vm.collapse() }
+                else { vm.refreshMedia(); vm.expanded = true }
             })
 
         applyGeometry()
