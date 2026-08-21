@@ -34,6 +34,12 @@ final class MediaService: MediaServiceProtocol {
     private let queue = DispatchQueue(label: "com.notchisland.media", qos: .utility)
     private var availabilityDebouncer = MediaAvailabilityDebouncer()
 
+    // Newest volume awaiting delivery, guarded because the setter is called from
+    // the main thread while the worker drains it on `queue`.
+    private let volumeLock = NSLock()
+    private var pendingVolume: Double?
+    private var volumeWorkerActive = false
+
     /// The adapter last observed as active; used to route control commands.
     private var activeAdapter: MediaAdapter?
 
@@ -97,6 +103,35 @@ final class MediaService: MediaServiceProtocol {
     func nextTrack() { activeAdapter?.next(); refresh() }
     func previousTrack() { activeAdapter?.previous(); refresh() }
     func seek(toFraction fraction: Double) { activeAdapter?.seek(toFraction: fraction); refresh() }
+    /// Applies a volume to the active source. `live` marks a value coming from a
+    /// drag still in progress: intermediate values are coalesced (only the newest
+    /// pending one is ever sent, so a slow AppleScript round-trip can't queue up
+    /// a backlog) and the state poll is skipped until the drag ends.
+    func setVolume(_ volume: Double, live: Bool) {
+        volumeLock.lock()
+        pendingVolume = volume
+        let startWorker = !volumeWorkerActive
+        if startWorker { volumeWorkerActive = true }
+        volumeLock.unlock()
+        guard startWorker else { return }
+
+        queue.async { [weak self] in
+            guard let self else { return }
+            while true {
+                volumeLock.lock()
+                let next = pendingVolume
+                pendingVolume = nil
+                if next == nil {
+                    volumeWorkerActive = false
+                    volumeLock.unlock()
+                    break
+                }
+                volumeLock.unlock()
+                activeAdapter?.setVolume(next!)
+            }
+            if !live { poll() }
+        }
+    }
 
     func fetchPlaylist(_ completion: @escaping ([MediaListItem]) -> Void) {
         queue.async { [weak self] in

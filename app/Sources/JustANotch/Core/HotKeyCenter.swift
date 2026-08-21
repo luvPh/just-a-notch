@@ -6,7 +6,8 @@ import Carbon.HIToolbox
 /// quyền Accessibility. Mỗi hotkey gắn một closure chạy trên main actor.
 @MainActor
 final class HotKeyCenter {
-    private var refs: [EventHotKeyRef?] = []
+    private struct Entry { let group: String; let ref: EventHotKeyRef?; let id: UInt32 }
+    private var entries: [Entry] = []
     private var handlers: [UInt32: () -> Void] = [:]
     private var eventHandler: EventHandlerRef?
     private var nextID: UInt32 = 1
@@ -15,8 +16,10 @@ final class HotKeyCenter {
     static let opt = UInt32(optionKey)
 
     /// Đăng ký một hotkey. Trả về false nếu hệ thống từ chối (đã bị app khác giữ).
+    /// `group` cho phép gỡ cả nhóm về sau (xem `unregister(group:)`).
     @discardableResult
-    func register(keyCode: Int, modifiers: UInt32, action: @escaping () -> Void) -> Bool {
+    func register(keyCode: Int, modifiers: UInt32, group: String = "default",
+                  action: @escaping () -> Void) -> Bool {
         installHandlerIfNeeded()
         let id = nextID; nextID += 1
         var ref: EventHotKeyRef?
@@ -25,9 +28,18 @@ final class HotKeyCenter {
         let status = RegisterEventHotKey(UInt32(keyCode), modifiers, hkID,
                                          GetApplicationEventTarget(), 0, &ref)
         guard status == noErr else { return false }
-        refs.append(ref)
+        entries.append(Entry(group: group, ref: ref, id: id))
         handlers[id] = action
         return true
+    }
+
+    /// Gỡ toàn bộ hotkey của một nhóm (trả phím lại cho hệ thống).
+    func unregister(group: String) {
+        for entry in entries where entry.group == group {
+            if let ref = entry.ref { UnregisterEventHotKey(ref) }
+            handlers[entry.id] = nil
+        }
+        entries.removeAll { $0.group == group }
     }
 
     private func installHandlerIfNeeded() {
@@ -49,7 +61,7 @@ final class HotKeyCenter {
     }
 
     deinit {
-        for ref in refs { if let ref { UnregisterEventHotKey(ref) } }
+        for entry in entries { if let ref = entry.ref { UnregisterEventHotKey(ref) } }
         if let eventHandler { RemoveEventHandler(eventHandler) }
     }
 }

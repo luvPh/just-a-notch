@@ -46,6 +46,13 @@ struct NotchRootView: View {
     // back before the next poll catches up.
     @State private var scrubFraction: Double?
     @State private var scrubHold: DispatchWorkItem?
+    @State private var volFraction: Double?
+    @State private var volHold: DispatchWorkItem?
+    @State private var showVolume = false
+    @State private var volumeAutoHide: DispatchWorkItem?
+    @State private var lastSentVolume: Double = -1
+    @State private var artHover = false
+    @State private var hoveredQueueID: String?
     // Notifications: which app-piles are expanded (by bundleId).
     @State private var expandedGroups: Set<String> = []
     // Local keyDown monitor active while the panel is expanded (installed on appear).
@@ -93,6 +100,11 @@ struct NotchRootView: View {
             if let m = keyMonitor { NSEvent.removeMonitor(m); keyMonitor = nil }
         }
         // Global hotkey ⌃⌥1/2/3 → nhảy tới tab thứ N trong danh sách đang hiển thị.
+        // Mọi thao tác trong Lịch / Files đều hoãn đồng hồ tự thu 30s.
+        .onChange(of: calAnchor) { _, _ in vm.noteInteraction() }
+        .onChange(of: calMode) { _, _ in vm.noteInteraction() }
+        .onChange(of: vm.calendarRows) { _, _ in vm.noteInteraction() }
+        .onChange(of: vm.filesSelCount) { _, _ in vm.noteInteraction() }
         .onChange(of: vm.pendingTabIndex) { _, idx in
             guard let idx else { return }
             if idx >= 1, idx <= visibleTabs.count { selectTab(visibleTabs[idx - 1]) }
@@ -145,6 +157,7 @@ struct NotchRootView: View {
         return false
     }
 
+
     private func handleLeftRight(forward: Bool) -> Bool {
         switch railTab {
         case .music:
@@ -172,6 +185,7 @@ struct NotchRootView: View {
         vm.notifTabActive = (tab == .notifications)
         if tab != .files { vm.filesSelCount = 0 }
         if vm.showList { withAnimation(openSpring) { vm.showList = false } }
+        vm.noteInteraction()
     }
 
     private var surface: some View {
@@ -451,9 +465,24 @@ struct NotchRootView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 10) {
                 Button { vm.openSourceMediaApp() } label: {
-                    Artwork(data: vm.track?.artworkData, corner: 7).frame(width: 36, height: 36)
+                    Artwork(data: vm.track?.artworkData, corner: 7)
+                        .frame(width: 36, height: 36)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 7, style: .continuous)
+                                .fill(.white.opacity(artHover ? 0.16 : 0))
+                        }
+                        .overlay {
+                            Image(systemName: "arrow.up.forward.app.fill")
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundStyle(.white.opacity(artHover ? 0.95 : 0))
+                        }
+                        .scaleEffect(artHover ? 1.06 : 1)
+                        .contentShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(CompactCtlStyle())
+                .onHover { h in
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) { artHover = h }
+                }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(vm.track?.title ?? "Not playing").font(.system(size: 13, weight: .bold))
                         .foregroundStyle(.white).lineLimit(1)
@@ -465,13 +494,19 @@ struct NotchRootView: View {
                     .frame(width: 18, height: 11)
             }
             scrubber
-            HStack(spacing: 0) {
-                ctlButton("backward.fill", 14) { vm.previous() }; Spacer()
-                ctlButton(vm.isPlaying ? "pause.fill" : "play.fill", 18) { vm.playPause() }; Spacer()
-                ctlButton("forward.fill", 14) { vm.next() }; Spacer()
-                ctlButton(vm.showList ? "list.bullet.circle.fill" : "list.bullet", 15) {
-                    withAnimation(revealSpring) { vm.toggleList() }
-                }
+            // Transport row and the volume strip share one slot and cross-fade,
+            // so revealing the volume never grows the panel.
+            ZStack {
+                transportRow
+                    .opacity(showVolume ? 0 : 1)
+                    .blur(radius: showVolume ? 5 : 0)
+                    .scaleEffect(showVolume ? 0.9 : 1)
+                    .allowsHitTesting(!showVolume)
+                volumeRow
+                    .opacity(showVolume ? 1 : 0)
+                    .blur(radius: showVolume ? 0 : 5)
+                    .scaleEffect(showVolume ? 1 : 0.9)
+                    .allowsHitTesting(showVolume)
             }
             .padding(.horizontal, 4)
 
@@ -540,10 +575,20 @@ struct NotchRootView: View {
                 }
                 Spacer(minLength: 0)
             }
-            .padding(.vertical, 3)
-            .contentShape(Rectangle())
+            .padding(.vertical, 5)
+            .padding(.horizontal, 5)
+            .background {
+                RoundedRectangle(cornerRadius: 7, style: .continuous)
+                    .fill(.white.opacity(hoveredQueueID == item.id ? 0.09 : 0))
+            }
+            .contentShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
         }
-        .buttonStyle(.plain)
+        .buttonStyle(CompactCtlStyle())
+        .onHover { h in
+            withAnimation(.easeOut(duration: 0.15)) {
+                hoveredQueueID = h ? item.id : (hoveredQueueID == item.id ? nil : hoveredQueueID)
+            }
+        }
     }
 
     private func placeholderPanel(_ tab: RailTab) -> some View {
@@ -728,6 +773,119 @@ struct NotchRootView: View {
             .frame(width: 1).frame(maxHeight: .infinity)
     }
 
+    private var transportRow: some View {
+        HStack(spacing: 0) {
+            ctlButton("backward.fill", 14) { vm.previous() }; Spacer()
+            ctlButton(vm.isPlaying ? "pause.fill" : "play.fill", 18) { vm.playPause() }; Spacer()
+            ctlButton("forward.fill", 14) { vm.next() }; Spacer()
+            if vm.track?.volume != nil {
+                ctlButton(volumeGlyph(volFraction ?? vm.track?.volume ?? 0), 13) {
+                    withAnimation(revealSpring) { showVolume = true }
+                    scheduleVolumeAutoHide()
+                }
+                Spacer()
+            }
+            ctlButton(vm.showList ? "list.bullet.circle.fill" : "list.bullet", 15) {
+                withAnimation(revealSpring) { vm.toggleList() }
+            }
+        }
+    }
+
+    // Volume of the playing source itself (Music / Spotify / the YouTube tab),
+    // independent of the system volume. Occupies the transport row's slot while
+    // shown, and slides back after a few idle seconds.
+    private var volumeRow: some View {
+        let level = volFraction ?? vm.track?.volume ?? 0
+        return HStack(spacing: 2) {
+            // Back to the transport controls, or mute in one tap.
+            ctlButton("chevron.left", 12) {
+                volumeAutoHide?.cancel()
+                withAnimation(revealSpring) { showVolume = false }
+            }
+            ctlButton(volumeGlyph(level), 13) {
+                setVolumeFromUI(level > 0 ? 0 : 0.5)
+            }
+            volumeSlider(level: level)
+                .padding(.leading, 4)
+            ctlButton("speaker.wave.3.fill", 12) { setVolumeFromUI(1) }
+        }
+    }
+
+    /// Applies a volume from any control, holding the shown value against the
+    /// 1s poll and restarting the auto-hide countdown.
+    private func setVolumeFromUI(_ level: Double) {
+        volHold?.cancel()
+        let f = min(1, max(0, level))
+        volFraction = f
+        lastSentVolume = f
+        vm.setVolume(f)
+        holdVolume()
+        scheduleVolumeAutoHide()
+    }
+
+    /// Hides the volume strip after a few seconds without any adjustment.
+    private func scheduleVolumeAutoHide() {
+        volumeAutoHide?.cancel()
+        let work = DispatchWorkItem {
+            withAnimation(revealSpring) { showVolume = false }
+        }
+        volumeAutoHide = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: work)
+    }
+
+    private func volumeGlyph(_ level: Double) -> String {
+        if level <= 0.001 { return "speaker.slash.fill" }
+        if level < 0.34 { return "speaker.wave.1.fill" }
+        if level < 0.67 { return "speaker.wave.2.fill" }
+        return "speaker.wave.3.fill"
+    }
+
+    /// Holds the dragged value briefly so the 1s poll doesn't snap it back.
+    private func holdVolume() {
+        let work = DispatchWorkItem { volFraction = nil }
+        volHold = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: work)
+    }
+
+    private func volumeSlider(level: Double) -> some View {
+        let dragging = volFraction != nil
+        let r: CGFloat = 5
+        return GeometryReader { g in
+            let usable = max(1, g.size.width - 2 * r)
+            let cx = r + CGFloat(level) * usable
+            let d: CGFloat = dragging ? 10 : 7
+            ZStack(alignment: .leading) {
+                Capsule().fill(.white.opacity(0.12)).frame(height: 3)
+                Capsule().fill(.white.opacity(0.75)).frame(width: max(3, cx), height: 3)
+                Circle().fill(.white.opacity(0.9)).frame(width: d, height: d)
+                    .offset(x: cx - d / 2)
+            }
+            .frame(maxHeight: .infinity, alignment: .center)
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { v in
+                        volHold?.cancel()
+                        volumeAutoHide?.cancel()
+                        let f = min(1, max(0, Double((v.location.x - r) / usable)))
+                        volFraction = f
+                        // Apply while dragging so you hear the change immediately.
+                        // Only send on a visible step; the service coalesces the
+                        // rest so a slow round-trip can't lag behind the thumb.
+                        if abs(f - lastSentVolume) > 0.01 {
+                            lastSentVolume = f
+                            vm.setVolume(f, live: true)
+                        }
+                    }
+                    .onEnded { v in
+                        setVolumeFromUI(Double((v.location.x - r) / usable))
+                    }
+            )
+        }
+        .frame(height: 10)
+        .animation(.spring(response: 0.25, dampingFraction: 0.7), value: dragging)
+    }
+
     private var scrubber: some View {
         let progress = CGFloat(scrubFraction ?? Double(vm.track?.progress ?? 0))
         let dragging = scrubFraction != nil
@@ -771,10 +929,7 @@ struct NotchRootView: View {
     }
 
     private func ctlButton(_ name: String, _ size: CGFloat, _ action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Image(systemName: name).font(.system(size: size)).foregroundStyle(.white.opacity(0.92))
-        }
-        .buttonStyle(.plain)
+        CompactCtlButton(name: name, size: size, action: action)
     }
 }
 
@@ -783,6 +938,7 @@ struct NotchRootView: View {
 private struct CompactCtlButton: View {
     let name: String
     let size: CGFloat
+    var hitHeight: CGFloat = 30
     let action: () -> Void
     @State private var hovering = false
 
@@ -799,7 +955,7 @@ private struct CompactCtlButton: View {
                     .foregroundStyle(.white.opacity(hovering ? 1 : 0.9))
             }
             // Generous invisible hit target so you don't have to nail the glyph.
-            .frame(width: size + 15, height: 36)
+            .frame(width: size + 16, height: hitHeight)
             .contentShape(Rectangle())
         }
         .buttonStyle(CompactCtlStyle())

@@ -66,6 +66,21 @@ final class ShelfStore: ObservableObject {
         try? FileManager.default.removeItem(at: item.url.deletingLastPathComponent())
     }
 
+    /// Mục vừa được kéo RA thành công: rời shelf ngay, nhưng bản copy trong temp
+    /// chỉ bị xoá sau một khoảng chờ — một số nơi nhận (ô upload của web, app
+    /// đọc lười) vẫn còn đọc file sau khi phiên kéo kết thúc.
+    func removeAfterDragOut(id: UUID) {
+        guard let idx = items.firstIndex(where: { $0.id == id }) else { return }
+        let item = items.remove(at: idx)
+        let holder = item.url.deletingLastPathComponent()
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + dragOutKeepAlive) {
+            try? FileManager.default.removeItem(at: holder)
+        }
+    }
+
+    /// Giữ bản copy thêm bao lâu sau khi kéo ra.
+    private let dragOutKeepAlive: TimeInterval = 60
+
     /// Xoá sạch shelf.
     func clear() {
         for item in items {

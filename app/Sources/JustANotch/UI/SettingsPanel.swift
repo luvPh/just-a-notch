@@ -93,6 +93,14 @@ struct SettingsPanel: View {
                 section("Phím tắt") {
                     toggleRow("Nhấn nhanh ⌘ hai lần để bật/tắt notch",
                               icon: "command", isOn: $settings.doubleTapCommand)
+                    toggleRow("F1–F6 mở app ở mọi nơi",
+                              icon: "f.square", isOn: $settings.fKeyAppsEnabled)
+                    if settings.fKeyAppsEnabled {
+                        ForEach(0..<AppSettings.fKeyCount, id: \.self) { i in fKeyRow(i) }
+                    }
+                    Text("F1–F6 (bàn phím Apple: fn+F1–F6) đưa app đã gán ra trước — đang chạy thì giữ nguyên cửa sổ, chưa chạy thì mở mới. Khi bật, 6 phím này thuộc về app nên chức năng gốc của chúng (độ sáng, Mission Control…) tạm nghỉ.")
+                        .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
+                        .padding(.horizontal, 4).padding(.top, 1)
                     Text("Cần cấp Accessibility lần đầu. Ngoài ra: ⌥N bật/tắt · ⌥Space play/pause · ⌥←/→ đổi bài · ⌥1/2/3 chọn tab.")
                         .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
                         .padding(.horizontal, 4).padding(.top, 1)
@@ -145,6 +153,78 @@ struct SettingsPanel: View {
                 .padding(.horizontal, 4)
             content()
         }
+    }
+
+    /// Một ô gán app cho F(i+1): icon app, tên, nút chọn / bỏ gán.
+    private func fKeyRow(_ i: Int) -> some View {
+        let slot = settings.fKeyApps.indices.contains(i) ? settings.fKeyApps[i] : nil
+        let appURL = slot.flatMap {
+            NSWorkspace.shared.urlForApplication(withBundleIdentifier: $0.bundleID)
+        }
+        return HStack(spacing: 9) {
+            Text("F\(i + 1)")
+                .font(.system(size: 10.5, weight: .bold, design: .rounded))
+                .foregroundStyle(.white.opacity(0.8))
+                .frame(width: 24)
+                .padding(.vertical, 2)
+                .background(RoundedRectangle(cornerRadius: 5, style: .continuous)
+                    .fill(.white.opacity(0.09)))
+            if let appURL {
+                Image(nsImage: NSWorkspace.shared.icon(forFile: appURL.path))
+                    .resizable().interpolation(.high).frame(width: 15, height: 15)
+            } else {
+                Image(systemName: "app.dashed")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.4))
+                    .frame(width: 15)
+            }
+            Text(slot?.name ?? "Chưa gán")
+                .font(.system(size: 11.5))
+                .foregroundStyle(.white.opacity(slot == nil ? 0.4 : 0.9))
+                .lineLimit(1)
+            Spacer(minLength: 0)
+            Button(slot == nil ? "Chọn app…" : "Đổi") { pickApp(for: i) }
+                .buttonStyle(.plain)
+                .font(.system(size: 10.5, weight: .semibold))
+                .foregroundStyle(.white.opacity(0.85))
+                .padding(.horizontal, 8).padding(.vertical, 3)
+                .background(RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .fill(.white.opacity(0.1)))
+            if slot != nil {
+                Button {
+                    settings.fKeyApps[i] = nil
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundStyle(.white.opacity(0.6))
+                        .frame(width: 18, height: 18)
+                        .background(RoundedRectangle(cornerRadius: 5, style: .continuous)
+                            .fill(.white.opacity(0.08)))
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.horizontal, 8).padding(.vertical, 4)
+        .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+    }
+
+    /// Chọn app bằng NSOpenPanel (lọc đúng bundle .app), lưu bundle id + tên.
+    private func pickApp(for i: Int) {
+        let panel = NSOpenPanel()
+        panel.title = "Chọn app cho F\(i + 1)"
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.treatsFilePackagesAsDirectories = false
+        panel.allowedContentTypes = [.applicationBundle]
+        panel.directoryURL = URL(fileURLWithPath: "/Applications")
+        // Panel cần app active để nhận bàn phím/chuột như một cửa sổ thường.
+        NSApp.activate(ignoringOtherApps: true)
+        guard panel.runModal() == .OK, let url = panel.url,
+              let bundle = Bundle(url: url), let id = bundle.bundleIdentifier else { return }
+        let name = FileManager.default.displayName(atPath: url.path)
+            .replacingOccurrences(of: ".app", with: "")
+        settings.fKeyApps[i] = FKeyApp(bundleID: id, name: name)
     }
 
     private func toggleRow(_ label: String, icon: String, isOn: Binding<Bool>) -> some View {

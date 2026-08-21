@@ -27,6 +27,7 @@ final class NotchWindowController {
     private let hotKeys = HotKeyCenter()
     private let filesPopup: FilesPopupController
     private var shelfCatcher: ShelfDropCatcher!
+    private var dragWatcher: SystemDragWatcher!
     // Double-tap ⌘ → toggle notch. Global keyboard monitors ⇒ cần Accessibility.
     private var cmdTapMonitors: [Any] = []
     private var lastCmdTapTime: TimeInterval = 0
@@ -60,10 +61,20 @@ final class NotchWindowController {
                 else { vm.refreshMedia(); vm.expanded = true }
             })
 
+        // Bung kệ ngay khi có cú kéo file ở bất kỳ đâu, không cần hover notch.
+        dragWatcher = SystemDragWatcher(
+            onBegan: { [weak vm] in vm?.beginSystemFileDrag() },
+            onEnded: { [weak vm] in vm?.endSystemFileDrag() })
+
         applyGeometry()
         layoutPanel()
         installMonitors()
         installHotKeys()
+        setFKeyApps(active: AppSettings.shared.fKeyAppsEnabled)
+        AppSettings.shared.$fKeyAppsEnabled
+            .receive(on: RunLoop.main)
+            .sink { [weak self] on in self?.setFKeyApps(active: on) }
+            .store(in: &bag)
         vm.start()
 
         // While expanded OR while a HUD banner is showing, the panel must receive
@@ -191,6 +202,38 @@ final class NotchWindowController {
         }
     }
 
+    /// Cài/gỡ global hotkey F1…F6 → đưa app đã gán ra trước.
+    ///
+    /// Dùng Carbon hotkey nên chạy ở mọi app và KHÔNG cần quyền Accessibility —
+    /// nhưng cũng có nghĩa app giữ độc quyền các phím này khi bật, chức năng gốc
+    /// (độ sáng, Mission Control…) tạm thời không dùng được.
+    private func setFKeyApps(active: Bool) {
+        hotKeys.unregister(group: "fkeys")
+        guard active else { return }
+        let codes = [kVK_F1, kVK_F2, kVK_F3, kVK_F4, kVK_F5, kVK_F6]
+        for (i, code) in codes.prefix(AppSettings.fKeyCount).enumerated() {
+            hotKeys.register(keyCode: code, modifiers: 0, group: "fkeys") {
+                guard let slot = AppSettings.shared.fKeyApps.indices.contains(i)
+                        ? AppSettings.shared.fKeyApps[i] : nil else { return }
+                Self.activate(bundleID: slot.bundleID)
+            }
+        }
+        _ = codes  // giữ thứ tự F1…F6 khớp với các ô trong Settings
+    }
+
+    /// Đưa app ra trước: nếu đang chạy thì bỏ ẩn + activate (giữ nguyên cửa sổ
+    /// đang có), chưa chạy thì mở mới.
+    private static func activate(bundleID: String) {
+        if let app = NSWorkspace.shared.runningApplications
+            .first(where: { $0.bundleIdentifier == bundleID }) {
+            app.unhide()
+            app.activate(options: [.activateAllWindows])
+            return
+        }
+        guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else { return }
+        NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration())
+    }
+
     /// Cài/gỡ monitor double-tap ⌘. Khi bật lần đầu sẽ xin quyền Accessibility
     /// (global keyboard monitor không nhận sự kiện nếu chưa được cấp).
     private func setDoubleTapCommand(active: Bool) {
@@ -239,7 +282,8 @@ final class NotchWindowController {
             if !vm.shelfActive, !vm.expanded, !vm.showingHUD, !vm.shelf.isEmpty {
                 vm.presentShelf()
             }
-        } else if vm.shelfActive {
+        } else if vm.shelfActive, !vm.systemFileDragActive {
+            // Còn đang kéo file thì giữ kệ mở dù con trỏ chưa tới notch.
             vm.scheduleShelfHide()
         }
     }

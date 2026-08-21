@@ -14,6 +14,8 @@ protocol MediaAdapter: AnyObject {
     func previous()
     /// Seek to a 0...1 fraction of the current track. No-op if unsupported.
     func seek(toFraction fraction: Double)
+    /// Set the source's own volume (0...1). No-op if unsupported.
+    func setVolume(_ volume: Double)
     /// The source's on-screen queue / playlist, if it exposes one.
     func playlist() -> [MediaListItem]
     /// Switch playback to a queue entry.
@@ -25,6 +27,7 @@ protocol MediaAdapter: AnyObject {
 
 extension MediaAdapter {
     func seek(toFraction fraction: Double) {}
+    func setVolume(_ volume: Double) {}
     func playlist() -> [MediaListItem] { [] }
     func play(item: MediaListItem) {}
     func focusSource() {
@@ -72,7 +75,8 @@ final class AppleMusicAdapter: MediaAdapter {
                     set d to duration of current track
                     if d > 0 then set prog to (player position) / d
                 end try
-                return st & "|" & t & "|" & a & "|" & al & "|" & prog
+                set vol to (sound volume) / 100
+                return st & "|" & t & "|" & a & "|" & al & "|" & prog & "|" & vol
             end if
         end tell
         """
@@ -87,6 +91,10 @@ final class AppleMusicAdapter: MediaAdapter {
         let f = min(1, max(0, fraction))
         _ = AppleScriptRunner.run("tell application \"Music\" to set player position to ((duration of current track) * \(f))")
     }
+    func setVolume(_ volume: Double) {
+        let v = Int((min(1, max(0, volume)) * 100).rounded())
+        _ = AppleScriptRunner.run("tell application \"Music\" to set sound volume to \(v)")
+    }
 
     static func parse(_ out: String, source: String, bundleID: String? = nil) -> (MediaTrack?, PlaybackState) {
         let parts = out.components(separatedBy: "|")
@@ -100,12 +108,19 @@ final class AppleMusicAdapter: MediaAdapter {
             let raw = parts[4].trimmingCharacters(in: .whitespaces).replacingOccurrences(of: ",", with: ".")
             if let p = Double(raw), p.isFinite { progress = min(1, max(0, p)) }
         }
+        // Optional 6th field is the source's own volume as a 0...1 fraction.
+        var volume: Double?
+        if parts.count >= 6 {
+            let raw = parts[5].trimmingCharacters(in: .whitespaces).replacingOccurrences(of: ",", with: ".")
+            if let v = Double(raw), v.isFinite { volume = min(1, max(0, v)) }
+        }
         let track = MediaTrack(title: parts[1],
                                artist: parts[2].isEmpty ? nil : parts[2],
                                album: parts[3].isEmpty ? nil : parts[3],
                                sourceAppName: source,
                                sourceBundleID: bundleID,
-                               progress: progress)
+                               progress: progress,
+                               volume: volume)
         return (track, state)
     }
 }
@@ -135,7 +150,8 @@ final class SpotifyAdapter: MediaAdapter {
                     set d to (duration of current track) / 1000
                     if d > 0 then set prog to (player position) / d
                 end try
-                return st & "|" & t & "|" & a & "|" & al & "|" & prog
+                set vol to (sound volume) / 100
+                return st & "|" & t & "|" & a & "|" & al & "|" & prog & "|" & vol
             end if
         end tell
         """
@@ -150,6 +166,10 @@ final class SpotifyAdapter: MediaAdapter {
         let f = min(1, max(0, fraction))
         // Spotify duration is in milliseconds; player position is in seconds.
         _ = AppleScriptRunner.run("tell application \"Spotify\" to set player position to (((duration of current track) / 1000) * \(f))")
+    }
+    func setVolume(_ volume: Double) {
+        let v = Int((min(1, max(0, volume)) * 100).rounded())
+        _ = AppleScriptRunner.run("tell application \"Spotify\" to set sound volume to \(v)")
     }
 }
 

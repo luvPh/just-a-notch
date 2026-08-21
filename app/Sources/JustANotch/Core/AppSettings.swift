@@ -1,6 +1,13 @@
 import SwiftUI
 import ServiceManagement
 
+/// Một app được gán cho phím F. Lưu `bundleID` (bền khi app đổi chỗ/đổi tên)
+/// kèm tên hiển thị để không phải tra lại Launch Services mỗi lần vẽ Settings.
+struct FKeyApp: Codable, Equatable {
+    var bundleID: String
+    var name: String
+}
+
 /// App-wide, persisted user preferences. Single shared instance so both the
 /// Settings panel (writer) and NotchRootView (reader: visible tabs, motion
 /// override) observe the same source of truth. Backed by UserDefaults.
@@ -43,6 +50,32 @@ final class AppSettings: ObservableObject {
 
     // MARK: Hotkey — nhấn nhanh ⌘ hai lần để bung/đóng notch (cần quyền Accessibility).
     @Published var doubleTapCommand: Bool { didSet { d.set(doubleTapCommand, forKey: "cfg.doubleTapCommand") } }
+    /// F1…F6 (bàn phím Apple: fn+F1…) đưa app đã gán ra trước, ở mọi nơi.
+    /// Bật ⇒ app giữ 6 phím này toàn hệ thống nên chức năng gốc của chúng
+    /// (độ sáng, Mission Control…) không còn hoạt động.
+    @Published var fKeyAppsEnabled: Bool { didSet { d.set(fKeyAppsEnabled, forKey: "cfg.fKeyAppsOn") } }
+
+    /// App gán cho F1…F6 (đúng `fKeyCount` ô, nil = chưa gán).
+    @Published var fKeyApps: [FKeyApp?] { didSet { saveFKeyApps() } }
+
+    /// Số phím F được bind. Dừng ở F6, phần còn lại của dãy F để cho hệ thống.
+    static let fKeyCount = 6
+
+    private func saveFKeyApps() {
+        let payload = fKeyApps.map { $0 ?? FKeyApp(bundleID: "", name: "") }
+        guard let data = try? JSONEncoder().encode(payload) else { return }
+        d.set(data, forKey: "cfg.fKeyApps")
+    }
+
+    private static func loadFKeyApps(_ d: UserDefaults) -> [FKeyApp?] {
+        var slots = [FKeyApp?](repeating: nil, count: fKeyCount)
+        guard let data = d.data(forKey: "cfg.fKeyApps"),
+              let decoded = try? JSONDecoder().decode([FKeyApp].self, from: data) else { return slots }
+        for (i, item) in decoded.enumerated() where i < fKeyCount {
+            slots[i] = item.bundleID.isEmpty ? nil : item
+        }
+        return slots
+    }
 
     // MARK: General — start at login (mirrors SMAppService state).
     @Published var launchAtLogin: Bool = false
@@ -58,6 +91,7 @@ final class AppSettings: ObservableObject {
             "cfg.showTimer": true,
             "cfg.forceReduceMotion": false,
             "cfg.doubleTapCommand": false,
+            "cfg.fKeyAppsOn": true,
             "cfg.pomoWork": 25, "cfg.pomoShort": 5, "cfg.pomoLong": 15,
             "cfg.pomoRounds": 4, "cfg.pomoAutoStart": true,
             "cfg.timerSoundOn": true, "cfg.timerSound": "Glass", "cfg.timerVolume": 0.8,
@@ -82,6 +116,8 @@ final class AppSettings: ObservableObject {
         timerPage = d.integer(forKey: "cfg.timerPage")
         forceReduceMotion = d.bool(forKey: "cfg.forceReduceMotion")
         doubleTapCommand = d.bool(forKey: "cfg.doubleTapCommand")
+        fKeyAppsEnabled = d.bool(forKey: "cfg.fKeyAppsOn")
+        fKeyApps = Self.loadFKeyApps(d)
         launchAtLogin = (SMAppService.mainApp.status == .enabled)
     }
 

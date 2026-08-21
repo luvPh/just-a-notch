@@ -107,6 +107,17 @@ struct ShelfPanel: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 9).padding(.horizontal, 4)
         .background(RoundedRectangle(cornerRadius: 12).fill(.white.opacity(0.06)))
+        .contentShape(RoundedRectangle(cornerRadius: 12))
+        // Nguồn kéo AppKit: kéo ra thành công ⇒ mục rời shelf luôn.
+        // Phủ TRƯỚC nút ✕ ở trên và tự chừa góc trên-phải cho nó.
+        .overlay {
+            ShelfDragOut(url: item.url, icon: fileIcon(item)) { accepted in
+                guard accepted else { return }
+                withAnimation(.spring(response: 0.34, dampingFraction: 0.82)) {
+                    store.removeAfterDragOut(id: item.id)
+                }
+            }
+        }
         .overlay(alignment: .topTrailing) {
             Button { store.remove(id: item.id) } label: {
                 Image(systemName: "xmark.circle.fill")
@@ -116,8 +127,6 @@ struct ShelfPanel: View {
             .buttonStyle(.plain)
             .padding(3)
         }
-        .contentShape(RoundedRectangle(cornerRadius: 12))
-        .onDrag { store.dragProvider(for: item) }
     }
 
     private func fileIcon(_ item: ShelfItem) -> NSImage {

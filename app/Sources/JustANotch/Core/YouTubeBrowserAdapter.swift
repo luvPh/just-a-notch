@@ -30,12 +30,13 @@ final class YouTubeBrowserAdapter: MediaAdapter {
                 let clean = title
                     .replacingOccurrences(of: " - YouTube", with: "")
                     .trimmingCharacters(in: .whitespaces)
-                let (state, progress) = playbackStatus(browser: browser)
+                let (state, progress, volume) = playbackStatus(browser: browser)
                 let track = MediaTrack(title: clean.isEmpty ? "YouTube" : clean,
                                        artist: nil,
                                        sourceAppName: browserName(browser),
                                        sourceBundleID: browser,
-                                       progress: progress)
+                                       progress: progress,
+                                       volume: volume)
                 return (track, state ?? .playing)
             }
         }
@@ -48,6 +49,12 @@ final class YouTubeBrowserAdapter: MediaAdapter {
     func seek(toFraction fraction: Double) {
         let f = min(1, max(0, fraction))
         runJS("if(v.duration){v.currentTime = \(f) * v.duration;}")
+    }
+    /// Sets the tab's own <video> volume. Unmutes on any non-zero value so the
+    /// slider isn't silently overridden by a muted player.
+    func setVolume(_ volume: Double) {
+        let v = min(1, max(0, volume))
+        runJS("v.volume = \(v); v.muted = \(v <= 0 ? "true" : "false");")
     }
 
     // MARK: - Playlist / queue
@@ -230,15 +237,17 @@ final class YouTubeBrowserAdapter: MediaAdapter {
         return title
     }
 
-    /// Reads `video.paused` and `currentTime/duration` via injected JS in one call.
-    /// Returns (nil, nil) if JS-from-Apple-Events is disabled or no video is found.
-    private func playbackStatus(browser: String) -> (state: PlaybackState?, progress: Double?) {
+    /// Reads `video.paused`, `currentTime/duration` and the tab's volume via
+    /// injected JS in one call. Returns nils if JS-from-Apple-Events is disabled
+    /// or no video is found.
+    private func playbackStatus(browser: String) -> (state: PlaybackState?, progress: Double?, volume: Double?) {
         let js = """
         var v=document.querySelector('video'); \
         v ? ((v.paused ? 'paused' : 'playing') + '|' + \
-        (v.duration > 0 ? (v.currentTime / v.duration) : 0)) : 'none';
+        (v.duration > 0 ? (v.currentTime / v.duration) : 0) + '|' + \
+        (v.muted ? 0 : v.volume)) : 'none';
         """
-        guard let out = runJSReading(js, browser: browser) else { return (nil, nil) }
+        guard let out = runJSReading(js, browser: browser) else { return (nil, nil, nil) }
         let parts = out.components(separatedBy: "|")
         let state: PlaybackState?
         switch parts.first {
@@ -250,7 +259,11 @@ final class YouTubeBrowserAdapter: MediaAdapter {
         if parts.count >= 2, let p = Double(parts[1].trimmingCharacters(in: .whitespaces)), p.isFinite {
             progress = min(1, max(0, p))
         }
-        return (state, progress)
+        var volume: Double?
+        if parts.count >= 3, let v = Double(parts[2].trimmingCharacters(in: .whitespaces)), v.isFinite {
+            volume = min(1, max(0, v))
+        }
+        return (state, progress, volume)
     }
 
     private func runJS(_ body: String) {

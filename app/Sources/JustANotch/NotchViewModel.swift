@@ -9,8 +9,10 @@ import AppKit
 final class NotchViewModel: ObservableObject {
     @Published var track: MediaTrack?
     @Published var playback: PlaybackState = .unsupported
-    @Published var expanded = false
-    @Published var hovering = false { didSet { scheduleTransportReveal() } }
+    @Published var expanded = false { didSet { noteInteraction() } }
+    @Published var hovering = false {
+        didSet { scheduleTransportReveal(); noteInteraction() }
+    }
     /// The ◀ ⏯ ▶ transport is revealed only after the pointer has rested on the
     /// island for `transportRevealDelay`; it hides immediately on leave.
     @Published private(set) var transportVisible = false
@@ -55,7 +57,10 @@ final class NotchViewModel: ObservableObject {
     }
     /// True khi người dùng bấm ⤢ để phóng to panel Files. Ghi nhớ qua UserDefaults.
     @Published var filesExpanded: Bool = UserDefaults.standard.bool(forKey: "filesExpanded") {
-        didSet { UserDefaults.standard.set(filesExpanded, forKey: "filesExpanded") }
+        didSet {
+            UserDefaults.standard.set(filesExpanded, forKey: "filesExpanded")
+            noteInteraction()
+        }
     }
     /// Panel Files đang mở? (do NotchRootView set khi railTab == .files)
     @Published var filesTabActive = false
@@ -72,7 +77,10 @@ final class NotchViewModel: ObservableObject {
     @Published var notifTabActive = false
     /// True khi người dùng bấm ⤢ để phóng Lịch từ tuần → tháng. Ghi nhớ qua UserDefaults.
     @Published var calExpanded: Bool = UserDefaults.standard.bool(forKey: "calExpanded") {
-        didSet { UserDefaults.standard.set(calExpanded, forKey: "calExpanded") }
+        didSet {
+            UserDefaults.standard.set(calExpanded, forKey: "calExpanded")
+            noteInteraction()
+        }
     }
     /// Số hàng tuần của tháng đang xem (4–6). CalendarPanel cập nhật ⇒ panel co/giãn
     /// đúng theo chiều cao lưới, không thừa một hàng trống khi tháng chỉ có 5 tuần.
@@ -89,6 +97,7 @@ final class NotchViewModel: ObservableObject {
     /// True when the Notification Center DB can't be read (needs Full Disk Access).
     @Published var notificationsPermissionDenied = false
     private var hudClearWork: DispatchWorkItem?
+    private var autoShrinkWork: DispatchWorkItem?
     let hudDuration: TimeInterval = 4
     private var lastIdentity: String?
     private var titleResetWork: DispatchWorkItem?
@@ -107,6 +116,24 @@ final class NotchViewModel: ObservableObject {
         return min(2, (shelf.count + 5) / 6)
     }
     var shelfHeight: CGFloat { 150 + CGFloat(shelfRows - 1) * shelfRowExtra }
+
+    /// Có cú kéo file đang diễn ra ở đâu đó trên hệ thống. Khi bật, shelf được
+    /// giữ mở làm đích thả và KHÔNG bị hẹn thu dù con trỏ chưa vào notch.
+    @Published var systemFileDragActive = false
+
+    /// Nhấc file ở bất kỳ đâu ⇒ bung kệ luôn để có đích thả.
+    func beginSystemFileDrag() {
+        guard !expanded else { return }
+        systemFileDragActive = true
+        presentShelf()
+    }
+
+    /// Nhả chuột ⇒ hết cú kéo; kệ thu như bình thường nếu con trỏ không ở trên notch.
+    func endSystemFileDrag() {
+        guard systemFileDragActive else { return }
+        systemFileDragActive = false
+        if shelfActive { scheduleShelfHide() }
+    }
 
     /// Bung shelf.
     func presentShelf() {
@@ -335,6 +362,31 @@ final class NotchViewModel: ObservableObject {
     // MARK: Actions
     func toggleExpanded() { expanded.toggle(); if expanded { clearHUD() } }
     func collapse() { expanded = false; showList = false; filesSelCount = 0 }
+
+    // MARK: Tự thu panel mở rộng (Lịch / Files)
+    //
+    /// Lịch (tháng) và Files (toàn chiều ngang) tự thu về dạng nhỏ sau
+    /// `autoShrinkDelay` giây không tương tác. Con trỏ còn trên notch, hoặc notch
+    /// đang đóng, đều tính là "còn dùng" ⇒ hẹn lại thay vì thu.
+    let autoShrinkDelay: TimeInterval = 30
+
+    /// Đặt lại đồng hồ tự thu. Gọi mỗi khi có tương tác đáng kể (hover, đổi tab,
+    /// bấm trong panel) hoặc khi trạng thái mở rộng thay đổi.
+    func noteInteraction() {
+        autoShrinkWork?.cancel()
+        autoShrinkWork = nil
+        guard filesExpanded || calExpanded else { return }
+        let work = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            if hovering || !expanded { noteInteraction(); return }
+            withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+                self.filesExpanded = false
+                self.calExpanded = false
+            }
+        }
+        autoShrinkWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + autoShrinkDelay, execute: work)
+    }
     /// Mở/đóng notch từ global hotkey — thu gọn đầy đủ khi đang mở.
     func toggleNotch() { if expanded { collapse() } else { expanded = true; clearHUD() } }
     /// Mở notch (nếu đang thu) và yêu cầu nhảy tới tab thứ `n` (1-based).
@@ -405,5 +457,7 @@ final class NotchViewModel: ObservableObject {
     func next() { media.nextTrack() }
     func previous() { media.previousTrack() }
     func seek(toFraction fraction: Double) { media.seek(toFraction: fraction) }
+    /// Volume of the playing source itself (not the system volume).
+    func setVolume(_ volume: Double, live: Bool = false) { media.setVolume(volume, live: live) }
     func start() { media.start(); media.refresh(); notifier.start() }
 }

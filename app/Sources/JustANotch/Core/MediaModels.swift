@@ -33,10 +33,14 @@ struct MediaTrack: Equatable {
     var progress: Double?
     /// Artwork bytes when the source provides them (kept small; not cached to disk).
     var artworkData: Data?
+    /// The source's own volume 0...1 when it exposes one (independent of the
+    /// system volume). Nil when the source can't report/accept a volume.
+    var volume: Double?
 
     init(title: String, artist: String? = nil, album: String? = nil,
          sourceAppName: String, sourceBundleID: String? = nil,
-         progress: Double? = nil, artworkData: Data? = nil) {
+         progress: Double? = nil, artworkData: Data? = nil,
+         volume: Double? = nil) {
         self.title = title
         self.artist = artist
         self.album = album
@@ -44,5 +48,6 @@ struct MediaTrack: Equatable {
         self.sourceBundleID = sourceBundleID
         self.progress = progress
         self.artworkData = artworkData
+        self.volume = volume
     }
 }
