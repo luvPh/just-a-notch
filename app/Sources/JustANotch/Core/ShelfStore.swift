@@ -94,11 +94,4 @@ final class ShelfStore: ObservableObject {
         items.removeAll()
         try? FileManager.default.removeItem(at: sessionDir)
     }
-
-    /// Provider để kéo RA: ưu tiên file-representation (thả vào ô upload/Finder),
-    /// fallback về URL thuần.
-    func dragProvider(for item: ShelfItem) -> NSItemProvider {
-        if let p = NSItemProvider(contentsOf: item.url) { return p }
-        return NSItemProvider(object: item.url as NSURL)
-    }
 }

@@ -71,9 +71,11 @@ final class NotchWindowController {
         installMonitors()
         installHotKeys()
         setFKeyApps(active: AppSettings.shared.fKeyAppsEnabled)
+        // Gán/bỏ gán app cũng phải đăng ký lại (phím trống được trả cho hệ thống).
         AppSettings.shared.$fKeyAppsEnabled
+            .combineLatest(AppSettings.shared.$fKeyApps)
             .receive(on: RunLoop.main)
-            .sink { [weak self] on in self?.setFKeyApps(active: on) }
+            .sink { [weak self] on, _ in self?.setFKeyApps(active: on) }
             .store(in: &bag)
         vm.start()
 
@@ -207,18 +209,19 @@ final class NotchWindowController {
     /// Dùng Carbon hotkey nên chạy ở mọi app và KHÔNG cần quyền Accessibility —
     /// nhưng cũng có nghĩa app giữ độc quyền các phím này khi bật, chức năng gốc
     /// (độ sáng, Mission Control…) tạm thời không dùng được.
+    /// CHỈ giữ những phím đã gán app — phím còn trống phải trả về hệ thống, nếu
+    /// không nó sẽ nuốt luôn chức năng gốc (độ sáng…) mà chẳng làm gì.
     private func setFKeyApps(active: Bool) {
         hotKeys.unregister(group: "fkeys")
         guard active else { return }
         let codes = [kVK_F1, kVK_F2, kVK_F3, kVK_F4, kVK_F5, kVK_F6]
+        let slots = AppSettings.shared.fKeyApps
         for (i, code) in codes.prefix(AppSettings.fKeyCount).enumerated() {
+            guard let slot = slots.indices.contains(i) ? slots[i] : nil else { continue }
             hotKeys.register(keyCode: code, modifiers: 0, group: "fkeys") {
-                guard let slot = AppSettings.shared.fKeyApps.indices.contains(i)
-                        ? AppSettings.shared.fKeyApps[i] : nil else { return }
                 Self.activate(bundleID: slot.bundleID)
             }
         }
-        _ = codes  // giữ thứ tự F1…F6 khớp với các ô trong Settings
     }
 
     /// Đưa app ra trước: nếu đang chạy thì bỏ ẩn + activate (giữ nguyên cửa sổ
