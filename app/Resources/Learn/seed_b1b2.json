@@ -1,0 +1,3002 @@
+[
+ {
+  "headword": "achieve",
+  "pos": "verb",
+  "ipaUK": "/əˈtʃiːv/",
+  "ipaUS": "/əˈtʃiːv/",
+  "senses": [
+   {
+    "guideword": "SUCCEED",
+    "level": "B1",
+    "defEN": "to manage to reach a goal after making an effort",
+    "defVI": "đạt được (mục tiêu) sau khi nỗ lực",
+    "examples": [
+     {
+      "en": "She finally achieved her dream of studying abroad.",
+      "vi": "Cuối cùng cô ấy đã đạt được ước mơ du học."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "advice",
+  "pos": "noun",
+  "ipaUK": "/ədˈvaɪs/",
+  "ipaUS": "/ədˈvaɪs/",
+  "senses": [
+   {
+    "guideword": "SUGGESTION",
+    "level": "B1",
+    "defEN": "an opinion someone gives you about what you should do",
+    "defVI": "lời khuyên",
+    "examples": [
+     {
+      "en": "My teacher gave me some useful advice about the exam.",
+      "vi": "Thầy giáo cho tôi vài lời khuyên hữu ích về kỳ thi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "afford",
+  "pos": "verb",
+  "ipaUK": "/əˈfɔːd/",
+  "ipaUS": "/əˈfɔːrd/",
+  "senses": [
+   {
+    "guideword": "HAVE ENOUGH MONEY",
+    "level": "B1",
+    "defEN": "to have enough money to pay for something",
+    "defVI": "có đủ tiền (để mua/trả)",
+    "examples": [
+     {
+      "en": "We can't afford a new car this year.",
+      "vi": "Năm nay chúng tôi không đủ tiền mua xe mới."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "allow",
+  "pos": "verb",
+  "ipaUK": "/əˈlaʊ/",
+  "ipaUS": "/əˈlaʊ/",
+  "senses": [
+   {
+    "guideword": "LET",
+    "level": "B1",
+    "defEN": "to give someone permission to do something",
+    "defVI": "cho phép",
+    "examples": [
+     {
+      "en": "Students are not allowed to use phones in class.",
+      "vi": "Học sinh không được phép dùng điện thoại trong lớp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "annoyed",
+  "pos": "adjective",
+  "ipaUK": "/əˈnɔɪd/",
+  "ipaUS": "/əˈnɔɪd/",
+  "senses": [
+   {
+    "guideword": "SLIGHTLY ANGRY",
+    "level": "B1",
+    "defEN": "feeling a little angry about something",
+    "defVI": "bực mình, khó chịu",
+    "examples": [
+     {
+      "en": "He was annoyed because the bus was late again.",
+      "vi": "Anh ấy bực mình vì xe buýt lại trễ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "appear",
+  "pos": "verb",
+  "ipaUK": "/əˈpɪə/",
+  "ipaUS": "/əˈpɪr/",
+  "senses": [
+   {
+    "guideword": "SEEM",
+    "level": "B1",
+    "defEN": "to seem to be something",
+    "defVI": "có vẻ, dường như",
+    "examples": [
+     {
+      "en": "She appears to be very tired today.",
+      "vi": "Hôm nay cô ấy có vẻ rất mệt."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "arrange",
+  "pos": "verb",
+  "ipaUK": "/əˈreɪndʒ/",
+  "ipaUS": "/əˈreɪndʒ/",
+  "senses": [
+   {
+    "guideword": "PLAN",
+    "level": "B1",
+    "defEN": "to make plans so that something can happen",
+    "defVI": "sắp xếp, thu xếp",
+    "examples": [
+     {
+      "en": "I've arranged a meeting with the manager for Monday.",
+      "vi": "Tôi đã sắp xếp một cuộc họp với quản lý vào thứ Hai."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "attempt",
+  "pos": "noun",
+  "ipaUK": "/əˈtempt/",
+  "ipaUS": "/əˈtempt/",
+  "senses": [
+   {
+    "guideword": "TRY",
+    "level": "B1",
+    "defEN": "an act of trying to do something difficult",
+    "defVI": "sự cố gắng, nỗ lực thử",
+    "examples": [
+     {
+      "en": "He passed the driving test on his second attempt.",
+      "vi": "Anh ấy đỗ bằng lái ở lần thử thứ hai."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "available",
+  "pos": "adjective",
+  "ipaUK": "/əˈveɪ.lə.bəl/",
+  "ipaUS": "/əˈveɪ.lə.bəl/",
+  "senses": [
+   {
+    "guideword": "CAN BE USED",
+    "level": "B1",
+    "defEN": "ready for you to get, use or buy",
+    "defVI": "có sẵn, sẵn sàng",
+    "examples": [
+     {
+      "en": "Is this jacket available in a smaller size?",
+      "vi": "Áo khoác này có cỡ nhỏ hơn không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "avoid",
+  "pos": "verb",
+  "ipaUK": "/əˈvɔɪd/",
+  "ipaUS": "/əˈvɔɪd/",
+  "senses": [
+   {
+    "guideword": "KEEP AWAY",
+    "level": "B1",
+    "defEN": "to stay away from something or stop it from happening",
+    "defVI": "tránh, né",
+    "examples": [
+     {
+      "en": "Try to avoid eating too much sugar.",
+      "vi": "Cố gắng tránh ăn quá nhiều đường."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aware",
+  "pos": "adjective",
+  "ipaUK": "/əˈweə/",
+  "ipaUS": "/əˈwer/",
+  "senses": [
+   {
+    "guideword": "KNOWING",
+    "level": "B1",
+    "defEN": "knowing that something exists or is happening",
+    "defVI": "nhận thức được, biết",
+    "examples": [
+     {
+      "en": "Are you aware of the new rules?",
+      "vi": "Bạn có biết về các quy định mới không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "behaviour",
+  "pos": "noun",
+  "ipaUK": "/bɪˈheɪ.vjə/",
+  "ipaUS": "/bɪˈheɪ.vjɚ/",
+  "senses": [
+   {
+    "guideword": "WAY OF ACTING",
+    "level": "B1",
+    "defEN": "the way a person acts or treats others",
+    "defVI": "hành vi, cách cư xử",
+    "examples": [
+     {
+      "en": "The children's behaviour improved a lot this term.",
+      "vi": "Cách cư xử của bọn trẻ tiến bộ nhiều trong học kỳ này."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "belong",
+  "pos": "verb",
+  "ipaUK": "/bɪˈlɒŋ/",
+  "ipaUS": "/bɪˈlɑːŋ/",
+  "senses": [
+   {
+    "guideword": "BE OWNED",
+    "level": "B1",
+    "defEN": "to be the property of someone",
+    "defVI": "thuộc về (ai)",
+    "examples": [
+     {
+      "en": "Does this umbrella belong to you?",
+      "vi": "Cái ô này là của bạn phải không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "benefit",
+  "pos": "noun",
+  "ipaUK": "/ˈben.ɪ.fɪt/",
+  "ipaUS": "/ˈben.ə.fɪt/",
+  "senses": [
+   {
+    "guideword": "ADVANTAGE",
+    "level": "B1",
+    "defEN": "a good result or helpful effect of something",
+    "defVI": "lợi ích",
+    "examples": [
+     {
+      "en": "Regular exercise has many health benefits.",
+      "vi": "Tập thể dục đều đặn có nhiều lợi ích cho sức khỏe."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "borrow",
+  "pos": "verb",
+  "ipaUK": "/ˈbɒr.əʊ/",
+  "ipaUS": "/ˈbɑːr.oʊ/",
+  "senses": [
+   {
+    "guideword": "TAKE AND RETURN",
+    "level": "B1",
+    "defEN": "to take something from someone and promise to give it back later",
+    "defVI": "mượn",
+    "examples": [
+     {
+      "en": "Can I borrow your pen for a minute?",
+      "vi": "Cho mình mượn bút một chút được không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "calm",
+  "pos": "adjective",
+  "ipaUK": "/kɑːm/",
+  "ipaUS": "/kɑːm/",
+  "senses": [
+   {
+    "guideword": "RELAXED",
+    "level": "B1",
+    "defEN": "not nervous, worried or excited",
+    "defVI": "bình tĩnh, điềm tĩnh",
+    "examples": [
+     {
+      "en": "Stay calm and read the question carefully.",
+      "vi": "Hãy bình tĩnh và đọc kỹ câu hỏi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "career",
+  "pos": "noun",
+  "ipaUK": "/kəˈrɪə/",
+  "ipaUS": "/kəˈrɪr/",
+  "senses": [
+   {
+    "guideword": "JOB OVER TIME",
+    "level": "B1",
+    "defEN": "the series of jobs a person does over many years",
+    "defVI": "sự nghiệp",
+    "examples": [
+     {
+      "en": "She wants a career in medicine.",
+      "vi": "Cô ấy muốn theo sự nghiệp y khoa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "challenge",
+  "pos": "noun",
+  "ipaUK": "/ˈtʃæl.ɪndʒ/",
+  "ipaUS": "/ˈtʃæl.ɪndʒ/",
+  "senses": [
+   {
+    "guideword": "DIFFICULT TASK",
+    "level": "B1",
+    "defEN": "something hard that tests your ability",
+    "defVI": "thử thách",
+    "examples": [
+     {
+      "en": "Learning a new language is a real challenge.",
+      "vi": "Học một ngôn ngữ mới là một thử thách thực sự."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "compare",
+  "pos": "verb",
+  "ipaUK": "/kəmˈpeə/",
+  "ipaUS": "/kəmˈper/",
+  "senses": [
+   {
+    "guideword": "FIND DIFFERENCES",
+    "level": "B1",
+    "defEN": "to look at two or more things to see how they are alike or different",
+    "defVI": "so sánh",
+    "examples": [
+     {
+      "en": "Compare the prices before you buy.",
+      "vi": "Hãy so sánh giá trước khi mua."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "complain",
+  "pos": "verb",
+  "ipaUK": "/kəmˈpleɪn/",
+  "ipaUS": "/kəmˈpleɪn/",
+  "senses": [
+   {
+    "guideword": "SAY UNHAPPY",
+    "level": "B1",
+    "defEN": "to say that you are unhappy about something",
+    "defVI": "phàn nàn, than phiền",
+    "examples": [
+     {
+      "en": "Customers complained about the slow service.",
+      "vi": "Khách hàng phàn nàn về dịch vụ chậm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "confident",
+  "pos": "adjective",
+  "ipaUK": "/ˈkɒn.fɪ.dənt/",
+  "ipaUS": "/ˈkɑːn.fə.dənt/",
+  "senses": [
+   {
+    "guideword": "SURE OF SELF",
+    "level": "B1",
+    "defEN": "believing in your own abilities",
+    "defVI": "tự tin",
+    "examples": [
+     {
+      "en": "She felt confident before the interview.",
+      "vi": "Cô ấy cảm thấy tự tin trước buổi phỏng vấn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "consider",
+  "pos": "verb",
+  "ipaUK": "/kənˈsɪd.ə/",
+  "ipaUS": "/kənˈsɪd.ɚ/",
+  "senses": [
+   {
+    "guideword": "THINK ABOUT",
+    "level": "B1",
+    "defEN": "to think carefully about something before deciding",
+    "defVI": "cân nhắc, xem xét",
+    "examples": [
+     {
+      "en": "We're considering moving to a bigger flat.",
+      "vi": "Chúng tôi đang cân nhắc chuyển sang căn hộ lớn hơn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "convenient",
+  "pos": "adjective",
+  "ipaUK": "/kənˈviː.ni.ənt/",
+  "ipaUS": "/kənˈviː.njənt/",
+  "senses": [
+   {
+    "guideword": "EASY TO USE",
+    "level": "B1",
+    "defEN": "making things easy or saving time",
+    "defVI": "tiện lợi, thuận tiện",
+    "examples": [
+     {
+      "en": "The hotel is in a convenient location near the station.",
+      "vi": "Khách sạn ở vị trí thuận tiện gần nhà ga."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "crowded",
+  "pos": "adjective",
+  "ipaUK": "/ˈkraʊ.dɪd/",
+  "ipaUS": "/ˈkraʊ.dɪd/",
+  "senses": [
+   {
+    "guideword": "FULL OF PEOPLE",
+    "level": "B1",
+    "defEN": "having too many people in one place",
+    "defVI": "đông đúc",
+    "examples": [
+     {
+      "en": "The market is always crowded at weekends.",
+      "vi": "Chợ lúc nào cũng đông đúc vào cuối tuần."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "decrease",
+  "pos": "verb",
+  "ipaUK": "/dɪˈkriːs/",
+  "ipaUS": "/dɪˈkriːs/",
+  "senses": [
+   {
+    "guideword": "GO DOWN",
+    "level": "B1",
+    "defEN": "to become smaller in number or amount",
+    "defVI": "giảm",
+    "examples": [
+     {
+      "en": "The number of visitors decreased last year.",
+      "vi": "Số lượng du khách đã giảm vào năm ngoái."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "deliver",
+  "pos": "verb",
+  "ipaUK": "/dɪˈlɪv.ə/",
+  "ipaUS": "/dɪˈlɪv.ɚ/",
+  "senses": [
+   {
+    "guideword": "TAKE TO PLACE",
+    "level": "B1",
+    "defEN": "to bring goods or letters to a person or place",
+    "defVI": "giao (hàng), chuyển phát",
+    "examples": [
+     {
+      "en": "The pizza will be delivered in 30 minutes.",
+      "vi": "Pizza sẽ được giao trong 30 phút."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "depend",
+  "pos": "verb",
+  "ipaUK": "/dɪˈpend/",
+  "ipaUS": "/dɪˈpend/",
+  "senses": [
+   {
+    "guideword": "BE DECIDED BY",
+    "level": "B1",
+    "defEN": "to be affected or decided by something",
+    "defVI": "phụ thuộc vào, tùy vào",
+    "examples": [
+     {
+      "en": "Whether we go out depends on the weather.",
+      "vi": "Có đi chơi hay không còn tùy vào thời tiết."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "describe",
+  "pos": "verb",
+  "ipaUK": "/dɪˈskraɪb/",
+  "ipaUS": "/dɪˈskraɪb/",
+  "senses": [
+   {
+    "guideword": "SAY WHAT LIKE",
+    "level": "B1",
+    "defEN": "to say what someone or something is like",
+    "defVI": "mô tả, miêu tả",
+    "examples": [
+     {
+      "en": "Can you describe the man you saw?",
+      "vi": "Bạn có thể mô tả người đàn ông bạn đã thấy không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "disappointed",
+  "pos": "adjective",
+  "ipaUK": "/ˌdɪs.əˈpɔɪn.tɪd/",
+  "ipaUS": "/ˌdɪs.əˈpɔɪn.t̬ɪd/",
+  "senses": [
+   {
+    "guideword": "SAD RESULT",
+    "level": "B1",
+    "defEN": "unhappy because something was not as good as you hoped",
+    "defVI": "thất vọng",
+    "examples": [
+     {
+      "en": "I was disappointed with my test score.",
+      "vi": "Tôi thất vọng với điểm bài kiểm tra."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "economy",
+  "pos": "noun",
+  "ipaUK": "/iˈkɒn.ə.mi/",
+  "ipaUS": "/iˈkɑː.nə.mi/",
+  "senses": [
+   {
+    "guideword": "MONEY SYSTEM",
+    "level": "B1",
+    "defEN": "the way a country produces and uses money, goods and services",
+    "defVI": "nền kinh tế",
+    "examples": [
+     {
+      "en": "The economy is growing slowly.",
+      "vi": "Nền kinh tế đang tăng trưởng chậm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "effort",
+  "pos": "noun",
+  "ipaUK": "/ˈef.ət/",
+  "ipaUS": "/ˈef.ɚt/",
+  "senses": [
+   {
+    "guideword": "HARD WORK",
+    "level": "B1",
+    "defEN": "the energy you use to do something",
+    "defVI": "nỗ lực, công sức",
+    "examples": [
+     {
+      "en": "She put a lot of effort into her project.",
+      "vi": "Cô ấy đã bỏ rất nhiều công sức vào dự án."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "encourage",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈkʌr.ɪdʒ/",
+  "ipaUS": "/ɪnˈkɝː.ɪdʒ/",
+  "senses": [
+   {
+    "guideword": "GIVE CONFIDENCE",
+    "level": "B1",
+    "defEN": "to give someone support so they feel able to do something",
+    "defVI": "khuyến khích, động viên",
+    "examples": [
+     {
+      "en": "My parents encouraged me to learn English.",
+      "vi": "Bố mẹ đã khuyến khích tôi học tiếng Anh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "environment",
+  "pos": "noun",
+  "ipaUK": "/ɪnˈvaɪ.rən.mənt/",
+  "ipaUS": "/ɪnˈvaɪ.rən.mənt/",
+  "senses": [
+   {
+    "guideword": "NATURE",
+    "level": "B1",
+    "defEN": "the air, water and land where people, animals and plants live",
+    "defVI": "môi trường",
+    "examples": [
+     {
+      "en": "We must protect the environment for future generations.",
+      "vi": "Chúng ta phải bảo vệ môi trường cho thế hệ sau."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "exhausted",
+  "pos": "adjective",
+  "ipaUK": "/ɪɡˈzɔː.stɪd/",
+  "ipaUS": "/ɪɡˈzɑː.stɪd/",
+  "senses": [
+   {
+    "guideword": "VERY TIRED",
+    "level": "B1",
+    "defEN": "extremely tired",
+    "defVI": "kiệt sức",
+    "examples": [
+     {
+      "en": "I was exhausted after the long flight.",
+      "vi": "Tôi kiệt sức sau chuyến bay dài."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "experience",
+  "pos": "noun",
+  "ipaUK": "/ɪkˈspɪə.ri.əns/",
+  "ipaUS": "/ɪkˈspɪr.i.əns/",
+  "senses": [
+   {
+    "guideword": "KNOWLEDGE FROM DOING",
+    "level": "B1",
+    "defEN": "skill you get from doing something for a period of time",
+    "defVI": "kinh nghiệm",
+    "examples": [
+     {
+      "en": "Do you have any experience working with children?",
+      "vi": "Bạn có kinh nghiệm làm việc với trẻ em không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "familiar",
+  "pos": "adjective",
+  "ipaUK": "/fəˈmɪl.i.ə/",
+  "ipaUS": "/fəˈmɪl.jɚ/",
+  "senses": [
+   {
+    "guideword": "KNOWN",
+    "level": "B1",
+    "defEN": "easy to recognize because you have seen or heard it before",
+    "defVI": "quen thuộc",
+    "examples": [
+     {
+      "en": "Her face looks familiar to me.",
+      "vi": "Khuôn mặt cô ấy trông quen quen."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "fault",
+  "pos": "noun",
+  "ipaUK": "/fɔːlt/",
+  "ipaUS": "/fɑːlt/",
+  "senses": [
+   {
+    "guideword": "RESPONSIBILITY",
+    "level": "B1",
+    "defEN": "the fact that something bad happened because of you",
+    "defVI": "lỗi (của ai)",
+    "examples": [
+     {
+      "en": "It's not your fault that we missed the train.",
+      "vi": "Chúng ta lỡ tàu không phải lỗi của bạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "frightened",
+  "pos": "adjective",
+  "ipaUK": "/ˈfraɪ.tənd/",
+  "ipaUS": "/ˈfraɪ.tənd/",
+  "senses": [
+   {
+    "guideword": "AFRAID",
+    "level": "B1",
+    "defEN": "feeling scared",
+    "defVI": "sợ hãi",
+    "examples": [
+     {
+      "en": "The little girl was frightened of the dark.",
+      "vi": "Cô bé sợ bóng tối."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "generous",
+  "pos": "adjective",
+  "ipaUK": "/ˈdʒen.ər.əs/",
+  "ipaUS": "/ˈdʒen.ɚ.əs/",
+  "senses": [
+   {
+    "guideword": "GIVING",
+    "level": "B1",
+    "defEN": "happy to give money, time or help to others",
+    "defVI": "hào phóng, rộng lượng",
+    "examples": [
+     {
+      "en": "It was generous of you to pay for dinner.",
+      "vi": "Bạn thật hào phóng khi trả tiền bữa tối."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "habit",
+  "pos": "noun",
+  "ipaUK": "/ˈhæb.ɪt/",
+  "ipaUS": "/ˈhæb.ɪt/",
+  "senses": [
+   {
+    "guideword": "REGULAR ACTION",
+    "level": "B1",
+    "defEN": "something you do often, sometimes without thinking",
+    "defVI": "thói quen",
+    "examples": [
+     {
+      "en": "Reading before bed is a good habit.",
+      "vi": "Đọc sách trước khi ngủ là một thói quen tốt."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "improve",
+  "pos": "verb",
+  "ipaUK": "/ɪmˈpruːv/",
+  "ipaUS": "/ɪmˈpruːv/",
+  "senses": [
+   {
+    "guideword": "GET BETTER",
+    "level": "B1",
+    "defEN": "to become better or make something better",
+    "defVI": "cải thiện, tiến bộ",
+    "examples": [
+     {
+      "en": "Watching films helped me improve my listening.",
+      "vi": "Xem phim giúp tôi cải thiện kỹ năng nghe."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "include",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈkluːd/",
+  "ipaUS": "/ɪnˈkluːd/",
+  "senses": [
+   {
+    "guideword": "CONTAIN",
+    "level": "B1",
+    "defEN": "to have something as one part of a whole",
+    "defVI": "bao gồm",
+    "examples": [
+     {
+      "en": "The price includes breakfast.",
+      "vi": "Giá đã bao gồm bữa sáng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "increase",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈkriːs/",
+  "ipaUS": "/ɪnˈkriːs/",
+  "senses": [
+   {
+    "guideword": "GO UP",
+    "level": "B1",
+    "defEN": "to become larger in number or amount",
+    "defVI": "tăng",
+    "examples": [
+     {
+      "en": "Prices have increased a lot recently.",
+      "vi": "Giá cả gần đây đã tăng nhiều."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "independent",
+  "pos": "adjective",
+  "ipaUK": "/ˌɪn.dɪˈpen.dənt/",
+  "ipaUS": "/ˌɪn.dɪˈpen.dənt/",
+  "senses": [
+   {
+    "guideword": "NOT NEEDING OTHERS",
+    "level": "B1",
+    "defEN": "able to live or decide without help from others",
+    "defVI": "độc lập, tự lập",
+    "examples": [
+     {
+      "en": "She became independent after moving to the city.",
+      "vi": "Cô ấy trở nên tự lập sau khi chuyển lên thành phố."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "influence",
+  "pos": "noun",
+  "ipaUK": "/ˈɪn.flu.əns/",
+  "ipaUS": "/ˈɪn.flu.əns/",
+  "senses": [
+   {
+    "guideword": "EFFECT",
+    "level": "B1",
+    "defEN": "the power to change how someone thinks or acts",
+    "defVI": "ảnh hưởng",
+    "examples": [
+     {
+      "en": "Her grandmother had a big influence on her life.",
+      "vi": "Bà cô ấy có ảnh hưởng lớn đến cuộc đời cô."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "knowledge",
+  "pos": "noun",
+  "ipaUK": "/ˈnɒl.ɪdʒ/",
+  "ipaUS": "/ˈnɑː.lɪdʒ/",
+  "senses": [
+   {
+    "guideword": "WHAT YOU KNOW",
+    "level": "B1",
+    "defEN": "information and understanding you have about a subject",
+    "defVI": "kiến thức",
+    "examples": [
+     {
+      "en": "He has a good knowledge of history.",
+      "vi": "Anh ấy có kiến thức lịch sử tốt."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "manage",
+  "pos": "verb",
+  "ipaUK": "/ˈmæn.ɪdʒ/",
+  "ipaUS": "/ˈmæn.ədʒ/",
+  "senses": [
+   {
+    "guideword": "SUCCEED",
+    "level": "B1",
+    "defEN": "to succeed in doing something hard",
+    "defVI": "xoay xở được, làm được",
+    "examples": [
+     {
+      "en": "We managed to finish the work on time.",
+      "vi": "Chúng tôi đã xoay xở hoàn thành công việc đúng hạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "opportunity",
+  "pos": "noun",
+  "ipaUK": "/ˌɒp.əˈtʃuː.nə.ti/",
+  "ipaUS": "/ˌɑː.pɚˈtuː.nə.t̬i/",
+  "senses": [
+   {
+    "guideword": "CHANCE",
+    "level": "B1",
+    "defEN": "a time when you are able to do something you want",
+    "defVI": "cơ hội",
+    "examples": [
+     {
+      "en": "This job is a great opportunity to travel.",
+      "vi": "Công việc này là cơ hội tuyệt vời để đi du lịch."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "opinion",
+  "pos": "noun",
+  "ipaUK": "/əˈpɪn.jən/",
+  "ipaUS": "/əˈpɪn.jən/",
+  "senses": [
+   {
+    "guideword": "VIEW",
+    "level": "B1",
+    "defEN": "what you think or believe about something",
+    "defVI": "ý kiến, quan điểm",
+    "examples": [
+     {
+      "en": "In my opinion, the film was too long.",
+      "vi": "Theo ý kiến của tôi, bộ phim quá dài."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "patient",
+  "pos": "adjective",
+  "ipaUK": "/ˈpeɪ.ʃənt/",
+  "ipaUS": "/ˈpeɪ.ʃənt/",
+  "senses": [
+   {
+    "guideword": "CAN WAIT",
+    "level": "B1",
+    "defEN": "able to wait or stay calm without getting angry",
+    "defVI": "kiên nhẫn",
+    "examples": [
+     {
+      "en": "Be patient — the results will come soon.",
+      "vi": "Hãy kiên nhẫn — kết quả sẽ có sớm thôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "persuade",
+  "pos": "verb",
+  "ipaUK": "/pəˈsweɪd/",
+  "ipaUS": "/pɚˈsweɪd/",
+  "senses": [
+   {
+    "guideword": "MAKE AGREE",
+    "level": "B1",
+    "defEN": "to make someone agree to do something by giving reasons",
+    "defVI": "thuyết phục",
+    "examples": [
+     {
+      "en": "I persuaded my friend to join the club.",
+      "vi": "Tôi đã thuyết phục bạn tham gia câu lạc bộ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "pollution",
+  "pos": "noun",
+  "ipaUK": "/pəˈluː.ʃən/",
+  "ipaUS": "/pəˈluː.ʃən/",
+  "senses": [
+   {
+    "guideword": "DIRTY AIR/WATER",
+    "level": "B1",
+    "defEN": "harmful substances that make air, water or land dirty",
+    "defVI": "sự ô nhiễm",
+    "examples": [
+     {
+      "en": "Air pollution is a serious problem in big cities.",
+      "vi": "Ô nhiễm không khí là vấn đề nghiêm trọng ở các thành phố lớn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "prefer",
+  "pos": "verb",
+  "ipaUK": "/prɪˈfɜː/",
+  "ipaUS": "/prɪˈfɝː/",
+  "senses": [
+   {
+    "guideword": "LIKE MORE",
+    "level": "B1",
+    "defEN": "to like one thing more than another",
+    "defVI": "thích hơn",
+    "examples": [
+     {
+      "en": "I prefer tea to coffee.",
+      "vi": "Tôi thích trà hơn cà phê."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "prepare",
+  "pos": "verb",
+  "ipaUK": "/prɪˈpeə/",
+  "ipaUS": "/prɪˈper/",
+  "senses": [
+   {
+    "guideword": "GET READY",
+    "level": "B1",
+    "defEN": "to make yourself or something ready for an event",
+    "defVI": "chuẩn bị",
+    "examples": [
+     {
+      "en": "She spent the weekend preparing for her exam.",
+      "vi": "Cô ấy dành cả cuối tuần để chuẩn bị cho kỳ thi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "prevent",
+  "pos": "verb",
+  "ipaUK": "/prɪˈvent/",
+  "ipaUS": "/prɪˈvent/",
+  "senses": [
+   {
+    "guideword": "STOP HAPPENING",
+    "level": "B1",
+    "defEN": "to stop something from happening",
+    "defVI": "ngăn chặn, phòng ngừa",
+    "examples": [
+     {
+      "en": "Washing your hands helps prevent illness.",
+      "vi": "Rửa tay giúp phòng ngừa bệnh tật."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "proud",
+  "pos": "adjective",
+  "ipaUK": "/praʊd/",
+  "ipaUS": "/praʊd/",
+  "senses": [
+   {
+    "guideword": "PLEASED",
+    "level": "B1",
+    "defEN": "pleased about something you or someone close to you did",
+    "defVI": "tự hào",
+    "examples": [
+     {
+      "en": "My parents were proud of my results.",
+      "vi": "Bố mẹ tự hào về kết quả của tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "purpose",
+  "pos": "noun",
+  "ipaUK": "/ˈpɜː.pəs/",
+  "ipaUS": "/ˈpɝː.pəs/",
+  "senses": [
+   {
+    "guideword": "REASON",
+    "level": "B1",
+    "defEN": "the reason why something is done or made",
+    "defVI": "mục đích",
+    "examples": [
+     {
+      "en": "What is the purpose of your visit?",
+      "vi": "Mục đích chuyến thăm của bạn là gì?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "recommend",
+  "pos": "verb",
+  "ipaUK": "/ˌrek.əˈmend/",
+  "ipaUS": "/ˌrek.əˈmend/",
+  "senses": [
+   {
+    "guideword": "SUGGEST",
+    "level": "B1",
+    "defEN": "to say that something is good and someone should try it",
+    "defVI": "giới thiệu, gợi ý",
+    "examples": [
+     {
+      "en": "Can you recommend a good restaurant nearby?",
+      "vi": "Bạn có thể gợi ý một nhà hàng ngon gần đây không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "reduce",
+  "pos": "verb",
+  "ipaUK": "/rɪˈdʒuːs/",
+  "ipaUS": "/rɪˈduːs/",
+  "senses": [
+   {
+    "guideword": "MAKE LESS",
+    "level": "B1",
+    "defEN": "to make something smaller in size or amount",
+    "defVI": "giảm, cắt giảm",
+    "examples": [
+     {
+      "en": "We need to reduce our spending.",
+      "vi": "Chúng ta cần cắt giảm chi tiêu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "relationship",
+  "pos": "noun",
+  "ipaUK": "/rɪˈleɪ.ʃən.ʃɪp/",
+  "ipaUS": "/rɪˈleɪ.ʃən.ʃɪp/",
+  "senses": [
+   {
+    "guideword": "CONNECTION",
+    "level": "B1",
+    "defEN": "the way two people or groups feel and behave towards each other",
+    "defVI": "mối quan hệ",
+    "examples": [
+     {
+      "en": "She has a good relationship with her boss.",
+      "vi": "Cô ấy có mối quan hệ tốt với sếp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "reliable",
+  "pos": "adjective",
+  "ipaUK": "/rɪˈlaɪ.ə.bəl/",
+  "ipaUS": "/rɪˈlaɪ.ə.bəl/",
+  "senses": [
+   {
+    "guideword": "CAN TRUST",
+    "level": "B1",
+    "defEN": "able to be trusted to work well or behave well",
+    "defVI": "đáng tin cậy",
+    "examples": [
+     {
+      "en": "He's a reliable friend who always keeps his promises.",
+      "vi": "Anh ấy là người bạn đáng tin cậy, luôn giữ lời hứa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "remind",
+  "pos": "verb",
+  "ipaUK": "/rɪˈmaɪnd/",
+  "ipaUS": "/rɪˈmaɪnd/",
+  "senses": [
+   {
+    "guideword": "HELP REMEMBER",
+    "level": "B1",
+    "defEN": "to make someone remember something",
+    "defVI": "nhắc nhở",
+    "examples": [
+     {
+      "en": "Please remind me to call my mother.",
+      "vi": "Làm ơn nhắc tôi gọi cho mẹ nhé."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "responsible",
+  "pos": "adjective",
+  "ipaUK": "/rɪˈspɒn.sə.bəl/",
+  "ipaUS": "/rɪˈspɑːn.sə.bəl/",
+  "senses": [
+   {
+    "guideword": "IN CHARGE",
+    "level": "B1",
+    "defEN": "having the duty to take care of something",
+    "defVI": "chịu trách nhiệm",
+    "examples": [
+     {
+      "en": "Who is responsible for this project?",
+      "vi": "Ai chịu trách nhiệm dự án này?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "secret",
+  "pos": "noun",
+  "ipaUK": "/ˈsiː.krət/",
+  "ipaUS": "/ˈsiː.krət/",
+  "senses": [
+   {
+    "guideword": "HIDDEN FACT",
+    "level": "B1",
+    "defEN": "information that only a few people know and should not tell others",
+    "defVI": "bí mật",
+    "examples": [
+     {
+      "en": "Can you keep a secret?",
+      "vi": "Bạn giữ bí mật được không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "skill",
+  "pos": "noun",
+  "ipaUK": "/skɪl/",
+  "ipaUS": "/skɪl/",
+  "senses": [
+   {
+    "guideword": "ABILITY",
+    "level": "B1",
+    "defEN": "the ability to do something well, usually after practice",
+    "defVI": "kỹ năng",
+    "examples": [
+     {
+      "en": "Communication skills are important in every job.",
+      "vi": "Kỹ năng giao tiếp quan trọng trong mọi công việc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "solution",
+  "pos": "noun",
+  "ipaUK": "/səˈluː.ʃən/",
+  "ipaUS": "/səˈluː.ʃən/",
+  "senses": [
+   {
+    "guideword": "ANSWER",
+    "level": "B1",
+    "defEN": "a way to deal with a problem",
+    "defVI": "giải pháp",
+    "examples": [
+     {
+      "en": "We need to find a solution quickly.",
+      "vi": "Chúng ta cần tìm ra giải pháp nhanh chóng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "suitable",
+  "pos": "adjective",
+  "ipaUK": "/ˈsuː.tə.bəl/",
+  "ipaUS": "/ˈsuː.t̬ə.bəl/",
+  "senses": [
+   {
+    "guideword": "RIGHT",
+    "level": "B1",
+    "defEN": "right or acceptable for a particular person or situation",
+    "defVI": "phù hợp",
+    "examples": [
+     {
+      "en": "This film is not suitable for young children.",
+      "vi": "Bộ phim này không phù hợp với trẻ nhỏ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "support",
+  "pos": "verb",
+  "ipaUK": "/səˈpɔːt/",
+  "ipaUS": "/səˈpɔːrt/",
+  "senses": [
+   {
+    "guideword": "HELP",
+    "level": "B1",
+    "defEN": "to help someone emotionally or in a practical way",
+    "defVI": "ủng hộ, hỗ trợ",
+    "examples": [
+     {
+      "en": "My friends supported me during a difficult time.",
+      "vi": "Bạn bè đã hỗ trợ tôi trong thời gian khó khăn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "suppose",
+  "pos": "verb",
+  "ipaUK": "/səˈpəʊz/",
+  "ipaUS": "/səˈpoʊz/",
+  "senses": [
+   {
+    "guideword": "THINK LIKELY",
+    "level": "B1",
+    "defEN": "to think that something is probably true",
+    "defVI": "cho rằng, nghĩ là",
+    "examples": [
+     {
+      "en": "I suppose he's still at work.",
+      "vi": "Tôi nghĩ là anh ấy vẫn đang ở chỗ làm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "surprised",
+  "pos": "adjective",
+  "ipaUK": "/səˈpraɪzd/",
+  "ipaUS": "/sɚˈpraɪzd/",
+  "senses": [
+   {
+    "guideword": "NOT EXPECTING",
+    "level": "B1",
+    "defEN": "feeling that something unexpected has happened",
+    "defVI": "ngạc nhiên",
+    "examples": [
+     {
+      "en": "I was surprised to see him at the party.",
+      "vi": "Tôi ngạc nhiên khi thấy anh ấy ở bữa tiệc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "traffic",
+  "pos": "noun",
+  "ipaUK": "/ˈtræf.ɪk/",
+  "ipaUS": "/ˈtræf.ɪk/",
+  "senses": [
+   {
+    "guideword": "VEHICLES",
+    "level": "B1",
+    "defEN": "the cars and other vehicles moving on a road",
+    "defVI": "giao thông, xe cộ",
+    "examples": [
+     {
+      "en": "There was heavy traffic on the way home.",
+      "vi": "Trên đường về nhà xe cộ rất đông."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "trust",
+  "pos": "verb",
+  "ipaUK": "/trʌst/",
+  "ipaUS": "/trʌst/",
+  "senses": [
+   {
+    "guideword": "BELIEVE IN",
+    "level": "B1",
+    "defEN": "to believe that someone is honest and will not hurt you",
+    "defVI": "tin tưởng",
+    "examples": [
+     {
+      "en": "I trust her completely.",
+      "vi": "Tôi hoàn toàn tin tưởng cô ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "waste",
+  "pos": "verb",
+  "ipaUK": "/weɪst/",
+  "ipaUS": "/weɪst/",
+  "senses": [
+   {
+    "guideword": "USE BADLY",
+    "level": "B1",
+    "defEN": "to use more of something than needed or use it for nothing useful",
+    "defVI": "lãng phí",
+    "examples": [
+     {
+      "en": "Don't waste time on social media.",
+      "vi": "Đừng lãng phí thời gian vào mạng xã hội."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "worth",
+  "pos": "adjective",
+  "ipaUK": "/wɜːθ/",
+  "ipaUS": "/wɝːθ/",
+  "senses": [
+   {
+    "guideword": "HAVING VALUE",
+    "level": "B1",
+    "defEN": "good or useful enough to do",
+    "defVI": "đáng (để làm)",
+    "examples": [
+     {
+      "en": "The museum is worth visiting.",
+      "vi": "Bảo tàng này rất đáng ghé thăm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "wonder",
+  "pos": "verb",
+  "ipaUK": "/ˈwʌn.də/",
+  "ipaUS": "/ˈwʌn.dɚ/",
+  "senses": [
+   {
+    "guideword": "ASK YOURSELF",
+    "level": "B1",
+    "defEN": "to think about something and want to know more",
+    "defVI": "tự hỏi",
+    "examples": [
+     {
+      "en": "I wonder why she left so early.",
+      "vi": "Tôi tự hỏi sao cô ấy về sớm vậy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "absolute",
+  "pos": "adjective",
+  "ipaUK": "/ˈæb.sə.luːt/",
+  "ipaUS": "/ˈæb.sə.luːt/",
+  "senses": [
+   {
+    "guideword": "VERY GREAT",
+    "level": "B2",
+    "defEN": "as complete or great as possible",
+    "defVI": "tuyệt đối, hoàn toàn",
+    "examples": [
+     {
+      "en": "I have absolute trust in my team.",
+      "vi": "Tôi tin tưởng tuyệt đối vào đội của mình."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abandon",
+  "pos": "verb",
+  "ipaUK": "/əˈbæn.dən/",
+  "ipaUS": "/əˈbæn.dən/",
+  "senses": [
+   {
+    "guideword": "LEAVE",
+    "level": "B2",
+    "defEN": "to leave someone or something and not come back",
+    "defVI": "bỏ rơi, từ bỏ",
+    "examples": [
+     {
+      "en": "They had to abandon the car in the snow.",
+      "vi": "Họ phải bỏ lại chiếc xe trong tuyết."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accurate",
+  "pos": "adjective",
+  "ipaUK": "/ˈæk.jə.rət/",
+  "ipaUS": "/ˈæk.jɚ.ət/",
+  "senses": [
+   {
+    "guideword": "CORRECT",
+    "level": "B2",
+    "defEN": "correct in every detail",
+    "defVI": "chính xác",
+    "examples": [
+     {
+      "en": "Make sure your figures are accurate.",
+      "vi": "Hãy đảm bảo số liệu của bạn chính xác."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "acknowledge",
+  "pos": "verb",
+  "ipaUK": "/əkˈnɒl.ɪdʒ/",
+  "ipaUS": "/əkˈnɑː.lɪdʒ/",
+  "senses": [
+   {
+    "guideword": "ACCEPT TRUTH",
+    "level": "B2",
+    "defEN": "to admit that something is true or exists",
+    "defVI": "thừa nhận",
+    "examples": [
+     {
+      "en": "He acknowledged that he had made a mistake.",
+      "vi": "Anh ấy thừa nhận mình đã mắc lỗi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adapt",
+  "pos": "verb",
+  "ipaUK": "/əˈdæpt/",
+  "ipaUS": "/əˈdæpt/",
+  "senses": [
+   {
+    "guideword": "CHANGE TO FIT",
+    "level": "B2",
+    "defEN": "to change your behaviour to deal with a new situation",
+    "defVI": "thích nghi",
+    "examples": [
+     {
+      "en": "It took me months to adapt to life abroad.",
+      "vi": "Tôi mất vài tháng để thích nghi với cuộc sống ở nước ngoài."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adequate",
+  "pos": "adjective",
+  "ipaUK": "/ˈæd.ə.kwət/",
+  "ipaUS": "/ˈæd.ə.kwət/",
+  "senses": [
+   {
+    "guideword": "ENOUGH",
+    "level": "B2",
+    "defEN": "good enough or large enough for a need",
+    "defVI": "đủ, thỏa đáng",
+    "examples": [
+     {
+      "en": "Make sure you get adequate sleep before the exam.",
+      "vi": "Hãy ngủ đủ giấc trước kỳ thi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "anxious",
+  "pos": "adjective",
+  "ipaUK": "/ˈæŋk.ʃəs/",
+  "ipaUS": "/ˈæŋk.ʃəs/",
+  "senses": [
+   {
+    "guideword": "WORRIED",
+    "level": "B2",
+    "defEN": "worried and nervous about something that may happen",
+    "defVI": "lo lắng, bồn chồn",
+    "examples": [
+     {
+      "en": "She was anxious about her first day at work.",
+      "vi": "Cô ấy lo lắng về ngày đầu đi làm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "apparent",
+  "pos": "adjective",
+  "ipaUK": "/əˈpær.ənt/",
+  "ipaUS": "/əˈper.ənt/",
+  "senses": [
+   {
+    "guideword": "CLEAR",
+    "level": "B2",
+    "defEN": "easy to see or understand",
+    "defVI": "rõ ràng, hiển nhiên",
+    "examples": [
+     {
+      "en": "It soon became apparent that he was lying.",
+      "vi": "Chẳng mấy chốc đã rõ là anh ta nói dối."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "approach",
+  "pos": "noun",
+  "ipaUK": "/əˈprəʊtʃ/",
+  "ipaUS": "/əˈproʊtʃ/",
+  "senses": [
+   {
+    "guideword": "METHOD",
+    "level": "B2",
+    "defEN": "a way of dealing with something",
+    "defVI": "cách tiếp cận, phương pháp",
+    "examples": [
+     {
+      "en": "We need a new approach to this problem.",
+      "vi": "Chúng ta cần một cách tiếp cận mới cho vấn đề này."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "assume",
+  "pos": "verb",
+  "ipaUK": "/əˈsjuːm/",
+  "ipaUS": "/əˈsuːm/",
+  "senses": [
+   {
+    "guideword": "BELIEVE WITHOUT PROOF",
+    "level": "B2",
+    "defEN": "to think something is true without checking",
+    "defVI": "cho rằng, mặc định",
+    "examples": [
+     {
+      "en": "I assumed you already knew the news.",
+      "vi": "Tôi cứ tưởng bạn đã biết tin rồi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "attitude",
+  "pos": "noun",
+  "ipaUK": "/ˈæt.ɪ.tʃuːd/",
+  "ipaUS": "/ˈæt̬.ə.tuːd/",
+  "senses": [
+   {
+    "guideword": "WAY OF THINKING",
+    "level": "B2",
+    "defEN": "how you think and feel about something, shown in your behaviour",
+    "defVI": "thái độ",
+    "examples": [
+     {
+      "en": "She has a positive attitude towards work.",
+      "vi": "Cô ấy có thái độ tích cực với công việc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "authority",
+  "pos": "noun",
+  "ipaUK": "/ɔːˈθɒr.ə.ti/",
+  "ipaUS": "/əˈθɔːr.ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "POWER",
+    "level": "B2",
+    "defEN": "the right or power to control or make decisions",
+    "defVI": "quyền lực, thẩm quyền",
+    "examples": [
+     {
+      "en": "Only the manager has the authority to approve this.",
+      "vi": "Chỉ quản lý có thẩm quyền phê duyệt việc này."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "awkward",
+  "pos": "adjective",
+  "ipaUK": "/ˈɔː.kwəd/",
+  "ipaUS": "/ˈɑː.kwɚd/",
+  "senses": [
+   {
+    "guideword": "UNCOMFORTABLE",
+    "level": "B2",
+    "defEN": "making you feel embarrassed or uncomfortable",
+    "defVI": "ngượng ngùng, khó xử",
+    "examples": [
+     {
+      "en": "There was an awkward silence after his joke.",
+      "vi": "Có một khoảng lặng khó xử sau câu đùa của anh ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bias",
+  "pos": "noun",
+  "ipaUK": "/ˈbaɪ.əs/",
+  "ipaUS": "/ˈbaɪ.əs/",
+  "senses": [
+   {
+    "guideword": "UNFAIR PREFERENCE",
+    "level": "B2",
+    "defEN": "an unfair tendency to support one side",
+    "defVI": "sự thiên vị, định kiến",
+    "examples": [
+     {
+      "en": "The report was criticised for its political bias.",
+      "vi": "Bản báo cáo bị chỉ trích vì thiên vị chính trị."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "burden",
+  "pos": "noun",
+  "ipaUK": "/ˈbɜː.dən/",
+  "ipaUS": "/ˈbɝː.dən/",
+  "senses": [
+   {
+    "guideword": "HEAVY DUTY",
+    "level": "B2",
+    "defEN": "a difficult responsibility that causes worry",
+    "defVI": "gánh nặng",
+    "examples": [
+     {
+      "en": "He didn't want to be a burden to his family.",
+      "vi": "Anh ấy không muốn trở thành gánh nặng cho gia đình."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "capable",
+  "pos": "adjective",
+  "ipaUK": "/ˈkeɪ.pə.bəl/",
+  "ipaUS": "/ˈkeɪ.pə.bəl/",
+  "senses": [
+   {
+    "guideword": "ABLE",
+    "level": "B2",
+    "defEN": "having the skill or power to do something",
+    "defVI": "có năng lực, có khả năng",
+    "examples": [
+     {
+      "en": "She is capable of running the whole team.",
+      "vi": "Cô ấy có đủ khả năng điều hành cả nhóm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "cautious",
+  "pos": "adjective",
+  "ipaUK": "/ˈkɔː.ʃəs/",
+  "ipaUS": "/ˈkɑː.ʃəs/",
+  "senses": [
+   {
+    "guideword": "CAREFUL",
+    "level": "B2",
+    "defEN": "careful to avoid risks",
+    "defVI": "thận trọng",
+    "examples": [
+     {
+      "en": "Be cautious when sharing personal information online.",
+      "vi": "Hãy thận trọng khi chia sẻ thông tin cá nhân trên mạng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "commitment",
+  "pos": "noun",
+  "ipaUK": "/kəˈmɪt.mənt/",
+  "ipaUS": "/kəˈmɪt.mənt/",
+  "senses": [
+   {
+    "guideword": "DEDICATION",
+    "level": "B2",
+    "defEN": "willingness to give your time and energy to something",
+    "defVI": "sự cam kết, tận tâm",
+    "examples": [
+     {
+      "en": "Learning English requires long-term commitment.",
+      "vi": "Học tiếng Anh đòi hỏi sự cam kết lâu dài."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "compromise",
+  "pos": "noun",
+  "ipaUK": "/ˈkɒm.prə.maɪz/",
+  "ipaUS": "/ˈkɑːm.prə.maɪz/",
+  "senses": [
+   {
+    "guideword": "AGREEMENT",
+    "level": "B2",
+    "defEN": "an agreement where each side gives up something",
+    "defVI": "sự thỏa hiệp",
+    "examples": [
+     {
+      "en": "After hours of talks, they reached a compromise.",
+      "vi": "Sau hàng giờ đàm phán, họ đã đạt được thỏa hiệp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "concern",
+  "pos": "noun",
+  "ipaUK": "/kənˈsɜːn/",
+  "ipaUS": "/kənˈsɝːn/",
+  "senses": [
+   {
+    "guideword": "WORRY",
+    "level": "B2",
+    "defEN": "a feeling of worry about something important",
+    "defVI": "mối lo ngại",
+    "examples": [
+     {
+      "en": "There is growing concern about climate change.",
+      "vi": "Mối lo ngại về biến đổi khí hậu ngày càng tăng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "consequence",
+  "pos": "noun",
+  "ipaUK": "/ˈkɒn.sɪ.kwəns/",
+  "ipaUS": "/ˈkɑːn.sə.kwens/",
+  "senses": [
+   {
+    "guideword": "RESULT",
+    "level": "B2",
+    "defEN": "a result of an action, often a bad one",
+    "defVI": "hậu quả",
+    "examples": [
+     {
+      "en": "You have to accept the consequences of your choices.",
+      "vi": "Bạn phải chấp nhận hậu quả từ lựa chọn của mình."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "contribute",
+  "pos": "verb",
+  "ipaUK": "/kənˈtrɪb.juːt/",
+  "ipaUS": "/kənˈtrɪb.juːt/",
+  "senses": [
+   {
+    "guideword": "GIVE PART",
+    "level": "B2",
+    "defEN": "to give money, ideas or help to something shared",
+    "defVI": "đóng góp",
+    "examples": [
+     {
+      "en": "Everyone contributed ideas to the plan.",
+      "vi": "Mọi người đều đóng góp ý tưởng cho kế hoạch."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "controversial",
+  "pos": "adjective",
+  "ipaUK": "/ˌkɒn.trəˈvɜː.ʃəl/",
+  "ipaUS": "/ˌkɑːn.trəˈvɝː.ʃəl/",
+  "senses": [
+   {
+    "guideword": "CAUSING ARGUMENT",
+    "level": "B2",
+    "defEN": "causing a lot of disagreement",
+    "defVI": "gây tranh cãi",
+    "examples": [
+     {
+      "en": "The new law is highly controversial.",
+      "vi": "Luật mới gây rất nhiều tranh cãi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "convince",
+  "pos": "verb",
+  "ipaUK": "/kənˈvɪns/",
+  "ipaUS": "/kənˈvɪns/",
+  "senses": [
+   {
+    "guideword": "MAKE BELIEVE",
+    "level": "B2",
+    "defEN": "to make someone believe something is true",
+    "defVI": "thuyết phục, làm cho tin",
+    "examples": [
+     {
+      "en": "She convinced me that the plan would work.",
+      "vi": "Cô ấy thuyết phục tôi rằng kế hoạch sẽ thành công."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "crucial",
+  "pos": "adjective",
+  "ipaUK": "/ˈkruː.ʃəl/",
+  "ipaUS": "/ˈkruː.ʃəl/",
+  "senses": [
+   {
+    "guideword": "VERY IMPORTANT",
+    "level": "B2",
+    "defEN": "extremely important because other things depend on it",
+    "defVI": "then chốt, cực kỳ quan trọng",
+    "examples": [
+     {
+      "en": "The next few days are crucial for the project.",
+      "vi": "Vài ngày tới là then chốt đối với dự án."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "deliberately",
+  "pos": "adverb",
+  "ipaUK": "/dɪˈlɪb.ər.ət.li/",
+  "ipaUS": "/dɪˈlɪb.ɚ.ət.li/",
+  "senses": [
+   {
+    "guideword": "ON PURPOSE",
+    "level": "B2",
+    "defEN": "in a way that is planned, not by accident",
+    "defVI": "cố ý, cố tình",
+    "examples": [
+     {
+      "en": "He deliberately ignored my message.",
+      "vi": "Anh ta cố tình phớt lờ tin nhắn của tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "demand",
+  "pos": "noun",
+  "ipaUK": "/dɪˈmɑːnd/",
+  "ipaUS": "/dɪˈmænd/",
+  "senses": [
+   {
+    "guideword": "NEED TO BUY",
+    "level": "B2",
+    "defEN": "the desire of people to buy or use something",
+    "defVI": "nhu cầu",
+    "examples": [
+     {
+      "en": "There is a high demand for English teachers.",
+      "vi": "Nhu cầu giáo viên tiếng Anh rất cao."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "determined",
+  "pos": "adjective",
+  "ipaUK": "/dɪˈtɜː.mɪnd/",
+  "ipaUS": "/dɪˈtɝː.mɪnd/",
+  "senses": [
+   {
+    "guideword": "STRONG WILL",
+    "level": "B2",
+    "defEN": "having decided firmly to do something",
+    "defVI": "quyết tâm",
+    "examples": [
+     {
+      "en": "She was determined to pass the IELTS exam.",
+      "vi": "Cô ấy quyết tâm vượt qua kỳ thi IELTS."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "distinguish",
+  "pos": "verb",
+  "ipaUK": "/dɪˈstɪŋ.ɡwɪʃ/",
+  "ipaUS": "/dɪˈstɪŋ.ɡwɪʃ/",
+  "senses": [
+   {
+    "guideword": "SEE DIFFERENCE",
+    "level": "B2",
+    "defEN": "to notice the difference between two things",
+    "defVI": "phân biệt",
+    "examples": [
+     {
+      "en": "Can you distinguish between these two sounds?",
+      "vi": "Bạn có phân biệt được hai âm này không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "efficient",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈfɪʃ.ənt/",
+  "ipaUS": "/ɪˈfɪʃ.ənt/",
+  "senses": [
+   {
+    "guideword": "NOT WASTEFUL",
+    "level": "B2",
+    "defEN": "working well without wasting time or energy",
+    "defVI": "hiệu quả",
+    "examples": [
+     {
+      "en": "We need a more efficient way to handle orders.",
+      "vi": "Chúng ta cần cách xử lý đơn hàng hiệu quả hơn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "emphasis",
+  "pos": "noun",
+  "ipaUK": "/ˈem.fə.sɪs/",
+  "ipaUS": "/ˈem.fə.sɪs/",
+  "senses": [
+   {
+    "guideword": "SPECIAL ATTENTION",
+    "level": "B2",
+    "defEN": "special importance given to something",
+    "defVI": "sự nhấn mạnh",
+    "examples": [
+     {
+      "en": "The course puts emphasis on speaking skills.",
+      "vi": "Khóa học nhấn mạnh vào kỹ năng nói."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "enormous",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈnɔː.məs/",
+  "ipaUS": "/əˈnɔːr.məs/",
+  "senses": [
+   {
+    "guideword": "HUGE",
+    "level": "B2",
+    "defEN": "extremely large",
+    "defVI": "khổng lồ, to lớn",
+    "examples": [
+     {
+      "en": "They live in an enormous house.",
+      "vi": "Họ sống trong một ngôi nhà khổng lồ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "essential",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈsen.ʃəl/",
+  "ipaUS": "/ɪˈsen.ʃəl/",
+  "senses": [
+   {
+    "guideword": "NECESSARY",
+    "level": "B2",
+    "defEN": "completely necessary",
+    "defVI": "thiết yếu, cần thiết",
+    "examples": [
+     {
+      "en": "Water is essential for life.",
+      "vi": "Nước thiết yếu cho sự sống."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "evidence",
+  "pos": "noun",
+  "ipaUK": "/ˈev.ɪ.dəns/",
+  "ipaUS": "/ˈev.ə.dens/",
+  "senses": [
+   {
+    "guideword": "PROOF",
+    "level": "B2",
+    "defEN": "facts or signs that show something is true",
+    "defVI": "bằng chứng",
+    "examples": [
+     {
+      "en": "There is no evidence that he stole the money.",
+      "vi": "Không có bằng chứng nào cho thấy anh ta lấy trộm tiền."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "exaggerate",
+  "pos": "verb",
+  "ipaUK": "/ɪɡˈzædʒ.ə.reɪt/",
+  "ipaUS": "/ɪɡˈzædʒ.ə.reɪt/",
+  "senses": [
+   {
+    "guideword": "MAKE BIGGER",
+    "level": "B2",
+    "defEN": "to describe something as bigger or worse than it really is",
+    "defVI": "phóng đại, nói quá",
+    "examples": [
+     {
+      "en": "Don't exaggerate — it wasn't that bad.",
+      "vi": "Đừng nói quá — nó đâu tệ đến vậy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "feature",
+  "pos": "noun",
+  "ipaUK": "/ˈfiː.tʃə/",
+  "ipaUS": "/ˈfiː.tʃɚ/",
+  "senses": [
+   {
+    "guideword": "IMPORTANT PART",
+    "level": "B2",
+    "defEN": "a typical or noticeable part of something",
+    "defVI": "đặc điểm, tính năng",
+    "examples": [
+     {
+      "en": "This phone has some great new features.",
+      "vi": "Chiếc điện thoại này có vài tính năng mới tuyệt vời."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "flexible",
+  "pos": "adjective",
+  "ipaUK": "/ˈflek.sə.bəl/",
+  "ipaUS": "/ˈflek.sə.bəl/",
+  "senses": [
+   {
+    "guideword": "CAN CHANGE",
+    "level": "B2",
+    "defEN": "able to change easily to suit new conditions",
+    "defVI": "linh hoạt",
+    "examples": [
+     {
+      "en": "I have flexible working hours.",
+      "vi": "Tôi có giờ làm việc linh hoạt."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "frustrated",
+  "pos": "adjective",
+  "ipaUK": "/frʌsˈtreɪ.tɪd/",
+  "ipaUS": "/ˈfrʌs.treɪ.t̬ɪd/",
+  "senses": [
+   {
+    "guideword": "ANNOYED",
+    "level": "B2",
+    "defEN": "upset because you cannot do or change something",
+    "defVI": "bực bội, nản lòng",
+    "examples": [
+     {
+      "en": "I get frustrated when I can't express myself in English.",
+      "vi": "Tôi thấy bực bội khi không diễn đạt được bằng tiếng Anh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "fundamental",
+  "pos": "adjective",
+  "ipaUK": "/ˌfʌn.dəˈmen.təl/",
+  "ipaUS": "/ˌfʌn.dəˈmen.t̬əl/",
+  "senses": [
+   {
+    "guideword": "BASIC",
+    "level": "B2",
+    "defEN": "forming the most important base of something",
+    "defVI": "cơ bản, nền tảng",
+    "examples": [
+     {
+      "en": "Grammar is fundamental to good writing.",
+      "vi": "Ngữ pháp là nền tảng của việc viết tốt."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "genuine",
+  "pos": "adjective",
+  "ipaUK": "/ˈdʒen.ju.ɪn/",
+  "ipaUS": "/ˈdʒen.ju.ɪn/",
+  "senses": [
+   {
+    "guideword": "REAL",
+    "level": "B2",
+    "defEN": "real and not fake; sincere",
+    "defVI": "thật, chân thành",
+    "examples": [
+     {
+      "en": "She showed genuine interest in my story.",
+      "vi": "Cô ấy thể hiện sự quan tâm chân thành đến câu chuyện của tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "guarantee",
+  "pos": "verb",
+  "ipaUK": "/ˌɡær.ənˈtiː/",
+  "ipaUS": "/ˌɡer.ənˈtiː/",
+  "senses": [
+   {
+    "guideword": "PROMISE",
+    "level": "B2",
+    "defEN": "to promise that something will happen",
+    "defVI": "bảo đảm, cam đoan",
+    "examples": [
+     {
+      "en": "Hard work doesn't guarantee success, but it helps.",
+      "vi": "Chăm chỉ không đảm bảo thành công, nhưng nó giúp ích."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "hesitate",
+  "pos": "verb",
+  "ipaUK": "/ˈhez.ɪ.teɪt/",
+  "ipaUS": "/ˈhez.ə.teɪt/",
+  "senses": [
+   {
+    "guideword": "PAUSE",
+    "level": "B2",
+    "defEN": "to wait a moment before acting because you are unsure",
+    "defVI": "do dự, ngập ngừng",
+    "examples": [
+     {
+      "en": "Don't hesitate to ask if you need help.",
+      "vi": "Đừng ngần ngại hỏi nếu bạn cần giúp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "identify",
+  "pos": "verb",
+  "ipaUK": "/aɪˈden.tɪ.faɪ/",
+  "ipaUS": "/aɪˈden.t̬ə.faɪ/",
+  "senses": [
+   {
+    "guideword": "RECOGNIZE",
+    "level": "B2",
+    "defEN": "to recognize or find out what something is",
+    "defVI": "nhận ra, xác định",
+    "examples": [
+     {
+      "en": "We need to identify the cause of the problem.",
+      "vi": "Chúng ta cần xác định nguyên nhân của vấn đề."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "impact",
+  "pos": "noun",
+  "ipaUK": "/ˈɪm.pækt/",
+  "ipaUS": "/ˈɪm.pækt/",
+  "senses": [
+   {
+    "guideword": "STRONG EFFECT",
+    "level": "B2",
+    "defEN": "a strong effect that something has on something else",
+    "defVI": "tác động",
+    "examples": [
+     {
+      "en": "Social media has a huge impact on young people.",
+      "vi": "Mạng xã hội có tác động lớn đến giới trẻ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inevitable",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈnev.ɪ.tə.bəl/",
+  "ipaUS": "/ɪˈnev.ə.t̬ə.bəl/",
+  "senses": [
+   {
+    "guideword": "CERTAIN",
+    "level": "B2",
+    "defEN": "sure to happen and impossible to avoid",
+    "defVI": "không thể tránh khỏi",
+    "examples": [
+     {
+      "en": "Some mistakes are inevitable when you learn.",
+      "vi": "Một số lỗi là không thể tránh khỏi khi học."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "insist",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈsɪst/",
+  "ipaUS": "/ɪnˈsɪst/",
+  "senses": [
+   {
+    "guideword": "SAY FIRMLY",
+    "level": "B2",
+    "defEN": "to say firmly that something must happen or is true",
+    "defVI": "khăng khăng, nhất quyết",
+    "examples": [
+     {
+      "en": "He insisted on paying for everyone.",
+      "vi": "Anh ấy nhất quyết trả tiền cho mọi người."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "interpret",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈtɜː.prɪt/",
+  "ipaUS": "/ɪnˈtɝː.prɪt/",
+  "senses": [
+   {
+    "guideword": "EXPLAIN MEANING",
+    "level": "B2",
+    "defEN": "to decide what something means",
+    "defVI": "hiểu, diễn giải",
+    "examples": [
+     {
+      "en": "How do you interpret this poem?",
+      "vi": "Bạn hiểu bài thơ này như thế nào?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "justify",
+  "pos": "verb",
+  "ipaUK": "/ˈdʒʌs.tɪ.faɪ/",
+  "ipaUS": "/ˈdʒʌs.tə.faɪ/",
+  "senses": [
+   {
+    "guideword": "GIVE REASON",
+    "level": "B2",
+    "defEN": "to give a good reason for something",
+    "defVI": "biện minh, chứng minh là đúng",
+    "examples": [
+     {
+      "en": "How can you justify spending so much?",
+      "vi": "Làm sao bạn biện minh cho việc tiêu nhiều như vậy?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "maintain",
+  "pos": "verb",
+  "ipaUK": "/meɪnˈteɪn/",
+  "ipaUS": "/meɪnˈteɪn/",
+  "senses": [
+   {
+    "guideword": "KEEP",
+    "level": "B2",
+    "defEN": "to keep something at the same level or in good condition",
+    "defVI": "duy trì, giữ gìn",
+    "examples": [
+     {
+      "en": "It's hard to maintain a healthy diet when you're busy.",
+      "vi": "Khó duy trì chế độ ăn lành mạnh khi bận rộn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "minimum",
+  "pos": "noun",
+  "ipaUK": "/ˈmɪn.ɪ.məm/",
+  "ipaUS": "/ˈmɪn.ə.məm/",
+  "senses": [
+   {
+    "guideword": "SMALLEST AMOUNT",
+    "level": "B2",
+    "defEN": "the smallest amount that is possible or allowed",
+    "defVI": "mức tối thiểu",
+    "examples": [
+     {
+      "en": "You need a minimum of 6.5 to apply.",
+      "vi": "Bạn cần tối thiểu 6.5 để nộp hồ sơ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "motivate",
+  "pos": "verb",
+  "ipaUK": "/ˈməʊ.tɪ.veɪt/",
+  "ipaUS": "/ˈmoʊ.t̬ə.veɪt/",
+  "senses": [
+   {
+    "guideword": "MAKE WANT",
+    "level": "B2",
+    "defEN": "to make someone want to do something",
+    "defVI": "thúc đẩy, tạo động lực",
+    "examples": [
+     {
+      "en": "A good teacher motivates students to learn.",
+      "vi": "Một giáo viên giỏi tạo động lực cho học sinh học tập."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "negotiate",
+  "pos": "verb",
+  "ipaUK": "/nəˈɡəʊ.ʃi.eɪt/",
+  "ipaUS": "/nəˈɡoʊ.ʃi.eɪt/",
+  "senses": [
+   {
+    "guideword": "DISCUSS TO AGREE",
+    "level": "B2",
+    "defEN": "to talk with others to reach an agreement",
+    "defVI": "đàm phán, thương lượng",
+    "examples": [
+     {
+      "en": "She negotiated a higher salary.",
+      "vi": "Cô ấy đã thương lượng được mức lương cao hơn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "obvious",
+  "pos": "adjective",
+  "ipaUK": "/ˈɒb.vi.əs/",
+  "ipaUS": "/ˈɑːb.vi.əs/",
+  "senses": [
+   {
+    "guideword": "EASY TO SEE",
+    "level": "B2",
+    "defEN": "easy to notice or understand",
+    "defVI": "rõ ràng, hiển nhiên",
+    "examples": [
+     {
+      "en": "The answer seems obvious now.",
+      "vi": "Giờ thì câu trả lời có vẻ hiển nhiên."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "occasionally",
+  "pos": "adverb",
+  "ipaUK": "/əˈkeɪ.ʒən.əl.i/",
+  "ipaUS": "/əˈkeɪ.ʒən.əl.i/",
+  "senses": [
+   {
+    "guideword": "SOMETIMES",
+    "level": "B2",
+    "defEN": "sometimes but not often",
+    "defVI": "thỉnh thoảng",
+    "examples": [
+     {
+      "en": "We occasionally eat out on Fridays.",
+      "vi": "Thỉnh thoảng chúng tôi ăn ngoài vào thứ Sáu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "overcome",
+  "pos": "verb",
+  "ipaUK": "/ˌəʊ.vəˈkʌm/",
+  "ipaUS": "/ˌoʊ.vɚˈkʌm/",
+  "senses": [
+   {
+    "guideword": "DEAL WITH",
+    "level": "B2",
+    "defEN": "to succeed in dealing with a difficulty",
+    "defVI": "vượt qua",
+    "examples": [
+     {
+      "en": "She overcame her fear of public speaking.",
+      "vi": "Cô ấy đã vượt qua nỗi sợ nói trước đám đông."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "perspective",
+  "pos": "noun",
+  "ipaUK": "/pəˈspek.tɪv/",
+  "ipaUS": "/pɚˈspek.tɪv/",
+  "senses": [
+   {
+    "guideword": "POINT OF VIEW",
+    "level": "B2",
+    "defEN": "a particular way of thinking about something",
+    "defVI": "góc nhìn, quan điểm",
+    "examples": [
+     {
+      "en": "Travelling gave me a new perspective on life.",
+      "vi": "Du lịch cho tôi một góc nhìn mới về cuộc sống."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "priority",
+  "pos": "noun",
+  "ipaUK": "/praɪˈɒr.ə.ti/",
+  "ipaUS": "/praɪˈɔːr.ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "MOST IMPORTANT",
+    "level": "B2",
+    "defEN": "something considered more important than other things",
+    "defVI": "ưu tiên",
+    "examples": [
+     {
+      "en": "My family is my top priority.",
+      "vi": "Gia đình là ưu tiên hàng đầu của tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "pursue",
+  "pos": "verb",
+  "ipaUK": "/pəˈsjuː/",
+  "ipaUS": "/pɚˈsuː/",
+  "senses": [
+   {
+    "guideword": "TRY TO ACHIEVE",
+    "level": "B2",
+    "defEN": "to try to achieve something over a long time",
+    "defVI": "theo đuổi",
+    "examples": [
+     {
+      "en": "He left his job to pursue a career in music.",
+      "vi": "Anh ấy nghỉ việc để theo đuổi sự nghiệp âm nhạc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "reluctant",
+  "pos": "adjective",
+  "ipaUK": "/rɪˈlʌk.tənt/",
+  "ipaUS": "/rɪˈlʌk.tənt/",
+  "senses": [
+   {
+    "guideword": "NOT WILLING",
+    "level": "B2",
+    "defEN": "not wanting to do something",
+    "defVI": "miễn cưỡng, không muốn",
+    "examples": [
+     {
+      "en": "He was reluctant to talk about his past.",
+      "vi": "Anh ấy không muốn nói về quá khứ của mình."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "remarkable",
+  "pos": "adjective",
+  "ipaUK": "/rɪˈmɑː.kə.bəl/",
+  "ipaUS": "/rɪˈmɑːr.kə.bəl/",
+  "senses": [
+   {
+    "guideword": "UNUSUAL",
+    "level": "B2",
+    "defEN": "unusual or special in a way that makes you notice",
+    "defVI": "đáng chú ý, phi thường",
+    "examples": [
+     {
+      "en": "She made remarkable progress in just a year.",
+      "vi": "Cô ấy đã tiến bộ phi thường chỉ trong một năm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "reputation",
+  "pos": "noun",
+  "ipaUK": "/ˌrep.jəˈteɪ.ʃən/",
+  "ipaUS": "/ˌrep.jəˈteɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "WHAT PEOPLE THINK",
+    "level": "B2",
+    "defEN": "the opinion people generally have about someone or something",
+    "defVI": "danh tiếng",
+    "examples": [
+     {
+      "en": "The school has a good reputation.",
+      "vi": "Ngôi trường có danh tiếng tốt."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "resist",
+  "pos": "verb",
+  "ipaUK": "/rɪˈzɪst/",
+  "ipaUS": "/rɪˈzɪst/",
+  "senses": [
+   {
+    "guideword": "NOT GIVE IN",
+    "level": "B2",
+    "defEN": "to stop yourself from doing something you want to do",
+    "defVI": "cưỡng lại, kìm lòng",
+    "examples": [
+     {
+      "en": "I couldn't resist buying another book.",
+      "vi": "Tôi không kìm được việc mua thêm một cuốn sách."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "significant",
+  "pos": "adjective",
+  "ipaUK": "/sɪɡˈnɪf.ɪ.kənt/",
+  "ipaUS": "/sɪɡˈnɪf.ə.kənt/",
+  "senses": [
+   {
+    "guideword": "IMPORTANT",
+    "level": "B2",
+    "defEN": "large or important enough to be noticed",
+    "defVI": "đáng kể, quan trọng",
+    "examples": [
+     {
+      "en": "There has been a significant rise in prices.",
+      "vi": "Giá cả đã tăng đáng kể."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "sufficient",
+  "pos": "adjective",
+  "ipaUK": "/səˈfɪʃ.ənt/",
+  "ipaUS": "/səˈfɪʃ.ənt/",
+  "senses": [
+   {
+    "guideword": "ENOUGH",
+    "level": "B2",
+    "defEN": "as much as is needed",
+    "defVI": "đủ",
+    "examples": [
+     {
+      "en": "We don't have sufficient time to finish today.",
+      "vi": "Hôm nay chúng ta không đủ thời gian để hoàn thành."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "tend",
+  "pos": "verb",
+  "ipaUK": "/tend/",
+  "ipaUS": "/tend/",
+  "senses": [
+   {
+    "guideword": "USUALLY DO",
+    "level": "B2",
+    "defEN": "to be likely to behave in a certain way",
+    "defVI": "có xu hướng",
+    "examples": [
+     {
+      "en": "I tend to wake up early at weekends.",
+      "vi": "Tôi có xu hướng dậy sớm vào cuối tuần."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "threat",
+  "pos": "noun",
+  "ipaUK": "/θret/",
+  "ipaUS": "/θret/",
+  "senses": [
+   {
+    "guideword": "DANGER",
+    "level": "B2",
+    "defEN": "something that could cause harm",
+    "defVI": "mối đe dọa",
+    "examples": [
+     {
+      "en": "Plastic waste is a threat to sea life.",
+      "vi": "Rác thải nhựa là mối đe dọa với sinh vật biển."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "tolerate",
+  "pos": "verb",
+  "ipaUK": "/ˈtɒl.ər.eɪt/",
+  "ipaUS": "/ˈtɑː.lə.reɪt/",
+  "senses": [
+   {
+    "guideword": "ACCEPT",
+    "level": "B2",
+    "defEN": "to accept something unpleasant without complaining",
+    "defVI": "chịu đựng, dung thứ",
+    "examples": [
+     {
+      "en": "The teacher won't tolerate cheating.",
+      "vi": "Giáo viên sẽ không dung thứ cho việc gian lận."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "tremendous",
+  "pos": "adjective",
+  "ipaUK": "/trɪˈmen.dəs/",
+  "ipaUS": "/trɪˈmen.dəs/",
+  "senses": [
+   {
+    "guideword": "VERY GREAT",
+    "level": "B2",
+    "defEN": "very great in amount or level",
+    "defVI": "to lớn, khủng khiếp",
+    "examples": [
+     {
+      "en": "The project was a tremendous success.",
+      "vi": "Dự án đã thành công vang dội."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ultimately",
+  "pos": "adverb",
+  "ipaUK": "/ˈʌl.tɪ.mət.li/",
+  "ipaUS": "/ˈʌl.tə.mət.li/",
+  "senses": [
+   {
+    "guideword": "IN THE END",
+    "level": "B2",
+    "defEN": "finally, after a long process",
+    "defVI": "cuối cùng, rốt cuộc",
+    "examples": [
+     {
+      "en": "Ultimately, the decision is yours.",
+      "vi": "Rốt cuộc, quyết định là của bạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "vague",
+  "pos": "adjective",
+  "ipaUK": "/veɪɡ/",
+  "ipaUS": "/veɪɡ/",
+  "senses": [
+   {
+    "guideword": "NOT CLEAR",
+    "level": "B2",
+    "defEN": "not clear or detailed",
+    "defVI": "mơ hồ",
+    "examples": [
+     {
+      "en": "He gave a vague answer to my question.",
+      "vi": "Anh ấy trả lời câu hỏi của tôi một cách mơ hồ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "vital",
+  "pos": "adjective",
+  "ipaUK": "/ˈvaɪ.təl/",
+  "ipaUS": "/ˈvaɪ.t̬əl/",
+  "senses": [
+   {
+    "guideword": "NECESSARY",
+    "level": "B2",
+    "defEN": "extremely important or necessary",
+    "defVI": "sống còn, cực kỳ quan trọng",
+    "examples": [
+     {
+      "en": "Practice is vital if you want to speak fluently.",
+      "vi": "Luyện tập là cực kỳ quan trọng nếu muốn nói trôi chảy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "witness",
+  "pos": "noun",
+  "ipaUK": "/ˈwɪt.nəs/",
+  "ipaUS": "/ˈwɪt.nəs/",
+  "senses": [
+   {
+    "guideword": "PERSON WHO SAW",
+    "level": "B2",
+    "defEN": "a person who sees an event such as a crime or accident",
+    "defVI": "nhân chứng",
+    "examples": [
+     {
+      "en": "The police are looking for witnesses to the accident.",
+      "vi": "Cảnh sát đang tìm nhân chứng của vụ tai nạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "wisdom",
+  "pos": "noun",
+  "ipaUK": "/ˈwɪz.dəm/",
+  "ipaUS": "/ˈwɪz.dəm/",
+  "senses": [
+   {
+    "guideword": "GOOD JUDGEMENT",
+    "level": "B2",
+    "defEN": "the ability to make good decisions based on experience",
+    "defVI": "sự khôn ngoan, trí tuệ",
+    "examples": [
+     {
+      "en": "My grandfather shared his wisdom with us.",
+      "vi": "Ông tôi chia sẻ sự khôn ngoan của ông với chúng tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "alternative",
+  "pos": "noun",
+  "ipaUK": "/ɒlˈtɜː.nə.tɪv/",
+  "ipaUS": "/ɑːlˈtɝː.nə.t̬ɪv/",
+  "senses": [
+   {
+    "guideword": "OTHER CHOICE",
+    "level": "B2",
+    "defEN": "another thing you can choose instead",
+    "defVI": "sự lựa chọn khác, phương án thay thế",
+    "examples": [
+     {
+      "en": "Cycling is a cheap alternative to driving.",
+      "vi": "Đạp xe là phương án thay thế rẻ hơn lái xe."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "decline",
+  "pos": "verb",
+  "ipaUK": "/dɪˈklaɪn/",
+  "ipaUS": "/dɪˈklaɪn/",
+  "senses": [
+   {
+    "guideword": "GET LESS",
+    "level": "B2",
+    "defEN": "to become smaller, weaker or worse",
+    "defVI": "suy giảm, sụt giảm",
+    "examples": [
+     {
+      "en": "Sales have declined over the past year.",
+      "vi": "Doanh số đã sụt giảm trong năm qua."
+     }
+    ]
+   }
+  ]
+ }
+]

@@ -17,6 +17,11 @@ mkdir -p "$BUNDLE/Contents/MacOS" "$BUNDLE/Contents/Resources"
 cp "$BIN_PATH/JustANotch" "$BUNDLE/Contents/MacOS/JustANotch"
 cp "$ROOT/scripts/Info.plist" "$BUNDLE/Contents/Info.plist"
 # Đóng gói thư viện âm người dùng (Resources/Sounds → bundle Resources/Sounds).
+# Kho từ gốc cho tab Learn.
+if [ -d "$ROOT/Resources/Learn" ]; then
+  rm -rf "$BUNDLE/Contents/Resources/Learn"
+  cp -R "$ROOT/Resources/Learn" "$BUNDLE/Contents/Resources/Learn"
+fi
 if [ -d "$ROOT/Resources/Sounds" ]; then
   cp -R "$ROOT/Resources/Sounds" "$BUNDLE/Contents/Resources/Sounds"
 fi

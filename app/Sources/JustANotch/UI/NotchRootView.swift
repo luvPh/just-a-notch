@@ -36,6 +36,7 @@ struct NotchRootView: View {
         if settings.showCalendar { t.append(.calendar) }
         if settings.showClipboard { t.append(.clipboard) }
         if settings.showTimer { t.append(.timer) }
+        if settings.showLearn { t.append(.learn) }
         t.append(.settings)
         return t
     }
@@ -179,7 +180,7 @@ struct NotchRootView: View {
     private func selectTab(_ tab: RailTab) {
         guard tab != railTab else { return }
         withAnimation(openSpring) { railTab = tab }
-        vm.panelWantsTall = (tab == .calendar || tab == .settings)
+        vm.panelWantsTall = (tab == .calendar || tab == .settings || tab == .learn)
         vm.filesTabActive = (tab == .files)
         vm.calTabActive = (tab == .calendar)
         vm.notifTabActive = (tab == .notifications)
@@ -392,7 +393,7 @@ struct NotchRootView: View {
             if !vm.filesWide {
                 ThemeCarousel(tabs: visibleTabs, selection: $railTab, reduceMotion: reduceMotion)
                     .onChange(of: railTab) { _, newTab in
-                        vm.panelWantsTall = (newTab == .calendar || newTab == .settings)
+                        vm.panelWantsTall = (newTab == .calendar || newTab == .settings || newTab == .learn)
                         vm.filesTabActive = (newTab == .files)
                         vm.calTabActive = (newTab == .calendar)
                         vm.notifTabActive = (newTab == .notifications)
@@ -436,6 +437,7 @@ struct NotchRootView: View {
         case .calendar:      calendarPanel
         case .files:         filesPanel
         case .clipboard:     ClipboardPanel(store: vm.clipboard)
+        case .learn:         LearnPanel(store: vm.learn)
         case .timer:         TimerCarousel(single: vm.timerSingle, pomodoro: vm.timerPomodoro,
                                            sequence: vm.timerSequence, settings: AppSettings.shared,
                                            showingSettings: $timerSettingsOpen, tall: $vm.timerEditorTall)
@@ -978,7 +980,7 @@ private struct CompactCtlStyle: ButtonStyle {
 // MARK: - Rail tabs
 
 enum RailTab: String, CaseIterable, Identifiable {
-    case music, files, notifications, calendar, clipboard, timer, settings
+    case music, files, notifications, calendar, clipboard, timer, learn, settings
 
     var id: String { rawValue }
 
@@ -990,6 +992,7 @@ enum RailTab: String, CaseIterable, Identifiable {
         case .calendar:      return "calendar"
         case .clipboard:     return "doc.on.clipboard"
         case .timer:         return "timer"
+        case .learn:         return "graduationcap.fill"
         case .settings:      return "gearshape.fill"
         }
     }
@@ -1002,6 +1005,7 @@ enum RailTab: String, CaseIterable, Identifiable {
         case .calendar:      return "Lịch"
         case .clipboard:     return "Clipboard"
         case .timer:         return "Timer"
+        case .learn:         return "Learn"
         case .settings:      return "Settings"
         }
     }

@@ -33,6 +33,7 @@ struct SettingsPanel: View {
                     toggleRow("Lịch", icon: "calendar", isOn: $settings.showCalendar)
                     toggleRow("Clipboard", icon: "doc.on.clipboard", isOn: $settings.showClipboard)
                     toggleRow("Timer", icon: "timer", isOn: $settings.showTimer)
+                    toggleRow("Learn", icon: "graduationcap.fill", isOn: $settings.showLearn)
                     Text("Now Playing và Settings luôn được bật.")
                         .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
                         .padding(.horizontal, 4).padding(.top, 1)

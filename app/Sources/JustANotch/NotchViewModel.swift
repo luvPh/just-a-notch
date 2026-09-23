@@ -26,6 +26,7 @@ final class NotchViewModel: ObservableObject {
     let fileStore = FileShortcutStore()
     /// Clipboard history store backing the Clipboard tab.
     let clipboard = ClipboardStore()
+    let learn = LearnStore()
     /// Kệ giữ tạm file kéo-thả (chỉ trong phiên).
     let shelf = ShelfStore()
     /// Ba đồng hồ ĐỘC LẬP, mỗi trang carousel một cái, chạy song song được:

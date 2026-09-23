@@ -27,6 +27,7 @@ final class AppSettings: ObservableObject {
     @Published var showCalendar: Bool { didSet { d.set(showCalendar, forKey: "cfg.showCalendar") } }
     @Published var showClipboard: Bool { didSet { d.set(showClipboard, forKey: "cfg.showClipboard") } }
     @Published var showTimer: Bool { didSet { d.set(showTimer, forKey: "cfg.showTimer") } }
+    @Published var showLearn: Bool { didSet { d.set(showLearn, forKey: "cfg.showLearn") } }
 
     // MARK: Pomodoro — tuỳ biến chu kỳ + chuông.
     @Published var pomoWorkMinutes: Int { didSet { d.set(pomoWorkMinutes, forKey: "cfg.pomoWork") } }
@@ -89,6 +90,7 @@ final class AppSettings: ObservableObject {
             "cfg.showCalendar": true,
             "cfg.showClipboard": true,
             "cfg.showTimer": true,
+            "cfg.showLearn": true,
             "cfg.forceReduceMotion": false,
             "cfg.doubleTapCommand": false,
             "cfg.fKeyAppsOn": true,
@@ -105,6 +107,7 @@ final class AppSettings: ObservableObject {
         showCalendar = d.bool(forKey: "cfg.showCalendar")
         showClipboard = d.bool(forKey: "cfg.showClipboard")
         showTimer = d.bool(forKey: "cfg.showTimer")
+        showLearn = d.bool(forKey: "cfg.showLearn")
         pomoWorkMinutes = d.integer(forKey: "cfg.pomoWork")
         pomoShortMinutes = d.integer(forKey: "cfg.pomoShort")
         pomoLongMinutes = d.integer(forKey: "cfg.pomoLong")
