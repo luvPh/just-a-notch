@@ -16,6 +16,10 @@ rm -rf "$BUNDLE"
 mkdir -p "$BUNDLE/Contents/MacOS" "$BUNDLE/Contents/Resources"
 cp "$BIN_PATH/JustANotch" "$BUNDLE/Contents/MacOS/JustANotch"
 cp "$ROOT/scripts/Info.plist" "$BUNDLE/Contents/Info.plist"
+# Icon app (sinh bằng scripts/make_icns.sh).
+if [ -f "$ROOT/Resources/AppIcon.icns" ]; then
+  cp "$ROOT/Resources/AppIcon.icns" "$BUNDLE/Contents/Resources/AppIcon.icns"
+fi
 # Đóng gói thư viện âm người dùng (Resources/Sounds → bundle Resources/Sounds).
 # Kho từ gốc cho tab Learn.
 if [ -d "$ROOT/Resources/Learn" ]; then
