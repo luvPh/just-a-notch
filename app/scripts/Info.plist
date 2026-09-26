@@ -24,6 +24,10 @@
     <true/>
     <key>NSHighResolutionCapable</key>
     <true/>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Just a Notch dùng micro cho bài luyện đọc to trong cửa sổ học.</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>Just a Notch nhận dạng giọng nói để chấm bài luyện đọc to.</string>
     <key>NSAppleEventsUsageDescription</key>
     <string>Just a Notch uses Automation to read and control Music, Spotify, and browser media.</string>
 </dict>

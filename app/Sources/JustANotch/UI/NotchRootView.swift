@@ -106,6 +106,11 @@ struct NotchRootView: View {
         .onChange(of: calMode) { _, _ in vm.noteInteraction() }
         .onChange(of: vm.calendarRows) { _, _ in vm.noteInteraction() }
         .onChange(of: vm.filesSelCount) { _, _ in vm.noteInteraction() }
+        .onChange(of: vm.pendingTab) { _, tab in
+            guard let tab else { return }
+            if visibleTabs.contains(tab) { selectTab(tab) }
+            vm.pendingTab = nil
+        }
         .onChange(of: vm.pendingTabIndex) { _, idx in
             guard let idx else { return }
             if idx >= 1, idx <= visibleTabs.count { selectTab(visibleTabs[idx - 1]) }
@@ -200,6 +205,11 @@ struct NotchRootView: View {
             } else if vm.shelfActive {
                 ShelfPanel(store: vm.shelf,
                            onClose: { withAnimation(openSpring) { vm.dismissShelf() } })
+                    .transition(.blurFade)
+            } else if vm.expanded && vm.learnPopup {
+                LearnPopupCard(store: vm.learn, onDone: { withAnimation(openSpring) { vm.finishLearnPopup() } })
+                    .padding(.top, vm.notchHeight + 6)
+                    .padding(.horizontal, 22).padding(.bottom, 14)
                     .transition(.blurFade)
             } else if vm.expanded {
                 player.transition(.blurFade)

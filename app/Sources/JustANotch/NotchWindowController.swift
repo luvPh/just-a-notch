@@ -309,6 +309,7 @@ final class NotchWindowController {
     }
 
     func toggleVisibility() { panel.isVisible ? panel.orderOut(nil) : panel.orderFrontRegardless() }
+    func popLearn() { vm.popLearn() }
 
     /// Dọn thư mục temp của shelf khi thoát app.
     func cleanupShelf() { vm.shelf.cleanup() }

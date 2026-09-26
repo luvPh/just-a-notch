@@ -26,7 +26,7 @@ final class NotchViewModel: ObservableObject {
     let fileStore = FileShortcutStore()
     /// Clipboard history store backing the Clipboard tab.
     let clipboard = ClipboardStore()
-    let learn = LearnStore()
+    let learn = LearnStore.shared
     /// Kệ giữ tạm file kéo-thả (chỉ trong phiên).
     let shelf = ShelfStore()
     /// Ba đồng hồ ĐỘC LẬP, mỗi trang carousel một cái, chạy song song được:
@@ -327,6 +327,7 @@ final class NotchViewModel: ObservableObject {
     var surfaceWidth: CGFloat {
         if shelfActive { return shelfWidth }
         if showingHUD { return hudWidth }
+        if expanded && learnPopup { return learnPopupWidth }
         if filesWide { return filesExpandedWidth }
         return expanded ? expandedWidth : compactWidth
     }
@@ -337,6 +338,7 @@ final class NotchViewModel: ObservableObject {
         if shelfActive { return shelfHeight }
         if showingHUD { return hudHeight }
         if !expanded { return compactHeight }
+        if learnPopup { return learnPopupHeight }
         if timerEditorTall { return 300 }
         if isListOpen { return listExpandedHeight }
         if filesTabActive { return filesExpanded ? filesExpandedHeight : expandedHeight }
@@ -359,10 +361,79 @@ final class NotchViewModel: ObservableObject {
     /// Đặt bởi global hotkey (⌃⌥1/2/3) — NotchRootView phân giải theo danh sách tab
     /// đang hiển thị rồi tự xoá về nil. 1-based.
     @Published var pendingTabIndex: Int?
+    /// Yêu cầu nhảy tới một tab cụ thể (dùng cho auto-popup Learn).
+    @Published var pendingTab: RailTab?
+
+    // MARK: Learn auto-popup
+    private var learnTick: Timer?
+    /// Lưu bền (UserDefaults) — nếu chỉ giữ trong RAM, mỗi lần app khởi động lại
+    /// đồng hồ bị reset và popup không bao giờ tới hạn.
+    private var lastLearnPopup: Date {
+        get { UserDefaults.standard.object(forKey: "learn.lastPopup") as? Date ?? .distantPast }
+        set { UserDefaults.standard.set(newValue, forKey: "learn.lastPopup") }
+    }
+    private let launchedAt = Date()
+    /// Không bung ngay lúc vừa mở app (kể cả khi đã quá hạn).
+    private let learnLaunchGrace: TimeInterval = 60
+    private var learnCollapseWork: DispatchWorkItem?
+    /// Popup tự thu sau chừng này giây nếu người dùng chưa trả lời.
+    private let learnPopupLinger: TimeInterval = 45
+
+    func startLearnScheduler() {
+        learnTick = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated { self?.learnTickFired() }
+        }
+    }
+
+    private func learnTickFired() {
+        let s = AppSettings.shared
+        guard s.showLearn, s.learnAutoPopup, !s.learnPaused else { return }
+        guard Date().timeIntervalSince(launchedAt) >= learnLaunchGrace,
+              Date().timeIntervalSince(lastLearnPopup) >= Double(s.learnPopupMinutes) * 60 else { return }
+        // Đang dùng notch / kệ / HUD → để lượt sau.
+        guard !expanded, !shelfActive, !showingHUD, !hovering else { return }
+        // App phía trước full màn hình (phim/game/họp) → không chen vào, thử lại lượt sau.
+        if s.learnSkipFullscreen && FullscreenDetector.isFrontAppFullscreen() { return }
+        popLearn()
+    }
+
+    /// Popup Learn gọn: notch bung ra đúng 1 thẻ (không rail tab), kèm âm báo.
+    @Published var learnPopup = false
+    let learnPopupWidth: CGFloat = 400
+    let learnPopupHeight: CGFloat = 250
+
+    /// Bung 1 lượt học từ bộ từ hôm nay; tự thu nếu không trả lời.
+    func popLearn() {
+        lastLearnPopup = Date()
+        guard !expanded else { return }
+        let prompt = learn.ensurePrompt()
+        if prompt == nil && !learn.needsReviewSummary {
+            // Bài hôm nay đã xong: chỉ bung 1 lần để báo hoàn thành + mời chọn tiếp.
+            guard learn.dailyNeedsAnnounce else { return }
+            learn.markDailyAnnounced()
+        }
+        learnPopup = true
+        expanded = true; clearHUD()
+        if AppSettings.shared.learnSoundEnabled { LearnChime.play(volume: Float(AppSettings.shared.learnSoundVolume)) }
+        learnCollapseWork?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            guard let self, expanded, learn.current == prompt else { return }
+            collapse()
+        }
+        learnCollapseWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + learnPopupLinger, execute: work)
+    }
 
     // MARK: Actions
     func toggleExpanded() { expanded.toggle(); if expanded { clearHUD() } }
-    func collapse() { expanded = false; showList = false; filesSelCount = 0 }
+    func collapse() { expanded = false; showList = false; filesSelCount = 0; learnPopup = false }
+
+    /// Xong lượt trong popup → ghi nhận và thu notch (lượt sau popup chọn từ kế).
+    func finishLearnPopup() {
+        learn.finishCurrent()
+        learnCollapseWork?.cancel()
+        collapse()
+    }
 
     // MARK: Tự thu panel mở rộng (Lịch / Files)
     //
@@ -460,5 +531,5 @@ final class NotchViewModel: ObservableObject {
     func seek(toFraction fraction: Double) { media.seek(toFraction: fraction) }
     /// Volume of the playing source itself (not the system volume).
     func setVolume(_ volume: Double, live: Bool = false) { media.setVolume(volume, live: live) }
-    func start() { media.start(); media.refresh(); notifier.start() }
+    func start() { media.start(); media.refresh(); notifier.start(); startLearnScheduler() }
 }

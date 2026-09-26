@@ -1,0 +1,6486 @@
+[
+ {
+  "headword": "ability",
+  "pos": "noun",
+  "ipaUK": "/əˈbɪl.ə.ti/",
+  "ipaUS": "/əˈbɪl.ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "SKILL",
+    "level": "B1",
+    "defEN": "the power or skill needed to do something",
+    "defVI": "khả năng, năng lực",
+    "examples": [
+     {
+      "en": "She has the ability to stay calm under pressure.",
+      "vi": "Cô ấy có khả năng giữ bình tĩnh khi bị áp lực."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abroad",
+  "pos": "adverb",
+  "ipaUK": "/əˈbrɔːd/",
+  "ipaUS": "/əˈbrɑːd/",
+  "senses": [
+   {
+    "guideword": "OTHER COUNTRY",
+    "level": "B1",
+    "defEN": "in or to a foreign country",
+    "defVI": "ở nước ngoài, ra nước ngoài",
+    "examples": [
+     {
+      "en": "He wants to study abroad next year.",
+      "vi": "Anh ấy muốn đi du học vào năm sau."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "absence",
+  "pos": "noun",
+  "ipaUK": "/ˈæb.səns/",
+  "ipaUS": "/ˈæb.səns/",
+  "senses": [
+   {
+    "guideword": "NOT PRESENT",
+    "level": "B1",
+    "defEN": "a time when someone is not where they are expected to be",
+    "defVI": "sự vắng mặt",
+    "examples": [
+     {
+      "en": "Nobody noticed his absence from the meeting.",
+      "vi": "Không ai để ý anh ấy vắng mặt trong cuộc họp."
+     }
+    ]
+   },
+   {
+    "guideword": "LACK",
+    "level": "B2",
+    "defEN": "the fact that something does not exist",
+    "defVI": "sự thiếu vắng, sự không có",
+    "examples": [
+     {
+      "en": "In the absence of proof, the case was dropped.",
+      "vi": "Do không có bằng chứng, vụ án bị hủy bỏ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "absolutely",
+  "pos": "adverb",
+  "ipaUK": "/ˌæb.səˈluːt.li/",
+  "ipaUS": "/ˌæb.səˈluːt.li/",
+  "senses": [
+   {
+    "guideword": "COMPLETELY",
+    "level": "B1",
+    "defEN": "totally; used to add strong emphasis",
+    "defVI": "hoàn toàn, tuyệt đối",
+    "examples": [
+     {
+      "en": "The view was absolutely beautiful.",
+      "vi": "Khung cảnh đẹp tuyệt vời."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accept",
+  "pos": "verb",
+  "ipaUK": "/əkˈsept/",
+  "ipaUS": "/əkˈsept/",
+  "senses": [
+   {
+    "guideword": "TAKE",
+    "level": "B1",
+    "defEN": "to agree to take something that is offered",
+    "defVI": "nhận, chấp nhận",
+    "examples": [
+     {
+      "en": "She accepted the job offer immediately.",
+      "vi": "Cô ấy nhận lời mời làm việc ngay lập tức."
+     }
+    ]
+   },
+   {
+    "guideword": "BELIEVE",
+    "level": "B2",
+    "defEN": "to agree that something is true or fair",
+    "defVI": "thừa nhận, công nhận",
+    "examples": [
+     {
+      "en": "He refused to accept that he was wrong.",
+      "vi": "Anh ta không chịu thừa nhận mình sai."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accident",
+  "pos": "noun",
+  "ipaUK": "/ˈæk.sɪ.dənt/",
+  "ipaUS": "/ˈæk.sə.dənt/",
+  "senses": [
+   {
+    "guideword": "CRASH",
+    "level": "B1",
+    "defEN": "an unplanned event in which people are hurt or things damaged",
+    "defVI": "tai nạn",
+    "examples": [
+     {
+      "en": "She was injured in a car accident.",
+      "vi": "Cô ấy bị thương trong một vụ tai nạn xe hơi."
+     }
+    ]
+   },
+   {
+    "guideword": "BY CHANCE",
+    "level": "B1",
+    "defEN": "something that happens without being planned",
+    "defVI": "sự tình cờ",
+    "examples": [
+     {
+      "en": "We met by accident at the station.",
+      "vi": "Chúng tôi tình cờ gặp nhau ở nhà ga."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accommodation",
+  "pos": "noun",
+  "ipaUK": "/əˌkɒm.əˈdeɪ.ʃən/",
+  "ipaUS": "/əˌkɑː.məˈdeɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "PLACE TO STAY",
+    "level": "B1",
+    "defEN": "a place where someone lives or stays",
+    "defVI": "chỗ ở",
+    "examples": [
+     {
+      "en": "The price includes flights and accommodation.",
+      "vi": "Giá đã bao gồm vé máy bay và chỗ ở."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "according to",
+  "pos": "preposition",
+  "ipaUK": "/əˈkɔː.dɪŋ tuː/",
+  "ipaUS": "/əˈkɔːr.dɪŋ tuː/",
+  "senses": [
+   {
+    "guideword": "AS SAID BY",
+    "level": "B1",
+    "defEN": "as stated or reported by someone",
+    "defVI": "theo (lời)",
+    "examples": [
+     {
+      "en": "According to the forecast, it will rain tomorrow.",
+      "vi": "Theo dự báo, ngày mai trời sẽ mưa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "account",
+  "pos": "noun",
+  "ipaUK": "/əˈkaʊnt/",
+  "ipaUS": "/əˈkaʊnt/",
+  "senses": [
+   {
+    "guideword": "BANK",
+    "level": "B1",
+    "defEN": "an arrangement with a bank to keep your money there",
+    "defVI": "tài khoản",
+    "examples": [
+     {
+      "en": "I opened a savings account last week.",
+      "vi": "Tuần trước tôi đã mở một tài khoản tiết kiệm."
+     }
+    ]
+   },
+   {
+    "guideword": "REPORT",
+    "level": "B2",
+    "defEN": "a description of events",
+    "defVI": "bản tường thuật, lời kể",
+    "examples": [
+     {
+      "en": "She gave a detailed account of the trip.",
+      "vi": "Cô ấy kể lại chi tiết về chuyến đi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accurately",
+  "pos": "adverb",
+  "ipaUK": "/ˈæk.jə.rət.li/",
+  "ipaUS": "/ˈæk.jɚ.ət.li/",
+  "senses": [
+   {
+    "guideword": "CORRECTLY",
+    "level": "B1",
+    "defEN": "in a way that is correct and exact",
+    "defVI": "một cách chính xác",
+    "examples": [
+     {
+      "en": "Please fill in the form accurately.",
+      "vi": "Vui lòng điền biểu mẫu chính xác."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accuse",
+  "pos": "verb",
+  "ipaUK": "/əˈkjuːz/",
+  "ipaUS": "/əˈkjuːz/",
+  "senses": [
+   {
+    "guideword": "BLAME",
+    "level": "B1",
+    "defEN": "to say that someone has done something wrong",
+    "defVI": "buộc tội, tố cáo",
+    "examples": [
+     {
+      "en": "He was accused of stealing money.",
+      "vi": "Anh ta bị buộc tội ăn cắp tiền."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "achievement",
+  "pos": "noun",
+  "ipaUK": "/əˈtʃiːv.mənt/",
+  "ipaUS": "/əˈtʃiːv.mənt/",
+  "senses": [
+   {
+    "guideword": "SUCCESS",
+    "level": "B1",
+    "defEN": "something good that you have done through effort",
+    "defVI": "thành tựu, thành tích",
+    "examples": [
+     {
+      "en": "Passing the exam was a real achievement.",
+      "vi": "Thi đỗ là một thành tích thực sự."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "across",
+  "pos": "preposition",
+  "ipaUK": "/əˈkrɒs/",
+  "ipaUS": "/əˈkrɑːs/",
+  "senses": [
+   {
+    "guideword": "SIDE TO SIDE",
+    "level": "B1",
+    "defEN": "from one side to the other",
+    "defVI": "băng qua, ngang qua",
+    "examples": [
+     {
+      "en": "We walked across the bridge.",
+      "vi": "Chúng tôi đi bộ qua cầu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "act",
+  "pos": "verb",
+  "ipaUK": "/ækt/",
+  "ipaUS": "/ækt/",
+  "senses": [
+   {
+    "guideword": "DO",
+    "level": "B1",
+    "defEN": "to do something for a purpose",
+    "defVI": "hành động",
+    "examples": [
+     {
+      "en": "We must act quickly to stop the fire.",
+      "vi": "Chúng ta phải hành động nhanh để dập lửa."
+     }
+    ]
+   },
+   {
+    "guideword": "PERFORM",
+    "level": "B1",
+    "defEN": "to play a role in a film or play",
+    "defVI": "đóng vai, diễn xuất",
+    "examples": [
+     {
+      "en": "She has acted in several movies.",
+      "vi": "Cô ấy đã đóng vài bộ phim."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "action",
+  "pos": "noun",
+  "ipaUK": "/ˈæk.ʃən/",
+  "ipaUS": "/ˈæk.ʃən/",
+  "senses": [
+   {
+    "guideword": "DOING",
+    "level": "B1",
+    "defEN": "the process of doing something to deal with a problem",
+    "defVI": "hành động",
+    "examples": [
+     {
+      "en": "The government must take action now.",
+      "vi": "Chính phủ phải hành động ngay bây giờ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "active",
+  "pos": "adjective",
+  "ipaUK": "/ˈæk.tɪv/",
+  "ipaUS": "/ˈæk.tɪv/",
+  "senses": [
+   {
+    "guideword": "BUSY",
+    "level": "B1",
+    "defEN": "doing a lot of things or moving a lot",
+    "defVI": "năng động, tích cực",
+    "examples": [
+     {
+      "en": "My grandfather is still very active.",
+      "vi": "Ông tôi vẫn còn rất năng động."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "activity",
+  "pos": "noun",
+  "ipaUK": "/ækˈtɪv.ə.ti/",
+  "ipaUS": "/ækˈtɪv.ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "THING DONE",
+    "level": "B1",
+    "defEN": "something you do for fun or interest",
+    "defVI": "hoạt động",
+    "examples": [
+     {
+      "en": "The school offers many outdoor activities.",
+      "vi": "Trường có nhiều hoạt động ngoài trời."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "actor",
+  "pos": "noun",
+  "ipaUK": "/ˈæk.tər/",
+  "ipaUS": "/ˈæk.tɚ/",
+  "senses": [
+   {
+    "guideword": "PERFORMER",
+    "level": "B1",
+    "defEN": "a person who performs in plays or films",
+    "defVI": "diễn viên",
+    "examples": [
+     {
+      "en": "He is my favourite actor.",
+      "vi": "Anh ấy là diễn viên tôi thích nhất."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "actually",
+  "pos": "adverb",
+  "ipaUK": "/ˈæk.tʃu.ə.li/",
+  "ipaUS": "/ˈæk.tʃu.ə.li/",
+  "senses": [
+   {
+    "guideword": "IN FACT",
+    "level": "B1",
+    "defEN": "used to show what is really true",
+    "defVI": "thật ra, thực sự",
+    "examples": [
+     {
+      "en": "I actually enjoyed the film.",
+      "vi": "Thật ra tôi rất thích bộ phim."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "add",
+  "pos": "verb",
+  "ipaUK": "/æd/",
+  "ipaUS": "/æd/",
+  "senses": [
+   {
+    "guideword": "PUT WITH",
+    "level": "B1",
+    "defEN": "to put something with something else",
+    "defVI": "thêm vào",
+    "examples": [
+     {
+      "en": "Add some salt to the soup.",
+      "vi": "Thêm chút muối vào súp."
+     }
+    ]
+   },
+   {
+    "guideword": "SAY MORE",
+    "level": "B1",
+    "defEN": "to say something extra",
+    "defVI": "nói thêm",
+    "examples": [
+     {
+      "en": "\"And don't be late,\" she added.",
+      "vi": "\"Và đừng đến muộn,\" cô ấy nói thêm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "addition",
+  "pos": "noun",
+  "ipaUK": "/əˈdɪʃ.ən/",
+  "ipaUS": "/əˈdɪʃ.ən/",
+  "senses": [
+   {
+    "guideword": "EXTRA",
+    "level": "B1",
+    "defEN": "a thing or person added to something",
+    "defVI": "sự thêm vào, phần bổ sung",
+    "examples": [
+     {
+      "en": "In addition to English, she speaks French.",
+      "vi": "Ngoài tiếng Anh, cô ấy còn nói tiếng Pháp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "address",
+  "pos": "noun",
+  "ipaUK": "/əˈdres/",
+  "ipaUS": "/ˈæd.res/",
+  "senses": [
+   {
+    "guideword": "HOME DETAILS",
+    "level": "B1",
+    "defEN": "the details of where a building is",
+    "defVI": "địa chỉ",
+    "examples": [
+     {
+      "en": "What is your home address?",
+      "vi": "Địa chỉ nhà bạn là gì?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "admire",
+  "pos": "verb",
+  "ipaUK": "/ədˈmaɪər/",
+  "ipaUS": "/ədˈmaɪr/",
+  "senses": [
+   {
+    "guideword": "RESPECT",
+    "level": "B1",
+    "defEN": "to respect and approve of someone",
+    "defVI": "ngưỡng mộ",
+    "examples": [
+     {
+      "en": "I admire her courage.",
+      "vi": "Tôi ngưỡng mộ lòng dũng cảm của cô ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "admission",
+  "pos": "noun",
+  "ipaUK": "/ədˈmɪʃ.ən/",
+  "ipaUS": "/ədˈmɪʃ.ən/",
+  "senses": [
+   {
+    "guideword": "ENTRY",
+    "level": "B1",
+    "defEN": "permission to enter a place, or the cost of entering",
+    "defVI": "sự cho vào; phí vào cửa",
+    "examples": [
+     {
+      "en": "Admission is free for children.",
+      "vi": "Trẻ em được vào cửa miễn phí."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "admit",
+  "pos": "verb",
+  "ipaUK": "/ədˈmɪt/",
+  "ipaUS": "/ədˈmɪt/",
+  "senses": [
+   {
+    "guideword": "CONFESS",
+    "level": "B1",
+    "defEN": "to agree that something bad is true",
+    "defVI": "thừa nhận",
+    "examples": [
+     {
+      "en": "He admitted breaking the window.",
+      "vi": "Cậu ấy thừa nhận đã làm vỡ cửa sổ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adult",
+  "pos": "noun",
+  "ipaUK": "/ˈæd.ʌlt/",
+  "ipaUS": "/əˈdʌlt/",
+  "senses": [
+   {
+    "guideword": "GROWN-UP",
+    "level": "B1",
+    "defEN": "a person who is fully grown",
+    "defVI": "người lớn",
+    "examples": [
+     {
+      "en": "Tickets cost ten dollars for adults.",
+      "vi": "Vé người lớn giá mười đô la."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "advanced",
+  "pos": "adjective",
+  "ipaUK": "/ədˈvɑːnst/",
+  "ipaUS": "/ədˈvænst/",
+  "senses": [
+   {
+    "guideword": "MODERN",
+    "level": "B1",
+    "defEN": "modern and developed",
+    "defVI": "tiên tiến",
+    "examples": [
+     {
+      "en": "The factory uses advanced technology.",
+      "vi": "Nhà máy dùng công nghệ tiên tiến."
+     }
+    ]
+   },
+   {
+    "guideword": "HIGH LEVEL",
+    "level": "B1",
+    "defEN": "at a high level of study",
+    "defVI": "nâng cao, trình độ cao",
+    "examples": [
+     {
+      "en": "She takes an advanced English course.",
+      "vi": "Cô ấy học khóa tiếng Anh nâng cao."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "advantage",
+  "pos": "noun",
+  "ipaUK": "/ədˈvɑːn.tɪdʒ/",
+  "ipaUS": "/ədˈvæn.t̬ɪdʒ/",
+  "senses": [
+   {
+    "guideword": "BENEFIT",
+    "level": "B1",
+    "defEN": "something that helps you succeed",
+    "defVI": "lợi thế, ưu điểm",
+    "examples": [
+     {
+      "en": "Speaking two languages is a big advantage.",
+      "vi": "Nói được hai thứ tiếng là một lợi thế lớn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adventure",
+  "pos": "noun",
+  "ipaUK": "/ədˈven.tʃər/",
+  "ipaUS": "/ədˈven.tʃɚ/",
+  "senses": [
+   {
+    "guideword": "EXCITING TRIP",
+    "level": "B1",
+    "defEN": "an unusual and exciting experience",
+    "defVI": "cuộc phiêu lưu",
+    "examples": [
+     {
+      "en": "Their trip through the jungle was a real adventure.",
+      "vi": "Chuyến đi xuyên rừng là một cuộc phiêu lưu thật sự."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "advertise",
+  "pos": "verb",
+  "ipaUK": "/ˈæd.və.taɪz/",
+  "ipaUS": "/ˈæd.vɚ.taɪz/",
+  "senses": [
+   {
+    "guideword": "PROMOTE",
+    "level": "B1",
+    "defEN": "to tell people publicly about a product or job",
+    "defVI": "quảng cáo",
+    "examples": [
+     {
+      "en": "They advertised the flat online.",
+      "vi": "Họ quảng cáo căn hộ trên mạng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "advise",
+  "pos": "verb",
+  "ipaUK": "/ədˈvaɪz/",
+  "ipaUS": "/ədˈvaɪz/",
+  "senses": [
+   {
+    "guideword": "SUGGEST",
+    "level": "B1",
+    "defEN": "to tell someone what you think they should do",
+    "defVI": "khuyên",
+    "examples": [
+     {
+      "en": "The doctor advised me to rest.",
+      "vi": "Bác sĩ khuyên tôi nên nghỉ ngơi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "affect",
+  "pos": "verb",
+  "ipaUK": "/əˈfekt/",
+  "ipaUS": "/əˈfekt/",
+  "senses": [
+   {
+    "guideword": "INFLUENCE",
+    "level": "B1",
+    "defEN": "to cause a change in someone or something",
+    "defVI": "ảnh hưởng",
+    "examples": [
+     {
+      "en": "The weather affected our plans.",
+      "vi": "Thời tiết ảnh hưởng đến kế hoạch của chúng tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "afterwards",
+  "pos": "adverb",
+  "ipaUK": "/ˈɑːf.tə.wədz/",
+  "ipaUS": "/ˈæf.tɚ.wɚdz/",
+  "senses": [
+   {
+    "guideword": "LATER",
+    "level": "B1",
+    "defEN": "after something else has happened",
+    "defVI": "sau đó",
+    "examples": [
+     {
+      "en": "We had lunch and went shopping afterwards.",
+      "vi": "Chúng tôi ăn trưa rồi sau đó đi mua sắm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "against",
+  "pos": "preposition",
+  "ipaUK": "/əˈɡenst/",
+  "ipaUS": "/əˈɡenst/",
+  "senses": [
+   {
+    "guideword": "OPPOSING",
+    "level": "B1",
+    "defEN": "disagreeing with or opposing something",
+    "defVI": "chống lại, phản đối",
+    "examples": [
+     {
+      "en": "Most people voted against the plan.",
+      "vi": "Phần lớn mọi người bỏ phiếu phản đối kế hoạch."
+     }
+    ]
+   },
+   {
+    "guideword": "TOUCHING",
+    "level": "B1",
+    "defEN": "touching or leaning on something",
+    "defVI": "dựa vào, tựa vào",
+    "examples": [
+     {
+      "en": "He leaned against the wall.",
+      "vi": "Anh ấy dựa lưng vào tường."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "agency",
+  "pos": "noun",
+  "ipaUK": "/ˈeɪ.dʒən.si/",
+  "ipaUS": "/ˈeɪ.dʒən.si/",
+  "senses": [
+   {
+    "guideword": "BUSINESS",
+    "level": "B1",
+    "defEN": "a business that provides a particular service",
+    "defVI": "công ty dịch vụ, đại lý",
+    "examples": [
+     {
+      "en": "She booked the tour through a travel agency.",
+      "vi": "Cô ấy đặt tour qua một công ty du lịch."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "agree",
+  "pos": "verb",
+  "ipaUK": "/əˈɡriː/",
+  "ipaUS": "/əˈɡriː/",
+  "senses": [
+   {
+    "guideword": "SAME OPINION",
+    "level": "B1",
+    "defEN": "to have the same opinion as someone",
+    "defVI": "đồng ý",
+    "examples": [
+     {
+      "en": "I agree with you completely.",
+      "vi": "Tôi hoàn toàn đồng ý với bạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "agriculture",
+  "pos": "noun",
+  "ipaUK": "/ˈæɡ.rɪ.kʌl.tʃər/",
+  "ipaUS": "/ˈæɡ.rə.kʌl.tʃɚ/",
+  "senses": [
+   {
+    "guideword": "FARMING",
+    "level": "B1",
+    "defEN": "the work of growing crops and keeping animals",
+    "defVI": "nông nghiệp",
+    "examples": [
+     {
+      "en": "Agriculture is important to the economy.",
+      "vi": "Nông nghiệp quan trọng đối với nền kinh tế."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ahead",
+  "pos": "adverb",
+  "ipaUK": "/əˈhed/",
+  "ipaUS": "/əˈhed/",
+  "senses": [
+   {
+    "guideword": "IN FRONT",
+    "level": "B1",
+    "defEN": "in front, or into the future",
+    "defVI": "phía trước; trước",
+    "examples": [
+     {
+      "en": "There are hard times ahead.",
+      "vi": "Phía trước là những thời kỳ khó khăn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aim",
+  "pos": "noun",
+  "ipaUK": "/eɪm/",
+  "ipaUS": "/eɪm/",
+  "senses": [
+   {
+    "guideword": "PURPOSE",
+    "level": "B1",
+    "defEN": "what you intend to achieve",
+    "defVI": "mục tiêu, mục đích",
+    "examples": [
+     {
+      "en": "Our aim is to finish by Friday.",
+      "vi": "Mục tiêu của chúng tôi là xong trước thứ Sáu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "airline",
+  "pos": "noun",
+  "ipaUK": "/ˈeə.laɪn/",
+  "ipaUS": "/ˈer.laɪn/",
+  "senses": [
+   {
+    "guideword": "COMPANY",
+    "level": "B1",
+    "defEN": "a company that flies passengers by plane",
+    "defVI": "hãng hàng không",
+    "examples": [
+     {
+      "en": "Which airline are you flying with?",
+      "vi": "Bạn bay với hãng hàng không nào?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "alarm",
+  "pos": "noun",
+  "ipaUK": "/əˈlɑːm/",
+  "ipaUS": "/əˈlɑːrm/",
+  "senses": [
+   {
+    "guideword": "WARNING DEVICE",
+    "level": "B1",
+    "defEN": "a device that makes a loud noise as a warning",
+    "defVI": "chuông báo, báo động",
+    "examples": [
+     {
+      "en": "The fire alarm went off at midnight.",
+      "vi": "Chuông báo cháy reo lúc nửa đêm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "alive",
+  "pos": "adjective",
+  "ipaUK": "/əˈlaɪv/",
+  "ipaUS": "/əˈlaɪv/",
+  "senses": [
+   {
+    "guideword": "LIVING",
+    "level": "B1",
+    "defEN": "living, not dead",
+    "defVI": "còn sống",
+    "examples": [
+     {
+      "en": "Are your grandparents still alive?",
+      "vi": "Ông bà bạn còn sống không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "alone",
+  "pos": "adjective",
+  "ipaUK": "/əˈləʊn/",
+  "ipaUS": "/əˈloʊn/",
+  "senses": [
+   {
+    "guideword": "WITHOUT OTHERS",
+    "level": "B1",
+    "defEN": "without other people",
+    "defVI": "một mình",
+    "examples": [
+     {
+      "en": "She lives alone in a small flat.",
+      "vi": "Cô ấy sống một mình trong căn hộ nhỏ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "along",
+  "pos": "preposition",
+  "ipaUK": "/əˈlɒŋ/",
+  "ipaUS": "/əˈlɑːŋ/",
+  "senses": [
+   {
+    "guideword": "FOLLOWING",
+    "level": "B1",
+    "defEN": "from one part of a road or river to another",
+    "defVI": "dọc theo",
+    "examples": [
+     {
+      "en": "We walked along the beach.",
+      "vi": "Chúng tôi đi dạo dọc bờ biển."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "although",
+  "pos": "conjunction",
+  "ipaUK": "/ɔːlˈðəʊ/",
+  "ipaUS": "/ɑːlˈðoʊ/",
+  "senses": [
+   {
+    "guideword": "DESPITE",
+    "level": "B1",
+    "defEN": "despite the fact that",
+    "defVI": "mặc dù",
+    "examples": [
+     {
+      "en": "Although it was cold, we went swimming.",
+      "vi": "Mặc dù trời lạnh, chúng tôi vẫn đi bơi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "amazed",
+  "pos": "adjective",
+  "ipaUK": "/əˈmeɪzd/",
+  "ipaUS": "/əˈmeɪzd/",
+  "senses": [
+   {
+    "guideword": "SURPRISED",
+    "level": "B1",
+    "defEN": "extremely surprised",
+    "defVI": "kinh ngạc",
+    "examples": [
+     {
+      "en": "I was amazed by how fast he learned.",
+      "vi": "Tôi kinh ngạc vì cậu ấy học nhanh thế."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "amount",
+  "pos": "noun",
+  "ipaUK": "/əˈmaʊnt/",
+  "ipaUS": "/əˈmaʊnt/",
+  "senses": [
+   {
+    "guideword": "QUANTITY",
+    "level": "B1",
+    "defEN": "how much of something there is",
+    "defVI": "lượng, số lượng",
+    "examples": [
+     {
+      "en": "He spent a large amount of money.",
+      "vi": "Anh ấy đã tiêu một số tiền lớn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ancient",
+  "pos": "adjective",
+  "ipaUK": "/ˈeɪn.ʃənt/",
+  "ipaUS": "/ˈeɪn.ʃənt/",
+  "senses": [
+   {
+    "guideword": "VERY OLD",
+    "level": "B1",
+    "defEN": "from a very long time ago",
+    "defVI": "cổ xưa, cổ đại",
+    "examples": [
+     {
+      "en": "We visited an ancient temple.",
+      "vi": "Chúng tôi thăm một ngôi đền cổ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "angle",
+  "pos": "noun",
+  "ipaUK": "/ˈæŋ.ɡəl/",
+  "ipaUS": "/ˈæŋ.ɡəl/",
+  "senses": [
+   {
+    "guideword": "SHAPE",
+    "level": "B1",
+    "defEN": "the space between two lines that meet",
+    "defVI": "góc",
+    "examples": [
+     {
+      "en": "The two walls meet at a right angle.",
+      "vi": "Hai bức tường gặp nhau ở góc vuông."
+     }
+    ]
+   },
+   {
+    "guideword": "VIEWPOINT",
+    "level": "B2",
+    "defEN": "a way of looking at a situation",
+    "defVI": "góc độ, khía cạnh",
+    "examples": [
+     {
+      "en": "Let's look at the problem from a new angle.",
+      "vi": "Hãy nhìn vấn đề từ một góc độ mới."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "announce",
+  "pos": "verb",
+  "ipaUK": "/əˈnaʊns/",
+  "ipaUS": "/əˈnaʊns/",
+  "senses": [
+   {
+    "guideword": "TELL PUBLICLY",
+    "level": "B1",
+    "defEN": "to make something known officially",
+    "defVI": "thông báo, công bố",
+    "examples": [
+     {
+      "en": "They announced their engagement.",
+      "vi": "Họ công bố đính hôn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "annual",
+  "pos": "adjective",
+  "ipaUK": "/ˈæn.ju.əl/",
+  "ipaUS": "/ˈæn.ju.əl/",
+  "senses": [
+   {
+    "guideword": "YEARLY",
+    "level": "B1",
+    "defEN": "happening once every year",
+    "defVI": "hằng năm",
+    "examples": [
+     {
+      "en": "The annual festival takes place in May.",
+      "vi": "Lễ hội hằng năm diễn ra vào tháng Năm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "anyway",
+  "pos": "adverb",
+  "ipaUK": "/ˈen.i.weɪ/",
+  "ipaUS": "/ˈen.i.weɪ/",
+  "senses": [
+   {
+    "guideword": "DESPITE",
+    "level": "B1",
+    "defEN": "despite something",
+    "defVI": "dù sao đi nữa",
+    "examples": [
+     {
+      "en": "It was raining, but we went anyway.",
+      "vi": "Trời mưa nhưng dù sao chúng tôi vẫn đi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "apart",
+  "pos": "adverb",
+  "ipaUK": "/əˈpɑːt/",
+  "ipaUS": "/əˈpɑːrt/",
+  "senses": [
+   {
+    "guideword": "SEPARATED",
+    "level": "B1",
+    "defEN": "separated by distance or time",
+    "defVI": "cách nhau, xa nhau",
+    "examples": [
+     {
+      "en": "They live two miles apart.",
+      "vi": "Họ sống cách nhau hai dặm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "apologize",
+  "pos": "verb",
+  "ipaUK": "/əˈpɒl.ə.dʒaɪz/",
+  "ipaUS": "/əˈpɑː.lə.dʒaɪz/",
+  "senses": [
+   {
+    "guideword": "SAY SORRY",
+    "level": "B1",
+    "defEN": "to say you are sorry for something",
+    "defVI": "xin lỗi",
+    "examples": [
+     {
+      "en": "He apologized for being late.",
+      "vi": "Anh ấy xin lỗi vì đến muộn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "appearance",
+  "pos": "noun",
+  "ipaUK": "/əˈpɪə.rəns/",
+  "ipaUS": "/əˈpɪr.əns/",
+  "senses": [
+   {
+    "guideword": "LOOK",
+    "level": "B1",
+    "defEN": "the way someone or something looks",
+    "defVI": "vẻ bề ngoài",
+    "examples": [
+     {
+      "en": "She cares a lot about her appearance.",
+      "vi": "Cô ấy rất chú ý đến vẻ bề ngoài."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "application",
+  "pos": "noun",
+  "ipaUK": "/ˌæp.lɪˈkeɪ.ʃən/",
+  "ipaUS": "/ˌæp.ləˈkeɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "REQUEST",
+    "level": "B1",
+    "defEN": "a formal written request for something",
+    "defVI": "đơn xin",
+    "examples": [
+     {
+      "en": "I sent my job application yesterday.",
+      "vi": "Hôm qua tôi đã gửi đơn xin việc."
+     }
+    ]
+   },
+   {
+    "guideword": "SOFTWARE",
+    "level": "B1",
+    "defEN": "a computer program for a particular task",
+    "defVI": "ứng dụng",
+    "examples": [
+     {
+      "en": "This application helps you learn words.",
+      "vi": "Ứng dụng này giúp bạn học từ vựng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "apply",
+  "pos": "verb",
+  "ipaUK": "/əˈplaɪ/",
+  "ipaUS": "/əˈplaɪ/",
+  "senses": [
+   {
+    "guideword": "ASK FOR",
+    "level": "B1",
+    "defEN": "to formally ask for something, such as a job",
+    "defVI": "nộp đơn",
+    "examples": [
+     {
+      "en": "She applied for a place at university.",
+      "vi": "Cô ấy nộp đơn vào đại học."
+     }
+    ]
+   },
+   {
+    "guideword": "AFFECT",
+    "level": "B2",
+    "defEN": "to be relevant to someone or something",
+    "defVI": "áp dụng, liên quan",
+    "examples": [
+     {
+      "en": "These rules apply to everyone.",
+      "vi": "Những quy định này áp dụng cho mọi người."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "appointment",
+  "pos": "noun",
+  "ipaUK": "/əˈpɔɪnt.mənt/",
+  "ipaUS": "/əˈpɔɪnt.mənt/",
+  "senses": [
+   {
+    "guideword": "MEETING",
+    "level": "B1",
+    "defEN": "an arrangement to meet someone at a certain time",
+    "defVI": "cuộc hẹn",
+    "examples": [
+     {
+      "en": "I have a dentist appointment at three.",
+      "vi": "Tôi có hẹn nha sĩ lúc ba giờ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "appreciate",
+  "pos": "verb",
+  "ipaUK": "/əˈpriː.ʃi.eɪt/",
+  "ipaUS": "/əˈpriː.ʃi.eɪt/",
+  "senses": [
+   {
+    "guideword": "BE GRATEFUL",
+    "level": "B1",
+    "defEN": "to be thankful for something",
+    "defVI": "cảm kích, biết ơn",
+    "examples": [
+     {
+      "en": "I really appreciate your help.",
+      "vi": "Tôi thực sự cảm kích sự giúp đỡ của bạn."
+     }
+    ]
+   },
+   {
+    "guideword": "UNDERSTAND",
+    "level": "B2",
+    "defEN": "to recognise the importance of something",
+    "defVI": "hiểu rõ, đánh giá đúng",
+    "examples": [
+     {
+      "en": "I don't think you appreciate how hard this is.",
+      "vi": "Tôi nghĩ bạn chưa hiểu việc này khó thế nào."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "approve",
+  "pos": "verb",
+  "ipaUK": "/əˈpruːv/",
+  "ipaUS": "/əˈpruːv/",
+  "senses": [
+   {
+    "guideword": "ALLOW",
+    "level": "B1",
+    "defEN": "to officially accept a plan or request",
+    "defVI": "phê duyệt, chấp thuận",
+    "examples": [
+     {
+      "en": "The council approved the new park.",
+      "vi": "Hội đồng đã phê duyệt công viên mới."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "area",
+  "pos": "noun",
+  "ipaUK": "/ˈeə.ri.ə/",
+  "ipaUS": "/ˈer.i.ə/",
+  "senses": [
+   {
+    "guideword": "REGION",
+    "level": "B1",
+    "defEN": "a part of a place, town or country",
+    "defVI": "khu vực",
+    "examples": [
+     {
+      "en": "They live in a quiet area.",
+      "vi": "Họ sống ở một khu vực yên tĩnh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "argue",
+  "pos": "verb",
+  "ipaUK": "/ˈɑːɡ.juː/",
+  "ipaUS": "/ˈɑːrɡ.juː/",
+  "senses": [
+   {
+    "guideword": "DISAGREE",
+    "level": "B1",
+    "defEN": "to speak angrily to someone you disagree with",
+    "defVI": "cãi nhau",
+    "examples": [
+     {
+      "en": "The children are always arguing.",
+      "vi": "Bọn trẻ lúc nào cũng cãi nhau."
+     }
+    ]
+   },
+   {
+    "guideword": "GIVE REASONS",
+    "level": "B2",
+    "defEN": "to give reasons for an opinion",
+    "defVI": "lập luận",
+    "examples": [
+     {
+      "en": "She argued that taxes should be lower.",
+      "vi": "Cô ấy lập luận rằng thuế nên thấp hơn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "argument",
+  "pos": "noun",
+  "ipaUK": "/ˈɑːɡ.jə.mənt/",
+  "ipaUS": "/ˈɑːrɡ.jə.mənt/",
+  "senses": [
+   {
+    "guideword": "QUARREL",
+    "level": "B1",
+    "defEN": "an angry discussion",
+    "defVI": "cuộc cãi vã",
+    "examples": [
+     {
+      "en": "They had an argument about money.",
+      "vi": "Họ cãi nhau về chuyện tiền bạc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "army",
+  "pos": "noun",
+  "ipaUK": "/ˈɑː.mi/",
+  "ipaUS": "/ˈɑːr.mi/",
+  "senses": [
+   {
+    "guideword": "SOLDIERS",
+    "level": "B1",
+    "defEN": "a large group of soldiers who fight on land",
+    "defVI": "quân đội",
+    "examples": [
+     {
+      "en": "He joined the army at eighteen.",
+      "vi": "Anh ấy nhập ngũ năm mười tám tuổi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "arrest",
+  "pos": "verb",
+  "ipaUK": "/əˈrest/",
+  "ipaUS": "/əˈrest/",
+  "senses": [
+   {
+    "guideword": "POLICE",
+    "level": "B1",
+    "defEN": "to take someone away because they may have broken the law",
+    "defVI": "bắt giữ",
+    "examples": [
+     {
+      "en": "Police arrested two men.",
+      "vi": "Cảnh sát đã bắt giữ hai người đàn ông."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "arrival",
+  "pos": "noun",
+  "ipaUK": "/əˈraɪ.vəl/",
+  "ipaUS": "/əˈraɪ.vəl/",
+  "senses": [
+   {
+    "guideword": "COMING",
+    "level": "B1",
+    "defEN": "the act of reaching a place",
+    "defVI": "sự đến nơi",
+    "examples": [
+     {
+      "en": "Please call us on your arrival.",
+      "vi": "Vui lòng gọi cho chúng tôi khi bạn đến nơi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "article",
+  "pos": "noun",
+  "ipaUK": "/ˈɑː.tɪ.kəl/",
+  "ipaUS": "/ˈɑːr.t̬ɪ.kəl/",
+  "senses": [
+   {
+    "guideword": "WRITING",
+    "level": "B1",
+    "defEN": "a piece of writing in a newspaper or magazine",
+    "defVI": "bài báo",
+    "examples": [
+     {
+      "en": "I read an interesting article about sleep.",
+      "vi": "Tôi đọc một bài báo thú vị về giấc ngủ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "artist",
+  "pos": "noun",
+  "ipaUK": "/ˈɑː.tɪst/",
+  "ipaUS": "/ˈɑːr.t̬ɪst/",
+  "senses": [
+   {
+    "guideword": "CREATOR",
+    "level": "B1",
+    "defEN": "someone who paints, draws or makes art",
+    "defVI": "nghệ sĩ, họa sĩ",
+    "examples": [
+     {
+      "en": "The artist painted the whole wall.",
+      "vi": "Họa sĩ đã vẽ cả bức tường."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "asleep",
+  "pos": "adjective",
+  "ipaUK": "/əˈsliːp/",
+  "ipaUS": "/əˈsliːp/",
+  "senses": [
+   {
+    "guideword": "SLEEPING",
+    "level": "B1",
+    "defEN": "sleeping",
+    "defVI": "đang ngủ",
+    "examples": [
+     {
+      "en": "The baby is fast asleep.",
+      "vi": "Em bé đang ngủ say."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "assistant",
+  "pos": "noun",
+  "ipaUK": "/əˈsɪs.tənt/",
+  "ipaUS": "/əˈsɪs.tənt/",
+  "senses": [
+   {
+    "guideword": "HELPER",
+    "level": "B1",
+    "defEN": "someone whose job is to help another person",
+    "defVI": "trợ lý",
+    "examples": [
+     {
+      "en": "My assistant will send you the details.",
+      "vi": "Trợ lý của tôi sẽ gửi chi tiết cho bạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "atmosphere",
+  "pos": "noun",
+  "ipaUK": "/ˈæt.mə.sfɪər/",
+  "ipaUS": "/ˈæt.mə.sfɪr/",
+  "senses": [
+   {
+    "guideword": "FEELING",
+    "level": "B1",
+    "defEN": "the mood or feeling of a place",
+    "defVI": "bầu không khí",
+    "examples": [
+     {
+      "en": "The café has a friendly atmosphere.",
+      "vi": "Quán cà phê có bầu không khí thân thiện."
+     }
+    ]
+   },
+   {
+    "guideword": "AIR",
+    "level": "B2",
+    "defEN": "the layer of gases around the Earth",
+    "defVI": "khí quyển",
+    "examples": [
+     {
+      "en": "Pollution damages the atmosphere.",
+      "vi": "Ô nhiễm gây hại cho khí quyển."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "attach",
+  "pos": "verb",
+  "ipaUK": "/əˈtætʃ/",
+  "ipaUS": "/əˈtætʃ/",
+  "senses": [
+   {
+    "guideword": "FASTEN",
+    "level": "B1",
+    "defEN": "to join or fix one thing to another",
+    "defVI": "gắn, đính kèm",
+    "examples": [
+     {
+      "en": "I've attached the file to the email.",
+      "vi": "Tôi đã đính kèm tệp vào email."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "attack",
+  "pos": "verb",
+  "ipaUK": "/əˈtæk/",
+  "ipaUS": "/əˈtæk/",
+  "senses": [
+   {
+    "guideword": "HURT",
+    "level": "B1",
+    "defEN": "to try to hurt someone using violence",
+    "defVI": "tấn công",
+    "examples": [
+     {
+      "en": "He was attacked on his way home.",
+      "vi": "Anh ấy bị tấn công trên đường về nhà."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "attend",
+  "pos": "verb",
+  "ipaUK": "/əˈtend/",
+  "ipaUS": "/əˈtend/",
+  "senses": [
+   {
+    "guideword": "GO TO",
+    "level": "B1",
+    "defEN": "to be present at an event",
+    "defVI": "tham dự",
+    "examples": [
+     {
+      "en": "Over 200 people attended the wedding.",
+      "vi": "Hơn 200 người đã dự đám cưới."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "attention",
+  "pos": "noun",
+  "ipaUK": "/əˈten.ʃən/",
+  "ipaUS": "/əˈten.ʃən/",
+  "senses": [
+   {
+    "guideword": "NOTICE",
+    "level": "B1",
+    "defEN": "the act of watching or listening carefully",
+    "defVI": "sự chú ý",
+    "examples": [
+     {
+      "en": "Please pay attention to the teacher.",
+      "vi": "Hãy chú ý nghe giáo viên."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "attract",
+  "pos": "verb",
+  "ipaUK": "/əˈtrækt/",
+  "ipaUS": "/əˈtrækt/",
+  "senses": [
+   {
+    "guideword": "PULL",
+    "level": "B1",
+    "defEN": "to make people come to a place or be interested",
+    "defVI": "thu hút",
+    "examples": [
+     {
+      "en": "The beach attracts many tourists.",
+      "vi": "Bãi biển thu hút nhiều du khách."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "attractive",
+  "pos": "adjective",
+  "ipaUK": "/əˈtræk.tɪv/",
+  "ipaUS": "/əˈtræk.tɪv/",
+  "senses": [
+   {
+    "guideword": "PLEASING",
+    "level": "B1",
+    "defEN": "pleasant to look at, or interesting",
+    "defVI": "hấp dẫn, lôi cuốn",
+    "examples": [
+     {
+      "en": "They made us an attractive offer.",
+      "vi": "Họ đưa ra cho chúng tôi một đề nghị hấp dẫn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "audience",
+  "pos": "noun",
+  "ipaUK": "/ˈɔː.di.əns/",
+  "ipaUS": "/ˈɑː.di.əns/",
+  "senses": [
+   {
+    "guideword": "VIEWERS",
+    "level": "B1",
+    "defEN": "the people watching or listening to a performance",
+    "defVI": "khán giả",
+    "examples": [
+     {
+      "en": "The audience clapped loudly.",
+      "vi": "Khán giả vỗ tay rất to."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "author",
+  "pos": "noun",
+  "ipaUK": "/ˈɔː.θər/",
+  "ipaUS": "/ˈɑː.θɚ/",
+  "senses": [
+   {
+    "guideword": "WRITER",
+    "level": "B1",
+    "defEN": "the writer of a book or article",
+    "defVI": "tác giả",
+    "examples": [
+     {
+      "en": "Who is the author of this novel?",
+      "vi": "Ai là tác giả của cuốn tiểu thuyết này?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "average",
+  "pos": "adjective",
+  "ipaUK": "/ˈæv.ər.ɪdʒ/",
+  "ipaUS": "/ˈæv.ɚ.ɪdʒ/",
+  "senses": [
+   {
+    "guideword": "USUAL",
+    "level": "B1",
+    "defEN": "typical or normal",
+    "defVI": "trung bình, bình thường",
+    "examples": [
+     {
+      "en": "The average family has two children.",
+      "vi": "Một gia đình trung bình có hai con."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "award",
+  "pos": "noun",
+  "ipaUK": "/əˈwɔːd/",
+  "ipaUS": "/əˈwɔːrd/",
+  "senses": [
+   {
+    "guideword": "PRIZE",
+    "level": "B1",
+    "defEN": "a prize given for an achievement",
+    "defVI": "giải thưởng",
+    "examples": [
+     {
+      "en": "She won an award for her photos.",
+      "vi": "Cô ấy đoạt giải thưởng cho những bức ảnh của mình."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abstract",
+  "pos": "adjective",
+  "ipaUK": "/ˈæb.strækt/",
+  "ipaUS": "/ˈæb.strækt/",
+  "senses": [
+   {
+    "guideword": "NOT CONCRETE",
+    "level": "B2",
+    "defEN": "based on ideas rather than real things",
+    "defVI": "trừu tượng",
+    "examples": [
+     {
+      "en": "Love is an abstract idea.",
+      "vi": "Tình yêu là một khái niệm trừu tượng."
+     }
+    ]
+   },
+   {
+    "guideword": "ART",
+    "level": "C1",
+    "defEN": "showing shapes and colours rather than real objects",
+    "defVI": "(nghệ thuật) trừu tượng",
+    "examples": [
+     {
+      "en": "The gallery shows abstract paintings.",
+      "vi": "Phòng tranh trưng bày tranh trừu tượng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "absorb",
+  "pos": "verb",
+  "ipaUK": "/əbˈzɔːb/",
+  "ipaUS": "/əbˈzɔːrb/",
+  "senses": [
+   {
+    "guideword": "TAKE IN LIQUID",
+    "level": "B2",
+    "defEN": "to take in a liquid or gas",
+    "defVI": "hấp thụ, thấm",
+    "examples": [
+     {
+      "en": "The towel absorbed the water.",
+      "vi": "Chiếc khăn đã thấm hết nước."
+     }
+    ]
+   },
+   {
+    "guideword": "LEARN",
+    "level": "C1",
+    "defEN": "to take in and understand information",
+    "defVI": "tiếp thu",
+    "examples": [
+     {
+      "en": "It's hard to absorb so many facts at once.",
+      "vi": "Thật khó tiếp thu nhiều thông tin cùng lúc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "academic",
+  "pos": "adjective",
+  "ipaUK": "/ˌæk.əˈdem.ɪk/",
+  "ipaUS": "/ˌæk.əˈdem.ɪk/",
+  "senses": [
+   {
+    "guideword": "OF STUDY",
+    "level": "B2",
+    "defEN": "relating to schools and studying",
+    "defVI": "thuộc học thuật",
+    "examples": [
+     {
+      "en": "The academic year starts in September.",
+      "vi": "Năm học bắt đầu vào tháng Chín."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "access",
+  "pos": "noun",
+  "ipaUK": "/ˈæk.ses/",
+  "ipaUS": "/ˈæk.ses/",
+  "senses": [
+   {
+    "guideword": "RIGHT TO USE",
+    "level": "B2",
+    "defEN": "the chance or right to use or see something",
+    "defVI": "quyền truy cập, sự tiếp cận",
+    "examples": [
+     {
+      "en": "Students have free access to the library.",
+      "vi": "Sinh viên được sử dụng thư viện miễn phí."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accompany",
+  "pos": "verb",
+  "ipaUK": "/əˈkʌm.pə.ni/",
+  "ipaUS": "/əˈkʌm.pə.ni/",
+  "senses": [
+   {
+    "guideword": "GO WITH",
+    "level": "B2",
+    "defEN": "to go somewhere with someone",
+    "defVI": "đi cùng, hộ tống",
+    "examples": [
+     {
+      "en": "Children must be accompanied by an adult.",
+      "vi": "Trẻ em phải có người lớn đi cùng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accomplish",
+  "pos": "verb",
+  "ipaUK": "/əˈkʌm.plɪʃ/",
+  "ipaUS": "/əˈkɑːm.plɪʃ/",
+  "senses": [
+   {
+    "guideword": "SUCCEED",
+    "level": "B2",
+    "defEN": "to succeed in doing something",
+    "defVI": "hoàn thành, đạt được",
+    "examples": [
+     {
+      "en": "We accomplished a lot this week.",
+      "vi": "Tuần này chúng ta đã làm được nhiều việc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accumulate",
+  "pos": "verb",
+  "ipaUK": "/əˈkjuː.mjə.leɪt/",
+  "ipaUS": "/əˈkjuː.mjə.leɪt/",
+  "senses": [
+   {
+    "guideword": "COLLECT",
+    "level": "B2",
+    "defEN": "to gradually collect or increase",
+    "defVI": "tích lũy, chồng chất",
+    "examples": [
+     {
+      "en": "Dust had accumulated on the shelves.",
+      "vi": "Bụi đã bám đầy trên kệ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accuracy",
+  "pos": "noun",
+  "ipaUK": "/ˈæk.jə.rə.si/",
+  "ipaUS": "/ˈæk.jɚ.ə.si/",
+  "senses": [
+   {
+    "guideword": "CORRECTNESS",
+    "level": "B2",
+    "defEN": "the quality of being correct or exact",
+    "defVI": "độ chính xác",
+    "examples": [
+     {
+      "en": "Check the accuracy of your figures.",
+      "vi": "Hãy kiểm tra độ chính xác của số liệu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "acquire",
+  "pos": "verb",
+  "ipaUK": "/əˈkwaɪər/",
+  "ipaUS": "/əˈkwaɪr/",
+  "senses": [
+   {
+    "guideword": "GET",
+    "level": "B2",
+    "defEN": "to get or obtain something",
+    "defVI": "giành được, mua lại",
+    "examples": [
+     {
+      "en": "The company acquired a rival firm.",
+      "vi": "Công ty đã mua lại một đối thủ."
+     }
+    ]
+   },
+   {
+    "guideword": "LEARN",
+    "level": "C1",
+    "defEN": "to gain a skill or knowledge",
+    "defVI": "tiếp thu, học được",
+    "examples": [
+     {
+      "en": "Children acquire language quickly.",
+      "vi": "Trẻ em tiếp thu ngôn ngữ rất nhanh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "addicted",
+  "pos": "adjective",
+  "ipaUK": "/əˈdɪk.tɪd/",
+  "ipaUS": "/əˈdɪk.tɪd/",
+  "senses": [
+   {
+    "guideword": "DEPENDENT",
+    "level": "B2",
+    "defEN": "unable to stop taking or doing something",
+    "defVI": "nghiện",
+    "examples": [
+     {
+      "en": "He is addicted to his phone.",
+      "vi": "Cậu ấy nghiện điện thoại."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adjust",
+  "pos": "verb",
+  "ipaUK": "/əˈdʒʌst/",
+  "ipaUS": "/əˈdʒʌst/",
+  "senses": [
+   {
+    "guideword": "CHANGE SLIGHTLY",
+    "level": "B2",
+    "defEN": "to change something a little to make it better",
+    "defVI": "điều chỉnh",
+    "examples": [
+     {
+      "en": "You can adjust the height of the chair.",
+      "vi": "Bạn có thể điều chỉnh độ cao của ghế."
+     }
+    ]
+   },
+   {
+    "guideword": "GET USED TO",
+    "level": "B2",
+    "defEN": "to become familiar with a new situation",
+    "defVI": "thích nghi",
+    "examples": [
+     {
+      "en": "It took me months to adjust to city life.",
+      "vi": "Tôi mất vài tháng để thích nghi với cuộc sống thành phố."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "administration",
+  "pos": "noun",
+  "ipaUK": "/ədˌmɪn.ɪˈstreɪ.ʃən/",
+  "ipaUS": "/ədˌmɪn.əˈstreɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "MANAGEMENT",
+    "level": "B2",
+    "defEN": "the work of organizing a business or institution",
+    "defVI": "công tác quản lý, hành chính",
+    "examples": [
+     {
+      "en": "She works in hospital administration.",
+      "vi": "Cô ấy làm công tác hành chính ở bệnh viện."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adopt",
+  "pos": "verb",
+  "ipaUK": "/əˈdɒpt/",
+  "ipaUS": "/əˈdɑːpt/",
+  "senses": [
+   {
+    "guideword": "CHILD",
+    "level": "B2",
+    "defEN": "to legally take another person's child as your own",
+    "defVI": "nhận nuôi",
+    "examples": [
+     {
+      "en": "They adopted a baby girl.",
+      "vi": "Họ nhận nuôi một bé gái."
+     }
+    ]
+   },
+   {
+    "guideword": "ACCEPT",
+    "level": "B2",
+    "defEN": "to start to use a new method or plan",
+    "defVI": "áp dụng, chấp nhận",
+    "examples": [
+     {
+      "en": "The school adopted a new system.",
+      "vi": "Trường đã áp dụng một hệ thống mới."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "advance",
+  "pos": "noun",
+  "ipaUK": "/ədˈvɑːns/",
+  "ipaUS": "/ədˈvæns/",
+  "senses": [
+   {
+    "guideword": "PROGRESS",
+    "level": "B2",
+    "defEN": "progress or development in something",
+    "defVI": "sự tiến bộ",
+    "examples": [
+     {
+      "en": "Advances in medicine save lives.",
+      "vi": "Tiến bộ y học cứu sống nhiều người."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "affection",
+  "pos": "noun",
+  "ipaUK": "/əˈfek.ʃən/",
+  "ipaUS": "/əˈfek.ʃən/",
+  "senses": [
+   {
+    "guideword": "LOVE",
+    "level": "B2",
+    "defEN": "a feeling of liking or loving someone",
+    "defVI": "tình cảm, lòng yêu mến",
+    "examples": [
+     {
+      "en": "He showed great affection for his dog.",
+      "vi": "Ông ấy rất yêu quý con chó của mình."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aggressive",
+  "pos": "adjective",
+  "ipaUK": "/əˈɡres.ɪv/",
+  "ipaUS": "/əˈɡres.ɪv/",
+  "senses": [
+   {
+    "guideword": "ANGRY",
+    "level": "B2",
+    "defEN": "behaving in an angry, threatening way",
+    "defVI": "hung hăng",
+    "examples": [
+     {
+      "en": "The dog became aggressive.",
+      "vi": "Con chó trở nên hung dữ."
+     }
+    ]
+   },
+   {
+    "guideword": "DETERMINED",
+    "level": "C1",
+    "defEN": "using forceful methods to succeed",
+    "defVI": "quyết liệt, tích cực",
+    "examples": [
+     {
+      "en": "They ran an aggressive sales campaign.",
+      "vi": "Họ tiến hành một chiến dịch bán hàng quyết liệt."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "agenda",
+  "pos": "noun",
+  "ipaUK": "/əˈdʒen.də/",
+  "ipaUS": "/əˈdʒen.də/",
+  "senses": [
+   {
+    "guideword": "MEETING LIST",
+    "level": "B2",
+    "defEN": "a list of things to discuss at a meeting",
+    "defVI": "chương trình nghị sự",
+    "examples": [
+     {
+      "en": "What's on the agenda today?",
+      "vi": "Hôm nay chương trình họp có gì?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aid",
+  "pos": "noun",
+  "ipaUK": "/eɪd/",
+  "ipaUS": "/eɪd/",
+  "senses": [
+   {
+    "guideword": "HELP",
+    "level": "B2",
+    "defEN": "help, especially money or food for people in need",
+    "defVI": "viện trợ, sự trợ giúp",
+    "examples": [
+     {
+      "en": "The country received foreign aid.",
+      "vi": "Đất nước nhận viện trợ nước ngoài."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "alert",
+  "pos": "adjective",
+  "ipaUK": "/əˈlɜːt/",
+  "ipaUS": "/əˈlɝːt/",
+  "senses": [
+   {
+    "guideword": "AWAKE",
+    "level": "B2",
+    "defEN": "quick to notice things; awake",
+    "defVI": "tỉnh táo, cảnh giác",
+    "examples": [
+     {
+      "en": "Drivers must stay alert.",
+      "vi": "Tài xế phải luôn tỉnh táo."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "alien",
+  "pos": "adjective",
+  "ipaUK": "/ˈeɪ.li.ən/",
+  "ipaUS": "/ˈeɪ.li.ən/",
+  "senses": [
+   {
+    "guideword": "STRANGE",
+    "level": "B2",
+    "defEN": "strange and not familiar",
+    "defVI": "xa lạ",
+    "examples": [
+     {
+      "en": "City life felt alien to him.",
+      "vi": "Cuộc sống thành phố thật xa lạ với anh ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "allocate",
+  "pos": "verb",
+  "ipaUK": "/ˈæl.ə.keɪt/",
+  "ipaUS": "/ˈæl.ə.keɪt/",
+  "senses": [
+   {
+    "guideword": "GIVE",
+    "level": "B2",
+    "defEN": "to give something for a particular use",
+    "defVI": "phân bổ",
+    "examples": [
+     {
+      "en": "Funds were allocated to schools.",
+      "vi": "Ngân sách được phân bổ cho các trường học."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ally",
+  "pos": "noun",
+  "ipaUK": "/ˈæl.aɪ/",
+  "ipaUS": "/ˈæl.aɪ/",
+  "senses": [
+   {
+    "guideword": "SUPPORTER",
+    "level": "B2",
+    "defEN": "a country or person that supports another",
+    "defVI": "đồng minh",
+    "examples": [
+     {
+      "en": "The two countries are close allies.",
+      "vi": "Hai nước là đồng minh thân cận."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "alongside",
+  "pos": "preposition",
+  "ipaUK": "/əˌlɒŋˈsaɪd/",
+  "ipaUS": "/əˌlɑːŋˈsaɪd/",
+  "senses": [
+   {
+    "guideword": "TOGETHER",
+    "level": "B2",
+    "defEN": "together with someone; next to",
+    "defVI": "cùng với, bên cạnh",
+    "examples": [
+     {
+      "en": "She worked alongside famous scientists.",
+      "vi": "Cô ấy làm việc cùng các nhà khoa học nổi tiếng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "alter",
+  "pos": "verb",
+  "ipaUK": "/ˈɒl.tər/",
+  "ipaUS": "/ˈɑːl.tɚ/",
+  "senses": [
+   {
+    "guideword": "CHANGE",
+    "level": "B2",
+    "defEN": "to change something",
+    "defVI": "thay đổi, sửa",
+    "examples": [
+     {
+      "en": "We had to alter our plans.",
+      "vi": "Chúng tôi phải thay đổi kế hoạch."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "altogether",
+  "pos": "adverb",
+  "ipaUK": "/ˌɔːl.təˈɡeð.ər/",
+  "ipaUS": "/ˌɑːl.təˈɡeð.ɚ/",
+  "senses": [
+   {
+    "guideword": "IN TOTAL",
+    "level": "B2",
+    "defEN": "in total",
+    "defVI": "tổng cộng",
+    "examples": [
+     {
+      "en": "That's twenty pounds altogether.",
+      "vi": "Tổng cộng là hai mươi bảng."
+     }
+    ]
+   },
+   {
+    "guideword": "COMPLETELY",
+    "level": "B2",
+    "defEN": "completely",
+    "defVI": "hoàn toàn",
+    "examples": [
+     {
+      "en": "The noise stopped altogether.",
+      "vi": "Tiếng ồn dừng hẳn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "amateur",
+  "pos": "adjective",
+  "ipaUK": "/ˈæm.ə.tər/",
+  "ipaUS": "/ˈæm.ə.tʃɚ/",
+  "senses": [
+   {
+    "guideword": "NOT PROFESSIONAL",
+    "level": "B2",
+    "defEN": "doing something for pleasure, not for money",
+    "defVI": "nghiệp dư",
+    "examples": [
+     {
+      "en": "He is an amateur photographer.",
+      "vi": "Anh ấy là nhiếp ảnh gia nghiệp dư."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ambition",
+  "pos": "noun",
+  "ipaUK": "/æmˈbɪʃ.ən/",
+  "ipaUS": "/æmˈbɪʃ.ən/",
+  "senses": [
+   {
+    "guideword": "GOAL",
+    "level": "B2",
+    "defEN": "a strong wish to achieve something",
+    "defVI": "hoài bão, tham vọng",
+    "examples": [
+     {
+      "en": "Her ambition is to become a pilot.",
+      "vi": "Hoài bão của cô ấy là trở thành phi công."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ambitious",
+  "pos": "adjective",
+  "ipaUK": "/æmˈbɪʃ.əs/",
+  "ipaUS": "/æmˈbɪʃ.əs/",
+  "senses": [
+   {
+    "guideword": "WANTING SUCCESS",
+    "level": "B2",
+    "defEN": "having a strong wish to be successful",
+    "defVI": "tham vọng",
+    "examples": [
+     {
+      "en": "He is young and ambitious.",
+      "vi": "Anh ấy trẻ và đầy tham vọng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "analyse",
+  "pos": "verb",
+  "ipaUK": "/ˈæn.əl.aɪz/",
+  "ipaUS": "/ˈæn.əl.aɪz/",
+  "senses": [
+   {
+    "guideword": "EXAMINE",
+    "level": "B2",
+    "defEN": "to study something in detail",
+    "defVI": "phân tích",
+    "examples": [
+     {
+      "en": "Scientists analysed the samples.",
+      "vi": "Các nhà khoa học đã phân tích mẫu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "analysis",
+  "pos": "noun",
+  "ipaUK": "/əˈnæl.ə.sɪs/",
+  "ipaUS": "/əˈnæl.ə.sɪs/",
+  "senses": [
+   {
+    "guideword": "STUDY",
+    "level": "B2",
+    "defEN": "the detailed study of something",
+    "defVI": "sự phân tích",
+    "examples": [
+     {
+      "en": "The data needs careful analysis.",
+      "vi": "Dữ liệu cần được phân tích cẩn thận."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "anniversary",
+  "pos": "noun",
+  "ipaUK": "/ˌæn.ɪˈvɜː.sər.i/",
+  "ipaUS": "/ˌæn.əˈvɝː.sɚ.i/",
+  "senses": [
+   {
+    "guideword": "DATE",
+    "level": "B2",
+    "defEN": "the day when an important event happened in a past year",
+    "defVI": "ngày kỷ niệm",
+    "examples": [
+     {
+      "en": "Today is our wedding anniversary.",
+      "vi": "Hôm nay là kỷ niệm ngày cưới của chúng tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "anxiety",
+  "pos": "noun",
+  "ipaUK": "/æŋˈzaɪ.ə.ti/",
+  "ipaUS": "/æŋˈzaɪ.ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "WORRY",
+    "level": "B2",
+    "defEN": "a feeling of worry or nervousness",
+    "defVI": "sự lo âu",
+    "examples": [
+     {
+      "en": "Exams cause a lot of anxiety.",
+      "vi": "Các kỳ thi gây nhiều lo âu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "apparently",
+  "pos": "adverb",
+  "ipaUK": "/əˈpær.ənt.li/",
+  "ipaUS": "/əˈper.ənt.li/",
+  "senses": [
+   {
+    "guideword": "IT SEEMS",
+    "level": "B2",
+    "defEN": "used to say something you have heard is true",
+    "defVI": "nghe nói, có vẻ như",
+    "examples": [
+     {
+      "en": "Apparently, the shop is closing.",
+      "vi": "Nghe nói cửa hàng sắp đóng cửa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "appeal",
+  "pos": "noun",
+  "ipaUK": "/əˈpiːl/",
+  "ipaUS": "/əˈpiːl/",
+  "senses": [
+   {
+    "guideword": "REQUEST",
+    "level": "B2",
+    "defEN": "a serious request for help or money",
+    "defVI": "lời kêu gọi",
+    "examples": [
+     {
+      "en": "The charity launched an appeal for donations.",
+      "vi": "Tổ chức từ thiện phát động lời kêu gọi quyên góp."
+     }
+    ]
+   },
+   {
+    "guideword": "ATTRACTION",
+    "level": "B2",
+    "defEN": "a quality that makes something attractive",
+    "defVI": "sức hấp dẫn",
+    "examples": [
+     {
+      "en": "I don't understand the appeal of camping.",
+      "vi": "Tôi không hiểu cắm trại có gì hấp dẫn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "appetite",
+  "pos": "noun",
+  "ipaUK": "/ˈæp.ə.taɪt/",
+  "ipaUS": "/ˈæp.ə.taɪt/",
+  "senses": [
+   {
+    "guideword": "HUNGER",
+    "level": "B2",
+    "defEN": "the feeling of wanting to eat",
+    "defVI": "sự thèm ăn",
+    "examples": [
+     {
+      "en": "The fresh air gave me an appetite.",
+      "vi": "Không khí trong lành khiến tôi thấy thèm ăn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "applicant",
+  "pos": "noun",
+  "ipaUK": "/ˈæp.lɪ.kənt/",
+  "ipaUS": "/ˈæp.lə.kənt/",
+  "senses": [
+   {
+    "guideword": "CANDIDATE",
+    "level": "B2",
+    "defEN": "a person who formally asks for a job or place",
+    "defVI": "người nộp đơn, ứng viên",
+    "examples": [
+     {
+      "en": "There were fifty applicants for the job.",
+      "vi": "Có năm mươi ứng viên cho công việc này."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "appoint",
+  "pos": "verb",
+  "ipaUK": "/əˈpɔɪnt/",
+  "ipaUS": "/əˈpɔɪnt/",
+  "senses": [
+   {
+    "guideword": "CHOOSE",
+    "level": "B2",
+    "defEN": "to choose someone officially for a job",
+    "defVI": "bổ nhiệm",
+    "examples": [
+     {
+      "en": "She was appointed head of the team.",
+      "vi": "Cô ấy được bổ nhiệm làm trưởng nhóm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "appropriate",
+  "pos": "adjective",
+  "ipaUK": "/əˈprəʊ.pri.ət/",
+  "ipaUS": "/əˈproʊ.pri.ət/",
+  "senses": [
+   {
+    "guideword": "SUITABLE",
+    "level": "B2",
+    "defEN": "suitable for a particular situation",
+    "defVI": "phù hợp, thích hợp",
+    "examples": [
+     {
+      "en": "Jeans are not appropriate for the interview.",
+      "vi": "Quần jean không phù hợp để đi phỏng vấn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "approximately",
+  "pos": "adverb",
+  "ipaUK": "/əˈprɒk.sɪ.mət.li/",
+  "ipaUS": "/əˈprɑːk.sə.mət.li/",
+  "senses": [
+   {
+    "guideword": "ABOUT",
+    "level": "B2",
+    "defEN": "close to a number but not exact",
+    "defVI": "khoảng, xấp xỉ",
+    "examples": [
+     {
+      "en": "The trip takes approximately two hours.",
+      "vi": "Chuyến đi mất khoảng hai tiếng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "architecture",
+  "pos": "noun",
+  "ipaUK": "/ˈɑː.kɪ.tek.tʃər/",
+  "ipaUS": "/ˈɑːr.kə.tek.tʃɚ/",
+  "senses": [
+   {
+    "guideword": "BUILDING DESIGN",
+    "level": "B2",
+    "defEN": "the design and style of buildings",
+    "defVI": "kiến trúc",
+    "examples": [
+     {
+      "en": "I love the old architecture of Hanoi.",
+      "vi": "Tôi yêu kiến trúc cổ của Hà Nội."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "arise",
+  "pos": "verb",
+  "ipaUK": "/əˈraɪz/",
+  "ipaUS": "/əˈraɪz/",
+  "senses": [
+   {
+    "guideword": "HAPPEN",
+    "level": "B2",
+    "defEN": "when a problem or situation starts to exist",
+    "defVI": "nảy sinh, phát sinh",
+    "examples": [
+     {
+      "en": "Call me if any problems arise.",
+      "vi": "Gọi cho tôi nếu có vấn đề phát sinh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "arms",
+  "pos": "noun",
+  "ipaUK": "/ɑːmz/",
+  "ipaUS": "/ɑːrmz/",
+  "senses": [
+   {
+    "guideword": "WEAPONS",
+    "level": "B2",
+    "defEN": "weapons, especially guns",
+    "defVI": "vũ khí",
+    "examples": [
+     {
+      "en": "The arms trade is highly profitable.",
+      "vi": "Buôn bán vũ khí rất sinh lời."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "arrangement",
+  "pos": "noun",
+  "ipaUK": "/əˈreɪndʒ.mənt/",
+  "ipaUS": "/əˈreɪndʒ.mənt/",
+  "senses": [
+   {
+    "guideword": "PLAN",
+    "level": "B2",
+    "defEN": "a plan for how something will happen",
+    "defVI": "sự sắp xếp",
+    "examples": [
+     {
+      "en": "We made arrangements for the party.",
+      "vi": "Chúng tôi đã sắp xếp cho bữa tiệc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "artificial",
+  "pos": "adjective",
+  "ipaUK": "/ˌɑː.tɪˈfɪʃ.əl/",
+  "ipaUS": "/ˌɑːr.t̬əˈfɪʃ.əl/",
+  "senses": [
+   {
+    "guideword": "MAN-MADE",
+    "level": "B2",
+    "defEN": "made by people, not natural",
+    "defVI": "nhân tạo",
+    "examples": [
+     {
+      "en": "The drink contains artificial colours.",
+      "vi": "Đồ uống có chứa phẩm màu nhân tạo."
+     }
+    ]
+   },
+   {
+    "guideword": "NOT SINCERE",
+    "level": "C1",
+    "defEN": "not real or honest",
+    "defVI": "giả tạo",
+    "examples": [
+     {
+      "en": "She gave an artificial smile.",
+      "vi": "Cô ấy nở một nụ cười giả tạo."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aspect",
+  "pos": "noun",
+  "ipaUK": "/ˈæs.pekt/",
+  "ipaUS": "/ˈæs.pekt/",
+  "senses": [
+   {
+    "guideword": "PART",
+    "level": "B2",
+    "defEN": "one part or feature of a situation",
+    "defVI": "khía cạnh",
+    "examples": [
+     {
+      "en": "Money is only one aspect of the problem.",
+      "vi": "Tiền chỉ là một khía cạnh của vấn đề."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "assess",
+  "pos": "verb",
+  "ipaUK": "/əˈses/",
+  "ipaUS": "/əˈses/",
+  "senses": [
+   {
+    "guideword": "JUDGE",
+    "level": "B2",
+    "defEN": "to judge the quality or value of something",
+    "defVI": "đánh giá",
+    "examples": [
+     {
+      "en": "Teachers assess students every term.",
+      "vi": "Giáo viên đánh giá học sinh mỗi học kỳ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "asset",
+  "pos": "noun",
+  "ipaUK": "/ˈæs.et/",
+  "ipaUS": "/ˈæs.et/",
+  "senses": [
+   {
+    "guideword": "VALUABLE THING",
+    "level": "B2",
+    "defEN": "a useful or valuable quality, person or thing",
+    "defVI": "tài sản, vốn quý",
+    "examples": [
+     {
+      "en": "She is a great asset to the team.",
+      "vi": "Cô ấy là vốn quý của cả đội."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "assign",
+  "pos": "verb",
+  "ipaUK": "/əˈsaɪn/",
+  "ipaUS": "/əˈsaɪn/",
+  "senses": [
+   {
+    "guideword": "GIVE TASK",
+    "level": "B2",
+    "defEN": "to give someone a job or task",
+    "defVI": "giao, phân công",
+    "examples": [
+     {
+      "en": "The teacher assigned us a project.",
+      "vi": "Giáo viên giao cho chúng tôi một dự án."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "assist",
+  "pos": "verb",
+  "ipaUK": "/əˈsɪst/",
+  "ipaUS": "/əˈsɪst/",
+  "senses": [
+   {
+    "guideword": "HELP",
+    "level": "B2",
+    "defEN": "to help",
+    "defVI": "hỗ trợ, giúp đỡ",
+    "examples": [
+     {
+      "en": "Nurses assist the doctor during surgery.",
+      "vi": "Y tá hỗ trợ bác sĩ trong ca mổ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "associate",
+  "pos": "verb",
+  "ipaUK": "/əˈsəʊ.si.eɪt/",
+  "ipaUS": "/əˈsoʊ.si.eɪt/",
+  "senses": [
+   {
+    "guideword": "CONNECT",
+    "level": "B2",
+    "defEN": "to connect someone or something in your mind with something else",
+    "defVI": "liên tưởng, gắn liền",
+    "examples": [
+     {
+      "en": "I associate summer with the sea.",
+      "vi": "Tôi luôn liên tưởng mùa hè với biển."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "association",
+  "pos": "noun",
+  "ipaUK": "/əˌsəʊ.siˈeɪ.ʃən/",
+  "ipaUS": "/əˌsoʊ.siˈeɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "GROUP",
+    "level": "B2",
+    "defEN": "an organization of people with a shared interest",
+    "defVI": "hiệp hội",
+    "examples": [
+     {
+      "en": "He joined a teachers' association.",
+      "vi": "Anh ấy gia nhập hiệp hội giáo viên."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "assumption",
+  "pos": "noun",
+  "ipaUK": "/əˈsʌmp.ʃən/",
+  "ipaUS": "/əˈsʌmp.ʃən/",
+  "senses": [
+   {
+    "guideword": "BELIEF",
+    "level": "B2",
+    "defEN": "something you believe is true without proof",
+    "defVI": "giả định, sự cho rằng",
+    "examples": [
+     {
+      "en": "Don't make assumptions about people.",
+      "vi": "Đừng vội đưa ra giả định về người khác."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "assure",
+  "pos": "verb",
+  "ipaUK": "/əˈʃɔːr/",
+  "ipaUS": "/əˈʃʊr/",
+  "senses": [
+   {
+    "guideword": "PROMISE",
+    "level": "B2",
+    "defEN": "to tell someone firmly that something is true",
+    "defVI": "cam đoan, trấn an",
+    "examples": [
+     {
+      "en": "I assure you it's safe.",
+      "vi": "Tôi cam đoan với bạn là nó an toàn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "astonished",
+  "pos": "adjective",
+  "ipaUK": "/əˈstɒn.ɪʃt/",
+  "ipaUS": "/əˈstɑː.nɪʃt/",
+  "senses": [
+   {
+    "guideword": "SURPRISED",
+    "level": "B2",
+    "defEN": "very surprised",
+    "defVI": "sửng sốt",
+    "examples": [
+     {
+      "en": "She was astonished by the news.",
+      "vi": "Cô ấy sửng sốt trước tin này."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "athlete",
+  "pos": "noun",
+  "ipaUK": "/ˈæθ.liːt/",
+  "ipaUS": "/ˈæθ.liːt/",
+  "senses": [
+   {
+    "guideword": "SPORTSPERSON",
+    "level": "B2",
+    "defEN": "a person who is good at sports",
+    "defVI": "vận động viên",
+    "examples": [
+     {
+      "en": "Olympic athletes train every day.",
+      "vi": "Vận động viên Olympic tập luyện mỗi ngày."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "attendance",
+  "pos": "noun",
+  "ipaUK": "/əˈten.dəns/",
+  "ipaUS": "/əˈten.dəns/",
+  "senses": [
+   {
+    "guideword": "BEING PRESENT",
+    "level": "B2",
+    "defEN": "the fact of being present somewhere",
+    "defVI": "sự có mặt, chuyên cần",
+    "examples": [
+     {
+      "en": "Attendance at lectures is required.",
+      "vi": "Việc đi học đầy đủ các buổi giảng là bắt buộc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "attribute",
+  "pos": "noun",
+  "ipaUK": "/ˈæt.rɪ.bjuːt/",
+  "ipaUS": "/ˈæt.rə.bjuːt/",
+  "senses": [
+   {
+    "guideword": "QUALITY",
+    "level": "B2",
+    "defEN": "a quality or feature of someone",
+    "defVI": "thuộc tính, phẩm chất",
+    "examples": [
+     {
+      "en": "Patience is a key attribute of a teacher.",
+      "vi": "Kiên nhẫn là phẩm chất quan trọng của giáo viên."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "auction",
+  "pos": "noun",
+  "ipaUK": "/ˈɔːk.ʃən/",
+  "ipaUS": "/ˈɑːk.ʃən/",
+  "senses": [
+   {
+    "guideword": "PUBLIC SALE",
+    "level": "B2",
+    "defEN": "a sale where things go to the person who offers the most",
+    "defVI": "cuộc đấu giá",
+    "examples": [
+     {
+      "en": "The painting was sold at auction.",
+      "vi": "Bức tranh được bán đấu giá."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "authentic",
+  "pos": "adjective",
+  "ipaUK": "/ɔːˈθen.tɪk/",
+  "ipaUS": "/ɑːˈθen.t̬ɪk/",
+  "senses": [
+   {
+    "guideword": "REAL",
+    "level": "B2",
+    "defEN": "real and not a copy",
+    "defVI": "thật, chính gốc",
+    "examples": [
+     {
+      "en": "This restaurant serves authentic pho.",
+      "vi": "Nhà hàng này phục vụ phở chuẩn vị."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "automatic",
+  "pos": "adjective",
+  "ipaUK": "/ˌɔː.təˈmæt.ɪk/",
+  "ipaUS": "/ˌɑː.t̬əˈmæt̬.ɪk/",
+  "senses": [
+   {
+    "guideword": "BY ITSELF",
+    "level": "B2",
+    "defEN": "working by itself without a person controlling it",
+    "defVI": "tự động",
+    "examples": [
+     {
+      "en": "The door is automatic.",
+      "vi": "Cửa này là cửa tự động."
+     }
+    ]
+   },
+   {
+    "guideword": "WITHOUT THINKING",
+    "level": "C1",
+    "defEN": "done without thinking",
+    "defVI": "theo phản xạ",
+    "examples": [
+     {
+      "en": "Breathing is automatic.",
+      "vi": "Hơi thở là phản xạ tự nhiên."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "automatically",
+  "pos": "adverb",
+  "ipaUK": "/ˌɔː.təˈmæt.ɪ.kli/",
+  "ipaUS": "/ˌɑː.t̬əˈmæt̬.ɪ.kli/",
+  "senses": [
+   {
+    "guideword": "BY ITSELF",
+    "level": "B2",
+    "defEN": "without needing a person to control it",
+    "defVI": "một cách tự động",
+    "examples": [
+     {
+      "en": "The lights turn off automatically.",
+      "vi": "Đèn tự động tắt."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "awareness",
+  "pos": "noun",
+  "ipaUK": "/əˈweə.nəs/",
+  "ipaUS": "/əˈwer.nəs/",
+  "senses": [
+   {
+    "guideword": "KNOWLEDGE",
+    "level": "B2",
+    "defEN": "knowledge or understanding of a subject",
+    "defVI": "nhận thức",
+    "examples": [
+     {
+      "en": "The campaign raised awareness of climate change.",
+      "vi": "Chiến dịch nâng cao nhận thức về biến đổi khí hậu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "awful",
+  "pos": "adjective",
+  "ipaUK": "/ˈɔː.fəl/",
+  "ipaUS": "/ˈɑː.fəl/",
+  "senses": [
+   {
+    "guideword": "VERY BAD",
+    "level": "B2",
+    "defEN": "extremely bad or unpleasant",
+    "defVI": "kinh khủng, tồi tệ",
+    "examples": [
+     {
+      "en": "The food was awful.",
+      "vi": "Đồ ăn dở kinh khủng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accessible",
+  "pos": "adjective",
+  "ipaUK": "/əkˈses.ə.bəl/",
+  "ipaUS": "/əkˈses.ə.bəl/",
+  "senses": [
+   {
+    "guideword": "EASY TO REACH",
+    "level": "B2",
+    "defEN": "easy to reach, enter or use",
+    "defVI": "dễ tiếp cận",
+    "examples": [
+     {
+      "en": "The building is accessible to wheelchairs.",
+      "vi": "Tòa nhà có lối đi cho xe lăn."
+     }
+    ]
+   },
+   {
+    "guideword": "EASY TO UNDERSTAND",
+    "level": "C1",
+    "defEN": "easy to understand",
+    "defVI": "dễ hiểu",
+    "examples": [
+     {
+      "en": "The book is accessible to young readers.",
+      "vi": "Cuốn sách dễ hiểu với độc giả trẻ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "acceptable",
+  "pos": "adjective",
+  "ipaUK": "/əkˈsep.tə.bəl/",
+  "ipaUS": "/əkˈsep.tə.bəl/",
+  "senses": [
+   {
+    "guideword": "GOOD ENOUGH",
+    "level": "B2",
+    "defEN": "good enough or allowed",
+    "defVI": "chấp nhận được",
+    "examples": [
+     {
+      "en": "Your work is acceptable but could be better.",
+      "vi": "Bài của bạn chấp nhận được nhưng có thể tốt hơn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accidentally",
+  "pos": "adverb",
+  "ipaUK": "/ˌæk.sɪˈden.təl.i/",
+  "ipaUS": "/ˌæk.səˈden.t̬əl.i/",
+  "senses": [
+   {
+    "guideword": "BY CHANCE",
+    "level": "B2",
+    "defEN": "by chance, without intending to",
+    "defVI": "vô tình",
+    "examples": [
+     {
+      "en": "I accidentally deleted the file.",
+      "vi": "Tôi vô tình xóa mất tệp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "activist",
+  "pos": "noun",
+  "ipaUK": "/ˈæk.tɪ.vɪst/",
+  "ipaUS": "/ˈæk.tə.vɪst/",
+  "senses": [
+   {
+    "guideword": "CAMPAIGNER",
+    "level": "B2",
+    "defEN": "someone who works to bring political or social change",
+    "defVI": "nhà hoạt động",
+    "examples": [
+     {
+      "en": "Environmental activists protested outside.",
+      "vi": "Các nhà hoạt động môi trường biểu tình bên ngoài."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "acute",
+  "pos": "adjective",
+  "ipaUK": "/əˈkjuːt/",
+  "ipaUS": "/əˈkjuːt/",
+  "senses": [
+   {
+    "guideword": "SEVERE",
+    "level": "B2",
+    "defEN": "very serious or severe",
+    "defVI": "nghiêm trọng, cấp tính",
+    "examples": [
+     {
+      "en": "There is an acute shortage of water.",
+      "vi": "Tình trạng thiếu nước rất nghiêm trọng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adequately",
+  "pos": "adverb",
+  "ipaUK": "/ˈæd.ə.kwət.li/",
+  "ipaUS": "/ˈæd.ə.kwət.li/",
+  "senses": [
+   {
+    "guideword": "ENOUGH",
+    "level": "B2",
+    "defEN": "well enough or in sufficient amount",
+    "defVI": "đầy đủ, thỏa đáng",
+    "examples": [
+     {
+      "en": "The staff were not adequately trained.",
+      "vi": "Nhân viên không được đào tạo đầy đủ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abbreviation",
+  "pos": "noun",
+  "ipaUK": "/əˌbriː.viˈeɪ.ʃən/",
+  "ipaUS": "/əˌbriː.viˈeɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "SHORT FORM",
+    "level": "C1",
+    "defEN": "a shortened form of a word or phrase",
+    "defVI": "chữ viết tắt",
+    "examples": [
+     {
+      "en": "\"UN\" is an abbreviation for United Nations.",
+      "vi": "\"UN\" là chữ viết tắt của Liên Hợp Quốc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abnormal",
+  "pos": "adjective",
+  "ipaUK": "/æbˈnɔː.məl/",
+  "ipaUS": "/æbˈnɔːr.məl/",
+  "senses": [
+   {
+    "guideword": "UNUSUAL",
+    "level": "C1",
+    "defEN": "different from what is usual, often in a worrying way",
+    "defVI": "bất thường",
+    "examples": [
+     {
+      "en": "The test showed abnormal results.",
+      "vi": "Xét nghiệm cho kết quả bất thường."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abruptly",
+  "pos": "adverb",
+  "ipaUK": "/əˈbrʌpt.li/",
+  "ipaUS": "/əˈbrʌpt.li/",
+  "senses": [
+   {
+    "guideword": "SUDDENLY",
+    "level": "C1",
+    "defEN": "suddenly and unexpectedly",
+    "defVI": "đột ngột",
+    "examples": [
+     {
+      "en": "The music stopped abruptly.",
+      "vi": "Âm nhạc dừng đột ngột."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "absurd",
+  "pos": "adjective",
+  "ipaUK": "/əbˈzɜːd/",
+  "ipaUS": "/əbˈzɝːd/",
+  "senses": [
+   {
+    "guideword": "RIDICULOUS",
+    "level": "C1",
+    "defEN": "completely silly or unreasonable",
+    "defVI": "vô lý, lố bịch",
+    "examples": [
+     {
+      "en": "It's absurd to pay that much for a coffee.",
+      "vi": "Trả nhiều tiền thế cho một ly cà phê thật vô lý."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abuse",
+  "pos": "noun",
+  "ipaUK": "/əˈbjuːs/",
+  "ipaUS": "/əˈbjuːs/",
+  "senses": [
+   {
+    "guideword": "CRUEL TREATMENT",
+    "level": "C1",
+    "defEN": "cruel or violent treatment of someone",
+    "defVI": "sự ngược đãi",
+    "examples": [
+     {
+      "en": "The charity helps victims of abuse.",
+      "vi": "Tổ chức từ thiện giúp nạn nhân bị ngược đãi."
+     }
+    ]
+   },
+   {
+    "guideword": "WRONG USE",
+    "level": "C1",
+    "defEN": "the wrong or harmful use of something",
+    "defVI": "sự lạm dụng",
+    "examples": [
+     {
+      "en": "He was accused of abuse of power.",
+      "vi": "Ông ta bị cáo buộc lạm dụng quyền lực."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "academy",
+  "pos": "noun",
+  "ipaUK": "/əˈkæd.ə.mi/",
+  "ipaUS": "/əˈkæd.ə.mi/",
+  "senses": [
+   {
+    "guideword": "SCHOOL",
+    "level": "C1",
+    "defEN": "a school or college for special training",
+    "defVI": "học viện",
+    "examples": [
+     {
+      "en": "She studied at a music academy.",
+      "vi": "Cô ấy học ở một học viện âm nhạc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accelerate",
+  "pos": "verb",
+  "ipaUK": "/əkˈsel.ə.reɪt/",
+  "ipaUS": "/əkˈsel.ə.reɪt/",
+  "senses": [
+   {
+    "guideword": "GO FASTER",
+    "level": "C1",
+    "defEN": "to move or happen more quickly",
+    "defVI": "tăng tốc, đẩy nhanh",
+    "examples": [
+     {
+      "en": "The car accelerated down the road.",
+      "vi": "Chiếc xe tăng tốc trên đường."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accessory",
+  "pos": "noun",
+  "ipaUK": "/əkˈses.ər.i/",
+  "ipaUS": "/əkˈses.ɚ.i/",
+  "senses": [
+   {
+    "guideword": "EXTRA ITEM",
+    "level": "C1",
+    "defEN": "an extra item added to something, like clothing",
+    "defVI": "phụ kiện",
+    "examples": [
+     {
+      "en": "She wore a scarf as an accessory.",
+      "vi": "Cô ấy quàng khăn làm phụ kiện."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "acclaim",
+  "pos": "noun",
+  "ipaUK": "/əˈkleɪm/",
+  "ipaUS": "/əˈkleɪm/",
+  "senses": [
+   {
+    "guideword": "PRAISE",
+    "level": "C1",
+    "defEN": "public praise",
+    "defVI": "sự ca ngợi",
+    "examples": [
+     {
+      "en": "The film won wide acclaim.",
+      "vi": "Bộ phim được ca ngợi rộng rãi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accountability",
+  "pos": "noun",
+  "ipaUK": "/əˌkaʊn.təˈbɪl.ə.ti/",
+  "ipaUS": "/əˌkaʊn.t̬əˈbɪl.ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "RESPONSIBILITY",
+    "level": "C1",
+    "defEN": "the fact of being responsible for your actions",
+    "defVI": "trách nhiệm giải trình",
+    "examples": [
+     {
+      "en": "People want more accountability from leaders.",
+      "vi": "Người dân muốn lãnh đạo có trách nhiệm giải trình hơn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accustomed",
+  "pos": "adjective",
+  "ipaUK": "/əˈkʌs.təmd/",
+  "ipaUS": "/əˈkʌs.təmd/",
+  "senses": [
+   {
+    "guideword": "USED TO",
+    "level": "C1",
+    "defEN": "familiar with something because it happens often",
+    "defVI": "quen với",
+    "examples": [
+     {
+      "en": "I'm not accustomed to spicy food.",
+      "vi": "Tôi không quen ăn đồ cay."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "activate",
+  "pos": "verb",
+  "ipaUK": "/ˈæk.tɪ.veɪt/",
+  "ipaUS": "/ˈæk.tə.veɪt/",
+  "senses": [
+   {
+    "guideword": "START",
+    "level": "C1",
+    "defEN": "to make something start working",
+    "defVI": "kích hoạt",
+    "examples": [
+     {
+      "en": "Activate your card before using it.",
+      "vi": "Hãy kích hoạt thẻ trước khi dùng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "addiction",
+  "pos": "noun",
+  "ipaUK": "/əˈdɪk.ʃən/",
+  "ipaUS": "/əˈdɪk.ʃən/",
+  "senses": [
+   {
+    "guideword": "DEPENDENCE",
+    "level": "C1",
+    "defEN": "a need to keep doing or taking something harmful",
+    "defVI": "sự nghiện",
+    "examples": [
+     {
+      "en": "Gaming addiction is a growing problem.",
+      "vi": "Nghiện game là vấn đề ngày càng lớn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adjacent",
+  "pos": "adjective",
+  "ipaUK": "/əˈdʒeɪ.sənt/",
+  "ipaUS": "/əˈdʒeɪ.sənt/",
+  "senses": [
+   {
+    "guideword": "NEXT TO",
+    "level": "C1",
+    "defEN": "very near or next to something",
+    "defVI": "kề bên, liền kề",
+    "examples": [
+     {
+      "en": "The hotel is adjacent to the station.",
+      "vi": "Khách sạn nằm ngay cạnh nhà ga."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adolescent",
+  "pos": "noun",
+  "ipaUK": "/ˌæd.əˈles.ənt/",
+  "ipaUS": "/ˌæd.əˈles.ənt/",
+  "senses": [
+   {
+    "guideword": "TEENAGER",
+    "level": "C1",
+    "defEN": "a young person developing into an adult",
+    "defVI": "thanh thiếu niên",
+    "examples": [
+     {
+      "en": "Adolescents need plenty of sleep.",
+      "vi": "Thanh thiếu niên cần ngủ đủ giấc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adoption",
+  "pos": "noun",
+  "ipaUK": "/əˈdɒp.ʃən/",
+  "ipaUS": "/əˈdɑːp.ʃən/",
+  "senses": [
+   {
+    "guideword": "CHILD",
+    "level": "C1",
+    "defEN": "the act of legally taking a child as your own",
+    "defVI": "việc nhận con nuôi",
+    "examples": [
+     {
+      "en": "They are considering adoption.",
+      "vi": "Họ đang cân nhắc việc nhận con nuôi."
+     }
+    ]
+   },
+   {
+    "guideword": "ACCEPTANCE",
+    "level": "C1",
+    "defEN": "the act of starting to use something new",
+    "defVI": "sự áp dụng",
+    "examples": [
+     {
+      "en": "The adoption of new technology was slow.",
+      "vi": "Việc áp dụng công nghệ mới diễn ra chậm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aesthetic",
+  "pos": "adjective",
+  "ipaUK": "/esˈθet.ɪk/",
+  "ipaUS": "/esˈθet̬.ɪk/",
+  "senses": [
+   {
+    "guideword": "BEAUTY",
+    "level": "C1",
+    "defEN": "relating to beauty and how things look",
+    "defVI": "thẩm mỹ",
+    "examples": [
+     {
+      "en": "The design has great aesthetic appeal.",
+      "vi": "Thiết kế có giá trị thẩm mỹ cao."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "affiliate",
+  "pos": "verb",
+  "ipaUK": "/əˈfɪl.i.eɪt/",
+  "ipaUS": "/əˈfɪl.i.eɪt/",
+  "senses": [
+   {
+    "guideword": "CONNECT",
+    "level": "C1",
+    "defEN": "to officially connect a group to a larger one",
+    "defVI": "liên kết, trực thuộc",
+    "examples": [
+     {
+      "en": "The club is affiliated with a national league.",
+      "vi": "Câu lạc bộ trực thuộc một giải đấu quốc gia."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "affluent",
+  "pos": "adjective",
+  "ipaUK": "/ˈæf.lu.ənt/",
+  "ipaUS": "/ˈæf.lu.ənt/",
+  "senses": [
+   {
+    "guideword": "RICH",
+    "level": "C1",
+    "defEN": "having a lot of money",
+    "defVI": "giàu có, sung túc",
+    "examples": [
+     {
+      "en": "They live in an affluent suburb.",
+      "vi": "Họ sống ở một vùng ngoại ô giàu có."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aftermath",
+  "pos": "noun",
+  "ipaUK": "/ˈɑːf.tə.mæθ/",
+  "ipaUS": "/ˈæf.tɚ.mæθ/",
+  "senses": [
+   {
+    "guideword": "RESULT",
+    "level": "C1",
+    "defEN": "the period after a bad event and its effects",
+    "defVI": "hậu quả, giai đoạn sau",
+    "examples": [
+     {
+      "en": "In the aftermath of the storm, many were homeless.",
+      "vi": "Sau cơn bão, nhiều người mất nhà cửa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aggregate",
+  "pos": "noun",
+  "ipaUK": "/ˈæɡ.rɪ.ɡət/",
+  "ipaUS": "/ˈæɡ.rə.ɡət/",
+  "senses": [
+   {
+    "guideword": "TOTAL",
+    "level": "C1",
+    "defEN": "a total formed by combining several amounts",
+    "defVI": "tổng số",
+    "examples": [
+     {
+      "en": "They won 4–2 on aggregate.",
+      "vi": "Họ thắng với tổng tỉ số 4–2."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "agile",
+  "pos": "adjective",
+  "ipaUK": "/ˈædʒ.aɪl/",
+  "ipaUS": "/ˈædʒ.əl/",
+  "senses": [
+   {
+    "guideword": "QUICK",
+    "level": "C1",
+    "defEN": "able to move or think quickly and easily",
+    "defVI": "nhanh nhẹn, linh hoạt",
+    "examples": [
+     {
+      "en": "Cats are very agile animals.",
+      "vi": "Mèo là loài rất nhanh nhẹn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "agonizing",
+  "pos": "adjective",
+  "ipaUK": "/ˈæɡ.ə.naɪ.zɪŋ/",
+  "ipaUS": "/ˈæɡ.ə.naɪ.zɪŋ/",
+  "senses": [
+   {
+    "guideword": "PAINFUL",
+    "level": "C1",
+    "defEN": "causing great physical or mental pain",
+    "defVI": "đau đớn, day dứt",
+    "examples": [
+     {
+      "en": "It was an agonizing decision.",
+      "vi": "Đó là một quyết định đầy day dứt."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "airborne",
+  "pos": "adjective",
+  "ipaUK": "/ˈeə.bɔːn/",
+  "ipaUS": "/ˈer.bɔːrn/",
+  "senses": [
+   {
+    "guideword": "IN THE AIR",
+    "level": "C1",
+    "defEN": "carried through or flying in the air",
+    "defVI": "lan qua không khí; bay trên không",
+    "examples": [
+     {
+      "en": "The virus is airborne.",
+      "vi": "Virus lây qua không khí."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "albeit",
+  "pos": "conjunction",
+  "ipaUK": "/ɔːlˈbiː.ɪt/",
+  "ipaUS": "/ɑːlˈbiː.ɪt/",
+  "senses": [
+   {
+    "guideword": "ALTHOUGH",
+    "level": "C1",
+    "defEN": "although",
+    "defVI": "mặc dù, dù",
+    "examples": [
+     {
+      "en": "He agreed, albeit reluctantly.",
+      "vi": "Anh ấy đồng ý, dù miễn cưỡng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "alienate",
+  "pos": "verb",
+  "ipaUK": "/ˈeɪ.li.ə.neɪt/",
+  "ipaUS": "/ˈeɪ.li.ə.neɪt/",
+  "senses": [
+   {
+    "guideword": "MAKE UNFRIENDLY",
+    "level": "C1",
+    "defEN": "to make someone feel isolated or unfriendly toward you",
+    "defVI": "làm xa lánh",
+    "examples": [
+     {
+      "en": "The new policy alienated many voters.",
+      "vi": "Chính sách mới khiến nhiều cử tri xa lánh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "align",
+  "pos": "verb",
+  "ipaUK": "/əˈlaɪn/",
+  "ipaUS": "/əˈlaɪn/",
+  "senses": [
+   {
+    "guideword": "ARRANGE",
+    "level": "C1",
+    "defEN": "to put things in a straight line or correct position",
+    "defVI": "căn chỉnh, sắp thẳng hàng",
+    "examples": [
+     {
+      "en": "Align the text to the left.",
+      "vi": "Căn lề trái cho đoạn văn."
+     }
+    ]
+   },
+   {
+    "guideword": "AGREE",
+    "level": "C1",
+    "defEN": "to support or match a group or aim",
+    "defVI": "đồng bộ, phù hợp",
+    "examples": [
+     {
+      "en": "Our goals are aligned with yours.",
+      "vi": "Mục tiêu của chúng tôi phù hợp với các bạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "allegedly",
+  "pos": "adverb",
+  "ipaUK": "/əˈledʒ.ɪd.li/",
+  "ipaUS": "/əˈledʒ.ɪd.li/",
+  "senses": [
+   {
+    "guideword": "CLAIMED",
+    "level": "C1",
+    "defEN": "according to what people say, without proof",
+    "defVI": "được cho là",
+    "examples": [
+     {
+      "en": "He allegedly stole the car.",
+      "vi": "Anh ta được cho là đã trộm chiếc xe."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "alleviate",
+  "pos": "verb",
+  "ipaUK": "/əˈliː.vi.eɪt/",
+  "ipaUS": "/əˈliː.vi.eɪt/",
+  "senses": [
+   {
+    "guideword": "REDUCE",
+    "level": "C1",
+    "defEN": "to make pain or a problem less severe",
+    "defVI": "làm giảm, xoa dịu",
+    "examples": [
+     {
+      "en": "The medicine alleviated her pain.",
+      "vi": "Thuốc làm dịu cơn đau của cô ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "allowance",
+  "pos": "noun",
+  "ipaUK": "/əˈlaʊ.əns/",
+  "ipaUS": "/əˈlaʊ.əns/",
+  "senses": [
+   {
+    "guideword": "MONEY",
+    "level": "C1",
+    "defEN": "money given regularly for a purpose",
+    "defVI": "trợ cấp, tiền tiêu vặt",
+    "examples": [
+     {
+      "en": "He gets a weekly allowance from his parents.",
+      "vi": "Cậu ấy nhận tiền tiêu vặt hàng tuần từ bố mẹ."
+     }
+    ]
+   },
+   {
+    "guideword": "AMOUNT ALLOWED",
+    "level": "C1",
+    "defEN": "the amount of something permitted",
+    "defVI": "mức cho phép",
+    "examples": [
+     {
+      "en": "The baggage allowance is 20 kg.",
+      "vi": "Hành lý được phép mang là 20 kg."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "allure",
+  "pos": "noun",
+  "ipaUK": "/əˈljʊər/",
+  "ipaUS": "/əˈlʊr/",
+  "senses": [
+   {
+    "guideword": "ATTRACTION",
+    "level": "C1",
+    "defEN": "the quality of being attractive and exciting",
+    "defVI": "sức quyến rũ",
+    "examples": [
+     {
+      "en": "The allure of city life drew him away.",
+      "vi": "Sức hút của đời sống thành thị kéo anh ấy đi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "amass",
+  "pos": "verb",
+  "ipaUK": "/əˈmæs/",
+  "ipaUS": "/əˈmæs/",
+  "senses": [
+   {
+    "guideword": "GATHER",
+    "level": "C1",
+    "defEN": "to collect a large amount of something over time",
+    "defVI": "tích lũy, gom góp",
+    "examples": [
+     {
+      "en": "She amassed a fortune.",
+      "vi": "Bà ấy tích lũy được một gia tài."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "amenity",
+  "pos": "noun",
+  "ipaUK": "/əˈmiː.nə.ti/",
+  "ipaUS": "/əˈmen.ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "FACILITY",
+    "level": "C1",
+    "defEN": "something that makes life more pleasant, like a pool or park",
+    "defVI": "tiện ích",
+    "examples": [
+     {
+      "en": "The hotel has excellent amenities.",
+      "vi": "Khách sạn có tiện ích tuyệt vời."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "amid",
+  "pos": "preposition",
+  "ipaUK": "/əˈmɪd/",
+  "ipaUS": "/əˈmɪd/",
+  "senses": [
+   {
+    "guideword": "DURING",
+    "level": "C1",
+    "defEN": "in the middle of or during something",
+    "defVI": "giữa, trong bối cảnh",
+    "examples": [
+     {
+      "en": "Prices rose amid fears of shortages.",
+      "vi": "Giá tăng giữa lo ngại khan hiếm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ample",
+  "pos": "adjective",
+  "ipaUK": "/ˈæm.pəl/",
+  "ipaUS": "/ˈæm.pəl/",
+  "senses": [
+   {
+    "guideword": "ENOUGH",
+    "level": "C1",
+    "defEN": "more than enough",
+    "defVI": "dư dả, rộng rãi",
+    "examples": [
+     {
+      "en": "There is ample parking space.",
+      "vi": "Có chỗ đậu xe rộng rãi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "amplify",
+  "pos": "verb",
+  "ipaUK": "/ˈæm.plɪ.faɪ/",
+  "ipaUS": "/ˈæm.plə.faɪ/",
+  "senses": [
+   {
+    "guideword": "MAKE LOUDER",
+    "level": "C1",
+    "defEN": "to make a sound louder",
+    "defVI": "khuếch đại",
+    "examples": [
+     {
+      "en": "The speakers amplify the music.",
+      "vi": "Loa khuếch đại âm nhạc."
+     }
+    ]
+   },
+   {
+    "guideword": "INCREASE",
+    "level": "C1",
+    "defEN": "to make a feeling or effect stronger",
+    "defVI": "làm tăng thêm",
+    "examples": [
+     {
+      "en": "Social media amplifies rumours.",
+      "vi": "Mạng xã hội làm tin đồn lan mạnh hơn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "analogy",
+  "pos": "noun",
+  "ipaUK": "/əˈnæl.ə.dʒi/",
+  "ipaUS": "/əˈnæl.ə.dʒi/",
+  "senses": [
+   {
+    "guideword": "COMPARISON",
+    "level": "C1",
+    "defEN": "a comparison showing how two things are alike",
+    "defVI": "phép so sánh, sự tương đồng",
+    "examples": [
+     {
+      "en": "He used an analogy to explain the idea.",
+      "vi": "Anh ấy dùng phép so sánh để giải thích ý tưởng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ancestor",
+  "pos": "noun",
+  "ipaUK": "/ˈæn.ses.tər/",
+  "ipaUS": "/ˈæn.ses.tɚ/",
+  "senses": [
+   {
+    "guideword": "RELATIVE",
+    "level": "C1",
+    "defEN": "a family member who lived long before you",
+    "defVI": "tổ tiên",
+    "examples": [
+     {
+      "en": "Vietnamese families honour their ancestors.",
+      "vi": "Các gia đình Việt Nam thờ cúng tổ tiên."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "anecdote",
+  "pos": "noun",
+  "ipaUK": "/ˈæn.ɪk.dəʊt/",
+  "ipaUS": "/ˈæn.ɪk.doʊt/",
+  "senses": [
+   {
+    "guideword": "SHORT STORY",
+    "level": "C1",
+    "defEN": "a short, amusing story about a real event",
+    "defVI": "giai thoại, chuyện vặt",
+    "examples": [
+     {
+      "en": "He told funny anecdotes about his travels.",
+      "vi": "Ông kể những giai thoại hài hước về các chuyến đi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "animated",
+  "pos": "adjective",
+  "ipaUK": "/ˈæn.ɪ.meɪ.tɪd/",
+  "ipaUS": "/ˈæn.ə.meɪ.t̬ɪd/",
+  "senses": [
+   {
+    "guideword": "LIVELY",
+    "level": "C1",
+    "defEN": "full of energy and interest",
+    "defVI": "sôi nổi, hào hứng",
+    "examples": [
+     {
+      "en": "They had an animated discussion.",
+      "vi": "Họ thảo luận sôi nổi."
+     }
+    ]
+   },
+   {
+    "guideword": "CARTOON",
+    "level": "C1",
+    "defEN": "made using drawings or models that seem to move",
+    "defVI": "hoạt hình",
+    "examples": [
+     {
+      "en": "My kids love animated films.",
+      "vi": "Các con tôi thích phim hoạt hình."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "annoyance",
+  "pos": "noun",
+  "ipaUK": "/əˈnɔɪ.əns/",
+  "ipaUS": "/əˈnɔɪ.əns/",
+  "senses": [
+   {
+    "guideword": "IRRITATION",
+    "level": "C1",
+    "defEN": "the feeling of being slightly angry",
+    "defVI": "sự bực mình",
+    "examples": [
+     {
+      "en": "To my annoyance, the bus was late again.",
+      "vi": "Tôi bực mình vì xe buýt lại trễ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "anonymous",
+  "pos": "adjective",
+  "ipaUK": "/əˈnɒn.ɪ.məs/",
+  "ipaUS": "/əˈnɑː.nə.məs/",
+  "senses": [
+   {
+    "guideword": "UNNAMED",
+    "level": "C1",
+    "defEN": "with a name that is not known",
+    "defVI": "nặc danh, giấu tên",
+    "examples": [
+     {
+      "en": "She received an anonymous letter.",
+      "vi": "Cô ấy nhận một lá thư nặc danh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "anticipation",
+  "pos": "noun",
+  "ipaUK": "/ænˌtɪs.ɪˈpeɪ.ʃən/",
+  "ipaUS": "/ænˌtɪs.əˈpeɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "EXCITEMENT",
+    "level": "C1",
+    "defEN": "a feeling of excitement about something that will happen",
+    "defVI": "sự háo hức mong đợi",
+    "examples": [
+     {
+      "en": "The crowd waited in anticipation.",
+      "vi": "Đám đông háo hức chờ đợi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "apparatus",
+  "pos": "noun",
+  "ipaUK": "/ˌæp.əˈreɪ.təs/",
+  "ipaUS": "/ˌæp.əˈræt̬.əs/",
+  "senses": [
+   {
+    "guideword": "EQUIPMENT",
+    "level": "C1",
+    "defEN": "a set of equipment used for a task",
+    "defVI": "thiết bị, dụng cụ",
+    "examples": [
+     {
+      "en": "Firefighters wear breathing apparatus.",
+      "vi": "Lính cứu hỏa đeo thiết bị thở."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "applaud",
+  "pos": "verb",
+  "ipaUK": "/əˈplɔːd/",
+  "ipaUS": "/əˈplɑːd/",
+  "senses": [
+   {
+    "guideword": "CLAP",
+    "level": "C1",
+    "defEN": "to clap hands to show approval",
+    "defVI": "vỗ tay",
+    "examples": [
+     {
+      "en": "The audience applauded the singer.",
+      "vi": "Khán giả vỗ tay tán thưởng ca sĩ."
+     }
+    ]
+   },
+   {
+    "guideword": "PRAISE",
+    "level": "C1",
+    "defEN": "to express approval of something",
+    "defVI": "hoan nghênh",
+    "examples": [
+     {
+      "en": "We applaud the government's decision.",
+      "vi": "Chúng tôi hoan nghênh quyết định của chính phủ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "appliance",
+  "pos": "noun",
+  "ipaUK": "/əˈplaɪ.əns/",
+  "ipaUS": "/əˈplaɪ.əns/",
+  "senses": [
+   {
+    "guideword": "MACHINE",
+    "level": "C1",
+    "defEN": "a machine used in the home, like a fridge",
+    "defVI": "thiết bị gia dụng",
+    "examples": [
+     {
+      "en": "The shop sells kitchen appliances.",
+      "vi": "Cửa hàng bán thiết bị nhà bếp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "appraisal",
+  "pos": "noun",
+  "ipaUK": "/əˈpreɪ.zəl/",
+  "ipaUS": "/əˈpreɪ.zəl/",
+  "senses": [
+   {
+    "guideword": "JUDGEMENT",
+    "level": "C1",
+    "defEN": "an assessment of someone's work or of value",
+    "defVI": "sự đánh giá, thẩm định",
+    "examples": [
+     {
+      "en": "Staff have an annual appraisal.",
+      "vi": "Nhân viên được đánh giá hằng năm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "apprentice",
+  "pos": "noun",
+  "ipaUK": "/əˈpren.tɪs/",
+  "ipaUS": "/əˈpren.t̬ɪs/",
+  "senses": [
+   {
+    "guideword": "TRAINEE",
+    "level": "C1",
+    "defEN": "someone learning a skill by working for an expert",
+    "defVI": "người học việc",
+    "examples": [
+     {
+      "en": "He worked as a carpenter's apprentice.",
+      "vi": "Anh ấy làm học việc cho thợ mộc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "arena",
+  "pos": "noun",
+  "ipaUK": "/əˈriː.nə/",
+  "ipaUS": "/əˈriː.nə/",
+  "senses": [
+   {
+    "guideword": "STADIUM",
+    "level": "C1",
+    "defEN": "a large area for sports or entertainment",
+    "defVI": "đấu trường, nhà thi đấu",
+    "examples": [
+     {
+      "en": "The concert was held in a huge arena.",
+      "vi": "Buổi hòa nhạc diễn ra tại một nhà thi đấu lớn."
+     }
+    ]
+   },
+   {
+    "guideword": "FIELD",
+    "level": "C1",
+    "defEN": "an area of activity",
+    "defVI": "lĩnh vực, vũ đài",
+    "examples": [
+     {
+      "en": "She entered the political arena.",
+      "vi": "Bà bước vào vũ đài chính trị."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aristocrat",
+  "pos": "noun",
+  "ipaUK": "/ˈær.ɪ.stə.kræt/",
+  "ipaUS": "/əˈrɪs.tə.kræt/",
+  "senses": [
+   {
+    "guideword": "NOBLE",
+    "level": "C1",
+    "defEN": "a member of the highest social class",
+    "defVI": "quý tộc",
+    "examples": [
+     {
+      "en": "He was born into a family of aristocrats.",
+      "vi": "Ông sinh ra trong một gia đình quý tộc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "array",
+  "pos": "noun",
+  "ipaUK": "/əˈreɪ/",
+  "ipaUS": "/əˈreɪ/",
+  "senses": [
+   {
+    "guideword": "RANGE",
+    "level": "C1",
+    "defEN": "a large group or range of things",
+    "defVI": "loạt, dãy",
+    "examples": [
+     {
+      "en": "The market offers a wide array of fruit.",
+      "vi": "Chợ có rất nhiều loại trái cây."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ascend",
+  "pos": "verb",
+  "ipaUK": "/əˈsend/",
+  "ipaUS": "/əˈsend/",
+  "senses": [
+   {
+    "guideword": "GO UP",
+    "level": "C1",
+    "defEN": "to move up or climb",
+    "defVI": "đi lên, leo lên",
+    "examples": [
+     {
+      "en": "The plane began to ascend.",
+      "vi": "Máy bay bắt đầu bay lên."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aspiration",
+  "pos": "noun",
+  "ipaUK": "/ˌæs.pɪˈreɪ.ʃən/",
+  "ipaUS": "/ˌæs.pəˈreɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "HOPE",
+    "level": "C1",
+    "defEN": "something you hope to achieve",
+    "defVI": "khát vọng",
+    "examples": [
+     {
+      "en": "She has aspirations to study abroad.",
+      "vi": "Cô ấy khao khát được du học."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aspire",
+  "pos": "verb",
+  "ipaUK": "/əˈspaɪər/",
+  "ipaUS": "/əˈspaɪr/",
+  "senses": [
+   {
+    "guideword": "HOPE",
+    "level": "C1",
+    "defEN": "to have a strong wish to achieve something",
+    "defVI": "khao khát, mong muốn",
+    "examples": [
+     {
+      "en": "He aspires to be a writer.",
+      "vi": "Anh ấy khao khát trở thành nhà văn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "assault",
+  "pos": "noun",
+  "ipaUK": "/əˈsɔːlt/",
+  "ipaUS": "/əˈsɑːlt/",
+  "senses": [
+   {
+    "guideword": "ATTACK",
+    "level": "C1",
+    "defEN": "a violent attack on someone",
+    "defVI": "sự hành hung, tấn công",
+    "examples": [
+     {
+      "en": "He was charged with assault.",
+      "vi": "Anh ta bị buộc tội hành hung."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "assemble",
+  "pos": "verb",
+  "ipaUK": "/əˈsem.bəl/",
+  "ipaUS": "/əˈsem.bəl/",
+  "senses": [
+   {
+    "guideword": "GATHER",
+    "level": "C1",
+    "defEN": "to come together in one place",
+    "defVI": "tập hợp",
+    "examples": [
+     {
+      "en": "Students assembled in the hall.",
+      "vi": "Học sinh tập trung ở hội trường."
+     }
+    ]
+   },
+   {
+    "guideword": "BUILD",
+    "level": "C1",
+    "defEN": "to put the parts of something together",
+    "defVI": "lắp ráp",
+    "examples": [
+     {
+      "en": "It took an hour to assemble the desk.",
+      "vi": "Mất một tiếng để lắp chiếc bàn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "assertion",
+  "pos": "noun",
+  "ipaUK": "/əˈsɜː.ʃən/",
+  "ipaUS": "/əˈsɝː.ʃən/",
+  "senses": [
+   {
+    "guideword": "STATEMENT",
+    "level": "C1",
+    "defEN": "a statement that you firmly say is true",
+    "defVI": "lời khẳng định",
+    "examples": [
+     {
+      "en": "There is no evidence for his assertion.",
+      "vi": "Không có bằng chứng cho khẳng định của anh ta."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "assertive",
+  "pos": "adjective",
+  "ipaUK": "/əˈsɜː.tɪv/",
+  "ipaUS": "/əˈsɝː.t̬ɪv/",
+  "senses": [
+   {
+    "guideword": "CONFIDENT",
+    "level": "C1",
+    "defEN": "confident and forceful in stating opinions",
+    "defVI": "quả quyết, tự tin",
+    "examples": [
+     {
+      "en": "You need to be more assertive at work.",
+      "vi": "Bạn cần quyết đoán hơn trong công việc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "astonishing",
+  "pos": "adjective",
+  "ipaUK": "/əˈstɒn.ɪ.ʃɪŋ/",
+  "ipaUS": "/əˈstɑː.nɪ.ʃɪŋ/",
+  "senses": [
+   {
+    "guideword": "SURPRISING",
+    "level": "C1",
+    "defEN": "extremely surprising",
+    "defVI": "đáng kinh ngạc",
+    "examples": [
+     {
+      "en": "The city has grown at an astonishing rate.",
+      "vi": "Thành phố phát triển với tốc độ đáng kinh ngạc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "asylum",
+  "pos": "noun",
+  "ipaUK": "/əˈsaɪ.ləm/",
+  "ipaUS": "/əˈsaɪ.ləm/",
+  "senses": [
+   {
+    "guideword": "PROTECTION",
+    "level": "C1",
+    "defEN": "protection given by a country to someone fleeing danger",
+    "defVI": "sự tị nạn",
+    "examples": [
+     {
+      "en": "They applied for political asylum.",
+      "vi": "Họ xin tị nạn chính trị."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "attain",
+  "pos": "verb",
+  "ipaUK": "/əˈteɪn/",
+  "ipaUS": "/əˈteɪn/",
+  "senses": [
+   {
+    "guideword": "ACHIEVE",
+    "level": "C1",
+    "defEN": "to reach or achieve something after effort",
+    "defVI": "đạt được",
+    "examples": [
+     {
+      "en": "She attained the highest score.",
+      "vi": "Cô ấy đạt điểm cao nhất."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "attic",
+  "pos": "noun",
+  "ipaUK": "/ˈæt.ɪk/",
+  "ipaUS": "/ˈæt̬.ɪk/",
+  "senses": [
+   {
+    "guideword": "ROOF ROOM",
+    "level": "C1",
+    "defEN": "a room at the top of a house under the roof",
+    "defVI": "gác mái",
+    "examples": [
+     {
+      "en": "Old toys are stored in the attic.",
+      "vi": "Đồ chơi cũ được cất trên gác mái."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "audit",
+  "pos": "noun",
+  "ipaUK": "/ˈɔː.dɪt/",
+  "ipaUS": "/ˈɑː.dɪt/",
+  "senses": [
+   {
+    "guideword": "CHECK",
+    "level": "C1",
+    "defEN": "an official examination of accounts or records",
+    "defVI": "cuộc kiểm toán",
+    "examples": [
+     {
+      "en": "The company faces an annual audit.",
+      "vi": "Công ty phải kiểm toán hằng năm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "authorize",
+  "pos": "verb",
+  "ipaUK": "/ˈɔː.θər.aɪz/",
+  "ipaUS": "/ˈɑː.θə.raɪz/",
+  "senses": [
+   {
+    "guideword": "ALLOW",
+    "level": "C1",
+    "defEN": "to give official permission for something",
+    "defVI": "ủy quyền, cho phép",
+    "examples": [
+     {
+      "en": "Only managers can authorize refunds.",
+      "vi": "Chỉ quản lý mới được duyệt hoàn tiền."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "avert",
+  "pos": "verb",
+  "ipaUK": "/əˈvɜːt/",
+  "ipaUS": "/əˈvɝːt/",
+  "senses": [
+   {
+    "guideword": "PREVENT",
+    "level": "C1",
+    "defEN": "to prevent something bad from happening",
+    "defVI": "ngăn chặn, tránh",
+    "examples": [
+     {
+      "en": "Quick action averted a disaster.",
+      "vi": "Hành động kịp thời đã ngăn được thảm họa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "avid",
+  "pos": "adjective",
+  "ipaUK": "/ˈæv.ɪd/",
+  "ipaUS": "/ˈæv.ɪd/",
+  "senses": [
+   {
+    "guideword": "KEEN",
+    "level": "C1",
+    "defEN": "extremely eager or interested",
+    "defVI": "say mê, cuồng nhiệt",
+    "examples": [
+     {
+      "en": "She is an avid reader.",
+      "vi": "Cô ấy là người mê đọc sách."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "await",
+  "pos": "verb",
+  "ipaUK": "/əˈweɪt/",
+  "ipaUS": "/əˈweɪt/",
+  "senses": [
+   {
+    "guideword": "WAIT FOR",
+    "level": "C1",
+    "defEN": "to wait for something",
+    "defVI": "chờ đợi",
+    "examples": [
+     {
+      "en": "We are awaiting your reply.",
+      "vi": "Chúng tôi đang chờ phản hồi của bạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "awe",
+  "pos": "noun",
+  "ipaUK": "/ɔː/",
+  "ipaUS": "/ɑː/",
+  "senses": [
+   {
+    "guideword": "WONDER",
+    "level": "C1",
+    "defEN": "a feeling of great respect mixed with wonder or fear",
+    "defVI": "sự kính sợ, kinh ngạc",
+    "examples": [
+     {
+      "en": "We looked at the mountains in awe.",
+      "vi": "Chúng tôi ngắm núi non đầy thán phục."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "axis",
+  "pos": "noun",
+  "ipaUK": "/ˈæk.sɪs/",
+  "ipaUS": "/ˈæk.sɪs/",
+  "senses": [
+   {
+    "guideword": "LINE",
+    "level": "C1",
+    "defEN": "an imaginary line through the middle of something that turns",
+    "defVI": "trục",
+    "examples": [
+     {
+      "en": "The Earth spins on its axis.",
+      "vi": "Trái Đất quay quanh trục của nó."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "acquisition",
+  "pos": "noun",
+  "ipaUK": "/ˌæk.wɪˈzɪʃ.ən/",
+  "ipaUS": "/ˌæk.wəˈzɪʃ.ən/",
+  "senses": [
+   {
+    "guideword": "BUYING",
+    "level": "C1",
+    "defEN": "the act of buying a company or thing",
+    "defVI": "sự mua lại, thâu tóm",
+    "examples": [
+     {
+      "en": "The acquisition cost millions.",
+      "vi": "Thương vụ mua lại tốn hàng triệu."
+     }
+    ]
+   },
+   {
+    "guideword": "LEARNING",
+    "level": "C1",
+    "defEN": "the process of gaining knowledge or a skill",
+    "defVI": "sự tiếp thu",
+    "examples": [
+     {
+      "en": "Language acquisition starts early.",
+      "vi": "Việc tiếp thu ngôn ngữ bắt đầu từ sớm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adhere",
+  "pos": "verb",
+  "ipaUK": "/ədˈhɪər/",
+  "ipaUS": "/ədˈhɪr/",
+  "senses": [
+   {
+    "guideword": "FOLLOW",
+    "level": "C1",
+    "defEN": "to follow a rule or belief closely",
+    "defVI": "tuân thủ",
+    "examples": [
+     {
+      "en": "All staff must adhere to safety rules.",
+      "vi": "Mọi nhân viên phải tuân thủ quy tắc an toàn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "advent",
+  "pos": "noun",
+  "ipaUK": "/ˈæd.vent/",
+  "ipaUS": "/ˈæd.vent/",
+  "senses": [
+   {
+    "guideword": "ARRIVAL",
+    "level": "C1",
+    "defEN": "the arrival of an important new thing",
+    "defVI": "sự ra đời, sự xuất hiện",
+    "examples": [
+     {
+      "en": "The advent of the internet changed everything.",
+      "vi": "Sự ra đời của internet đã thay đổi mọi thứ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "advocacy",
+  "pos": "noun",
+  "ipaUK": "/ˈæd.və.kə.si/",
+  "ipaUS": "/ˈæd.və.kə.si/",
+  "senses": [
+   {
+    "guideword": "PUBLIC SUPPORT",
+    "level": "C1",
+    "defEN": "public support for a cause or policy",
+    "defVI": "sự vận động, ủng hộ",
+    "examples": [
+     {
+      "en": "The group does advocacy for disabled people.",
+      "vi": "Nhóm vận động quyền lợi cho người khuyết tật."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abate",
+  "pos": "verb",
+  "ipaUK": "/əˈbeɪt/",
+  "ipaUS": "/əˈbeɪt/",
+  "senses": [
+   {
+    "guideword": "LESSEN",
+    "level": "C2",
+    "defEN": "to become less strong",
+    "defVI": "dịu đi, giảm bớt",
+    "examples": [
+     {
+      "en": "The storm finally abated.",
+      "vi": "Cơn bão cuối cùng cũng dịu đi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abdicate",
+  "pos": "verb",
+  "ipaUK": "/ˈæb.dɪ.keɪt/",
+  "ipaUS": "/ˈæb.də.keɪt/",
+  "senses": [
+   {
+    "guideword": "GIVE UP THRONE",
+    "level": "C2",
+    "defEN": "to give up a position of power, especially as king or queen",
+    "defVI": "thoái vị",
+    "examples": [
+     {
+      "en": "The king abdicated in 1936.",
+      "vi": "Nhà vua thoái vị năm 1936."
+     }
+    ]
+   },
+   {
+    "guideword": "AVOID DUTY",
+    "level": "C2",
+    "defEN": "to fail to take responsibility",
+    "defVI": "thoái thác",
+    "examples": [
+     {
+      "en": "Parents cannot abdicate their responsibilities.",
+      "vi": "Cha mẹ không thể thoái thác trách nhiệm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abhor",
+  "pos": "verb",
+  "ipaUK": "/əbˈhɔːr/",
+  "ipaUS": "/æbˈhɔːr/",
+  "senses": [
+   {
+    "guideword": "HATE",
+    "level": "C2",
+    "defEN": "to hate something strongly, often for moral reasons",
+    "defVI": "ghê tởm, căm ghét",
+    "examples": [
+     {
+      "en": "She abhors violence.",
+      "vi": "Cô ấy ghê tởm bạo lực."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abject",
+  "pos": "adjective",
+  "ipaUK": "/ˈæb.dʒekt/",
+  "ipaUS": "/ˈæb.dʒekt/",
+  "senses": [
+   {
+    "guideword": "EXTREME",
+    "level": "C2",
+    "defEN": "extremely bad or hopeless",
+    "defVI": "cùng cực, thảm hại",
+    "examples": [
+     {
+      "en": "They lived in abject poverty.",
+      "vi": "Họ sống trong cảnh nghèo khổ cùng cực."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abrasive",
+  "pos": "adjective",
+  "ipaUK": "/əˈbreɪ.sɪv/",
+  "ipaUS": "/əˈbreɪ.sɪv/",
+  "senses": [
+   {
+    "guideword": "RUDE",
+    "level": "C2",
+    "defEN": "rude and unkind in manner",
+    "defVI": "thô lỗ, cộc cằn",
+    "examples": [
+     {
+      "en": "His abrasive manner upset colleagues.",
+      "vi": "Thái độ cộc cằn của anh ta làm đồng nghiệp phật lòng."
+     }
+    ]
+   },
+   {
+    "guideword": "ROUGH",
+    "level": "C2",
+    "defEN": "rough and able to rub a surface away",
+    "defVI": "ráp, để mài",
+    "examples": [
+     {
+      "en": "Don't clean it with an abrasive cloth.",
+      "vi": "Đừng lau nó bằng khăn ráp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abscond",
+  "pos": "verb",
+  "ipaUK": "/əbˈskɒnd/",
+  "ipaUS": "/æbˈskɑːnd/",
+  "senses": [
+   {
+    "guideword": "ESCAPE",
+    "level": "C2",
+    "defEN": "to leave secretly, often with money not yours",
+    "defVI": "bỏ trốn, cuỗm",
+    "examples": [
+     {
+      "en": "The manager absconded with the funds.",
+      "vi": "Người quản lý đã ôm tiền bỏ trốn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abstain",
+  "pos": "verb",
+  "ipaUK": "/əbˈsteɪn/",
+  "ipaUS": "/æbˈsteɪn/",
+  "senses": [
+   {
+    "guideword": "NOT DO",
+    "level": "C2",
+    "defEN": "to choose not to do something you enjoy",
+    "defVI": "kiêng, nhịn",
+    "examples": [
+     {
+      "en": "He abstained from alcohol for a month.",
+      "vi": "Anh ấy kiêng rượu một tháng."
+     }
+    ]
+   },
+   {
+    "guideword": "NOT VOTE",
+    "level": "C2",
+    "defEN": "to choose not to vote",
+    "defVI": "bỏ phiếu trắng",
+    "examples": [
+     {
+      "en": "Three members abstained.",
+      "vi": "Ba thành viên bỏ phiếu trắng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abstruse",
+  "pos": "adjective",
+  "ipaUK": "/æbˈstruːs/",
+  "ipaUS": "/æbˈstruːs/",
+  "senses": [
+   {
+    "guideword": "HARD TO GRASP",
+    "level": "C2",
+    "defEN": "difficult to understand",
+    "defVI": "khó hiểu, thâm thúy",
+    "examples": [
+     {
+      "en": "The lecture was too abstruse for me.",
+      "vi": "Bài giảng quá khó hiểu đối với tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "abysmal",
+  "pos": "adjective",
+  "ipaUK": "/əˈbɪz.məl/",
+  "ipaUS": "/əˈbɪz.məl/",
+  "senses": [
+   {
+    "guideword": "TERRIBLE",
+    "level": "C2",
+    "defEN": "extremely bad",
+    "defVI": "tệ hại",
+    "examples": [
+     {
+      "en": "The team's performance was abysmal.",
+      "vi": "Màn trình diễn của đội thật tệ hại."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accede",
+  "pos": "verb",
+  "ipaUK": "/əkˈsiːd/",
+  "ipaUS": "/əkˈsiːd/",
+  "senses": [
+   {
+    "guideword": "AGREE",
+    "level": "C2",
+    "defEN": "to agree to a request or demand",
+    "defVI": "đồng ý, tán thành",
+    "examples": [
+     {
+      "en": "The company acceded to the workers' demands.",
+      "vi": "Công ty chấp thuận yêu cầu của công nhân."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accolade",
+  "pos": "noun",
+  "ipaUK": "/ˈæk.ə.leɪd/",
+  "ipaUS": "/ˈæk.ə.leɪd/",
+  "senses": [
+   {
+    "guideword": "PRAISE",
+    "level": "C2",
+    "defEN": "a prize or strong praise for an achievement",
+    "defVI": "sự tán dương, vinh danh",
+    "examples": [
+     {
+      "en": "The chef received many accolades.",
+      "vi": "Đầu bếp nhận được nhiều lời tán dương."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "accost",
+  "pos": "verb",
+  "ipaUK": "/əˈkɒst/",
+  "ipaUS": "/əˈkɑːst/",
+  "senses": [
+   {
+    "guideword": "APPROACH",
+    "level": "C2",
+    "defEN": "to approach and speak to a stranger, often rudely",
+    "defVI": "chặn lại bắt chuyện",
+    "examples": [
+     {
+      "en": "A man accosted her in the street.",
+      "vi": "Một người đàn ông chặn cô lại trên phố."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "acerbic",
+  "pos": "adjective",
+  "ipaUK": "/əˈsɜː.bɪk/",
+  "ipaUS": "/əˈsɝː.bɪk/",
+  "senses": [
+   {
+    "guideword": "HARSH",
+    "level": "C2",
+    "defEN": "sharp and critical in a clever way",
+    "defVI": "chua cay, gay gắt",
+    "examples": [
+     {
+      "en": "He is known for his acerbic wit.",
+      "vi": "Ông ấy nổi tiếng với lối hài hước chua cay."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "acme",
+  "pos": "noun",
+  "ipaUK": "/ˈæk.mi/",
+  "ipaUS": "/ˈæk.mi/",
+  "senses": [
+   {
+    "guideword": "PEAK",
+    "level": "C2",
+    "defEN": "the best or highest point of something",
+    "defVI": "đỉnh cao",
+    "examples": [
+     {
+      "en": "The show was the acme of her career.",
+      "vi": "Buổi diễn là đỉnh cao sự nghiệp của cô ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "acquit",
+  "pos": "verb",
+  "ipaUK": "/əˈkwɪt/",
+  "ipaUS": "/əˈkwɪt/",
+  "senses": [
+   {
+    "guideword": "FREE",
+    "level": "C2",
+    "defEN": "to decide officially that someone is not guilty",
+    "defVI": "tuyên trắng án",
+    "examples": [
+     {
+      "en": "The jury acquitted him.",
+      "vi": "Bồi thẩm đoàn tuyên anh ta vô tội."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "acrimonious",
+  "pos": "adjective",
+  "ipaUK": "/ˌæk.rɪˈməʊ.ni.əs/",
+  "ipaUS": "/ˌæk.rəˈmoʊ.ni.əs/",
+  "senses": [
+   {
+    "guideword": "BITTER",
+    "level": "C2",
+    "defEN": "full of anger and bitterness",
+    "defVI": "gay gắt, cay đắng",
+    "examples": [
+     {
+      "en": "They went through an acrimonious divorce.",
+      "vi": "Họ trải qua một cuộc ly hôn đầy cay đắng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "acumen",
+  "pos": "noun",
+  "ipaUK": "/ˈæk.jə.mən/",
+  "ipaUS": "/əˈkjuː.mən/",
+  "senses": [
+   {
+    "guideword": "SHREWDNESS",
+    "level": "C2",
+    "defEN": "the ability to judge well and decide quickly",
+    "defVI": "sự nhạy bén",
+    "examples": [
+     {
+      "en": "She has great business acumen.",
+      "vi": "Cô ấy rất nhạy bén trong kinh doanh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adage",
+  "pos": "noun",
+  "ipaUK": "/ˈæd.ɪdʒ/",
+  "ipaUS": "/ˈæd.ɪdʒ/",
+  "senses": [
+   {
+    "guideword": "SAYING",
+    "level": "C2",
+    "defEN": "a well-known old saying",
+    "defVI": "câu châm ngôn, tục ngữ",
+    "examples": [
+     {
+      "en": "The old adage says time is money.",
+      "vi": "Châm ngôn xưa nói thời gian là tiền bạc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adamant",
+  "pos": "adjective",
+  "ipaUK": "/ˈæd.ə.mənt/",
+  "ipaUS": "/ˈæd.ə.mənt/",
+  "senses": [
+   {
+    "guideword": "FIRM",
+    "level": "C2",
+    "defEN": "refusing to change your opinion",
+    "defVI": "kiên quyết",
+    "examples": [
+     {
+      "en": "She was adamant that she was right.",
+      "vi": "Cô ấy kiên quyết cho rằng mình đúng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adept",
+  "pos": "adjective",
+  "ipaUK": "/əˈdept/",
+  "ipaUS": "/əˈdept/",
+  "senses": [
+   {
+    "guideword": "SKILLED",
+    "level": "C2",
+    "defEN": "very skilled at something",
+    "defVI": "thành thạo, lão luyện",
+    "examples": [
+     {
+      "en": "He is adept at solving problems.",
+      "vi": "Anh ấy rất giỏi giải quyết vấn đề."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adjourn",
+  "pos": "verb",
+  "ipaUK": "/əˈdʒɜːn/",
+  "ipaUS": "/əˈdʒɝːn/",
+  "senses": [
+   {
+    "guideword": "PAUSE",
+    "level": "C2",
+    "defEN": "to stop a meeting or trial for a period",
+    "defVI": "hoãn, tạm ngừng",
+    "examples": [
+     {
+      "en": "The court adjourned until Monday.",
+      "vi": "Tòa tạm hoãn đến thứ Hai."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "admonish",
+  "pos": "verb",
+  "ipaUK": "/ədˈmɒn.ɪʃ/",
+  "ipaUS": "/ədˈmɑː.nɪʃ/",
+  "senses": [
+   {
+    "guideword": "WARN",
+    "level": "C2",
+    "defEN": "to tell someone firmly that they have done wrong",
+    "defVI": "khiển trách, nhắc nhở",
+    "examples": [
+     {
+      "en": "The teacher admonished him for talking.",
+      "vi": "Giáo viên nhắc nhở cậu vì nói chuyện."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adorn",
+  "pos": "verb",
+  "ipaUK": "/əˈdɔːn/",
+  "ipaUS": "/əˈdɔːrn/",
+  "senses": [
+   {
+    "guideword": "DECORATE",
+    "level": "C2",
+    "defEN": "to make something more beautiful by adding decoration",
+    "defVI": "tô điểm, trang trí",
+    "examples": [
+     {
+      "en": "Flowers adorned the tables.",
+      "vi": "Hoa được dùng để trang trí các bàn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adroit",
+  "pos": "adjective",
+  "ipaUK": "/əˈdrɔɪt/",
+  "ipaUS": "/əˈdrɔɪt/",
+  "senses": [
+   {
+    "guideword": "CLEVER",
+    "level": "C2",
+    "defEN": "clever and skilful, especially with people or hands",
+    "defVI": "khéo léo",
+    "examples": [
+     {
+      "en": "He is adroit at handling reporters.",
+      "vi": "Ông ấy khéo léo khi đối phó với phóng viên."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adulation",
+  "pos": "noun",
+  "ipaUK": "/ˌæd.jəˈleɪ.ʃən/",
+  "ipaUS": "/ˌædʒ.əˈleɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "WORSHIP",
+    "level": "C2",
+    "defEN": "very great, often excessive admiration",
+    "defVI": "sự tâng bốc, sùng bái",
+    "examples": [
+     {
+      "en": "The star enjoyed the adulation of fans.",
+      "vi": "Ngôi sao tận hưởng sự sùng bái của người hâm mộ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adulterate",
+  "pos": "verb",
+  "ipaUK": "/əˈdʌl.tər.eɪt/",
+  "ipaUS": "/əˈdʌl.tə.reɪt/",
+  "senses": [
+   {
+    "guideword": "SPOIL",
+    "level": "C2",
+    "defEN": "to make food or drink worse by adding something cheaper",
+    "defVI": "pha trộn, làm giả",
+    "examples": [
+     {
+      "en": "The milk had been adulterated with water.",
+      "vi": "Sữa đã bị pha thêm nước."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adversary",
+  "pos": "noun",
+  "ipaUK": "/ˈæd.və.sər.i/",
+  "ipaUS": "/ˈæd.vɚ.ser.i/",
+  "senses": [
+   {
+    "guideword": "ENEMY",
+    "level": "C2",
+    "defEN": "an opponent in a fight or competition",
+    "defVI": "đối thủ, kẻ thù",
+    "examples": [
+     {
+      "en": "He defeated his old adversary.",
+      "vi": "Anh ấy đánh bại đối thủ cũ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "adversity",
+  "pos": "noun",
+  "ipaUK": "/ədˈvɜː.sə.ti/",
+  "ipaUS": "/ədˈvɝː.sə.t̬i/",
+  "senses": [
+   {
+    "guideword": "HARDSHIP",
+    "level": "C2",
+    "defEN": "a difficult or unlucky situation",
+    "defVI": "nghịch cảnh",
+    "examples": [
+     {
+      "en": "She showed courage in the face of adversity.",
+      "vi": "Cô ấy thể hiện lòng dũng cảm trước nghịch cảnh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "affable",
+  "pos": "adjective",
+  "ipaUK": "/ˈæf.ə.bəl/",
+  "ipaUS": "/ˈæf.ə.bəl/",
+  "senses": [
+   {
+    "guideword": "FRIENDLY",
+    "level": "C2",
+    "defEN": "friendly and easy to talk to",
+    "defVI": "niềm nở, dễ gần",
+    "examples": [
+     {
+      "en": "Our host was an affable old man.",
+      "vi": "Chủ nhà là một ông cụ dễ mến."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "affinity",
+  "pos": "noun",
+  "ipaUK": "/əˈfɪn.ə.ti/",
+  "ipaUS": "/əˈfɪn.ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "LIKING",
+    "level": "C2",
+    "defEN": "a natural liking or understanding of something",
+    "defVI": "sự đồng cảm, sự yêu thích tự nhiên",
+    "examples": [
+     {
+      "en": "She has an affinity with animals.",
+      "vi": "Cô ấy có duyên với động vật."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "affront",
+  "pos": "noun",
+  "ipaUK": "/əˈfrʌnt/",
+  "ipaUS": "/əˈfrʌnt/",
+  "senses": [
+   {
+    "guideword": "INSULT",
+    "level": "C2",
+    "defEN": "an action or remark that insults someone",
+    "defVI": "sự lăng mạ, xúc phạm",
+    "examples": [
+     {
+      "en": "The decision was an affront to voters.",
+      "vi": "Quyết định đó là sự xúc phạm cử tri."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aficionado",
+  "pos": "noun",
+  "ipaUK": "/əˌfɪʃ.i.əˈnɑː.dəʊ/",
+  "ipaUS": "/əˌfɪʃ.i.əˈnɑː.doʊ/",
+  "senses": [
+   {
+    "guideword": "FAN",
+    "level": "C2",
+    "defEN": "a person who knows a lot about and enjoys an activity",
+    "defVI": "người sành, người mê",
+    "examples": [
+     {
+      "en": "He is a jazz aficionado.",
+      "vi": "Anh ấy là người sành nhạc jazz."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aggrandize",
+  "pos": "verb",
+  "ipaUK": "/əˈɡræn.daɪz/",
+  "ipaUS": "/əˈɡræn.daɪz/",
+  "senses": [
+   {
+    "guideword": "INFLATE",
+    "level": "C2",
+    "defEN": "to increase the power or importance of something, often unfairly",
+    "defVI": "phóng đại, làm to chuyện",
+    "examples": [
+     {
+      "en": "He used the job to aggrandize himself.",
+      "vi": "Hắn dùng công việc để tự đề cao bản thân."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aggravate",
+  "pos": "verb",
+  "ipaUK": "/ˈæɡ.rə.veɪt/",
+  "ipaUS": "/ˈæɡ.rə.veɪt/",
+  "senses": [
+   {
+    "guideword": "WORSEN",
+    "level": "C2",
+    "defEN": "to make a bad situation worse",
+    "defVI": "làm trầm trọng thêm",
+    "examples": [
+     {
+      "en": "Running aggravated his knee injury.",
+      "vi": "Chạy bộ làm chấn thương đầu gối anh ấy nặng thêm."
+     }
+    ]
+   },
+   {
+    "guideword": "ANNOY",
+    "level": "C2",
+    "defEN": "to annoy someone",
+    "defVI": "chọc tức",
+    "examples": [
+     {
+      "en": "Stop aggravating your sister!",
+      "vi": "Đừng chọc tức em gái nữa!"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aghast",
+  "pos": "adjective",
+  "ipaUK": "/əˈɡɑːst/",
+  "ipaUS": "/əˈɡæst/",
+  "senses": [
+   {
+    "guideword": "SHOCKED",
+    "level": "C2",
+    "defEN": "shocked and upset",
+    "defVI": "kinh hoàng, thất kinh",
+    "examples": [
+     {
+      "en": "She stared aghast at the damage.",
+      "vi": "Cô ấy kinh hoàng nhìn thiệt hại."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "akin",
+  "pos": "adjective",
+  "ipaUK": "/əˈkɪn/",
+  "ipaUS": "/əˈkɪn/",
+  "senses": [
+   {
+    "guideword": "SIMILAR",
+    "level": "C2",
+    "defEN": "similar to something",
+    "defVI": "giống với, tương tự",
+    "examples": [
+     {
+      "en": "The feeling was akin to fear.",
+      "vi": "Cảm giác đó gần giống sự sợ hãi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "allay",
+  "pos": "verb",
+  "ipaUK": "/əˈleɪ/",
+  "ipaUS": "/əˈleɪ/",
+  "senses": [
+   {
+    "guideword": "CALM",
+    "level": "C2",
+    "defEN": "to make fear or doubt less strong",
+    "defVI": "xua tan, làm dịu",
+    "examples": [
+     {
+      "en": "The report allayed public fears.",
+      "vi": "Báo cáo đã xoa dịu nỗi lo của công chúng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "allegiance",
+  "pos": "noun",
+  "ipaUK": "/əˈliː.dʒəns/",
+  "ipaUS": "/əˈliː.dʒəns/",
+  "senses": [
+   {
+    "guideword": "LOYALTY",
+    "level": "C2",
+    "defEN": "loyalty to a leader, country or belief",
+    "defVI": "lòng trung thành",
+    "examples": [
+     {
+      "en": "They swore allegiance to the king.",
+      "vi": "Họ thề trung thành với nhà vua."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "allude",
+  "pos": "verb",
+  "ipaUK": "/əˈluːd/",
+  "ipaUS": "/əˈluːd/",
+  "senses": [
+   {
+    "guideword": "HINT",
+    "level": "C2",
+    "defEN": "to mention something indirectly",
+    "defVI": "ám chỉ, nói bóng gió",
+    "examples": [
+     {
+      "en": "She alluded to problems at home.",
+      "vi": "Cô ấy bóng gió nói về rắc rối ở nhà."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aloof",
+  "pos": "adjective",
+  "ipaUK": "/əˈluːf/",
+  "ipaUS": "/əˈluːf/",
+  "senses": [
+   {
+    "guideword": "DISTANT",
+    "level": "C2",
+    "defEN": "not friendly or not wanting to be involved",
+    "defVI": "xa cách, lạnh lùng",
+    "examples": [
+     {
+      "en": "He seems aloof, but he's just shy.",
+      "vi": "Anh ấy có vẻ xa cách nhưng thật ra chỉ nhút nhát."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "altruistic",
+  "pos": "adjective",
+  "ipaUK": "/ˌæl.truˈɪs.tɪk/",
+  "ipaUS": "/ˌæl.truˈɪs.tɪk/",
+  "senses": [
+   {
+    "guideword": "UNSELFISH",
+    "level": "C2",
+    "defEN": "caring about others more than yourself",
+    "defVI": "vị tha",
+    "examples": [
+     {
+      "en": "Her motives were purely altruistic.",
+      "vi": "Động cơ của cô ấy hoàn toàn vị tha."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "amalgamate",
+  "pos": "verb",
+  "ipaUK": "/əˈmæl.ɡə.meɪt/",
+  "ipaUS": "/əˈmæl.ɡə.meɪt/",
+  "senses": [
+   {
+    "guideword": "JOIN",
+    "level": "C2",
+    "defEN": "to join two or more things into one",
+    "defVI": "hợp nhất, sáp nhập",
+    "examples": [
+     {
+      "en": "The two schools amalgamated last year.",
+      "vi": "Hai trường đã sáp nhập năm ngoái."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ambivalent",
+  "pos": "adjective",
+  "ipaUK": "/æmˈbɪv.ə.lənt/",
+  "ipaUS": "/æmˈbɪv.ə.lənt/",
+  "senses": [
+   {
+    "guideword": "MIXED FEELINGS",
+    "level": "C2",
+    "defEN": "having two opposing feelings about something",
+    "defVI": "lưỡng lự, mâu thuẫn",
+    "examples": [
+     {
+      "en": "I feel ambivalent about moving abroad.",
+      "vi": "Tôi có cảm xúc lẫn lộn về việc ra nước ngoài sống."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "amenable",
+  "pos": "adjective",
+  "ipaUK": "/əˈmiː.nə.bəl/",
+  "ipaUS": "/əˈmiː.nə.bəl/",
+  "senses": [
+   {
+    "guideword": "WILLING",
+    "level": "C2",
+    "defEN": "willing to accept or be influenced by something",
+    "defVI": "dễ bảo, sẵn sàng chấp nhận",
+    "examples": [
+     {
+      "en": "He was amenable to our suggestions.",
+      "vi": "Anh ấy sẵn lòng nghe theo đề xuất của chúng tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "amiable",
+  "pos": "adjective",
+  "ipaUK": "/ˈeɪ.mi.ə.bəl/",
+  "ipaUS": "/ˈeɪ.mi.ə.bəl/",
+  "senses": [
+   {
+    "guideword": "PLEASANT",
+    "level": "C2",
+    "defEN": "friendly and pleasant",
+    "defVI": "hòa nhã, dễ mến",
+    "examples": [
+     {
+      "en": "She had an amiable chat with the driver.",
+      "vi": "Cô ấy trò chuyện vui vẻ với tài xế."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "amicable",
+  "pos": "adjective",
+  "ipaUK": "/ˈæm.ɪ.kə.bəl/",
+  "ipaUS": "/ˈæm.ɪ.kə.bəl/",
+  "senses": [
+   {
+    "guideword": "WITHOUT CONFLICT",
+    "level": "C2",
+    "defEN": "friendly and without arguments",
+    "defVI": "thân thiện, êm thấm",
+    "examples": [
+     {
+      "en": "They reached an amicable agreement.",
+      "vi": "Họ đạt được thỏa thuận êm thấm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "amnesty",
+  "pos": "noun",
+  "ipaUK": "/ˈæm.nə.sti/",
+  "ipaUS": "/ˈæm.nə.sti/",
+  "senses": [
+   {
+    "guideword": "PARDON",
+    "level": "C2",
+    "defEN": "an official pardon for a group of people",
+    "defVI": "sự ân xá",
+    "examples": [
+     {
+      "en": "The government declared an amnesty for prisoners.",
+      "vi": "Chính phủ tuyên bố ân xá cho tù nhân."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "amorphous",
+  "pos": "adjective",
+  "ipaUK": "/əˈmɔː.fəs/",
+  "ipaUS": "/əˈmɔːr.fəs/",
+  "senses": [
+   {
+    "guideword": "SHAPELESS",
+    "level": "C2",
+    "defEN": "having no clear shape or structure",
+    "defVI": "vô định hình, mơ hồ",
+    "examples": [
+     {
+      "en": "The plan is still amorphous.",
+      "vi": "Kế hoạch vẫn còn mơ hồ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "anathema",
+  "pos": "noun",
+  "ipaUK": "/əˈnæθ.ə.mə/",
+  "ipaUS": "/əˈnæθ.ə.mə/",
+  "senses": [
+   {
+    "guideword": "HATED THING",
+    "level": "C2",
+    "defEN": "something you strongly dislike or disapprove of",
+    "defVI": "điều bị ghét cay ghét đắng",
+    "examples": [
+     {
+      "en": "Waste is anathema to her.",
+      "vi": "Lãng phí là điều cô ấy ghét cay ghét đắng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "animosity",
+  "pos": "noun",
+  "ipaUK": "/ˌæn.ɪˈmɒs.ə.ti/",
+  "ipaUS": "/ˌæn.əˈmɑː.sə.t̬i/",
+  "senses": [
+   {
+    "guideword": "HOSTILITY",
+    "level": "C2",
+    "defEN": "strong dislike or hostility",
+    "defVI": "sự thù địch, ác cảm",
+    "examples": [
+     {
+      "en": "There is no animosity between us.",
+      "vi": "Giữa chúng tôi không có ác cảm gì."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "annex",
+  "pos": "verb",
+  "ipaUK": "/əˈneks/",
+  "ipaUS": "/əˈneks/",
+  "senses": [
+   {
+    "guideword": "TAKE LAND",
+    "level": "C2",
+    "defEN": "to take control of a territory by force",
+    "defVI": "thôn tính, sáp nhập",
+    "examples": [
+     {
+      "en": "The region was annexed in the war.",
+      "vi": "Vùng này bị thôn tính trong chiến tranh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "annihilate",
+  "pos": "verb",
+  "ipaUK": "/əˈnaɪ.ə.leɪt/",
+  "ipaUS": "/əˈnaɪ.ə.leɪt/",
+  "senses": [
+   {
+    "guideword": "DESTROY",
+    "level": "C2",
+    "defEN": "to destroy something completely",
+    "defVI": "tiêu diệt hoàn toàn",
+    "examples": [
+     {
+      "en": "The army was annihilated.",
+      "vi": "Đội quân bị tiêu diệt hoàn toàn."
+     }
+    ]
+   },
+   {
+    "guideword": "DEFEAT",
+    "level": "C2",
+    "defEN": "to defeat someone easily and completely",
+    "defVI": "đánh bại tơi bời",
+    "examples": [
+     {
+      "en": "We were annihilated in the final.",
+      "vi": "Chúng tôi thua tan tác trong trận chung kết."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "antagonize",
+  "pos": "verb",
+  "ipaUK": "/ænˈtæɡ.ə.naɪz/",
+  "ipaUS": "/ænˈtæɡ.ə.naɪz/",
+  "senses": [
+   {
+    "guideword": "ANGER",
+    "level": "C2",
+    "defEN": "to make someone angry or unfriendly toward you",
+    "defVI": "gây thù địch, chọc giận",
+    "examples": [
+     {
+      "en": "Don't antagonize the neighbours.",
+      "vi": "Đừng chọc giận hàng xóm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "antidote",
+  "pos": "noun",
+  "ipaUK": "/ˈæn.tɪ.dəʊt/",
+  "ipaUS": "/ˈæn.t̬i.doʊt/",
+  "senses": [
+   {
+    "guideword": "CURE",
+    "level": "C2",
+    "defEN": "a substance that stops a poison working",
+    "defVI": "thuốc giải độc",
+    "examples": [
+     {
+      "en": "There is no antidote to this venom.",
+      "vi": "Không có thuốc giải cho nọc độc này."
+     }
+    ]
+   },
+   {
+    "guideword": "REMEDY",
+    "level": "C2",
+    "defEN": "something that eases a bad situation",
+    "defVI": "liều thuốc giải, phương cách chống lại",
+    "examples": [
+     {
+      "en": "Laughter is the best antidote to stress.",
+      "vi": "Tiếng cười là liều thuốc tốt nhất chống căng thẳng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "apathy",
+  "pos": "noun",
+  "ipaUK": "/ˈæp.ə.θi/",
+  "ipaUS": "/ˈæp.ə.θi/",
+  "senses": [
+   {
+    "guideword": "INDIFFERENCE",
+    "level": "C2",
+    "defEN": "lack of interest or energy",
+    "defVI": "sự thờ ơ",
+    "examples": [
+     {
+      "en": "Voter apathy is a serious problem.",
+      "vi": "Sự thờ ơ của cử tri là vấn đề nghiêm trọng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "aplomb",
+  "pos": "noun",
+  "ipaUK": "/əˈplɒm/",
+  "ipaUS": "/əˈplɑːm/",
+  "senses": [
+   {
+    "guideword": "CONFIDENCE",
+    "level": "C2",
+    "defEN": "calm confidence in a difficult situation",
+    "defVI": "sự điềm tĩnh, tự tin",
+    "examples": [
+     {
+      "en": "She handled the questions with aplomb.",
+      "vi": "Cô ấy trả lời các câu hỏi một cách điềm tĩnh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "apocryphal",
+  "pos": "adjective",
+  "ipaUK": "/əˈpɒk.rɪ.fəl/",
+  "ipaUS": "/əˈpɑː.krə.fəl/",
+  "senses": [
+   {
+    "guideword": "UNTRUE",
+    "level": "C2",
+    "defEN": "probably not true, although widely told",
+    "defVI": "không xác thực, bịa đặt",
+    "examples": [
+     {
+      "en": "The story is probably apocryphal.",
+      "vi": "Câu chuyện có lẽ là bịa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "appease",
+  "pos": "verb",
+  "ipaUK": "/əˈpiːz/",
+  "ipaUS": "/əˈpiːz/",
+  "senses": [
+   {
+    "guideword": "CALM",
+    "level": "C2",
+    "defEN": "to stop someone being angry by giving them what they want",
+    "defVI": "xoa dịu, nhân nhượng",
+    "examples": [
+     {
+      "en": "They tried to appease the angry crowd.",
+      "vi": "Họ cố xoa dịu đám đông giận dữ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "apprehensive",
+  "pos": "adjective",
+  "ipaUK": "/ˌæp.rɪˈhen.sɪv/",
+  "ipaUS": "/ˌæp.rəˈhen.sɪv/",
+  "senses": [
+   {
+    "guideword": "WORRIED",
+    "level": "C2",
+    "defEN": "worried about something that may happen",
+    "defVI": "e sợ, lo lắng",
+    "examples": [
+     {
+      "en": "I'm apprehensive about the interview.",
+      "vi": "Tôi lo lắng về buổi phỏng vấn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "arbiter",
+  "pos": "noun",
+  "ipaUK": "/ˈɑː.bɪ.tər/",
+  "ipaUS": "/ˈɑːr.bɪ.t̬ɚ/",
+  "senses": [
+   {
+    "guideword": "JUDGE",
+    "level": "C2",
+    "defEN": "a person who settles disputes or decides what is good",
+    "defVI": "người phân xử",
+    "examples": [
+     {
+      "en": "The court is the final arbiter.",
+      "vi": "Tòa án là bên phân xử cuối cùng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "arcane",
+  "pos": "adjective",
+  "ipaUK": "/ɑːˈkeɪn/",
+  "ipaUS": "/ɑːrˈkeɪn/",
+  "senses": [
+   {
+    "guideword": "OBSCURE",
+    "level": "C2",
+    "defEN": "mysterious and known by only a few people",
+    "defVI": "bí ẩn, khó hiểu",
+    "examples": [
+     {
+      "en": "The tax rules are arcane.",
+      "vi": "Các quy định thuế rất khó hiểu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "archaic",
+  "pos": "adjective",
+  "ipaUK": "/ɑːˈkeɪ.ɪk/",
+  "ipaUS": "/ɑːrˈkeɪ.ɪk/",
+  "senses": [
+   {
+    "guideword": "OLD-FASHIONED",
+    "level": "C2",
+    "defEN": "very old or no longer used",
+    "defVI": "cổ xưa, lỗi thời",
+    "examples": [
+     {
+      "en": "The law is archaic and should be changed.",
+      "vi": "Luật này đã lỗi thời và cần thay đổi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ardent",
+  "pos": "adjective",
+  "ipaUK": "/ˈɑː.dənt/",
+  "ipaUS": "/ˈɑːr.dənt/",
+  "senses": [
+   {
+    "guideword": "PASSIONATE",
+    "level": "C2",
+    "defEN": "showing strong feelings or enthusiasm",
+    "defVI": "nhiệt thành, hăng hái",
+    "examples": [
+     {
+      "en": "He is an ardent supporter of the club.",
+      "vi": "Anh ấy là cổ động viên nhiệt thành của câu lạc bộ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "arduous",
+  "pos": "adjective",
+  "ipaUK": "/ˈɑː.dju.əs/",
+  "ipaUS": "/ˈɑːr.dʒu.əs/",
+  "senses": [
+   {
+    "guideword": "DIFFICULT",
+    "level": "C2",
+    "defEN": "needing a lot of effort; tiring",
+    "defVI": "gian khổ, khó nhọc",
+    "examples": [
+     {
+      "en": "It was an arduous climb.",
+      "vi": "Đó là một chuyến leo núi gian khổ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ascertain",
+  "pos": "verb",
+  "ipaUK": "/ˌæs.əˈteɪn/",
+  "ipaUS": "/ˌæs.ɚˈteɪn/",
+  "senses": [
+   {
+    "guideword": "FIND OUT",
+    "level": "C2",
+    "defEN": "to find out the truth about something",
+    "defVI": "xác minh, tìm ra",
+    "examples": [
+     {
+      "en": "Police are trying to ascertain the cause.",
+      "vi": "Cảnh sát đang cố xác định nguyên nhân."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ascetic",
+  "pos": "adjective",
+  "ipaUK": "/əˈset.ɪk/",
+  "ipaUS": "/əˈset̬.ɪk/",
+  "senses": [
+   {
+    "guideword": "SIMPLE LIFE",
+    "level": "C2",
+    "defEN": "avoiding physical pleasure and living simply",
+    "defVI": "khổ hạnh",
+    "examples": [
+     {
+      "en": "The monks lead an ascetic life.",
+      "vi": "Các nhà sư sống cuộc đời khổ hạnh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "askew",
+  "pos": "adjective",
+  "ipaUK": "/əˈskjuː/",
+  "ipaUS": "/əˈskjuː/",
+  "senses": [
+   {
+    "guideword": "NOT STRAIGHT",
+    "level": "C2",
+    "defEN": "not in a straight or level position",
+    "defVI": "lệch, xiên",
+    "examples": [
+     {
+      "en": "His tie was askew.",
+      "vi": "Cà vạt của anh ấy bị lệch."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "assuage",
+  "pos": "verb",
+  "ipaUK": "/əˈsweɪdʒ/",
+  "ipaUS": "/əˈsweɪdʒ/",
+  "senses": [
+   {
+    "guideword": "EASE",
+    "level": "C2",
+    "defEN": "to make an unpleasant feeling less strong",
+    "defVI": "làm dịu, làm nguôi",
+    "examples": [
+     {
+      "en": "Nothing could assuage her guilt.",
+      "vi": "Không gì làm nguôi được cảm giác tội lỗi của cô ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "astute",
+  "pos": "adjective",
+  "ipaUK": "/əˈstjuːt/",
+  "ipaUS": "/əˈstuːt/",
+  "senses": [
+   {
+    "guideword": "SHREWD",
+    "level": "C2",
+    "defEN": "clever at understanding situations and people",
+    "defVI": "sắc sảo, tinh khôn",
+    "examples": [
+     {
+      "en": "She is an astute politician.",
+      "vi": "Bà ấy là một chính trị gia sắc sảo."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "atrocious",
+  "pos": "adjective",
+  "ipaUK": "/əˈtrəʊ.ʃəs/",
+  "ipaUS": "/əˈtroʊ.ʃəs/",
+  "senses": [
+   {
+    "guideword": "VERY BAD",
+    "level": "C2",
+    "defEN": "extremely bad or cruel",
+    "defVI": "tồi tệ, tàn ác",
+    "examples": [
+     {
+      "en": "The weather was atrocious.",
+      "vi": "Thời tiết tệ hại."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "atrophy",
+  "pos": "verb",
+  "ipaUK": "/ˈæt.rə.fi/",
+  "ipaUS": "/ˈæt.rə.fi/",
+  "senses": [
+   {
+    "guideword": "WEAKEN",
+    "level": "C2",
+    "defEN": "to become weak from lack of use",
+    "defVI": "teo đi, suy yếu",
+    "examples": [
+     {
+      "en": "Muscles atrophy if you don't use them.",
+      "vi": "Cơ bắp sẽ teo nếu không vận động."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "attest",
+  "pos": "verb",
+  "ipaUK": "/əˈtest/",
+  "ipaUS": "/əˈtest/",
+  "senses": [
+   {
+    "guideword": "PROVE",
+    "level": "C2",
+    "defEN": "to show or prove that something is true",
+    "defVI": "chứng thực, chứng minh",
+    "examples": [
+     {
+      "en": "Many customers can attest to its quality.",
+      "vi": "Nhiều khách hàng có thể chứng thực chất lượng của nó."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "augment",
+  "pos": "verb",
+  "ipaUK": "/ɔːɡˈment/",
+  "ipaUS": "/ɑːɡˈment/",
+  "senses": [
+   {
+    "guideword": "INCREASE",
+    "level": "C2",
+    "defEN": "to increase the size or value of something",
+    "defVI": "tăng thêm, bổ sung",
+    "examples": [
+     {
+      "en": "He took a second job to augment his income.",
+      "vi": "Anh ấy làm thêm việc thứ hai để tăng thu nhập."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "auspicious",
+  "pos": "adjective",
+  "ipaUK": "/ɔːˈspɪʃ.əs/",
+  "ipaUS": "/ɑːˈspɪʃ.əs/",
+  "senses": [
+   {
+    "guideword": "LUCKY",
+    "level": "C2",
+    "defEN": "suggesting a good and successful future",
+    "defVI": "tốt lành, cát tường",
+    "examples": [
+     {
+      "en": "They chose an auspicious day for the wedding.",
+      "vi": "Họ chọn ngày lành để cưới."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "austere",
+  "pos": "adjective",
+  "ipaUK": "/ɒsˈtɪər/",
+  "ipaUS": "/ɑːˈstɪr/",
+  "senses": [
+   {
+    "guideword": "PLAIN",
+    "level": "C2",
+    "defEN": "very simple, without decoration or comfort",
+    "defVI": "khắc khổ, giản dị",
+    "examples": [
+     {
+      "en": "The room was austere and cold.",
+      "vi": "Căn phòng đơn sơ và lạnh lẽo."
+     }
+    ]
+   },
+   {
+    "guideword": "STRICT",
+    "level": "C2",
+    "defEN": "serious and strict in manner",
+    "defVI": "nghiêm khắc",
+    "examples": [
+     {
+      "en": "He was an austere father.",
+      "vi": "Ông là một người cha nghiêm khắc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "avarice",
+  "pos": "noun",
+  "ipaUK": "/ˈæv.ər.ɪs/",
+  "ipaUS": "/ˈæv.ɚ.ɪs/",
+  "senses": [
+   {
+    "guideword": "GREED",
+    "level": "C2",
+    "defEN": "extreme wish for wealth",
+    "defVI": "lòng tham",
+    "examples": [
+     {
+      "en": "His avarice ruined his friendships.",
+      "vi": "Lòng tham đã phá hỏng các mối quan hệ của ông ta."
+     }
+    ]
+   }
+  ]
+ }
+]

@@ -1,0 +1,6354 @@
+[
+ {
+  "headword": "background",
+  "pos": "noun",
+  "ipaUK": "/ˈbæk.ɡraʊnd/",
+  "ipaUS": "/ˈbæk.ɡraʊnd/",
+  "senses": [
+   {
+    "guideword": "PAST",
+    "level": "B1",
+    "defEN": "a person's family, education and experience",
+    "defVI": "hoàn cảnh xuất thân, lý lịch",
+    "examples": [
+     {
+      "en": "She comes from a farming background.",
+      "vi": "Cô ấy xuất thân từ một gia đình làm nông."
+     }
+    ]
+   },
+   {
+    "guideword": "BEHIND",
+    "level": "B1",
+    "defEN": "the area behind the main thing you look at",
+    "defVI": "hậu cảnh, phông nền",
+    "examples": [
+     {
+      "en": "There are mountains in the background of the photo.",
+      "vi": "Có những ngọn núi ở phía sau bức ảnh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "baggage",
+  "pos": "noun",
+  "ipaUK": "/ˈbæɡ.ɪdʒ/",
+  "ipaUS": "/ˈbæɡ.ɪdʒ/",
+  "senses": [
+   {
+    "guideword": "BAGS",
+    "level": "B1",
+    "defEN": "the bags and cases you take on a journey",
+    "defVI": "hành lý",
+    "examples": [
+     {
+      "en": "Please collect your baggage at belt 4.",
+      "vi": "Vui lòng nhận hành lý ở băng chuyền số 4."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bake",
+  "pos": "verb",
+  "ipaUK": "/beɪk/",
+  "ipaUS": "/beɪk/",
+  "senses": [
+   {
+    "guideword": "COOK",
+    "level": "B1",
+    "defEN": "to cook food such as bread or cake in an oven",
+    "defVI": "nướng (bằng lò)",
+    "examples": [
+     {
+      "en": "My mother bakes bread every Sunday.",
+      "vi": "Mẹ tôi nướng bánh mì mỗi Chủ nhật."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "balance",
+  "pos": "noun",
+  "ipaUK": "/ˈbæl.əns/",
+  "ipaUS": "/ˈbæl.əns/",
+  "senses": [
+   {
+    "guideword": "STEADY",
+    "level": "B1",
+    "defEN": "the ability to stay upright without falling",
+    "defVI": "sự thăng bằng",
+    "examples": [
+     {
+      "en": "He lost his balance and fell off the bike.",
+      "vi": "Anh ấy mất thăng bằng và ngã khỏi xe."
+     }
+    ]
+   },
+   {
+    "guideword": "EQUAL",
+    "level": "B2",
+    "defEN": "a state where different things have fair amounts",
+    "defVI": "sự cân bằng",
+    "examples": [
+     {
+      "en": "It is hard to find a balance between work and family.",
+      "vi": "Thật khó để cân bằng giữa công việc và gia đình."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "balcony",
+  "pos": "noun",
+  "ipaUK": "/ˈbæl.kə.ni/",
+  "ipaUS": "/ˈbæl.kə.ni/",
+  "senses": [
+   {
+    "guideword": "HOUSE",
+    "level": "B1",
+    "defEN": "a small platform on the outside wall of a building",
+    "defVI": "ban công",
+    "examples": [
+     {
+      "en": "We had breakfast on the balcony.",
+      "vi": "Chúng tôi ăn sáng ngoài ban công."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bandage",
+  "pos": "noun",
+  "ipaUK": "/ˈbæn.dɪdʒ/",
+  "ipaUS": "/ˈbæn.dɪdʒ/",
+  "senses": [
+   {
+    "guideword": "INJURY",
+    "level": "B1",
+    "defEN": "a strip of cloth wrapped around a wound",
+    "defVI": "băng gạc",
+    "examples": [
+     {
+      "en": "The nurse put a bandage on my arm.",
+      "vi": "Y tá quấn băng vào tay tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bank",
+  "pos": "noun",
+  "ipaUK": "/bæŋk/",
+  "ipaUS": "/bæŋk/",
+  "senses": [
+   {
+    "guideword": "RIVER",
+    "level": "B1",
+    "defEN": "the land along the side of a river",
+    "defVI": "bờ sông",
+    "examples": [
+     {
+      "en": "They sat on the bank and fished.",
+      "vi": "Họ ngồi trên bờ sông câu cá."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bargain",
+  "pos": "noun",
+  "ipaUK": "/ˈbɑː.ɡɪn/",
+  "ipaUS": "/ˈbɑːr.ɡɪn/",
+  "senses": [
+   {
+    "guideword": "CHEAP",
+    "level": "B1",
+    "defEN": "something bought for much less than its usual price",
+    "defVI": "món hời",
+    "examples": [
+     {
+      "en": "This jacket was a real bargain.",
+      "vi": "Chiếc áo khoác này thật là món hời."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "barrier",
+  "pos": "noun",
+  "ipaUK": "/ˈbær.i.ər/",
+  "ipaUS": "/ˈber.i.ɚ/",
+  "senses": [
+   {
+    "guideword": "FENCE",
+    "level": "B1",
+    "defEN": "a structure that stops people from going somewhere",
+    "defVI": "rào chắn",
+    "examples": [
+     {
+      "en": "Police put up barriers along the road.",
+      "vi": "Cảnh sát dựng rào chắn dọc con đường."
+     }
+    ]
+   },
+   {
+    "guideword": "PROBLEM",
+    "level": "B2",
+    "defEN": "something that makes progress difficult",
+    "defVI": "rào cản",
+    "examples": [
+     {
+      "en": "Language can be a barrier to finding work.",
+      "vi": "Ngôn ngữ có thể là rào cản khi tìm việc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "basic",
+  "pos": "adjective",
+  "ipaUK": "/ˈbeɪ.sɪk/",
+  "ipaUS": "/ˈbeɪ.sɪk/",
+  "senses": [
+   {
+    "guideword": "SIMPLE",
+    "level": "B1",
+    "defEN": "simple and forming the main part of something",
+    "defVI": "cơ bản",
+    "examples": [
+     {
+      "en": "I only know basic Spanish.",
+      "vi": "Tôi chỉ biết tiếng Tây Ban Nha cơ bản."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "basis",
+  "pos": "noun",
+  "ipaUK": "/ˈbeɪ.sɪs/",
+  "ipaUS": "/ˈbeɪ.sɪs/",
+  "senses": [
+   {
+    "guideword": "WAY",
+    "level": "B1",
+    "defEN": "the regular way something is done",
+    "defVI": "cơ sở, định kỳ",
+    "examples": [
+     {
+      "en": "She works on a part-time basis.",
+      "vi": "Cô ấy làm việc bán thời gian."
+     }
+    ]
+   },
+   {
+    "guideword": "REASON",
+    "level": "B2",
+    "defEN": "the facts or ideas from which something develops",
+    "defVI": "nền tảng, căn cứ",
+    "examples": [
+     {
+      "en": "His idea formed the basis of the new plan.",
+      "vi": "Ý tưởng của anh ấy là nền tảng cho kế hoạch mới."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "battery",
+  "pos": "noun",
+  "ipaUK": "/ˈbæt.ər.i/",
+  "ipaUS": "/ˈbæt̬.ɚ.i/",
+  "senses": [
+   {
+    "guideword": "POWER",
+    "level": "B1",
+    "defEN": "a device that stores electricity for machines",
+    "defVI": "pin",
+    "examples": [
+     {
+      "en": "My phone battery is almost dead.",
+      "vi": "Pin điện thoại của tôi gần hết."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "battle",
+  "pos": "noun",
+  "ipaUK": "/ˈbæt.əl/",
+  "ipaUS": "/ˈbæt̬.əl/",
+  "senses": [
+   {
+    "guideword": "WAR",
+    "level": "B1",
+    "defEN": "a fight between armies",
+    "defVI": "trận đánh",
+    "examples": [
+     {
+      "en": "Many soldiers died in the battle.",
+      "vi": "Nhiều binh lính đã hy sinh trong trận đánh."
+     }
+    ]
+   },
+   {
+    "guideword": "EFFORT",
+    "level": "B2",
+    "defEN": "a long struggle to achieve something",
+    "defVI": "cuộc đấu tranh",
+    "examples": [
+     {
+      "en": "her battle against cancer",
+      "vi": "cuộc chiến chống ung thư của bà ấy"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beard",
+  "pos": "noun",
+  "ipaUK": "/bɪəd/",
+  "ipaUS": "/bɪrd/",
+  "senses": [
+   {
+    "guideword": "FACE",
+    "level": "B1",
+    "defEN": "hair that grows on a man's chin and cheeks",
+    "defVI": "râu",
+    "examples": [
+     {
+      "en": "My grandfather has a long white beard.",
+      "vi": "Ông tôi có bộ râu dài bạc trắng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beat",
+  "pos": "verb",
+  "ipaUK": "/biːt/",
+  "ipaUS": "/biːt/",
+  "senses": [
+   {
+    "guideword": "WIN",
+    "level": "B1",
+    "defEN": "to defeat someone in a game or competition",
+    "defVI": "đánh bại",
+    "examples": [
+     {
+      "en": "Vietnam beat Thailand 2–1.",
+      "vi": "Việt Nam thắng Thái Lan 2–1."
+     }
+    ]
+   },
+   {
+    "guideword": "HIT",
+    "level": "B2",
+    "defEN": "to hit repeatedly",
+    "defVI": "đánh, đập liên tục",
+    "examples": [
+     {
+      "en": "The rain was beating against the window.",
+      "vi": "Mưa đập liên hồi vào cửa sổ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beauty",
+  "pos": "noun",
+  "ipaUK": "/ˈbjuː.ti/",
+  "ipaUS": "/ˈbjuː.t̬i/",
+  "senses": [
+   {
+    "guideword": "QUALITY",
+    "level": "B1",
+    "defEN": "the quality of being attractive to look at",
+    "defVI": "vẻ đẹp",
+    "examples": [
+     {
+      "en": "the natural beauty of Ha Long Bay",
+      "vi": "vẻ đẹp tự nhiên của vịnh Hạ Long"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bedroom",
+  "pos": "noun",
+  "ipaUK": "/ˈbed.ruːm/",
+  "ipaUS": "/ˈbed.ruːm/",
+  "senses": [
+   {
+    "guideword": "ROOM",
+    "level": "B1",
+    "defEN": "a room used for sleeping",
+    "defVI": "phòng ngủ",
+    "examples": [
+     {
+      "en": "The flat has two bedrooms.",
+      "vi": "Căn hộ có hai phòng ngủ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beg",
+  "pos": "verb",
+  "ipaUK": "/beɡ/",
+  "ipaUS": "/beɡ/",
+  "senses": [
+   {
+    "guideword": "ASK",
+    "level": "B1",
+    "defEN": "to ask for something strongly and emotionally",
+    "defVI": "van xin, cầu xin",
+    "examples": [
+     {
+      "en": "He begged me not to tell anyone.",
+      "vi": "Anh ấy van xin tôi đừng kể với ai."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beginner",
+  "pos": "noun",
+  "ipaUK": "/bɪˈɡɪn.ər/",
+  "ipaUS": "/bɪˈɡɪn.ɚ/",
+  "senses": [
+   {
+    "guideword": "NEW",
+    "level": "B1",
+    "defEN": "a person who is starting to learn something",
+    "defVI": "người mới bắt đầu",
+    "examples": [
+     {
+      "en": "This class is for beginners.",
+      "vi": "Lớp này dành cho người mới bắt đầu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "behave",
+  "pos": "verb",
+  "ipaUK": "/bɪˈheɪv/",
+  "ipaUS": "/bɪˈheɪv/",
+  "senses": [
+   {
+    "guideword": "ACT",
+    "level": "B1",
+    "defEN": "to act in a particular way",
+    "defVI": "cư xử",
+    "examples": [
+     {
+      "en": "The children behaved very well today.",
+      "vi": "Hôm nay bọn trẻ cư xử rất ngoan."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "belief",
+  "pos": "noun",
+  "ipaUK": "/bɪˈliːf/",
+  "ipaUS": "/bɪˈliːf/",
+  "senses": [
+   {
+    "guideword": "IDEA",
+    "level": "B1",
+    "defEN": "a feeling that something is true",
+    "defVI": "niềm tin",
+    "examples": [
+     {
+      "en": "religious beliefs",
+      "vi": "niềm tin tôn giáo"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bell",
+  "pos": "noun",
+  "ipaUK": "/bel/",
+  "ipaUS": "/bel/",
+  "senses": [
+   {
+    "guideword": "SOUND",
+    "level": "B1",
+    "defEN": "a metal object that rings when hit",
+    "defVI": "chuông",
+    "examples": [
+     {
+      "en": "The school bell rang at eight.",
+      "vi": "Chuông trường reo lúc tám giờ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "belt",
+  "pos": "noun",
+  "ipaUK": "/belt/",
+  "ipaUS": "/belt/",
+  "senses": [
+   {
+    "guideword": "CLOTHES",
+    "level": "B1",
+    "defEN": "a strip of leather worn around the waist",
+    "defVI": "thắt lưng",
+    "examples": [
+     {
+      "en": "He wore a brown leather belt.",
+      "vi": "Anh ấy đeo thắt lưng da màu nâu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bend",
+  "pos": "verb",
+  "ipaUK": "/bend/",
+  "ipaUS": "/bend/",
+  "senses": [
+   {
+    "guideword": "BODY",
+    "level": "B1",
+    "defEN": "to move your body forward or down",
+    "defVI": "cúi xuống",
+    "examples": [
+     {
+      "en": "She bent down to pick up the pen.",
+      "vi": "Cô ấy cúi xuống nhặt cây bút."
+     }
+    ]
+   },
+   {
+    "guideword": "SHAPE",
+    "level": "B1",
+    "defEN": "to make something curved",
+    "defVI": "uốn cong",
+    "examples": [
+     {
+      "en": "Don't bend the card.",
+      "vi": "Đừng bẻ cong tấm thẻ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "besides",
+  "pos": "adverb",
+  "ipaUK": "/bɪˈsaɪdz/",
+  "ipaUS": "/bɪˈsaɪdz/",
+  "senses": [
+   {
+    "guideword": "ALSO",
+    "level": "B1",
+    "defEN": "in addition to what was just said",
+    "defVI": "ngoài ra",
+    "examples": [
+     {
+      "en": "I don't want to go. Besides, it's raining.",
+      "vi": "Tôi không muốn đi. Hơn nữa, trời đang mưa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bet",
+  "pos": "verb",
+  "ipaUK": "/bet/",
+  "ipaUS": "/bet/",
+  "senses": [
+   {
+    "guideword": "MONEY",
+    "level": "B1",
+    "defEN": "to risk money on the result of an event",
+    "defVI": "cá cược",
+    "examples": [
+     {
+      "en": "He bet $10 on the match.",
+      "vi": "Anh ta cược 10 đô vào trận đấu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bill",
+  "pos": "noun",
+  "ipaUK": "/bɪl/",
+  "ipaUS": "/bɪl/",
+  "senses": [
+   {
+    "guideword": "PAYMENT",
+    "level": "B1",
+    "defEN": "a document showing how much you must pay",
+    "defVI": "hóa đơn",
+    "examples": [
+     {
+      "en": "We need to pay the electricity bill.",
+      "vi": "Chúng ta cần trả hóa đơn tiền điện."
+     }
+    ]
+   },
+   {
+    "guideword": "LAW",
+    "level": "B2",
+    "defEN": "a written plan for a new law",
+    "defVI": "dự luật",
+    "examples": [
+     {
+      "en": "Parliament passed the bill.",
+      "vi": "Quốc hội đã thông qua dự luật."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "biology",
+  "pos": "noun",
+  "ipaUK": "/baɪˈɒl.ə.dʒi/",
+  "ipaUS": "/baɪˈɑː.lə.dʒi/",
+  "senses": [
+   {
+    "guideword": "SCIENCE",
+    "level": "B1",
+    "defEN": "the study of living things",
+    "defVI": "sinh học",
+    "examples": [
+     {
+      "en": "She teaches biology at a high school.",
+      "vi": "Cô ấy dạy sinh học ở trường cấp ba."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "birth",
+  "pos": "noun",
+  "ipaUK": "/bɜːθ/",
+  "ipaUS": "/bɝːθ/",
+  "senses": [
+   {
+    "guideword": "BORN",
+    "level": "B1",
+    "defEN": "the moment when a baby comes out of its mother",
+    "defVI": "sự ra đời, sinh nở",
+    "examples": [
+     {
+      "en": "the birth of their first child",
+      "vi": "sự chào đời của đứa con đầu lòng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "biscuit",
+  "pos": "noun",
+  "ipaUK": "/ˈbɪs.kɪt/",
+  "ipaUS": "/ˈbɪs.kɪt/",
+  "senses": [
+   {
+    "guideword": "FOOD",
+    "level": "B1",
+    "defEN": "a small flat sweet baked food",
+    "defVI": "bánh quy",
+    "examples": [
+     {
+      "en": "a packet of chocolate biscuits",
+      "vi": "một gói bánh quy sô-cô-la"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bitter",
+  "pos": "adjective",
+  "ipaUK": "/ˈbɪt.ər/",
+  "ipaUS": "/ˈbɪt̬.ɚ/",
+  "senses": [
+   {
+    "guideword": "TASTE",
+    "level": "B1",
+    "defEN": "having a strong sharp taste that is not sweet",
+    "defVI": "đắng",
+    "examples": [
+     {
+      "en": "This coffee is too bitter.",
+      "vi": "Cà phê này đắng quá."
+     }
+    ]
+   },
+   {
+    "guideword": "ANGRY",
+    "level": "B2",
+    "defEN": "angry and upset because of something unfair",
+    "defVI": "cay đắng, uất ức",
+    "examples": [
+     {
+      "en": "She felt bitter about losing her job.",
+      "vi": "Cô ấy thấy cay đắng vì mất việc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blame",
+  "pos": "verb",
+  "ipaUK": "/bleɪm/",
+  "ipaUS": "/bleɪm/",
+  "senses": [
+   {
+    "guideword": "FAULT",
+    "level": "B1",
+    "defEN": "to say someone is responsible for something bad",
+    "defVI": "đổ lỗi",
+    "examples": [
+     {
+      "en": "Don't blame me for your mistakes.",
+      "vi": "Đừng đổ lỗi cho tôi vì sai lầm của bạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blank",
+  "pos": "adjective",
+  "ipaUK": "/blæŋk/",
+  "ipaUS": "/blæŋk/",
+  "senses": [
+   {
+    "guideword": "EMPTY",
+    "level": "B1",
+    "defEN": "with nothing written or recorded on it",
+    "defVI": "trống, để trắng",
+    "examples": [
+     {
+      "en": "Write your name on a blank sheet.",
+      "vi": "Viết tên bạn lên một tờ giấy trắng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blanket",
+  "pos": "noun",
+  "ipaUK": "/ˈblæŋ.kɪt/",
+  "ipaUS": "/ˈblæŋ.kɪt/",
+  "senses": [
+   {
+    "guideword": "BED",
+    "level": "B1",
+    "defEN": "a thick cover used to keep warm in bed",
+    "defVI": "chăn",
+    "examples": [
+     {
+      "en": "Can I have an extra blanket?",
+      "vi": "Cho tôi thêm một cái chăn được không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blind",
+  "pos": "adjective",
+  "ipaUK": "/blaɪnd/",
+  "ipaUS": "/blaɪnd/",
+  "senses": [
+   {
+    "guideword": "SEE",
+    "level": "B1",
+    "defEN": "not able to see",
+    "defVI": "mù",
+    "examples": [
+     {
+      "en": "He has been blind since birth.",
+      "vi": "Anh ấy bị mù từ khi sinh ra."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "block",
+  "pos": "noun",
+  "ipaUK": "/blɒk/",
+  "ipaUS": "/blɑːk/",
+  "senses": [
+   {
+    "guideword": "BUILDING",
+    "level": "B1",
+    "defEN": "a large building divided into flats or offices",
+    "defVI": "tòa nhà, dãy nhà",
+    "examples": [
+     {
+      "en": "an office block",
+      "vi": "một tòa nhà văn phòng"
+     }
+    ]
+   },
+   {
+    "guideword": "PIECE",
+    "level": "B1",
+    "defEN": "a solid piece of hard material",
+    "defVI": "khối",
+    "examples": [
+     {
+      "en": "a block of ice",
+      "vi": "một khối băng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blood",
+  "pos": "noun",
+  "ipaUK": "/blʌd/",
+  "ipaUS": "/blʌd/",
+  "senses": [
+   {
+    "guideword": "BODY",
+    "level": "B1",
+    "defEN": "the red liquid that flows around the body",
+    "defVI": "máu",
+    "examples": [
+     {
+      "en": "He lost a lot of blood in the accident.",
+      "vi": "Anh ấy mất nhiều máu trong vụ tai nạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blow",
+  "pos": "verb",
+  "ipaUK": "/bləʊ/",
+  "ipaUS": "/bloʊ/",
+  "senses": [
+   {
+    "guideword": "WIND",
+    "level": "B1",
+    "defEN": "to move air, as wind does",
+    "defVI": "thổi",
+    "examples": [
+     {
+      "en": "The wind blew my hat off.",
+      "vi": "Gió thổi bay mũ của tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "board",
+  "pos": "noun",
+  "ipaUK": "/bɔːd/",
+  "ipaUS": "/bɔːrd/",
+  "senses": [
+   {
+    "guideword": "WOOD",
+    "level": "B1",
+    "defEN": "a flat piece of wood or other material",
+    "defVI": "tấm bảng, tấm ván",
+    "examples": [
+     {
+      "en": "Write it on the board.",
+      "vi": "Viết nó lên bảng."
+     }
+    ]
+   },
+   {
+    "guideword": "GROUP",
+    "level": "B2",
+    "defEN": "a group of people who control a company",
+    "defVI": "hội đồng quản trị",
+    "examples": [
+     {
+      "en": "She sits on the board of directors.",
+      "vi": "Bà ấy ngồi trong hội đồng quản trị."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "boil",
+  "pos": "verb",
+  "ipaUK": "/bɔɪl/",
+  "ipaUS": "/bɔɪl/",
+  "senses": [
+   {
+    "guideword": "HEAT",
+    "level": "B1",
+    "defEN": "to heat liquid until it bubbles",
+    "defVI": "đun sôi, luộc",
+    "examples": [
+     {
+      "en": "Boil the eggs for five minutes.",
+      "vi": "Luộc trứng trong năm phút."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bone",
+  "pos": "noun",
+  "ipaUK": "/bəʊn/",
+  "ipaUS": "/boʊn/",
+  "senses": [
+   {
+    "guideword": "BODY",
+    "level": "B1",
+    "defEN": "one of the hard parts inside the body",
+    "defVI": "xương",
+    "examples": [
+     {
+      "en": "He broke a bone in his leg.",
+      "vi": "Anh ấy bị gãy xương chân."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bored",
+  "pos": "adjective",
+  "ipaUK": "/bɔːd/",
+  "ipaUS": "/bɔːrd/",
+  "senses": [
+   {
+    "guideword": "FEELING",
+    "level": "B1",
+    "defEN": "tired and unhappy because nothing interests you",
+    "defVI": "chán",
+    "examples": [
+     {
+      "en": "I'm bored with this film.",
+      "vi": "Tôi chán bộ phim này rồi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "boss",
+  "pos": "noun",
+  "ipaUK": "/bɒs/",
+  "ipaUS": "/bɑːs/",
+  "senses": [
+   {
+    "guideword": "WORK",
+    "level": "B1",
+    "defEN": "the person in charge of you at work",
+    "defVI": "sếp",
+    "examples": [
+     {
+      "en": "My boss let me leave early.",
+      "vi": "Sếp cho tôi về sớm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bother",
+  "pos": "verb",
+  "ipaUK": "/ˈbɒð.ər/",
+  "ipaUS": "/ˈbɑː.ðɚ/",
+  "senses": [
+   {
+    "guideword": "ANNOY",
+    "level": "B1",
+    "defEN": "to annoy or worry someone",
+    "defVI": "làm phiền",
+    "examples": [
+     {
+      "en": "Sorry to bother you, but where is the station?",
+      "vi": "Xin lỗi đã làm phiền, ga ở đâu vậy?"
+     }
+    ]
+   },
+   {
+    "guideword": "EFFORT",
+    "level": "B2",
+    "defEN": "to make the effort to do something",
+    "defVI": "chịu khó, buồn (làm gì)",
+    "examples": [
+     {
+      "en": "He didn't even bother to call.",
+      "vi": "Anh ta còn chẳng buồn gọi điện."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bottom",
+  "pos": "noun",
+  "ipaUK": "/ˈbɒt.əm/",
+  "ipaUS": "/ˈbɑː.t̬əm/",
+  "senses": [
+   {
+    "guideword": "LOWEST",
+    "level": "B1",
+    "defEN": "the lowest part of something",
+    "defVI": "đáy, phần dưới cùng",
+    "examples": [
+     {
+      "en": "at the bottom of the page",
+      "vi": "ở cuối trang"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bowl",
+  "pos": "noun",
+  "ipaUK": "/bəʊl/",
+  "ipaUS": "/boʊl/",
+  "senses": [
+   {
+    "guideword": "DISH",
+    "level": "B1",
+    "defEN": "a round deep dish for food",
+    "defVI": "cái bát",
+    "examples": [
+     {
+      "en": "a bowl of rice",
+      "vi": "một bát cơm"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brain",
+  "pos": "noun",
+  "ipaUK": "/breɪn/",
+  "ipaUS": "/breɪn/",
+  "senses": [
+   {
+    "guideword": "ORGAN",
+    "level": "B1",
+    "defEN": "the organ inside the head that controls thinking",
+    "defVI": "não",
+    "examples": [
+     {
+      "en": "The brain needs a lot of oxygen.",
+      "vi": "Não cần rất nhiều oxy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "branch",
+  "pos": "noun",
+  "ipaUK": "/brɑːntʃ/",
+  "ipaUS": "/bræntʃ/",
+  "senses": [
+   {
+    "guideword": "TREE",
+    "level": "B1",
+    "defEN": "a part of a tree that grows out from the trunk",
+    "defVI": "cành cây",
+    "examples": [
+     {
+      "en": "A bird sat on a branch.",
+      "vi": "Một con chim đậu trên cành."
+     }
+    ]
+   },
+   {
+    "guideword": "OFFICE",
+    "level": "B1",
+    "defEN": "one of the offices of a large company",
+    "defVI": "chi nhánh",
+    "examples": [
+     {
+      "en": "The bank has a branch in Da Nang.",
+      "vi": "Ngân hàng có chi nhánh ở Đà Nẵng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brand",
+  "pos": "noun",
+  "ipaUK": "/brænd/",
+  "ipaUS": "/brænd/",
+  "senses": [
+   {
+    "guideword": "PRODUCT",
+    "level": "B1",
+    "defEN": "a product name made by a particular company",
+    "defVI": "thương hiệu",
+    "examples": [
+     {
+      "en": "What brand of shoes do you wear?",
+      "vi": "Bạn đi giày hiệu gì?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brave",
+  "pos": "adjective",
+  "ipaUK": "/breɪv/",
+  "ipaUS": "/breɪv/",
+  "senses": [
+   {
+    "guideword": "COURAGE",
+    "level": "B1",
+    "defEN": "not afraid of danger or difficulty",
+    "defVI": "dũng cảm",
+    "examples": [
+     {
+      "en": "a brave firefighter",
+      "vi": "một lính cứu hỏa dũng cảm"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "breath",
+  "pos": "noun",
+  "ipaUK": "/breθ/",
+  "ipaUS": "/breθ/",
+  "senses": [
+   {
+    "guideword": "AIR",
+    "level": "B1",
+    "defEN": "the air that goes into and out of your lungs",
+    "defVI": "hơi thở",
+    "examples": [
+     {
+      "en": "Take a deep breath.",
+      "vi": "Hãy hít một hơi thật sâu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "breathe",
+  "pos": "verb",
+  "ipaUK": "/briːð/",
+  "ipaUS": "/briːð/",
+  "senses": [
+   {
+    "guideword": "AIR",
+    "level": "B1",
+    "defEN": "to take air into your body and let it out",
+    "defVI": "thở",
+    "examples": [
+     {
+      "en": "It's hard to breathe in this smoke.",
+      "vi": "Thật khó thở trong khói này."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brick",
+  "pos": "noun",
+  "ipaUK": "/brɪk/",
+  "ipaUS": "/brɪk/",
+  "senses": [
+   {
+    "guideword": "BUILD",
+    "level": "B1",
+    "defEN": "a hard block of baked clay used for building",
+    "defVI": "gạch",
+    "examples": [
+     {
+      "en": "a house made of red bricks",
+      "vi": "ngôi nhà làm bằng gạch đỏ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bride",
+  "pos": "noun",
+  "ipaUK": "/braɪd/",
+  "ipaUS": "/braɪd/",
+  "senses": [
+   {
+    "guideword": "WEDDING",
+    "level": "B1",
+    "defEN": "a woman on her wedding day",
+    "defVI": "cô dâu",
+    "examples": [
+     {
+      "en": "The bride wore a white dress.",
+      "vi": "Cô dâu mặc váy trắng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brief",
+  "pos": "adjective",
+  "ipaUK": "/briːf/",
+  "ipaUS": "/briːf/",
+  "senses": [
+   {
+    "guideword": "SHORT",
+    "level": "B1",
+    "defEN": "lasting only a short time or using few words",
+    "defVI": "ngắn gọn",
+    "examples": [
+     {
+      "en": "a brief meeting",
+      "vi": "một cuộc họp ngắn"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brilliant",
+  "pos": "adjective",
+  "ipaUK": "/ˈbrɪl.i.ənt/",
+  "ipaUS": "/ˈbrɪl.jənt/",
+  "senses": [
+   {
+    "guideword": "CLEVER",
+    "level": "B1",
+    "defEN": "extremely clever or skilful",
+    "defVI": "xuất sắc, tài giỏi",
+    "examples": [
+     {
+      "en": "a brilliant scientist",
+      "vi": "một nhà khoa học lỗi lạc"
+     }
+    ]
+   },
+   {
+    "guideword": "BRIGHT",
+    "level": "B2",
+    "defEN": "full of strong light or colour",
+    "defVI": "rực rỡ",
+    "examples": [
+     {
+      "en": "brilliant sunshine",
+      "vi": "nắng chói chang"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "broad",
+  "pos": "adjective",
+  "ipaUK": "/brɔːd/",
+  "ipaUS": "/brɑːd/",
+  "senses": [
+   {
+    "guideword": "WIDE",
+    "level": "B1",
+    "defEN": "very wide",
+    "defVI": "rộng",
+    "examples": [
+     {
+      "en": "a broad street",
+      "vi": "một con phố rộng"
+     }
+    ]
+   },
+   {
+    "guideword": "GENERAL",
+    "level": "B2",
+    "defEN": "including many different things",
+    "defVI": "bao quát, rộng rãi",
+    "examples": [
+     {
+      "en": "a broad range of subjects",
+      "vi": "nhiều chủ đề đa dạng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brush",
+  "pos": "noun",
+  "ipaUK": "/brʌʃ/",
+  "ipaUS": "/brʌʃ/",
+  "senses": [
+   {
+    "guideword": "TOOL",
+    "level": "B1",
+    "defEN": "a tool with hairs used for cleaning or painting",
+    "defVI": "bàn chải, cọ",
+    "examples": [
+     {
+      "en": "a paint brush",
+      "vi": "một cây cọ vẽ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bubble",
+  "pos": "noun",
+  "ipaUK": "/ˈbʌb.əl/",
+  "ipaUS": "/ˈbʌb.əl/",
+  "senses": [
+   {
+    "guideword": "AIR",
+    "level": "B1",
+    "defEN": "a ball of air or gas in a liquid",
+    "defVI": "bong bóng",
+    "examples": [
+     {
+      "en": "Children love blowing soap bubbles.",
+      "vi": "Trẻ con thích thổi bong bóng xà phòng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "budget",
+  "pos": "noun",
+  "ipaUK": "/ˈbʌdʒ.ɪt/",
+  "ipaUS": "/ˈbʌdʒ.ɪt/",
+  "senses": [
+   {
+    "guideword": "MONEY",
+    "level": "B1",
+    "defEN": "the amount of money you have to spend",
+    "defVI": "ngân sách",
+    "examples": [
+     {
+      "en": "We're on a tight budget this month.",
+      "vi": "Tháng này chúng tôi chi tiêu eo hẹp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bug",
+  "pos": "noun",
+  "ipaUK": "/bʌɡ/",
+  "ipaUS": "/bʌɡ/",
+  "senses": [
+   {
+    "guideword": "INSECT",
+    "level": "B1",
+    "defEN": "a small insect",
+    "defVI": "con bọ",
+    "examples": [
+     {
+      "en": "There's a bug in my soup!",
+      "vi": "Có con bọ trong súp của tôi!"
+     }
+    ]
+   },
+   {
+    "guideword": "COMPUTER",
+    "level": "B2",
+    "defEN": "a fault in a computer program",
+    "defVI": "lỗi phần mềm",
+    "examples": [
+     {
+      "en": "The update fixed several bugs.",
+      "vi": "Bản cập nhật đã sửa vài lỗi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bulb",
+  "pos": "noun",
+  "ipaUK": "/bʌlb/",
+  "ipaUS": "/bʌlb/",
+  "senses": [
+   {
+    "guideword": "LIGHT",
+    "level": "B1",
+    "defEN": "the glass part of an electric light",
+    "defVI": "bóng đèn",
+    "examples": [
+     {
+      "en": "The bulb in the kitchen needs changing.",
+      "vi": "Cần thay bóng đèn trong bếp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bullet",
+  "pos": "noun",
+  "ipaUK": "/ˈbʊl.ɪt/",
+  "ipaUS": "/ˈbʊl.ɪt/",
+  "senses": [
+   {
+    "guideword": "GUN",
+    "level": "B1",
+    "defEN": "a small metal object fired from a gun",
+    "defVI": "viên đạn",
+    "examples": [
+     {
+      "en": "The bullet missed him.",
+      "vi": "Viên đạn trượt khỏi anh ta."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bunch",
+  "pos": "noun",
+  "ipaUK": "/bʌntʃ/",
+  "ipaUS": "/bʌntʃ/",
+  "senses": [
+   {
+    "guideword": "GROUP",
+    "level": "B1",
+    "defEN": "a number of things of the same type held together",
+    "defVI": "bó, chùm",
+    "examples": [
+     {
+      "en": "a bunch of flowers",
+      "vi": "một bó hoa"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "burn",
+  "pos": "verb",
+  "ipaUK": "/bɜːn/",
+  "ipaUS": "/bɝːn/",
+  "senses": [
+   {
+    "guideword": "FIRE",
+    "level": "B1",
+    "defEN": "to be damaged or destroyed by fire",
+    "defVI": "cháy, đốt",
+    "examples": [
+     {
+      "en": "The old house burned down.",
+      "vi": "Ngôi nhà cũ cháy rụi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "burst",
+  "pos": "verb",
+  "ipaUK": "/bɜːst/",
+  "ipaUS": "/bɝːst/",
+  "senses": [
+   {
+    "guideword": "BREAK",
+    "level": "B1",
+    "defEN": "to break open suddenly",
+    "defVI": "nổ tung, vỡ",
+    "examples": [
+     {
+      "en": "The balloon burst.",
+      "vi": "Quả bóng bay nổ tung."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bury",
+  "pos": "verb",
+  "ipaUK": "/ˈber.i/",
+  "ipaUS": "/ˈber.i/",
+  "senses": [
+   {
+    "guideword": "GROUND",
+    "level": "B1",
+    "defEN": "to put something in the ground and cover it",
+    "defVI": "chôn",
+    "examples": [
+     {
+      "en": "The dog buried a bone in the garden.",
+      "vi": "Con chó chôn cục xương trong vườn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bush",
+  "pos": "noun",
+  "ipaUK": "/bʊʃ/",
+  "ipaUS": "/bʊʃ/",
+  "senses": [
+   {
+    "guideword": "PLANT",
+    "level": "B1",
+    "defEN": "a plant with many small branches, smaller than a tree",
+    "defVI": "bụi cây",
+    "examples": [
+     {
+      "en": "The cat hid under a bush.",
+      "vi": "Con mèo trốn dưới bụi cây."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "busy",
+  "pos": "adjective",
+  "ipaUK": "/ˈbɪz.i/",
+  "ipaUS": "/ˈbɪz.i/",
+  "senses": [
+   {
+    "guideword": "PLACE",
+    "level": "B1",
+    "defEN": "full of people or activity",
+    "defVI": "đông đúc, nhộn nhịp",
+    "examples": [
+     {
+      "en": "a busy street",
+      "vi": "một con phố đông đúc"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "button",
+  "pos": "noun",
+  "ipaUK": "/ˈbʌt.ən/",
+  "ipaUS": "/ˈbʌt.ən/",
+  "senses": [
+   {
+    "guideword": "MACHINE",
+    "level": "B1",
+    "defEN": "a small part you press to make a machine work",
+    "defVI": "nút bấm",
+    "examples": [
+     {
+      "en": "Press the red button to stop.",
+      "vi": "Bấm nút đỏ để dừng."
+     }
+    ]
+   },
+   {
+    "guideword": "CLOTHES",
+    "level": "B1",
+    "defEN": "a small round object used to fasten clothes",
+    "defVI": "cúc áo",
+    "examples": [
+     {
+      "en": "A button fell off my shirt.",
+      "vi": "Một chiếc cúc rơi khỏi áo tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bin",
+  "pos": "noun",
+  "ipaUK": "/bɪn/",
+  "ipaUS": "/bɪn/",
+  "senses": [
+   {
+    "guideword": "RUBBISH",
+    "level": "B1",
+    "defEN": "a container for waste",
+    "defVI": "thùng rác",
+    "examples": [
+     {
+      "en": "Put it in the bin.",
+      "vi": "Bỏ nó vào thùng rác."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "boot",
+  "pos": "noun",
+  "ipaUK": "/buːt/",
+  "ipaUS": "/buːt/",
+  "senses": [
+   {
+    "guideword": "SHOE",
+    "level": "B1",
+    "defEN": "a strong shoe that covers the ankle",
+    "defVI": "ủng, bốt",
+    "examples": [
+     {
+      "en": "walking boots",
+      "vi": "giày bốt đi bộ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "border",
+  "pos": "noun",
+  "ipaUK": "/ˈbɔː.dər/",
+  "ipaUS": "/ˈbɔːr.dɚ/",
+  "senses": [
+   {
+    "guideword": "COUNTRY",
+    "level": "B1",
+    "defEN": "the line that separates two countries",
+    "defVI": "biên giới",
+    "examples": [
+     {
+      "en": "We crossed the border into Laos.",
+      "vi": "Chúng tôi vượt biên giới sang Lào."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "backbone",
+  "pos": "noun",
+  "ipaUK": "/ˈbæk.bəʊn/",
+  "ipaUS": "/ˈbæk.boʊn/",
+  "senses": [
+   {
+    "guideword": "MAIN PART",
+    "level": "B2",
+    "defEN": "the most important part that supports a system",
+    "defVI": "xương sống, trụ cột",
+    "examples": [
+     {
+      "en": "Small firms are the backbone of the economy.",
+      "vi": "Doanh nghiệp nhỏ là xương sống của nền kinh tế."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "backup",
+  "pos": "noun",
+  "ipaUK": "/ˈbæk.ʌp/",
+  "ipaUS": "/ˈbæk.ʌp/",
+  "senses": [
+   {
+    "guideword": "COPY",
+    "level": "B2",
+    "defEN": "a copy of computer data kept in case of loss",
+    "defVI": "bản sao lưu",
+    "examples": [
+     {
+      "en": "Always keep a backup of your files.",
+      "vi": "Luôn giữ bản sao lưu các tập tin của bạn."
+     }
+    ]
+   },
+   {
+    "guideword": "SUPPORT",
+    "level": "B2",
+    "defEN": "extra help or support",
+    "defVI": "sự hỗ trợ, dự phòng",
+    "examples": [
+     {
+      "en": "Police called for backup.",
+      "vi": "Cảnh sát gọi thêm lực lượng hỗ trợ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "backward",
+  "pos": "adjective",
+  "ipaUK": "/ˈbæk.wəd/",
+  "ipaUS": "/ˈbæk.wɚd/",
+  "senses": [
+   {
+    "guideword": "DIRECTION",
+    "level": "B2",
+    "defEN": "towards the direction behind you",
+    "defVI": "về phía sau",
+    "examples": [
+     {
+      "en": "a backward glance",
+      "vi": "một cái liếc nhìn ra sau"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ban",
+  "pos": "verb",
+  "ipaUK": "/bæn/",
+  "ipaUS": "/bæn/",
+  "senses": [
+   {
+    "guideword": "FORBID",
+    "level": "B2",
+    "defEN": "to officially say something must not be done",
+    "defVI": "cấm",
+    "examples": [
+     {
+      "en": "Smoking is banned in restaurants.",
+      "vi": "Hút thuốc bị cấm trong nhà hàng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bankrupt",
+  "pos": "adjective",
+  "ipaUK": "/ˈbæŋ.krʌpt/",
+  "ipaUS": "/ˈbæŋ.krʌpt/",
+  "senses": [
+   {
+    "guideword": "MONEY",
+    "level": "B2",
+    "defEN": "unable to pay your debts",
+    "defVI": "phá sản",
+    "examples": [
+     {
+      "en": "The company went bankrupt last year.",
+      "vi": "Công ty phá sản năm ngoái."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bare",
+  "pos": "adjective",
+  "ipaUK": "/beər/",
+  "ipaUS": "/ber/",
+  "senses": [
+   {
+    "guideword": "NOT COVERED",
+    "level": "B2",
+    "defEN": "not covered by clothes or anything else",
+    "defVI": "trần, trơ trụi",
+    "examples": [
+     {
+      "en": "walking in bare feet",
+      "vi": "đi chân trần"
+     }
+    ]
+   },
+   {
+    "guideword": "BASIC",
+    "level": "C1",
+    "defEN": "only the most basic amount",
+    "defVI": "tối thiểu",
+    "examples": [
+     {
+      "en": "the bare minimum",
+      "vi": "mức tối thiểu"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "barely",
+  "pos": "adverb",
+  "ipaUK": "/ˈbeə.li/",
+  "ipaUS": "/ˈber.li/",
+  "senses": [
+   {
+    "guideword": "ALMOST NOT",
+    "level": "B2",
+    "defEN": "only just; almost not",
+    "defVI": "vừa đủ, hầu như không",
+    "examples": [
+     {
+      "en": "I could barely hear him.",
+      "vi": "Tôi hầu như không nghe thấy anh ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "barrel",
+  "pos": "noun",
+  "ipaUK": "/ˈbær.əl/",
+  "ipaUS": "/ˈber.əl/",
+  "senses": [
+   {
+    "guideword": "CONTAINER",
+    "level": "B2",
+    "defEN": "a large round container for liquids",
+    "defVI": "thùng tròn",
+    "examples": [
+     {
+      "en": "a barrel of oil",
+      "vi": "một thùng dầu"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bat",
+  "pos": "noun",
+  "ipaUK": "/bæt/",
+  "ipaUS": "/bæt/",
+  "senses": [
+   {
+    "guideword": "ANIMAL",
+    "level": "B2",
+    "defEN": "a small flying animal active at night",
+    "defVI": "con dơi",
+    "examples": [
+     {
+      "en": "Bats live in the cave.",
+      "vi": "Dơi sống trong hang."
+     }
+    ]
+   },
+   {
+    "guideword": "SPORT",
+    "level": "B1",
+    "defEN": "a piece of wood used to hit the ball in some sports",
+    "defVI": "gậy (đánh bóng)",
+    "examples": [
+     {
+      "en": "a baseball bat",
+      "vi": "gậy bóng chày"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bay",
+  "pos": "noun",
+  "ipaUK": "/beɪ/",
+  "ipaUS": "/beɪ/",
+  "senses": [
+   {
+    "guideword": "COAST",
+    "level": "B2",
+    "defEN": "an area of sea partly surrounded by land",
+    "defVI": "vịnh",
+    "examples": [
+     {
+      "en": "a quiet bay with clear water",
+      "vi": "một vịnh yên tĩnh nước trong"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bean",
+  "pos": "noun",
+  "ipaUK": "/biːn/",
+  "ipaUS": "/biːn/",
+  "senses": [
+   {
+    "guideword": "FOOD",
+    "level": "B2",
+    "defEN": "a seed that is cooked and eaten as a vegetable",
+    "defVI": "hạt đậu",
+    "examples": [
+     {
+      "en": "green beans",
+      "vi": "đậu cô ve"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bear",
+  "pos": "verb",
+  "ipaUK": "/beər/",
+  "ipaUS": "/ber/",
+  "senses": [
+   {
+    "guideword": "ACCEPT",
+    "level": "B2",
+    "defEN": "to accept or deal with something unpleasant",
+    "defVI": "chịu đựng",
+    "examples": [
+     {
+      "en": "I can't bear the noise.",
+      "vi": "Tôi không chịu nổi tiếng ồn."
+     }
+    ]
+   },
+   {
+    "guideword": "CARRY",
+    "level": "C1",
+    "defEN": "to carry or support weight",
+    "defVI": "chịu, mang",
+    "examples": [
+     {
+      "en": "The bridge can bear ten tonnes.",
+      "vi": "Cây cầu chịu được mười tấn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beneath",
+  "pos": "preposition",
+  "ipaUK": "/bɪˈniːθ/",
+  "ipaUS": "/bɪˈniːθ/",
+  "senses": [
+   {
+    "guideword": "UNDER",
+    "level": "B2",
+    "defEN": "in a lower position than something",
+    "defVI": "bên dưới",
+    "examples": [
+     {
+      "en": "the ground beneath our feet",
+      "vi": "mặt đất dưới chân chúng ta"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beam",
+  "pos": "noun",
+  "ipaUK": "/biːm/",
+  "ipaUS": "/biːm/",
+  "senses": [
+   {
+    "guideword": "LIGHT",
+    "level": "B2",
+    "defEN": "a line of light shining from something",
+    "defVI": "chùm tia sáng",
+    "examples": [
+     {
+      "en": "the beam of a torch",
+      "vi": "chùm sáng của đèn pin"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "behalf",
+  "pos": "noun",
+  "ipaUK": "/bɪˈhɑːf/",
+  "ipaUS": "/bɪˈhæf/",
+  "senses": [
+   {
+    "guideword": "FOR",
+    "level": "B2",
+    "defEN": "as the representative of someone",
+    "defVI": "thay mặt",
+    "examples": [
+     {
+      "en": "I'm writing on behalf of my company.",
+      "vi": "Tôi viết thay mặt công ty."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "betray",
+  "pos": "verb",
+  "ipaUK": "/bɪˈtreɪ/",
+  "ipaUS": "/bɪˈtreɪ/",
+  "senses": [
+   {
+    "guideword": "DISLOYAL",
+    "level": "B2",
+    "defEN": "to hurt someone who trusts you by being disloyal",
+    "defVI": "phản bội",
+    "examples": [
+     {
+      "en": "He betrayed his closest friend.",
+      "vi": "Anh ta phản bội người bạn thân nhất."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beverage",
+  "pos": "noun",
+  "ipaUK": "/ˈbev.ər.ɪdʒ/",
+  "ipaUS": "/ˈbev.ɚ.ɪdʒ/",
+  "senses": [
+   {
+    "guideword": "DRINK",
+    "level": "B2",
+    "defEN": "a drink other than water (formal)",
+    "defVI": "đồ uống",
+    "examples": [
+     {
+      "en": "hot beverages",
+      "vi": "đồ uống nóng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beyond",
+  "pos": "preposition",
+  "ipaUK": "/biˈjɒnd/",
+  "ipaUS": "/biˈjɑːnd/",
+  "senses": [
+   {
+    "guideword": "FURTHER",
+    "level": "B2",
+    "defEN": "on the far side of something",
+    "defVI": "ở phía bên kia",
+    "examples": [
+     {
+      "en": "a village beyond the hills",
+      "vi": "ngôi làng bên kia đồi"
+     }
+    ]
+   },
+   {
+    "guideword": "MORE THAN",
+    "level": "B2",
+    "defEN": "outside the limits of something",
+    "defVI": "vượt quá",
+    "examples": [
+     {
+      "en": "The situation is beyond our control.",
+      "vi": "Tình hình nằm ngoài tầm kiểm soát."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bid",
+  "pos": "noun",
+  "ipaUK": "/bɪd/",
+  "ipaUS": "/bɪd/",
+  "senses": [
+   {
+    "guideword": "OFFER",
+    "level": "B2",
+    "defEN": "an offer to pay a certain price",
+    "defVI": "sự trả giá, đấu thầu",
+    "examples": [
+     {
+      "en": "a bid of $500",
+      "vi": "mức trả giá 500 đô"
+     }
+    ]
+   },
+   {
+    "guideword": "ATTEMPT",
+    "level": "C1",
+    "defEN": "an effort to achieve something",
+    "defVI": "nỗ lực",
+    "examples": [
+     {
+      "en": "a bid to reduce pollution",
+      "vi": "nỗ lực giảm ô nhiễm"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "billion",
+  "pos": "number",
+  "ipaUK": "/ˈbɪl.jən/",
+  "ipaUS": "/ˈbɪl.jən/",
+  "senses": [
+   {
+    "guideword": "NUMBER",
+    "level": "B2",
+    "defEN": "the number 1,000,000,000",
+    "defVI": "tỷ",
+    "examples": [
+     {
+      "en": "The project cost two billion dollars.",
+      "vi": "Dự án tốn hai tỷ đô la."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bind",
+  "pos": "verb",
+  "ipaUK": "/baɪnd/",
+  "ipaUS": "/baɪnd/",
+  "senses": [
+   {
+    "guideword": "TIE",
+    "level": "B2",
+    "defEN": "to tie something tightly",
+    "defVI": "buộc, trói",
+    "examples": [
+     {
+      "en": "They bound his hands.",
+      "vi": "Họ trói tay anh ta."
+     }
+    ]
+   },
+   {
+    "guideword": "OBLIGE",
+    "level": "C1",
+    "defEN": "to make someone legally obliged",
+    "defVI": "ràng buộc",
+    "examples": [
+     {
+      "en": "The contract binds both sides.",
+      "vi": "Hợp đồng ràng buộc cả hai bên."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "biography",
+  "pos": "noun",
+  "ipaUK": "/baɪˈɒɡ.rə.fi/",
+  "ipaUS": "/baɪˈɑː.ɡrə.fi/",
+  "senses": [
+   {
+    "guideword": "BOOK",
+    "level": "B2",
+    "defEN": "a book about someone's life written by another person",
+    "defVI": "tiểu sử",
+    "examples": [
+     {
+      "en": "a biography of Ho Chi Minh",
+      "vi": "cuốn tiểu sử về Hồ Chí Minh"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blade",
+  "pos": "noun",
+  "ipaUK": "/bleɪd/",
+  "ipaUS": "/bleɪd/",
+  "senses": [
+   {
+    "guideword": "KNIFE",
+    "level": "B2",
+    "defEN": "the flat sharp cutting part of a knife",
+    "defVI": "lưỡi dao",
+    "examples": [
+     {
+      "en": "a razor blade",
+      "vi": "lưỡi dao cạo"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blast",
+  "pos": "noun",
+  "ipaUK": "/blɑːst/",
+  "ipaUS": "/blæst/",
+  "senses": [
+   {
+    "guideword": "EXPLOSION",
+    "level": "B2",
+    "defEN": "an explosion",
+    "defVI": "vụ nổ",
+    "examples": [
+     {
+      "en": "Several windows were broken by the blast.",
+      "vi": "Nhiều cửa sổ vỡ do vụ nổ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bleed",
+  "pos": "verb",
+  "ipaUK": "/bliːd/",
+  "ipaUS": "/bliːd/",
+  "senses": [
+   {
+    "guideword": "BLOOD",
+    "level": "B2",
+    "defEN": "to lose blood",
+    "defVI": "chảy máu",
+    "examples": [
+     {
+      "en": "My nose is bleeding.",
+      "vi": "Mũi tôi đang chảy máu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blend",
+  "pos": "verb",
+  "ipaUK": "/blend/",
+  "ipaUS": "/blend/",
+  "senses": [
+   {
+    "guideword": "MIX",
+    "level": "B2",
+    "defEN": "to mix things together well",
+    "defVI": "trộn, pha",
+    "examples": [
+     {
+      "en": "Blend the fruit with milk.",
+      "vi": "Xay trộn trái cây với sữa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bless",
+  "pos": "verb",
+  "ipaUK": "/bles/",
+  "ipaUS": "/bles/",
+  "senses": [
+   {
+    "guideword": "RELIGION",
+    "level": "B2",
+    "defEN": "to ask God to protect someone",
+    "defVI": "ban phước",
+    "examples": [
+     {
+      "en": "The priest blessed the couple.",
+      "vi": "Vị linh mục ban phước cho cặp đôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blink",
+  "pos": "verb",
+  "ipaUK": "/blɪŋk/",
+  "ipaUS": "/blɪŋk/",
+  "senses": [
+   {
+    "guideword": "EYES",
+    "level": "B2",
+    "defEN": "to close and open your eyes quickly",
+    "defVI": "chớp mắt",
+    "examples": [
+     {
+      "en": "She didn't even blink.",
+      "vi": "Cô ấy thậm chí không chớp mắt."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blossom",
+  "pos": "noun",
+  "ipaUK": "/ˈblɒs.əm/",
+  "ipaUS": "/ˈblɑː.səm/",
+  "senses": [
+   {
+    "guideword": "FLOWER",
+    "level": "B2",
+    "defEN": "small flowers on a tree",
+    "defVI": "hoa (trên cây)",
+    "examples": [
+     {
+      "en": "peach blossom at Tet",
+      "vi": "hoa đào ngày Tết"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blush",
+  "pos": "verb",
+  "ipaUK": "/blʌʃ/",
+  "ipaUS": "/blʌʃ/",
+  "senses": [
+   {
+    "guideword": "FACE",
+    "level": "B2",
+    "defEN": "to go red in the face from shyness",
+    "defVI": "đỏ mặt",
+    "examples": [
+     {
+      "en": "She blushed when he smiled at her.",
+      "vi": "Cô ấy đỏ mặt khi anh mỉm cười với cô."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "boast",
+  "pos": "verb",
+  "ipaUK": "/bəʊst/",
+  "ipaUS": "/boʊst/",
+  "senses": [
+   {
+    "guideword": "PROUD",
+    "level": "B2",
+    "defEN": "to talk too proudly about yourself",
+    "defVI": "khoe khoang",
+    "examples": [
+     {
+      "en": "He's always boasting about his car.",
+      "vi": "Anh ta luôn khoe khoang về xe của mình."
+     }
+    ]
+   },
+   {
+    "guideword": "HAVE",
+    "level": "C1",
+    "defEN": "to have something good to be proud of",
+    "defVI": "tự hào có",
+    "examples": [
+     {
+      "en": "The city boasts many fine parks.",
+      "vi": "Thành phố tự hào có nhiều công viên đẹp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bold",
+  "pos": "adjective",
+  "ipaUK": "/bəʊld/",
+  "ipaUS": "/boʊld/",
+  "senses": [
+   {
+    "guideword": "BRAVE",
+    "level": "B2",
+    "defEN": "confident and not afraid of risks",
+    "defVI": "táo bạo",
+    "examples": [
+     {
+      "en": "a bold decision",
+      "vi": "một quyết định táo bạo"
+     }
+    ]
+   },
+   {
+    "guideword": "STRONG",
+    "level": "B2",
+    "defEN": "strong and easy to notice",
+    "defVI": "đậm, nổi bật",
+    "examples": [
+     {
+      "en": "bold colours",
+      "vi": "màu sắc đậm"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bond",
+  "pos": "noun",
+  "ipaUK": "/bɒnd/",
+  "ipaUS": "/bɑːnd/",
+  "senses": [
+   {
+    "guideword": "CONNECTION",
+    "level": "B2",
+    "defEN": "a close connection between people",
+    "defVI": "mối gắn kết",
+    "examples": [
+     {
+      "en": "the bond between mother and child",
+      "vi": "mối gắn bó giữa mẹ và con"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bonus",
+  "pos": "noun",
+  "ipaUK": "/ˈbəʊ.nəs/",
+  "ipaUS": "/ˈboʊ.nəs/",
+  "senses": [
+   {
+    "guideword": "MONEY",
+    "level": "B2",
+    "defEN": "extra money added to your usual pay",
+    "defVI": "tiền thưởng",
+    "examples": [
+     {
+      "en": "a Tet bonus",
+      "vi": "thưởng Tết"
+     }
+    ]
+   },
+   {
+    "guideword": "ADVANTAGE",
+    "level": "B2",
+    "defEN": "a pleasant extra thing",
+    "defVI": "điều thêm vào tốt đẹp",
+    "examples": [
+     {
+      "en": "The view is a bonus.",
+      "vi": "Tầm nhìn đẹp là điểm cộng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "boom",
+  "pos": "noun",
+  "ipaUK": "/buːm/",
+  "ipaUS": "/buːm/",
+  "senses": [
+   {
+    "guideword": "GROWTH",
+    "level": "B2",
+    "defEN": "a sudden increase in activity or success",
+    "defVI": "sự bùng nổ",
+    "examples": [
+     {
+      "en": "a tourism boom",
+      "vi": "sự bùng nổ du lịch"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "boost",
+  "pos": "verb",
+  "ipaUK": "/buːst/",
+  "ipaUS": "/buːst/",
+  "senses": [
+   {
+    "guideword": "INCREASE",
+    "level": "B2",
+    "defEN": "to increase or improve something",
+    "defVI": "thúc đẩy, tăng cường",
+    "examples": [
+     {
+      "en": "The win boosted the team's confidence.",
+      "vi": "Chiến thắng tăng sự tự tin của đội."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bounce",
+  "pos": "verb",
+  "ipaUK": "/baʊns/",
+  "ipaUS": "/baʊns/",
+  "senses": [
+   {
+    "guideword": "MOVE",
+    "level": "B2",
+    "defEN": "to move back up after hitting a surface",
+    "defVI": "nảy lên",
+    "examples": [
+     {
+      "en": "The ball bounced off the wall.",
+      "vi": "Quả bóng nảy ra khỏi tường."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bound",
+  "pos": "adjective",
+  "ipaUK": "/baʊnd/",
+  "ipaUS": "/baʊnd/",
+  "senses": [
+   {
+    "guideword": "CERTAIN",
+    "level": "B2",
+    "defEN": "very likely to happen",
+    "defVI": "chắc chắn",
+    "examples": [
+     {
+      "en": "It was bound to happen.",
+      "vi": "Chuyện đó chắc chắn sẽ xảy ra."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "boundary",
+  "pos": "noun",
+  "ipaUK": "/ˈbaʊn.dər.i/",
+  "ipaUS": "/ˈbaʊn.dɚ.i/",
+  "senses": [
+   {
+    "guideword": "LINE",
+    "level": "B2",
+    "defEN": "a line marking the edge of an area",
+    "defVI": "ranh giới",
+    "examples": [
+     {
+      "en": "the boundary between two farms",
+      "vi": "ranh giới giữa hai trang trại"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bow",
+  "pos": "verb",
+  "ipaUK": "/baʊ/",
+  "ipaUS": "/baʊ/",
+  "senses": [
+   {
+    "guideword": "BEND",
+    "level": "B2",
+    "defEN": "to bend your head or body forward to show respect",
+    "defVI": "cúi chào",
+    "examples": [
+     {
+      "en": "The actors bowed to the audience.",
+      "vi": "Các diễn viên cúi chào khán giả."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brake",
+  "pos": "noun",
+  "ipaUK": "/breɪk/",
+  "ipaUS": "/breɪk/",
+  "senses": [
+   {
+    "guideword": "VEHICLE",
+    "level": "B2",
+    "defEN": "the part of a vehicle that makes it slow down",
+    "defVI": "phanh",
+    "examples": [
+     {
+      "en": "She hit the brakes.",
+      "vi": "Cô ấy đạp phanh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "breakthrough",
+  "pos": "noun",
+  "ipaUK": "/ˈbreɪk.θruː/",
+  "ipaUS": "/ˈbreɪk.θruː/",
+  "senses": [
+   {
+    "guideword": "DISCOVERY",
+    "level": "B2",
+    "defEN": "an important discovery or development",
+    "defVI": "bước đột phá",
+    "examples": [
+     {
+      "en": "a medical breakthrough",
+      "vi": "một bước đột phá y học"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "breed",
+  "pos": "verb",
+  "ipaUK": "/briːd/",
+  "ipaUS": "/briːd/",
+  "senses": [
+   {
+    "guideword": "ANIMALS",
+    "level": "B2",
+    "defEN": "to keep animals to produce young",
+    "defVI": "chăn nuôi, nhân giống",
+    "examples": [
+     {
+      "en": "They breed pigs on their farm.",
+      "vi": "Họ nuôi lợn ở trang trại."
+     }
+    ]
+   },
+   {
+    "guideword": "TYPE",
+    "level": "B2",
+    "defEN": "a particular type of animal (noun)",
+    "defVI": "giống (vật nuôi)",
+    "examples": [
+     {
+      "en": "What breed is your dog?",
+      "vi": "Chó của bạn giống gì?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "breeze",
+  "pos": "noun",
+  "ipaUK": "/briːz/",
+  "ipaUS": "/briːz/",
+  "senses": [
+   {
+    "guideword": "WIND",
+    "level": "B2",
+    "defEN": "a light pleasant wind",
+    "defVI": "gió nhẹ",
+    "examples": [
+     {
+      "en": "a cool sea breeze",
+      "vi": "làn gió biển mát"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bribe",
+  "pos": "noun",
+  "ipaUK": "/braɪb/",
+  "ipaUS": "/braɪb/",
+  "senses": [
+   {
+    "guideword": "MONEY",
+    "level": "B2",
+    "defEN": "money given to someone to make them act dishonestly",
+    "defVI": "tiền hối lộ",
+    "examples": [
+     {
+      "en": "The official accepted a bribe.",
+      "vi": "Viên chức đó đã nhận hối lộ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "broadcast",
+  "pos": "verb",
+  "ipaUK": "/ˈbrɔːd.kɑːst/",
+  "ipaUS": "/ˈbrɑːd.kæst/",
+  "senses": [
+   {
+    "guideword": "TV",
+    "level": "B2",
+    "defEN": "to send out a programme on TV or radio",
+    "defVI": "phát sóng",
+    "examples": [
+     {
+      "en": "The match will be broadcast live.",
+      "vi": "Trận đấu sẽ được truyền hình trực tiếp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "browse",
+  "pos": "verb",
+  "ipaUK": "/braʊz/",
+  "ipaUS": "/braʊz/",
+  "senses": [
+   {
+    "guideword": "LOOK",
+    "level": "B2",
+    "defEN": "to look through things without a clear purpose",
+    "defVI": "xem lướt",
+    "examples": [
+     {
+      "en": "I was just browsing in the bookshop.",
+      "vi": "Tôi chỉ xem lướt trong hiệu sách thôi."
+     }
+    ]
+   },
+   {
+    "guideword": "INTERNET",
+    "level": "B2",
+    "defEN": "to look at pages on the internet",
+    "defVI": "duyệt web",
+    "examples": [
+     {
+      "en": "browsing the web on my phone",
+      "vi": "lướt web trên điện thoại"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bruise",
+  "pos": "noun",
+  "ipaUK": "/bruːz/",
+  "ipaUS": "/bruːz/",
+  "senses": [
+   {
+    "guideword": "INJURY",
+    "level": "B2",
+    "defEN": "a dark mark on the skin after being hit",
+    "defVI": "vết bầm",
+    "examples": [
+     {
+      "en": "a bruise on her knee",
+      "vi": "vết bầm trên đầu gối cô ấy"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brutal",
+  "pos": "adjective",
+  "ipaUK": "/ˈbruː.təl/",
+  "ipaUS": "/ˈbruː.t̬əl/",
+  "senses": [
+   {
+    "guideword": "CRUEL",
+    "level": "B2",
+    "defEN": "very cruel and violent",
+    "defVI": "tàn bạo",
+    "examples": [
+     {
+      "en": "a brutal attack",
+      "vi": "một cuộc tấn công tàn bạo"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bulk",
+  "pos": "noun",
+  "ipaUK": "/bʌlk/",
+  "ipaUS": "/bʌlk/",
+  "senses": [
+   {
+    "guideword": "MOST",
+    "level": "B2",
+    "defEN": "the largest part of something",
+    "defVI": "phần lớn",
+    "examples": [
+     {
+      "en": "The bulk of the work is done.",
+      "vi": "Phần lớn công việc đã xong."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bully",
+  "pos": "verb",
+  "ipaUK": "/ˈbʊl.i/",
+  "ipaUS": "/ˈbʊl.i/",
+  "senses": [
+   {
+    "guideword": "HURT",
+    "level": "B2",
+    "defEN": "to frighten or hurt a weaker person repeatedly",
+    "defVI": "bắt nạt",
+    "examples": [
+     {
+      "en": "He was bullied at school.",
+      "vi": "Cậu ấy bị bắt nạt ở trường."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bump",
+  "pos": "verb",
+  "ipaUK": "/bʌmp/",
+  "ipaUS": "/bʌmp/",
+  "senses": [
+   {
+    "guideword": "HIT",
+    "level": "B2",
+    "defEN": "to hit something by accident",
+    "defVI": "va vào",
+    "examples": [
+     {
+      "en": "I bumped my head on the door.",
+      "vi": "Tôi va đầu vào cửa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "burglar",
+  "pos": "noun",
+  "ipaUK": "/ˈbɜː.ɡlər/",
+  "ipaUS": "/ˈbɝː.ɡlɚ/",
+  "senses": [
+   {
+    "guideword": "CRIME",
+    "level": "B2",
+    "defEN": "a person who enters buildings to steal",
+    "defVI": "kẻ trộm đột nhập",
+    "examples": [
+     {
+      "en": "A burglar broke in last night.",
+      "vi": "Đêm qua có trộm đột nhập."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bankruptcy",
+  "pos": "noun",
+  "ipaUK": "/ˈbæŋ.krʌpt.si/",
+  "ipaUS": "/ˈbæŋ.krʌpt.si/",
+  "senses": [
+   {
+    "guideword": "MONEY",
+    "level": "B2",
+    "defEN": "the state of being unable to pay debts",
+    "defVI": "sự phá sản",
+    "examples": [
+     {
+      "en": "The firm filed for bankruptcy.",
+      "vi": "Công ty nộp đơn phá sản."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beloved",
+  "pos": "adjective",
+  "ipaUK": "/bɪˈlʌv.ɪd/",
+  "ipaUS": "/bɪˈlʌv.ɪd/",
+  "senses": [
+   {
+    "guideword": "LOVED",
+    "level": "B2",
+    "defEN": "very much loved",
+    "defVI": "yêu dấu",
+    "examples": [
+     {
+      "en": "my beloved grandmother",
+      "vi": "người bà yêu dấu của tôi"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bench",
+  "pos": "noun",
+  "ipaUK": "/bentʃ/",
+  "ipaUS": "/bentʃ/",
+  "senses": [
+   {
+    "guideword": "SEAT",
+    "level": "B2",
+    "defEN": "a long seat for two or more people",
+    "defVI": "ghế dài",
+    "examples": [
+     {
+      "en": "a park bench",
+      "vi": "ghế đá công viên"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bizarre",
+  "pos": "adjective",
+  "ipaUK": "/bɪˈzɑːr/",
+  "ipaUS": "/bɪˈzɑːr/",
+  "senses": [
+   {
+    "guideword": "STRANGE",
+    "level": "B2",
+    "defEN": "very strange and unusual",
+    "defVI": "kỳ quái",
+    "examples": [
+     {
+      "en": "a bizarre story",
+      "vi": "một câu chuyện kỳ quặc"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blessing",
+  "pos": "noun",
+  "ipaUK": "/ˈbles.ɪŋ/",
+  "ipaUS": "/ˈbles.ɪŋ/",
+  "senses": [
+   {
+    "guideword": "LUCK",
+    "level": "B2",
+    "defEN": "something lucky that makes you happy",
+    "defVI": "điều may mắn, phúc",
+    "examples": [
+     {
+      "en": "The rain was a blessing for farmers.",
+      "vi": "Cơn mưa là phúc lành cho nông dân."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blunt",
+  "pos": "adjective",
+  "ipaUK": "/blʌnt/",
+  "ipaUS": "/blʌnt/",
+  "senses": [
+   {
+    "guideword": "DIRECT",
+    "level": "B2",
+    "defEN": "saying what you think without being polite",
+    "defVI": "thẳng thừng",
+    "examples": [
+     {
+      "en": "a blunt answer",
+      "vi": "câu trả lời thẳng thừng"
+     }
+    ]
+   },
+   {
+    "guideword": "NOT SHARP",
+    "level": "B2",
+    "defEN": "not sharp",
+    "defVI": "cùn",
+    "examples": [
+     {
+      "en": "a blunt knife",
+      "vi": "con dao cùn"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bolt",
+  "pos": "noun",
+  "ipaUK": "/bəʊlt/",
+  "ipaUS": "/boʊlt/",
+  "senses": [
+   {
+    "guideword": "LOCK",
+    "level": "B2",
+    "defEN": "a metal bar that slides to lock a door",
+    "defVI": "chốt cửa",
+    "examples": [
+     {
+      "en": "Slide the bolt across.",
+      "vi": "Kéo chốt cửa lại."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "booking",
+  "pos": "noun",
+  "ipaUK": "/ˈbʊk.ɪŋ/",
+  "ipaUS": "/ˈbʊk.ɪŋ/",
+  "senses": [
+   {
+    "guideword": "RESERVE",
+    "level": "B2",
+    "defEN": "an arrangement to have a seat or room later",
+    "defVI": "sự đặt chỗ",
+    "examples": [
+     {
+      "en": "I made a booking for two nights.",
+      "vi": "Tôi đã đặt phòng hai đêm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bothered",
+  "pos": "adjective",
+  "ipaUK": "/ˈbɒð.əd/",
+  "ipaUS": "/ˈbɑː.ðɚd/",
+  "senses": [
+   {
+    "guideword": "CARE",
+    "level": "B2",
+    "defEN": "worried or caring about something (informal)",
+    "defVI": "bận tâm",
+    "examples": [
+     {
+      "en": "I'm not bothered where we eat.",
+      "vi": "Tôi không bận tâm ăn ở đâu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brainstorm",
+  "pos": "verb",
+  "ipaUK": "/ˈbreɪn.stɔːm/",
+  "ipaUS": "/ˈbreɪn.stɔːrm/",
+  "senses": [
+   {
+    "guideword": "IDEAS",
+    "level": "B2",
+    "defEN": "to share many ideas quickly in a group",
+    "defVI": "động não",
+    "examples": [
+     {
+      "en": "Let's brainstorm some names.",
+      "vi": "Hãy cùng nghĩ ra vài cái tên."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "breakdown",
+  "pos": "noun",
+  "ipaUK": "/ˈbreɪk.daʊn/",
+  "ipaUS": "/ˈbreɪk.daʊn/",
+  "senses": [
+   {
+    "guideword": "FAILURE",
+    "level": "B2",
+    "defEN": "a failure of a machine or relationship",
+    "defVI": "sự hỏng hóc, đổ vỡ",
+    "examples": [
+     {
+      "en": "a car breakdown on the highway",
+      "vi": "xe hỏng trên cao tốc"
+     }
+    ]
+   },
+   {
+    "guideword": "ILLNESS",
+    "level": "C1",
+    "defEN": "a period of mental illness from stress",
+    "defVI": "suy sụp tinh thần",
+    "examples": [
+     {
+      "en": "a nervous breakdown",
+      "vi": "suy nhược thần kinh"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "breathtaking",
+  "pos": "adjective",
+  "ipaUK": "/ˈbreθˌteɪ.kɪŋ/",
+  "ipaUS": "/ˈbreθˌteɪ.kɪŋ/",
+  "senses": [
+   {
+    "guideword": "AMAZING",
+    "level": "B2",
+    "defEN": "extremely beautiful or surprising",
+    "defVI": "ngoạn mục",
+    "examples": [
+     {
+      "en": "breathtaking views of the rice terraces",
+      "vi": "cảnh ruộng bậc thang ngoạn mục"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brochure",
+  "pos": "noun",
+  "ipaUK": "/ˈbrəʊ.ʃər/",
+  "ipaUS": "/broʊˈʃʊr/",
+  "senses": [
+   {
+    "guideword": "BOOKLET",
+    "level": "B2",
+    "defEN": "a thin book with information or advertising",
+    "defVI": "tờ quảng cáo, cẩm nang",
+    "examples": [
+     {
+      "en": "a travel brochure",
+      "vi": "tờ giới thiệu du lịch"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "broke",
+  "pos": "adjective",
+  "ipaUK": "/brəʊk/",
+  "ipaUS": "/broʊk/",
+  "senses": [
+   {
+    "guideword": "MONEY",
+    "level": "B2",
+    "defEN": "having no money (informal)",
+    "defVI": "cháy túi",
+    "examples": [
+     {
+      "en": "I'm broke until payday.",
+      "vi": "Tôi cháy túi cho đến ngày lĩnh lương."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bullying",
+  "pos": "noun",
+  "ipaUK": "/ˈbʊl.i.ɪŋ/",
+  "ipaUS": "/ˈbʊl.i.ɪŋ/",
+  "senses": [
+   {
+    "guideword": "HURT",
+    "level": "B2",
+    "defEN": "repeated behaviour meant to hurt weaker people",
+    "defVI": "nạn bắt nạt",
+    "examples": [
+     {
+      "en": "Schools must deal with bullying.",
+      "vi": "Trường học phải xử lý nạn bắt nạt."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "burnout",
+  "pos": "noun",
+  "ipaUK": "/ˈbɜːn.aʊt/",
+  "ipaUS": "/ˈbɝːn.aʊt/",
+  "senses": [
+   {
+    "guideword": "TIRED",
+    "level": "B2",
+    "defEN": "extreme tiredness caused by working too hard",
+    "defVI": "kiệt sức (vì công việc)",
+    "examples": [
+     {
+      "en": "Long hours often lead to burnout.",
+      "vi": "Làm việc nhiều giờ thường dẫn đến kiệt sức."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "buzz",
+  "pos": "verb",
+  "ipaUK": "/bʌz/",
+  "ipaUS": "/bʌz/",
+  "senses": [
+   {
+    "guideword": "SOUND",
+    "level": "B2",
+    "defEN": "to make a low continuous sound like a bee",
+    "defVI": "kêu vo ve",
+    "examples": [
+     {
+      "en": "A fly was buzzing around.",
+      "vi": "Một con ruồi vo ve xung quanh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bypass",
+  "pos": "verb",
+  "ipaUK": "/ˈbaɪ.pɑːs/",
+  "ipaUS": "/ˈbaɪ.pæs/",
+  "senses": [
+   {
+    "guideword": "AVOID",
+    "level": "B2",
+    "defEN": "to go around something to avoid it",
+    "defVI": "đi vòng, bỏ qua",
+    "examples": [
+     {
+      "en": "We bypassed the city centre.",
+      "vi": "Chúng tôi đi vòng qua trung tâm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bystander",
+  "pos": "noun",
+  "ipaUK": "/ˈbaɪˌstæn.dər/",
+  "ipaUS": "/ˈbaɪˌstæn.dɚ/",
+  "senses": [
+   {
+    "guideword": "WATCH",
+    "level": "B2",
+    "defEN": "a person who sees something happen but is not involved",
+    "defVI": "người ngoài cuộc",
+    "examples": [
+     {
+      "en": "Two bystanders were injured.",
+      "vi": "Hai người đứng xem bị thương."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "backdrop",
+  "pos": "noun",
+  "ipaUK": "/ˈbæk.drɒp/",
+  "ipaUS": "/ˈbæk.drɑːp/",
+  "senses": [
+   {
+    "guideword": "SITUATION",
+    "level": "C1",
+    "defEN": "the general situation in which events happen",
+    "defVI": "bối cảnh",
+    "examples": [
+     {
+      "en": "The talks took place against a backdrop of violence.",
+      "vi": "Cuộc đàm phán diễn ra trong bối cảnh bạo lực."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "backlash",
+  "pos": "noun",
+  "ipaUK": "/ˈbæk.læʃ/",
+  "ipaUS": "/ˈbæk.læʃ/",
+  "senses": [
+   {
+    "guideword": "REACTION",
+    "level": "C1",
+    "defEN": "a strong negative public reaction",
+    "defVI": "phản ứng dữ dội",
+    "examples": [
+     {
+      "en": "a backlash against the new tax",
+      "vi": "làn sóng phản đối thuế mới"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "backlog",
+  "pos": "noun",
+  "ipaUK": "/ˈbæk.lɒɡ/",
+  "ipaUS": "/ˈbæk.lɑːɡ/",
+  "senses": [
+   {
+    "guideword": "WORK",
+    "level": "C1",
+    "defEN": "work that should have been done earlier",
+    "defVI": "việc tồn đọng",
+    "examples": [
+     {
+      "en": "a backlog of orders",
+      "vi": "lượng đơn hàng tồn đọng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bail",
+  "pos": "noun",
+  "ipaUK": "/beɪl/",
+  "ipaUS": "/beɪl/",
+  "senses": [
+   {
+    "guideword": "LAW",
+    "level": "C1",
+    "defEN": "money paid so an accused person can leave prison until trial",
+    "defVI": "tiền bảo lãnh",
+    "examples": [
+     {
+      "en": "He was released on bail.",
+      "vi": "Anh ta được tại ngoại nhờ bảo lãnh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bailout",
+  "pos": "noun",
+  "ipaUK": "/ˈbeɪl.aʊt/",
+  "ipaUS": "/ˈbeɪl.aʊt/",
+  "senses": [
+   {
+    "guideword": "MONEY",
+    "level": "C1",
+    "defEN": "financial help given to a failing company or country",
+    "defVI": "gói cứu trợ",
+    "examples": [
+     {
+      "en": "a government bailout of the banks",
+      "vi": "gói cứu trợ ngân hàng của chính phủ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ballot",
+  "pos": "noun",
+  "ipaUK": "/ˈbæl.ət/",
+  "ipaUS": "/ˈbæl.ət/",
+  "senses": [
+   {
+    "guideword": "VOTE",
+    "level": "C1",
+    "defEN": "a secret vote or the paper used for it",
+    "defVI": "lá phiếu, cuộc bỏ phiếu",
+    "examples": [
+     {
+      "en": "a secret ballot",
+      "vi": "cuộc bỏ phiếu kín"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bandwidth",
+  "pos": "noun",
+  "ipaUK": "/ˈbænd.wɪtθ/",
+  "ipaUS": "/ˈbænd.wɪtθ/",
+  "senses": [
+   {
+    "guideword": "DATA",
+    "level": "C1",
+    "defEN": "the amount of data a connection can carry",
+    "defVI": "băng thông",
+    "examples": [
+     {
+      "en": "Video calls use a lot of bandwidth.",
+      "vi": "Gọi video tốn nhiều băng thông."
+     }
+    ]
+   },
+   {
+    "guideword": "CAPACITY",
+    "level": "C1",
+    "defEN": "the time or energy to deal with something (informal)",
+    "defVI": "khả năng, thời gian dành cho",
+    "examples": [
+     {
+      "en": "I don't have the bandwidth for another project.",
+      "vi": "Tôi không còn sức cho dự án khác."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "banner",
+  "pos": "noun",
+  "ipaUK": "/ˈbæn.ər/",
+  "ipaUS": "/ˈbæn.ɚ/",
+  "senses": [
+   {
+    "guideword": "SIGN",
+    "level": "C1",
+    "defEN": "a long piece of cloth with a message on it",
+    "defVI": "băng rôn",
+    "examples": [
+     {
+      "en": "Protesters carried banners.",
+      "vi": "Người biểu tình mang băng rôn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "barren",
+  "pos": "adjective",
+  "ipaUK": "/ˈbær.ən/",
+  "ipaUS": "/ˈber.ən/",
+  "senses": [
+   {
+    "guideword": "LAND",
+    "level": "C1",
+    "defEN": "unable to grow plants",
+    "defVI": "cằn cỗi",
+    "examples": [
+     {
+      "en": "a barren desert",
+      "vi": "sa mạc cằn cỗi"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "battlefield",
+  "pos": "noun",
+  "ipaUK": "/ˈbæt.əl.fiːld/",
+  "ipaUS": "/ˈbæt̬.əl.fiːld/",
+  "senses": [
+   {
+    "guideword": "WAR",
+    "level": "C1",
+    "defEN": "a place where a battle is fought",
+    "defVI": "chiến trường",
+    "examples": [
+     {
+      "en": "the battlefield at Dien Bien Phu",
+      "vi": "chiến trường Điện Biên Phủ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beacon",
+  "pos": "noun",
+  "ipaUK": "/ˈbiː.kən/",
+  "ipaUS": "/ˈbiː.kən/",
+  "senses": [
+   {
+    "guideword": "LIGHT",
+    "level": "C1",
+    "defEN": "a light that acts as a signal or guide",
+    "defVI": "đèn hiệu",
+    "examples": [
+     {
+      "en": "a beacon of hope",
+      "vi": "ngọn hải đăng hy vọng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bearer",
+  "pos": "noun",
+  "ipaUK": "/ˈbeə.rər/",
+  "ipaUS": "/ˈber.ɚ/",
+  "senses": [
+   {
+    "guideword": "CARRY",
+    "level": "C1",
+    "defEN": "a person who carries or brings something",
+    "defVI": "người mang",
+    "examples": [
+     {
+      "en": "the bearer of bad news",
+      "vi": "người mang tin xấu"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "behold",
+  "pos": "verb",
+  "ipaUK": "/bɪˈhəʊld/",
+  "ipaUS": "/bɪˈhoʊld/",
+  "senses": [
+   {
+    "guideword": "SEE",
+    "level": "C1",
+    "defEN": "to see or look at (literary)",
+    "defVI": "chiêm ngưỡng",
+    "examples": [
+     {
+      "en": "a sight to behold",
+      "vi": "một cảnh đáng chiêm ngưỡng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "benchmark",
+  "pos": "noun",
+  "ipaUK": "/ˈbentʃ.mɑːk/",
+  "ipaUS": "/ˈbentʃ.mɑːrk/",
+  "senses": [
+   {
+    "guideword": "STANDARD",
+    "level": "C1",
+    "defEN": "a standard used to compare other things",
+    "defVI": "chuẩn mực, tiêu chuẩn",
+    "examples": [
+     {
+      "en": "a benchmark for quality",
+      "vi": "chuẩn mực về chất lượng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beneficiary",
+  "pos": "noun",
+  "ipaUK": "/ˌben.ɪˈfɪʃ.ər.i/",
+  "ipaUS": "/ˌben.əˈfɪʃ.i.er.i/",
+  "senses": [
+   {
+    "guideword": "RECEIVE",
+    "level": "C1",
+    "defEN": "a person who gets money or advantage from something",
+    "defVI": "người thụ hưởng",
+    "examples": [
+     {
+      "en": "the main beneficiary of the will",
+      "vi": "người thụ hưởng chính của di chúc"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bewildered",
+  "pos": "adjective",
+  "ipaUK": "/bɪˈwɪl.dəd/",
+  "ipaUS": "/bɪˈwɪl.dɚd/",
+  "senses": [
+   {
+    "guideword": "CONFUSED",
+    "level": "C1",
+    "defEN": "very confused",
+    "defVI": "bối rối",
+    "examples": [
+     {
+      "en": "a bewildered look",
+      "vi": "vẻ mặt bối rối"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bilateral",
+  "pos": "adjective",
+  "ipaUK": "/baɪˈlæt.ər.əl/",
+  "ipaUS": "/baɪˈlæt̬.ɚ.əl/",
+  "senses": [
+   {
+    "guideword": "TWO SIDES",
+    "level": "C1",
+    "defEN": "involving two groups or countries",
+    "defVI": "song phương",
+    "examples": [
+     {
+      "en": "bilateral trade between Vietnam and Japan",
+      "vi": "thương mại song phương Việt–Nhật"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bizarrely",
+  "pos": "adverb",
+  "ipaUK": "/bɪˈzɑː.li/",
+  "ipaUS": "/bɪˈzɑːr.li/",
+  "senses": [
+   {
+    "guideword": "STRANGE",
+    "level": "C1",
+    "defEN": "in a very strange way",
+    "defVI": "kỳ lạ thay",
+    "examples": [
+     {
+      "en": "Bizarrely, nobody noticed.",
+      "vi": "Lạ thay, không ai để ý."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blatant",
+  "pos": "adjective",
+  "ipaUK": "/ˈbleɪ.tənt/",
+  "ipaUS": "/ˈbleɪ.tənt/",
+  "senses": [
+   {
+    "guideword": "OBVIOUS",
+    "level": "C1",
+    "defEN": "very obvious and not hidden, used of bad things",
+    "defVI": "trắng trợn",
+    "examples": [
+     {
+      "en": "a blatant lie",
+      "vi": "lời nói dối trắng trợn"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bleak",
+  "pos": "adjective",
+  "ipaUK": "/bliːk/",
+  "ipaUS": "/bliːk/",
+  "senses": [
+   {
+    "guideword": "HOPELESS",
+    "level": "C1",
+    "defEN": "without hope or encouragement",
+    "defVI": "ảm đạm",
+    "examples": [
+     {
+      "en": "The future looks bleak.",
+      "vi": "Tương lai có vẻ ảm đạm."
+     }
+    ]
+   },
+   {
+    "guideword": "COLD",
+    "level": "C1",
+    "defEN": "cold and empty",
+    "defVI": "lạnh lẽo, hoang vắng",
+    "examples": [
+     {
+      "en": "a bleak winter landscape",
+      "vi": "cảnh mùa đông hoang vắng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blueprint",
+  "pos": "noun",
+  "ipaUK": "/ˈbluː.prɪnt/",
+  "ipaUS": "/ˈbluː.prɪnt/",
+  "senses": [
+   {
+    "guideword": "PLAN",
+    "level": "C1",
+    "defEN": "a detailed plan for achieving something",
+    "defVI": "bản kế hoạch chi tiết",
+    "examples": [
+     {
+      "en": "a blueprint for reform",
+      "vi": "kế hoạch chi tiết cho cải cách"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blur",
+  "pos": "verb",
+  "ipaUK": "/blɜːr/",
+  "ipaUS": "/blɝː/",
+  "senses": [
+   {
+    "guideword": "UNCLEAR",
+    "level": "C1",
+    "defEN": "to make something less clear",
+    "defVI": "làm mờ",
+    "examples": [
+     {
+      "en": "Tears blurred her vision.",
+      "vi": "Nước mắt làm mờ tầm nhìn của cô."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bodily",
+  "pos": "adjective",
+  "ipaUK": "/ˈbɒd.əl.i/",
+  "ipaUS": "/ˈbɑː.dəl.i/",
+  "senses": [
+   {
+    "guideword": "BODY",
+    "level": "C1",
+    "defEN": "relating to the body",
+    "defVI": "thuộc về cơ thể",
+    "examples": [
+     {
+      "en": "bodily harm",
+      "vi": "tổn hại thân thể"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bombard",
+  "pos": "verb",
+  "ipaUK": "/bɒmˈbɑːd/",
+  "ipaUS": "/bɑːmˈbɑːrd/",
+  "senses": [
+   {
+    "guideword": "TOO MUCH",
+    "level": "C1",
+    "defEN": "to direct too many questions or messages at someone",
+    "defVI": "dồn dập",
+    "examples": [
+     {
+      "en": "They bombarded him with questions.",
+      "vi": "Họ dồn dập hỏi anh ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bondage",
+  "pos": "noun",
+  "ipaUK": "/ˈbɒn.dɪdʒ/",
+  "ipaUS": "/ˈbɑːn.dɪdʒ/",
+  "senses": [
+   {
+    "guideword": "SLAVERY",
+    "level": "C1",
+    "defEN": "the state of being a slave or not free",
+    "defVI": "cảnh nô lệ",
+    "examples": [
+     {
+      "en": "freed from bondage",
+      "vi": "thoát khỏi xiềng xích"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bookmark",
+  "pos": "verb",
+  "ipaUK": "/ˈbʊk.mɑːk/",
+  "ipaUS": "/ˈbʊk.mɑːrk/",
+  "senses": [
+   {
+    "guideword": "INTERNET",
+    "level": "C1",
+    "defEN": "to save a web address so you can find it again",
+    "defVI": "đánh dấu trang",
+    "examples": [
+     {
+      "en": "I bookmarked the article.",
+      "vi": "Tôi đã đánh dấu bài viết."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bosom",
+  "pos": "noun",
+  "ipaUK": "/ˈbʊz.əm/",
+  "ipaUS": "/ˈbʊz.əm/",
+  "senses": [
+   {
+    "guideword": "CLOSE",
+    "level": "C1",
+    "defEN": "used to describe a very close friend",
+    "defVI": "thân thiết",
+    "examples": [
+     {
+      "en": "a bosom friend",
+      "vi": "bạn tri kỷ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bottleneck",
+  "pos": "noun",
+  "ipaUK": "/ˈbɒt.əl.nek/",
+  "ipaUS": "/ˈbɑː.t̬əl.nek/",
+  "senses": [
+   {
+    "guideword": "DELAY",
+    "level": "C1",
+    "defEN": "a point where things are slowed down",
+    "defVI": "điểm nghẽn",
+    "examples": [
+     {
+      "en": "a traffic bottleneck",
+      "vi": "điểm nghẽn giao thông"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "boulder",
+  "pos": "noun",
+  "ipaUK": "/ˈbəʊl.dər/",
+  "ipaUS": "/ˈboʊl.dɚ/",
+  "senses": [
+   {
+    "guideword": "ROCK",
+    "level": "C1",
+    "defEN": "a very large rock",
+    "defVI": "tảng đá lớn",
+    "examples": [
+     {
+      "en": "A boulder blocked the road.",
+      "vi": "Một tảng đá lớn chắn đường."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bountiful",
+  "pos": "adjective",
+  "ipaUK": "/ˈbaʊn.tɪ.fəl/",
+  "ipaUS": "/ˈbaʊn.t̬ɪ.fəl/",
+  "senses": [
+   {
+    "guideword": "PLENTY",
+    "level": "C1",
+    "defEN": "large in amount; generous",
+    "defVI": "dồi dào",
+    "examples": [
+     {
+      "en": "a bountiful harvest",
+      "vi": "một mùa bội thu"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bracket",
+  "pos": "noun",
+  "ipaUK": "/ˈbræk.ɪt/",
+  "ipaUS": "/ˈbræk.ɪt/",
+  "senses": [
+   {
+    "guideword": "GROUP",
+    "level": "C1",
+    "defEN": "a range within which people or things are grouped",
+    "defVI": "nhóm, khung",
+    "examples": [
+     {
+      "en": "the 18–25 age bracket",
+      "vi": "nhóm tuổi 18–25"
+     }
+    ]
+   },
+   {
+    "guideword": "SYMBOL",
+    "level": "B2",
+    "defEN": "either of a pair of marks ( ) around words",
+    "defVI": "dấu ngoặc",
+    "examples": [
+     {
+      "en": "Put the date in brackets.",
+      "vi": "Để ngày tháng trong ngoặc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "breach",
+  "pos": "noun",
+  "ipaUK": "/briːtʃ/",
+  "ipaUS": "/briːtʃ/",
+  "senses": [
+   {
+    "guideword": "BREAK RULE",
+    "level": "C1",
+    "defEN": "an action that breaks a law or agreement",
+    "defVI": "sự vi phạm",
+    "examples": [
+     {
+      "en": "a breach of contract",
+      "vi": "vi phạm hợp đồng"
+     }
+    ]
+   },
+   {
+    "guideword": "GAP",
+    "level": "C1",
+    "defEN": "a hole in a wall or defence; a security failure",
+    "defVI": "lỗ hổng",
+    "examples": [
+     {
+      "en": "a data breach",
+      "vi": "vụ rò rỉ dữ liệu"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "breadth",
+  "pos": "noun",
+  "ipaUK": "/bretθ/",
+  "ipaUS": "/bretθ/",
+  "senses": [
+   {
+    "guideword": "RANGE",
+    "level": "C1",
+    "defEN": "a wide range of knowledge or interests",
+    "defVI": "bề rộng, sự đa dạng",
+    "examples": [
+     {
+      "en": "the breadth of her experience",
+      "vi": "bề dày kinh nghiệm của cô ấy"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brink",
+  "pos": "noun",
+  "ipaUK": "/brɪŋk/",
+  "ipaUS": "/brɪŋk/",
+  "senses": [
+   {
+    "guideword": "EDGE",
+    "level": "C1",
+    "defEN": "the point where something bad is about to happen",
+    "defVI": "bờ vực",
+    "examples": [
+     {
+      "en": "on the brink of war",
+      "vi": "bên bờ vực chiến tranh"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brisk",
+  "pos": "adjective",
+  "ipaUK": "/brɪsk/",
+  "ipaUS": "/brɪsk/",
+  "senses": [
+   {
+    "guideword": "QUICK",
+    "level": "C1",
+    "defEN": "quick and energetic",
+    "defVI": "nhanh nhẹn, rảo bước",
+    "examples": [
+     {
+      "en": "a brisk walk",
+      "vi": "một cuộc đi bộ nhanh"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brittle",
+  "pos": "adjective",
+  "ipaUK": "/ˈbrɪt.əl/",
+  "ipaUS": "/ˈbrɪt̬.əl/",
+  "senses": [
+   {
+    "guideword": "BREAK",
+    "level": "C1",
+    "defEN": "hard but easily broken",
+    "defVI": "giòn, dễ gãy",
+    "examples": [
+     {
+      "en": "Old bones become brittle.",
+      "vi": "Xương người già trở nên giòn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brutality",
+  "pos": "noun",
+  "ipaUK": "/bruːˈtæl.ə.ti/",
+  "ipaUS": "/bruːˈtæl.ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "CRUEL",
+    "level": "C1",
+    "defEN": "cruel and violent behaviour",
+    "defVI": "sự tàn bạo",
+    "examples": [
+     {
+      "en": "police brutality",
+      "vi": "bạo lực của cảnh sát"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "buffer",
+  "pos": "noun",
+  "ipaUK": "/ˈbʌf.ər/",
+  "ipaUS": "/ˈbʌf.ɚ/",
+  "senses": [
+   {
+    "guideword": "PROTECT",
+    "level": "C1",
+    "defEN": "something that reduces harm between two things",
+    "defVI": "vùng đệm",
+    "examples": [
+     {
+      "en": "Savings act as a buffer against hard times.",
+      "vi": "Tiền tiết kiệm là vùng đệm khi khó khăn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bulletin",
+  "pos": "noun",
+  "ipaUK": "/ˈbʊl.ə.tɪn/",
+  "ipaUS": "/ˈbʊl.ə.t̬ɪn/",
+  "senses": [
+   {
+    "guideword": "NEWS",
+    "level": "C1",
+    "defEN": "a short official news report",
+    "defVI": "bản tin",
+    "examples": [
+     {
+      "en": "a news bulletin",
+      "vi": "bản tin thời sự"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bureaucrat",
+  "pos": "noun",
+  "ipaUK": "/ˈbjʊə.rə.kræt/",
+  "ipaUS": "/ˈbjʊr.ə.kræt/",
+  "senses": [
+   {
+    "guideword": "OFFICIAL",
+    "level": "C1",
+    "defEN": "an official who follows rules too strictly",
+    "defVI": "quan chức bàn giấy",
+    "examples": [
+     {
+      "en": "faceless bureaucrats",
+      "vi": "những quan chức vô danh"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bustling",
+  "pos": "adjective",
+  "ipaUK": "/ˈbʌs.lɪŋ/",
+  "ipaUS": "/ˈbʌs.lɪŋ/",
+  "senses": [
+   {
+    "guideword": "BUSY",
+    "level": "C1",
+    "defEN": "full of busy activity",
+    "defVI": "nhộn nhịp",
+    "examples": [
+     {
+      "en": "a bustling night market",
+      "vi": "chợ đêm nhộn nhịp"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "by-product",
+  "pos": "noun",
+  "ipaUK": "/ˈbaɪˌprɒd.ʌkt/",
+  "ipaUS": "/ˈbaɪˌprɑː.dʌkt/",
+  "senses": [
+   {
+    "guideword": "RESULT",
+    "level": "C1",
+    "defEN": "something produced as a side result",
+    "defVI": "sản phẩm phụ",
+    "examples": [
+     {
+      "en": "Pollution is a by-product of industry.",
+      "vi": "Ô nhiễm là sản phẩm phụ của công nghiệp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bankroll",
+  "pos": "verb",
+  "ipaUK": "/ˈbæŋk.rəʊl/",
+  "ipaUS": "/ˈbæŋk.roʊl/",
+  "senses": [
+   {
+    "guideword": "PAY",
+    "level": "C1",
+    "defEN": "to provide money for a project",
+    "defVI": "tài trợ",
+    "examples": [
+     {
+      "en": "Who is bankrolling the film?",
+      "vi": "Ai đang bỏ tiền cho bộ phim?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "baseline",
+  "pos": "noun",
+  "ipaUK": "/ˈbeɪs.laɪn/",
+  "ipaUS": "/ˈbeɪs.laɪn/",
+  "senses": [
+   {
+    "guideword": "STARTING POINT",
+    "level": "C1",
+    "defEN": "a starting point used for comparison",
+    "defVI": "mức cơ sở",
+    "examples": [
+     {
+      "en": "baseline data",
+      "vi": "dữ liệu cơ sở"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bearing",
+  "pos": "noun",
+  "ipaUK": "/ˈbeə.rɪŋ/",
+  "ipaUS": "/ˈber.ɪŋ/",
+  "senses": [
+   {
+    "guideword": "CONNECTION",
+    "level": "C1",
+    "defEN": "a relationship or influence",
+    "defVI": "sự liên quan, ảnh hưởng",
+    "examples": [
+     {
+      "en": "This has no bearing on the result.",
+      "vi": "Điều này không liên quan đến kết quả."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bearable",
+  "pos": "adjective",
+  "ipaUK": "/ˈbeə.rə.bəl/",
+  "ipaUS": "/ˈber.ə.bəl/",
+  "senses": [
+   {
+    "guideword": "ACCEPT",
+    "level": "C1",
+    "defEN": "able to be accepted or dealt with",
+    "defVI": "có thể chịu đựng",
+    "examples": [
+     {
+      "en": "The heat was just bearable.",
+      "vi": "Cái nóng vừa đủ chịu được."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "befriend",
+  "pos": "verb",
+  "ipaUK": "/bɪˈfrend/",
+  "ipaUS": "/bɪˈfrend/",
+  "senses": [
+   {
+    "guideword": "FRIEND",
+    "level": "C1",
+    "defEN": "to become someone's friend, often to help them",
+    "defVI": "kết bạn",
+    "examples": [
+     {
+      "en": "She befriended the new student.",
+      "vi": "Cô ấy kết bạn với học sinh mới."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beforehand",
+  "pos": "adverb",
+  "ipaUK": "/bɪˈfɔː.hænd/",
+  "ipaUS": "/bɪˈfɔːr.hænd/",
+  "senses": [
+   {
+    "guideword": "EARLIER",
+    "level": "C1",
+    "defEN": "before a particular event",
+    "defVI": "trước đó",
+    "examples": [
+     {
+      "en": "Tell me beforehand if you're coming.",
+      "vi": "Báo tôi trước nếu bạn đến."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bequeath",
+  "pos": "verb",
+  "ipaUK": "/bɪˈkwiːð/",
+  "ipaUS": "/bɪˈkwiːð/",
+  "senses": [
+   {
+    "guideword": "LEAVE",
+    "level": "C1",
+    "defEN": "to leave property to someone after death",
+    "defVI": "để lại (di sản)",
+    "examples": [
+     {
+      "en": "He bequeathed his house to his niece.",
+      "vi": "Ông để lại căn nhà cho cháu gái."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "berate",
+  "pos": "verb",
+  "ipaUK": "/bɪˈreɪt/",
+  "ipaUS": "/bɪˈreɪt/",
+  "senses": [
+   {
+    "guideword": "CRITICIZE",
+    "level": "C1",
+    "defEN": "to criticize someone angrily",
+    "defVI": "mắng nhiếc",
+    "examples": [
+     {
+      "en": "The coach berated the players.",
+      "vi": "Huấn luyện viên mắng các cầu thủ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "besiege",
+  "pos": "verb",
+  "ipaUK": "/bɪˈsiːdʒ/",
+  "ipaUS": "/bɪˈsiːdʒ/",
+  "senses": [
+   {
+    "guideword": "SURROUND",
+    "level": "C1",
+    "defEN": "to surround a place with an army; to overwhelm",
+    "defVI": "bao vây; dồn dập",
+    "examples": [
+     {
+      "en": "The star was besieged by fans.",
+      "vi": "Ngôi sao bị người hâm mộ vây kín."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bestow",
+  "pos": "verb",
+  "ipaUK": "/bɪˈstəʊ/",
+  "ipaUS": "/bɪˈstoʊ/",
+  "senses": [
+   {
+    "guideword": "GIVE",
+    "level": "C1",
+    "defEN": "to give an honour or gift formally",
+    "defVI": "ban tặng",
+    "examples": [
+     {
+      "en": "an award bestowed on the writer",
+      "vi": "giải thưởng trao cho nhà văn"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bewilder",
+  "pos": "verb",
+  "ipaUK": "/bɪˈwɪl.dər/",
+  "ipaUS": "/bɪˈwɪl.dɚ/",
+  "senses": [
+   {
+    "guideword": "CONFUSE",
+    "level": "C1",
+    "defEN": "to confuse someone very much",
+    "defVI": "làm hoang mang",
+    "examples": [
+     {
+      "en": "The rules bewilder new players.",
+      "vi": "Luật chơi làm người mới hoang mang."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "binding",
+  "pos": "adjective",
+  "ipaUK": "/ˈbaɪn.dɪŋ/",
+  "ipaUS": "/ˈbaɪn.dɪŋ/",
+  "senses": [
+   {
+    "guideword": "LAW",
+    "level": "C1",
+    "defEN": "that must be obeyed legally",
+    "defVI": "có tính ràng buộc",
+    "examples": [
+     {
+      "en": "a binding agreement",
+      "vi": "thỏa thuận có tính ràng buộc"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "biodiversity",
+  "pos": "noun",
+  "ipaUK": "/ˌbaɪ.əʊ.daɪˈvɜː.sə.ti/",
+  "ipaUS": "/ˌbaɪ.oʊ.daɪˈvɝː.sə.t̬i/",
+  "senses": [
+   {
+    "guideword": "NATURE",
+    "level": "C1",
+    "defEN": "the variety of plants and animals in an area",
+    "defVI": "đa dạng sinh học",
+    "examples": [
+     {
+      "en": "protecting the biodiversity of the Mekong Delta",
+      "vi": "bảo vệ đa dạng sinh học ở ĐBSCL"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blackmail",
+  "pos": "verb",
+  "ipaUK": "/ˈblæk.meɪl/",
+  "ipaUS": "/ˈblæk.meɪl/",
+  "senses": [
+   {
+    "guideword": "THREATEN",
+    "level": "C1",
+    "defEN": "to threaten to reveal secrets unless paid",
+    "defVI": "tống tiền",
+    "examples": [
+     {
+      "en": "He tried to blackmail the minister.",
+      "vi": "Hắn cố tống tiền vị bộ trưởng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blaze",
+  "pos": "noun",
+  "ipaUK": "/bleɪz/",
+  "ipaUS": "/bleɪz/",
+  "senses": [
+   {
+    "guideword": "FIRE",
+    "level": "C1",
+    "defEN": "a large strong fire",
+    "defVI": "đám cháy lớn",
+    "examples": [
+     {
+      "en": "Firefighters fought the blaze for hours.",
+      "vi": "Lính cứu hỏa chữa cháy hàng giờ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bloodshed",
+  "pos": "noun",
+  "ipaUK": "/ˈblʌd.ʃed/",
+  "ipaUS": "/ˈblʌd.ʃed/",
+  "senses": [
+   {
+    "guideword": "VIOLENCE",
+    "level": "C1",
+    "defEN": "killing and injury in fighting",
+    "defVI": "đổ máu",
+    "examples": [
+     {
+      "en": "an end to the bloodshed",
+      "vi": "chấm dứt cảnh đổ máu"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bloom",
+  "pos": "verb",
+  "ipaUK": "/bluːm/",
+  "ipaUS": "/bluːm/",
+  "senses": [
+   {
+    "guideword": "FLOWER",
+    "level": "C1",
+    "defEN": "to produce flowers",
+    "defVI": "nở hoa",
+    "examples": [
+     {
+      "en": "The lotus blooms in summer.",
+      "vi": "Hoa sen nở vào mùa hè."
+     }
+    ]
+   },
+   {
+    "guideword": "DEVELOP",
+    "level": "C1",
+    "defEN": "to become healthy and successful",
+    "defVI": "phát triển rực rỡ",
+    "examples": [
+     {
+      "en": "Their friendship bloomed.",
+      "vi": "Tình bạn của họ đơm hoa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blunder",
+  "pos": "noun",
+  "ipaUK": "/ˈblʌn.dər/",
+  "ipaUS": "/ˈblʌn.dɚ/",
+  "senses": [
+   {
+    "guideword": "MISTAKE",
+    "level": "C1",
+    "defEN": "a careless and stupid mistake",
+    "defVI": "sai lầm ngớ ngẩn",
+    "examples": [
+     {
+      "en": "a political blunder",
+      "vi": "một sai lầm chính trị"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bolster",
+  "pos": "verb",
+  "ipaUK": "/ˈbəʊl.stər/",
+  "ipaUS": "/ˈboʊl.stɚ/",
+  "senses": [
+   {
+    "guideword": "SUPPORT",
+    "level": "C1",
+    "defEN": "to make something stronger",
+    "defVI": "củng cố",
+    "examples": [
+     {
+      "en": "measures to bolster the economy",
+      "vi": "biện pháp củng cố kinh tế"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bombshell",
+  "pos": "noun",
+  "ipaUK": "/ˈbɒm.ʃel/",
+  "ipaUS": "/ˈbɑːm.ʃel/",
+  "senses": [
+   {
+    "guideword": "SURPRISE",
+    "level": "C1",
+    "defEN": "a very surprising and often shocking piece of news",
+    "defVI": "tin động trời",
+    "examples": [
+     {
+      "en": "She dropped a bombshell: she was leaving.",
+      "vi": "Cô ấy tung tin động trời: cô sẽ nghỉ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "booming",
+  "pos": "adjective",
+  "ipaUK": "/ˈbuː.mɪŋ/",
+  "ipaUS": "/ˈbuː.mɪŋ/",
+  "senses": [
+   {
+    "guideword": "SUCCESS",
+    "level": "C1",
+    "defEN": "growing and succeeding quickly",
+    "defVI": "đang phát triển mạnh",
+    "examples": [
+     {
+      "en": "a booming tech industry",
+      "vi": "ngành công nghệ đang bùng nổ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bout",
+  "pos": "noun",
+  "ipaUK": "/baʊt/",
+  "ipaUS": "/baʊt/",
+  "senses": [
+   {
+    "guideword": "PERIOD",
+    "level": "C1",
+    "defEN": "a short period of illness or activity",
+    "defVI": "cơn, đợt",
+    "examples": [
+     {
+      "en": "a bout of flu",
+      "vi": "một cơn cúm"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "boycott",
+  "pos": "verb",
+  "ipaUK": "/ˈbɔɪ.kɒt/",
+  "ipaUS": "/ˈbɔɪ.kɑːt/",
+  "senses": [
+   {
+    "guideword": "REFUSE",
+    "level": "C1",
+    "defEN": "to refuse to buy or take part in something as a protest",
+    "defVI": "tẩy chay",
+    "examples": [
+     {
+      "en": "Consumers boycotted the brand.",
+      "vi": "Người tiêu dùng tẩy chay thương hiệu đó."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brace",
+  "pos": "verb",
+  "ipaUK": "/breɪs/",
+  "ipaUS": "/breɪs/",
+  "senses": [
+   {
+    "guideword": "PREPARE",
+    "level": "C1",
+    "defEN": "to prepare yourself for something unpleasant",
+    "defVI": "chuẩn bị tinh thần",
+    "examples": [
+     {
+      "en": "Brace yourself for bad news.",
+      "vi": "Hãy chuẩn bị tinh thần đón tin xấu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bravado",
+  "pos": "noun",
+  "ipaUK": "/brəˈvɑː.dəʊ/",
+  "ipaUS": "/brəˈvɑː.doʊ/",
+  "senses": [
+   {
+    "guideword": "CONFIDENCE",
+    "level": "C1",
+    "defEN": "a show of courage meant to impress",
+    "defVI": "sự làm ra vẻ can đảm",
+    "examples": [
+     {
+      "en": "youthful bravado",
+      "vi": "sự liều lĩnh tuổi trẻ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brevity",
+  "pos": "noun",
+  "ipaUK": "/ˈbrev.ə.ti/",
+  "ipaUS": "/ˈbrev.ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "SHORT",
+    "level": "C1",
+    "defEN": "the quality of using few words",
+    "defVI": "sự ngắn gọn",
+    "examples": [
+     {
+      "en": "Brevity is important in emails.",
+      "vi": "Sự ngắn gọn rất quan trọng trong email."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "briefing",
+  "pos": "noun",
+  "ipaUK": "/ˈbriː.fɪŋ/",
+  "ipaUS": "/ˈbriː.fɪŋ/",
+  "senses": [
+   {
+    "guideword": "MEETING",
+    "level": "C1",
+    "defEN": "a meeting where people receive instructions or information",
+    "defVI": "buổi họp giao ban",
+    "examples": [
+     {
+      "en": "a press briefing",
+      "vi": "buổi họp báo"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bristle",
+  "pos": "verb",
+  "ipaUK": "/ˈbrɪs.əl/",
+  "ipaUS": "/ˈbrɪs.əl/",
+  "senses": [
+   {
+    "guideword": "ANGRY",
+    "level": "C1",
+    "defEN": "to show sudden anger at something",
+    "defVI": "nổi cáu",
+    "examples": [
+     {
+      "en": "She bristled at the suggestion.",
+      "vi": "Cô ấy nổi cáu trước lời gợi ý đó."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brood",
+  "pos": "verb",
+  "ipaUK": "/bruːd/",
+  "ipaUS": "/bruːd/",
+  "senses": [
+   {
+    "guideword": "THINK",
+    "level": "C1",
+    "defEN": "to think a lot about something that upsets you",
+    "defVI": "nghiền ngẫm, ủ ê",
+    "examples": [
+     {
+      "en": "Stop brooding over the past.",
+      "vi": "Đừng ủ ê về quá khứ nữa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "budding",
+  "pos": "adjective",
+  "ipaUK": "/ˈbʌd.ɪŋ/",
+  "ipaUS": "/ˈbʌd.ɪŋ/",
+  "senses": [
+   {
+    "guideword": "DEVELOPING",
+    "level": "C1",
+    "defEN": "starting to develop",
+    "defVI": "chớm nở, đầy triển vọng",
+    "examples": [
+     {
+      "en": "a budding artist",
+      "vi": "một nghệ sĩ trẻ triển vọng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "badger",
+  "pos": "verb",
+  "ipaUK": "/ˈbædʒ.ər/",
+  "ipaUS": "/ˈbædʒ.ɚ/",
+  "senses": [
+   {
+    "guideword": "ASK",
+    "level": "C2",
+    "defEN": "to keep asking someone to do something annoyingly",
+    "defVI": "nài nỉ, quấy rầy",
+    "examples": [
+     {
+      "en": "The kids badgered me for a puppy.",
+      "vi": "Bọn trẻ nằng nặc đòi tôi mua chó con."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "baffle",
+  "pos": "verb",
+  "ipaUK": "/ˈbæf.əl/",
+  "ipaUS": "/ˈbæf.əl/",
+  "senses": [
+   {
+    "guideword": "CONFUSE",
+    "level": "C2",
+    "defEN": "to be impossible for someone to understand",
+    "defVI": "làm bối rối, khó hiểu",
+    "examples": [
+     {
+      "en": "The disease baffled doctors.",
+      "vi": "Căn bệnh khiến các bác sĩ bối rối."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "balk",
+  "pos": "verb",
+  "ipaUK": "/bɔːk/",
+  "ipaUS": "/bɑːk/",
+  "senses": [
+   {
+    "guideword": "REFUSE",
+    "level": "C2",
+    "defEN": "to be unwilling to do something difficult",
+    "defVI": "chùn bước, ngần ngại",
+    "examples": [
+     {
+      "en": "Many balked at the high price.",
+      "vi": "Nhiều người chùn bước trước giá cao."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "balmy",
+  "pos": "adjective",
+  "ipaUK": "/ˈbɑː.mi/",
+  "ipaUS": "/ˈbɑː.mi/",
+  "senses": [
+   {
+    "guideword": "WEATHER",
+    "level": "C2",
+    "defEN": "pleasantly warm",
+    "defVI": "ấm áp dễ chịu",
+    "examples": [
+     {
+      "en": "a balmy evening",
+      "vi": "một buổi tối ấm áp"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "banal",
+  "pos": "adjective",
+  "ipaUK": "/bəˈnɑːl/",
+  "ipaUS": "/bəˈnɑːl/",
+  "senses": [
+   {
+    "guideword": "BORING",
+    "level": "C2",
+    "defEN": "boring and without originality",
+    "defVI": "tầm thường, nhàm",
+    "examples": [
+     {
+      "en": "banal conversation",
+      "vi": "cuộc trò chuyện nhạt nhẽo"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bane",
+  "pos": "noun",
+  "ipaUK": "/beɪn/",
+  "ipaUS": "/beɪn/",
+  "senses": [
+   {
+    "guideword": "TROUBLE",
+    "level": "C2",
+    "defEN": "something that causes constant trouble",
+    "defVI": "nỗi khổ, tai họa",
+    "examples": [
+     {
+      "en": "Traffic is the bane of city life.",
+      "vi": "Kẹt xe là nỗi khổ của đời sống đô thị."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "banter",
+  "pos": "noun",
+  "ipaUK": "/ˈbæn.tər/",
+  "ipaUS": "/ˈbæn.t̬ɚ/",
+  "senses": [
+   {
+    "guideword": "TALK",
+    "level": "C2",
+    "defEN": "friendly joking conversation",
+    "defVI": "lời trêu đùa",
+    "examples": [
+     {
+      "en": "office banter",
+      "vi": "chuyện trêu đùa nơi công sở"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "barrage",
+  "pos": "noun",
+  "ipaUK": "/ˈbær.ɑːʒ/",
+  "ipaUS": "/bəˈrɑːʒ/",
+  "senses": [
+   {
+    "guideword": "MANY",
+    "level": "C2",
+    "defEN": "a great number of complaints or questions at once",
+    "defVI": "tràng, loạt",
+    "examples": [
+     {
+      "en": "a barrage of criticism",
+      "vi": "hàng loạt lời chỉ trích"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bashful",
+  "pos": "adjective",
+  "ipaUK": "/ˈbæʃ.fəl/",
+  "ipaUS": "/ˈbæʃ.fəl/",
+  "senses": [
+   {
+    "guideword": "SHY",
+    "level": "C2",
+    "defEN": "shy and easily embarrassed",
+    "defVI": "bẽn lẽn",
+    "examples": [
+     {
+      "en": "a bashful smile",
+      "vi": "nụ cười bẽn lẽn"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beckon",
+  "pos": "verb",
+  "ipaUK": "/ˈbek.ən/",
+  "ipaUS": "/ˈbek.ən/",
+  "senses": [
+   {
+    "guideword": "SIGNAL",
+    "level": "C2",
+    "defEN": "to move your hand to tell someone to come",
+    "defVI": "vẫy gọi",
+    "examples": [
+     {
+      "en": "She beckoned me over.",
+      "vi": "Cô ấy vẫy tôi lại."
+     }
+    ]
+   },
+   {
+    "guideword": "ATTRACT",
+    "level": "C2",
+    "defEN": "to seem attractive or likely to happen",
+    "defVI": "chờ đón, mời gọi",
+    "examples": [
+     {
+      "en": "A new career beckoned.",
+      "vi": "Một sự nghiệp mới đang chờ đón."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bedlam",
+  "pos": "noun",
+  "ipaUK": "/ˈbed.ləm/",
+  "ipaUS": "/ˈbed.ləm/",
+  "senses": [
+   {
+    "guideword": "CHAOS",
+    "level": "C2",
+    "defEN": "a scene of noisy confusion",
+    "defVI": "cảnh hỗn loạn",
+    "examples": [
+     {
+      "en": "It was bedlam at the airport.",
+      "vi": "Sân bay hỗn loạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "befitting",
+  "pos": "adjective",
+  "ipaUK": "/bɪˈfɪt.ɪŋ/",
+  "ipaUS": "/bɪˈfɪt̬.ɪŋ/",
+  "senses": [
+   {
+    "guideword": "SUITABLE",
+    "level": "C2",
+    "defEN": "suitable for a particular person or occasion",
+    "defVI": "xứng đáng, phù hợp",
+    "examples": [
+     {
+      "en": "a ceremony befitting a hero",
+      "vi": "buổi lễ xứng tầm anh hùng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "begrudge",
+  "pos": "verb",
+  "ipaUK": "/bɪˈɡrʌdʒ/",
+  "ipaUS": "/bɪˈɡrʌdʒ/",
+  "senses": [
+   {
+    "guideword": "ENVY",
+    "level": "C2",
+    "defEN": "to feel unhappy that someone has something",
+    "defVI": "ghen tị, tiếc",
+    "examples": [
+     {
+      "en": "I don't begrudge her success.",
+      "vi": "Tôi không ghen tị thành công của cô ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beguile",
+  "pos": "verb",
+  "ipaUK": "/bɪˈɡaɪl/",
+  "ipaUS": "/bɪˈɡaɪl/",
+  "senses": [
+   {
+    "guideword": "CHARM",
+    "level": "C2",
+    "defEN": "to attract or trick someone with charm",
+    "defVI": "mê hoặc, lừa phỉnh",
+    "examples": [
+     {
+      "en": "beguiled by his smile",
+      "vi": "bị nụ cười của anh ta mê hoặc"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "belated",
+  "pos": "adjective",
+  "ipaUK": "/bɪˈleɪ.tɪd/",
+  "ipaUS": "/bɪˈleɪ.t̬ɪd/",
+  "senses": [
+   {
+    "guideword": "LATE",
+    "level": "C2",
+    "defEN": "coming later than expected",
+    "defVI": "muộn màng",
+    "examples": [
+     {
+      "en": "a belated birthday card",
+      "vi": "tấm thiệp sinh nhật muộn"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "belie",
+  "pos": "verb",
+  "ipaUK": "/bɪˈlaɪ/",
+  "ipaUS": "/bɪˈlaɪ/",
+  "senses": [
+   {
+    "guideword": "HIDE",
+    "level": "C2",
+    "defEN": "to give a false idea of something",
+    "defVI": "che giấu, làm sai lệch",
+    "examples": [
+     {
+      "en": "Her calm face belied her fear.",
+      "vi": "Vẻ mặt bình tĩnh che giấu nỗi sợ của cô."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "belittle",
+  "pos": "verb",
+  "ipaUK": "/bɪˈlɪt.əl/",
+  "ipaUS": "/bɪˈlɪt̬.əl/",
+  "senses": [
+   {
+    "guideword": "DISMISS",
+    "level": "C2",
+    "defEN": "to make someone or something seem unimportant",
+    "defVI": "coi thường, hạ thấp",
+    "examples": [
+     {
+      "en": "Don't belittle his efforts.",
+      "vi": "Đừng coi thường nỗ lực của anh ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bellicose",
+  "pos": "adjective",
+  "ipaUK": "/ˈbel.ɪ.kəʊs/",
+  "ipaUS": "/ˈbel.ɪ.koʊs/",
+  "senses": [
+   {
+    "guideword": "AGGRESSIVE",
+    "level": "C2",
+    "defEN": "wanting to fight or argue",
+    "defVI": "hiếu chiến",
+    "examples": [
+     {
+      "en": "bellicose statements",
+      "vi": "những tuyên bố hiếu chiến"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "belligerent",
+  "pos": "adjective",
+  "ipaUK": "/bəˈlɪdʒ.ər.ənt/",
+  "ipaUS": "/bəˈlɪdʒ.ɚ.ənt/",
+  "senses": [
+   {
+    "guideword": "HOSTILE",
+    "level": "C2",
+    "defEN": "angry and ready to fight",
+    "defVI": "gây hấn",
+    "examples": [
+     {
+      "en": "a belligerent drunk",
+      "vi": "gã say rượu hung hăng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bemused",
+  "pos": "adjective",
+  "ipaUK": "/bɪˈmjuːzd/",
+  "ipaUS": "/bɪˈmjuːzd/",
+  "senses": [
+   {
+    "guideword": "CONFUSED",
+    "level": "C2",
+    "defEN": "slightly confused",
+    "defVI": "ngơ ngác",
+    "examples": [
+     {
+      "en": "a bemused expression",
+      "vi": "vẻ mặt ngơ ngác"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "benign",
+  "pos": "adjective",
+  "ipaUK": "/bɪˈnaɪn/",
+  "ipaUS": "/bɪˈnaɪn/",
+  "senses": [
+   {
+    "guideword": "MEDICAL",
+    "level": "C2",
+    "defEN": "not harmful, especially of a tumour",
+    "defVI": "lành tính",
+    "examples": [
+     {
+      "en": "a benign tumour",
+      "vi": "khối u lành tính"
+     }
+    ]
+   },
+   {
+    "guideword": "KIND",
+    "level": "C2",
+    "defEN": "pleasant and kind",
+    "defVI": "hiền hậu",
+    "examples": [
+     {
+      "en": "a benign smile",
+      "vi": "nụ cười hiền hậu"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "berserk",
+  "pos": "adjective",
+  "ipaUK": "/bəˈzɜːk/",
+  "ipaUS": "/bɚˈzɝːk/",
+  "senses": [
+   {
+    "guideword": "WILD",
+    "level": "C2",
+    "defEN": "extremely angry and out of control",
+    "defVI": "nổi điên",
+    "examples": [
+     {
+      "en": "He went berserk.",
+      "vi": "Anh ta nổi điên."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beset",
+  "pos": "verb",
+  "ipaUK": "/bɪˈset/",
+  "ipaUS": "/bɪˈset/",
+  "senses": [
+   {
+    "guideword": "TROUBLE",
+    "level": "C2",
+    "defEN": "to cause continual problems for",
+    "defVI": "bủa vây, quấy nhiễu",
+    "examples": [
+     {
+      "en": "a project beset by delays",
+      "vi": "dự án liên tục bị trì hoãn"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "besotted",
+  "pos": "adjective",
+  "ipaUK": "/bɪˈsɒt.ɪd/",
+  "ipaUS": "/bɪˈsɑː.t̬ɪd/",
+  "senses": [
+   {
+    "guideword": "LOVE",
+    "level": "C2",
+    "defEN": "so much in love that you act foolishly",
+    "defVI": "say đắm",
+    "examples": [
+     {
+      "en": "besotted with his new girlfriend",
+      "vi": "say mê cô bạn gái mới"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bespoke",
+  "pos": "adjective",
+  "ipaUK": "/bɪˈspəʊk/",
+  "ipaUS": "/bɪˈspoʊk/",
+  "senses": [
+   {
+    "guideword": "MADE",
+    "level": "C2",
+    "defEN": "made specially for a particular customer",
+    "defVI": "may đo, làm riêng",
+    "examples": [
+     {
+      "en": "bespoke software",
+      "vi": "phần mềm đặt riêng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bestial",
+  "pos": "adjective",
+  "ipaUK": "/ˈbes.ti.əl/",
+  "ipaUS": "/ˈbes.tʃəl/",
+  "senses": [
+   {
+    "guideword": "CRUEL",
+    "level": "C2",
+    "defEN": "cruel in a way that seems inhuman",
+    "defVI": "thú tính",
+    "examples": [
+     {
+      "en": "bestial acts",
+      "vi": "những hành vi thú tính"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "betrothed",
+  "pos": "adjective",
+  "ipaUK": "/bɪˈtrəʊðd/",
+  "ipaUS": "/bɪˈtroʊðd/",
+  "senses": [
+   {
+    "guideword": "MARRIAGE",
+    "level": "C2",
+    "defEN": "formally promised in marriage (old use)",
+    "defVI": "đã đính hôn",
+    "examples": [
+     {
+      "en": "They were betrothed as children.",
+      "vi": "Họ được hứa hôn từ nhỏ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bibliography",
+  "pos": "noun",
+  "ipaUK": "/ˌbɪb.liˈɒɡ.rə.fi/",
+  "ipaUS": "/ˌbɪb.liˈɑː.ɡrə.fi/",
+  "senses": [
+   {
+    "guideword": "LIST",
+    "level": "C2",
+    "defEN": "a list of books used for a piece of writing",
+    "defVI": "thư mục tài liệu tham khảo",
+    "examples": [
+     {
+      "en": "Add a bibliography to your thesis.",
+      "vi": "Thêm danh mục tài liệu tham khảo vào luận văn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bicker",
+  "pos": "verb",
+  "ipaUK": "/ˈbɪk.ər/",
+  "ipaUS": "/ˈbɪk.ɚ/",
+  "senses": [
+   {
+    "guideword": "ARGUE",
+    "level": "C2",
+    "defEN": "to argue about unimportant things",
+    "defVI": "cãi vặt",
+    "examples": [
+     {
+      "en": "The twins bicker all day.",
+      "vi": "Cặp sinh đôi cãi vặt cả ngày."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bigot",
+  "pos": "noun",
+  "ipaUK": "/ˈbɪɡ.ət/",
+  "ipaUS": "/ˈbɪɡ.ət/",
+  "senses": [
+   {
+    "guideword": "PREJUDICE",
+    "level": "C2",
+    "defEN": "a person with strong unreasonable prejudices",
+    "defVI": "kẻ cố chấp, định kiến",
+    "examples": [
+     {
+      "en": "a racist bigot",
+      "vi": "kẻ phân biệt chủng tộc cố chấp"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bigotry",
+  "pos": "noun",
+  "ipaUK": "/ˈbɪɡ.ə.tri/",
+  "ipaUS": "/ˈbɪɡ.ə.tri/",
+  "senses": [
+   {
+    "guideword": "PREJUDICE",
+    "level": "C2",
+    "defEN": "unreasonable dislike of people who are different",
+    "defVI": "thói cố chấp",
+    "examples": [
+     {
+      "en": "religious bigotry",
+      "vi": "sự cố chấp tôn giáo"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bilingual",
+  "pos": "adjective",
+  "ipaUK": "/baɪˈlɪŋ.ɡwəl/",
+  "ipaUS": "/baɪˈlɪŋ.ɡwəl/",
+  "senses": [
+   {
+    "guideword": "LANGUAGE",
+    "level": "C2",
+    "defEN": "able to speak two languages equally well",
+    "defVI": "song ngữ",
+    "examples": [
+     {
+      "en": "a bilingual school",
+      "vi": "trường song ngữ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blasphemy",
+  "pos": "noun",
+  "ipaUK": "/ˈblæs.fə.mi/",
+  "ipaUS": "/ˈblæs.fə.mi/",
+  "senses": [
+   {
+    "guideword": "RELIGION",
+    "level": "C2",
+    "defEN": "disrespectful words about God or holy things",
+    "defVI": "sự báng bổ",
+    "examples": [
+     {
+      "en": "accused of blasphemy",
+      "vi": "bị buộc tội báng bổ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bland",
+  "pos": "adjective",
+  "ipaUK": "/blænd/",
+  "ipaUS": "/blænd/",
+  "senses": [
+   {
+    "guideword": "TASTE",
+    "level": "C2",
+    "defEN": "having little flavour",
+    "defVI": "nhạt",
+    "examples": [
+     {
+      "en": "bland hospital food",
+      "vi": "đồ ăn bệnh viện nhạt nhẽo"
+     }
+    ]
+   },
+   {
+    "guideword": "DULL",
+    "level": "C2",
+    "defEN": "not interesting or exciting",
+    "defVI": "nhàm chán",
+    "examples": [
+     {
+      "en": "a bland speech",
+      "vi": "bài phát biểu nhạt nhẽo"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blasé",
+  "pos": "adjective",
+  "ipaUK": "/ˈblɑː.zeɪ/",
+  "ipaUS": "/blɑːˈzeɪ/",
+  "senses": [
+   {
+    "guideword": "UNIMPRESSED",
+    "level": "C2",
+    "defEN": "not worried or excited because it seems ordinary",
+    "defVI": "thờ ơ, dửng dưng",
+    "examples": [
+     {
+      "en": "She's blasé about flying.",
+      "vi": "Cô ấy dửng dưng với việc đi máy bay."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blemish",
+  "pos": "noun",
+  "ipaUK": "/ˈblem.ɪʃ/",
+  "ipaUS": "/ˈblem.ɪʃ/",
+  "senses": [
+   {
+    "guideword": "MARK",
+    "level": "C2",
+    "defEN": "a small mark that spoils appearance",
+    "defVI": "vết, tì vết",
+    "examples": [
+     {
+      "en": "a blemish on his record",
+      "vi": "vết nhơ trong hồ sơ của anh ta"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blight",
+  "pos": "noun",
+  "ipaUK": "/blaɪt/",
+  "ipaUS": "/blaɪt/",
+  "senses": [
+   {
+    "guideword": "DAMAGE",
+    "level": "C2",
+    "defEN": "something that spoils or damages",
+    "defVI": "tai họa, thứ làm hỏng",
+    "examples": [
+     {
+      "en": "Litter is a blight on the beach.",
+      "vi": "Rác là tai họa của bãi biển."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bliss",
+  "pos": "noun",
+  "ipaUK": "/blɪs/",
+  "ipaUS": "/blɪs/",
+  "senses": [
+   {
+    "guideword": "HAPPY",
+    "level": "C2",
+    "defEN": "perfect happiness",
+    "defVI": "hạnh phúc tuyệt đối",
+    "examples": [
+     {
+      "en": "a week of pure bliss",
+      "vi": "một tuần hạnh phúc trọn vẹn"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blithe",
+  "pos": "adjective",
+  "ipaUK": "/blaɪð/",
+  "ipaUS": "/blaɪð/",
+  "senses": [
+   {
+    "guideword": "CARELESS",
+    "level": "C2",
+    "defEN": "happy and not worried, sometimes carelessly",
+    "defVI": "vô tư, thản nhiên",
+    "examples": [
+     {
+      "en": "blithe disregard for safety",
+      "vi": "sự thản nhiên coi thường an toàn"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blockade",
+  "pos": "noun",
+  "ipaUK": "/blɒkˈeɪd/",
+  "ipaUS": "/blɑːˈkeɪd/",
+  "senses": [
+   {
+    "guideword": "STOP",
+    "level": "C2",
+    "defEN": "the closing of a place to stop goods or people",
+    "defVI": "sự phong tỏa",
+    "examples": [
+     {
+      "en": "a naval blockade",
+      "vi": "cuộc phong tỏa đường biển"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bloated",
+  "pos": "adjective",
+  "ipaUK": "/ˈbləʊ.tɪd/",
+  "ipaUS": "/ˈbloʊ.t̬ɪd/",
+  "senses": [
+   {
+    "guideword": "FULL",
+    "level": "C2",
+    "defEN": "swollen and uncomfortable",
+    "defVI": "đầy bụng, phình to",
+    "examples": [
+     {
+      "en": "I feel bloated after dinner.",
+      "vi": "Tôi thấy đầy bụng sau bữa tối."
+     }
+    ]
+   },
+   {
+    "guideword": "TOO BIG",
+    "level": "C2",
+    "defEN": "larger than necessary",
+    "defVI": "cồng kềnh",
+    "examples": [
+     {
+      "en": "a bloated bureaucracy",
+      "vi": "bộ máy hành chính cồng kềnh"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bluff",
+  "pos": "verb",
+  "ipaUK": "/blʌf/",
+  "ipaUS": "/blʌf/",
+  "senses": [
+   {
+    "guideword": "TRICK",
+    "level": "C2",
+    "defEN": "to pretend to have knowledge or power you lack",
+    "defVI": "tháu cáy, lừa phỉnh",
+    "examples": [
+     {
+      "en": "I think he's bluffing.",
+      "vi": "Tôi nghĩ anh ta đang tháu cáy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bluntly",
+  "pos": "adverb",
+  "ipaUK": "/ˈblʌnt.li/",
+  "ipaUS": "/ˈblʌnt.li/",
+  "senses": [
+   {
+    "guideword": "DIRECT",
+    "level": "C2",
+    "defEN": "in a direct way without trying to be polite",
+    "defVI": "thẳng thừng",
+    "examples": [
+     {
+      "en": "To put it bluntly, you're wrong.",
+      "vi": "Nói thẳng ra là bạn sai."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bogus",
+  "pos": "adjective",
+  "ipaUK": "/ˈbəʊ.ɡəs/",
+  "ipaUS": "/ˈboʊ.ɡəs/",
+  "senses": [
+   {
+    "guideword": "FALSE",
+    "level": "C2",
+    "defEN": "false but pretending to be real",
+    "defVI": "giả mạo",
+    "examples": [
+     {
+      "en": "a bogus doctor",
+      "vi": "bác sĩ dởm"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "boisterous",
+  "pos": "adjective",
+  "ipaUK": "/ˈbɔɪ.stər.əs/",
+  "ipaUS": "/ˈbɔɪ.stɚ.əs/",
+  "senses": [
+   {
+    "guideword": "NOISY",
+    "level": "C2",
+    "defEN": "noisy and full of energy",
+    "defVI": "ồn ào náo nhiệt",
+    "examples": [
+     {
+      "en": "boisterous children",
+      "vi": "những đứa trẻ náo nhiệt"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bombastic",
+  "pos": "adjective",
+  "ipaUK": "/bɒmˈbæs.tɪk/",
+  "ipaUS": "/bɑːmˈbæs.tɪk/",
+  "senses": [
+   {
+    "guideword": "LANGUAGE",
+    "level": "C2",
+    "defEN": "using long words to sound important",
+    "defVI": "khoa trương",
+    "examples": [
+     {
+      "en": "a bombastic speech",
+      "vi": "bài diễn văn khoa trương"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bona fide",
+  "pos": "adjective",
+  "ipaUK": "/ˌbəʊ.nə ˈfaɪ.di/",
+  "ipaUS": "/ˌboʊ.nə ˈfaɪ.di/",
+  "senses": [
+   {
+    "guideword": "REAL",
+    "level": "C2",
+    "defEN": "real and not false",
+    "defVI": "thật sự, chính danh",
+    "examples": [
+     {
+      "en": "a bona fide expert",
+      "vi": "một chuyên gia thực thụ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "boon",
+  "pos": "noun",
+  "ipaUK": "/buːn/",
+  "ipaUS": "/buːn/",
+  "senses": [
+   {
+    "guideword": "HELP",
+    "level": "C2",
+    "defEN": "something very helpful",
+    "defVI": "lợi ích, phúc lợi",
+    "examples": [
+     {
+      "en": "The new bridge is a boon to locals.",
+      "vi": "Cây cầu mới là điều có lợi cho dân địa phương."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "boorish",
+  "pos": "adjective",
+  "ipaUK": "/ˈbʊə.rɪʃ/",
+  "ipaUS": "/ˈbʊr.ɪʃ/",
+  "senses": [
+   {
+    "guideword": "RUDE",
+    "level": "C2",
+    "defEN": "rough and rude",
+    "defVI": "thô lỗ",
+    "examples": [
+     {
+      "en": "boorish behaviour",
+      "vi": "cách cư xử thô lỗ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bottomless",
+  "pos": "adjective",
+  "ipaUK": "/ˈbɒt.əm.ləs/",
+  "ipaUS": "/ˈbɑː.t̬əm.ləs/",
+  "senses": [
+   {
+    "guideword": "UNLIMITED",
+    "level": "C2",
+    "defEN": "seeming to have no limit",
+    "defVI": "không đáy, vô tận",
+    "examples": [
+     {
+      "en": "a bottomless supply of energy",
+      "vi": "nguồn năng lượng vô tận"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brash",
+  "pos": "adjective",
+  "ipaUK": "/bræʃ/",
+  "ipaUS": "/bræʃ/",
+  "senses": [
+   {
+    "guideword": "CONFIDENT",
+    "level": "C2",
+    "defEN": "too confident and loud",
+    "defVI": "hỗn hào, xấc xược",
+    "examples": [
+     {
+      "en": "a brash young banker",
+      "vi": "anh chàng ngân hàng trẻ xốc nổi"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brazen",
+  "pos": "adjective",
+  "ipaUK": "/ˈbreɪ.zən/",
+  "ipaUS": "/ˈbreɪ.zən/",
+  "senses": [
+   {
+    "guideword": "SHAMELESS",
+    "level": "C2",
+    "defEN": "doing something bad openly without shame",
+    "defVI": "trơ tráo",
+    "examples": [
+     {
+      "en": "a brazen theft in daylight",
+      "vi": "vụ trộm trơ tráo giữa ban ngày"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "brusque",
+  "pos": "adjective",
+  "ipaUK": "/bruːsk/",
+  "ipaUS": "/brʌsk/",
+  "senses": [
+   {
+    "guideword": "RUDE",
+    "level": "C2",
+    "defEN": "quick and rude in manner",
+    "defVI": "cộc lốc",
+    "examples": [
+     {
+      "en": "a brusque reply",
+      "vi": "câu trả lời cộc lốc"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "buoyant",
+  "pos": "adjective",
+  "ipaUK": "/ˈbɔɪ.ənt/",
+  "ipaUS": "/ˈbɔɪ.ənt/",
+  "senses": [
+   {
+    "guideword": "HAPPY",
+    "level": "C2",
+    "defEN": "happy and confident",
+    "defVI": "phấn chấn",
+    "examples": [
+     {
+      "en": "in a buoyant mood",
+      "vi": "trong tâm trạng phấn chấn"
+     }
+    ]
+   },
+   {
+    "guideword": "ECONOMY",
+    "level": "C2",
+    "defEN": "successful, with prices or sales rising",
+    "defVI": "khởi sắc",
+    "examples": [
+     {
+      "en": "a buoyant housing market",
+      "vi": "thị trường nhà đất khởi sắc"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "buoy",
+  "pos": "verb",
+  "ipaUK": "/bɔɪ/",
+  "ipaUS": "/ˈbuː.i/",
+  "senses": [
+   {
+    "guideword": "ENCOURAGE",
+    "level": "C2",
+    "defEN": "to make someone feel more hopeful",
+    "defVI": "nâng đỡ tinh thần",
+    "examples": [
+     {
+      "en": "buoyed by the good news",
+      "vi": "phấn chấn nhờ tin vui"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "burgeon",
+  "pos": "verb",
+  "ipaUK": "/ˈbɜː.dʒən/",
+  "ipaUS": "/ˈbɝː.dʒən/",
+  "senses": [
+   {
+    "guideword": "GROW",
+    "level": "C2",
+    "defEN": "to develop quickly",
+    "defVI": "phát triển nhanh",
+    "examples": [
+     {
+      "en": "a burgeoning middle class",
+      "vi": "tầng lớp trung lưu đang tăng nhanh"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "burly",
+  "pos": "adjective",
+  "ipaUK": "/ˈbɜː.li/",
+  "ipaUS": "/ˈbɝː.li/",
+  "senses": [
+   {
+    "guideword": "BODY",
+    "level": "C2",
+    "defEN": "large and strong",
+    "defVI": "vạm vỡ",
+    "examples": [
+     {
+      "en": "a burly security guard",
+      "vi": "anh bảo vệ vạm vỡ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bustle",
+  "pos": "noun",
+  "ipaUK": "/ˈbʌs.əl/",
+  "ipaUS": "/ˈbʌs.əl/",
+  "senses": [
+   {
+    "guideword": "ACTIVITY",
+    "level": "C2",
+    "defEN": "busy and noisy activity",
+    "defVI": "sự hối hả",
+    "examples": [
+     {
+      "en": "the hustle and bustle of Hanoi",
+      "vi": "sự hối hả nhộn nhịp của Hà Nội"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bungle",
+  "pos": "verb",
+  "ipaUK": "/ˈbʌŋ.ɡəl/",
+  "ipaUS": "/ˈbʌŋ.ɡəl/",
+  "senses": [
+   {
+    "guideword": "FAIL",
+    "level": "C2",
+    "defEN": "to do something badly because of carelessness",
+    "defVI": "làm hỏng, làm vụng",
+    "examples": [
+     {
+      "en": "The police bungled the investigation.",
+      "vi": "Cảnh sát làm hỏng cuộc điều tra."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bumbling",
+  "pos": "adjective",
+  "ipaUK": "/ˈbʌm.blɪŋ/",
+  "ipaUS": "/ˈbʌm.blɪŋ/",
+  "senses": [
+   {
+    "guideword": "CLUMSY",
+    "level": "C2",
+    "defEN": "confused and making many mistakes",
+    "defVI": "vụng về, lóng ngóng",
+    "examples": [
+     {
+      "en": "a bumbling detective",
+      "vi": "thám tử vụng về"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "buttress",
+  "pos": "verb",
+  "ipaUK": "/ˈbʌt.rəs/",
+  "ipaUS": "/ˈbʌt.rəs/",
+  "senses": [
+   {
+    "guideword": "SUPPORT",
+    "level": "C2",
+    "defEN": "to support or strengthen an argument",
+    "defVI": "củng cố",
+    "examples": [
+     {
+      "en": "facts to buttress her case",
+      "vi": "dữ kiện củng cố lập luận của cô"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "byword",
+  "pos": "noun",
+  "ipaUK": "/ˈbaɪ.wɜːd/",
+  "ipaUS": "/ˈbaɪ.wɝːd/",
+  "senses": [
+   {
+    "guideword": "EXAMPLE",
+    "level": "C2",
+    "defEN": "a famous example of a quality",
+    "defVI": "biểu tượng, hình mẫu",
+    "examples": [
+     {
+      "en": "The brand is a byword for quality.",
+      "vi": "Thương hiệu này là biểu tượng của chất lượng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bygone",
+  "pos": "adjective",
+  "ipaUK": "/ˈbaɪ.ɡɒn/",
+  "ipaUS": "/ˈbaɪ.ɡɑːn/",
+  "senses": [
+   {
+    "guideword": "PAST",
+    "level": "C2",
+    "defEN": "from a time long ago",
+    "defVI": "đã qua",
+    "examples": [
+     {
+      "en": "a bygone era",
+      "vi": "một thời đã qua"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bedrock",
+  "pos": "noun",
+  "ipaUK": "/ˈbed.rɒk/",
+  "ipaUS": "/ˈbed.rɑːk/",
+  "senses": [
+   {
+    "guideword": "BASIS",
+    "level": "C2",
+    "defEN": "the principles on which something is based",
+    "defVI": "nền tảng vững chắc",
+    "examples": [
+     {
+      "en": "Trust is the bedrock of marriage.",
+      "vi": "Niềm tin là nền tảng của hôn nhân."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "behemoth",
+  "pos": "noun",
+  "ipaUK": "/bɪˈhiː.mɒθ/",
+  "ipaUS": "/bɪˈhiː.mɑːθ/",
+  "senses": [
+   {
+    "guideword": "HUGE",
+    "level": "C2",
+    "defEN": "something very large and powerful",
+    "defVI": "gã khổng lồ",
+    "examples": [
+     {
+      "en": "a tech behemoth",
+      "vi": "gã khổng lồ công nghệ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "beleaguered",
+  "pos": "adjective",
+  "ipaUK": "/bɪˈliː.ɡəd/",
+  "ipaUS": "/bɪˈliː.ɡɚd/",
+  "senses": [
+   {
+    "guideword": "PROBLEMS",
+    "level": "C2",
+    "defEN": "having a lot of problems or criticism",
+    "defVI": "bị bủa vây khó khăn",
+    "examples": [
+     {
+      "en": "the beleaguered coach",
+      "vi": "vị HLV đang gặp khó"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "benefactor",
+  "pos": "noun",
+  "ipaUK": "/ˈben.ɪ.fæk.tər/",
+  "ipaUS": "/ˈben.ə.fæk.tɚ/",
+  "senses": [
+   {
+    "guideword": "GIVE",
+    "level": "C2",
+    "defEN": "a person who gives money to help others",
+    "defVI": "nhà hảo tâm",
+    "examples": [
+     {
+      "en": "an anonymous benefactor",
+      "vi": "một nhà hảo tâm giấu tên"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bereaved",
+  "pos": "adjective",
+  "ipaUK": "/bɪˈriːvd/",
+  "ipaUS": "/bɪˈriːvd/",
+  "senses": [
+   {
+    "guideword": "DEATH",
+    "level": "C2",
+    "defEN": "having lost a close relative who died",
+    "defVI": "tang quyến",
+    "examples": [
+     {
+      "en": "bereaved families",
+      "vi": "các gia đình có người thân qua đời"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bereft",
+  "pos": "adjective",
+  "ipaUK": "/bɪˈreft/",
+  "ipaUS": "/bɪˈreft/",
+  "senses": [
+   {
+    "guideword": "WITHOUT",
+    "level": "C2",
+    "defEN": "completely without something; very sad from loss",
+    "defVI": "mất hết; trống trải",
+    "examples": [
+     {
+      "en": "bereft of hope",
+      "vi": "mất hết hy vọng"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "besmirch",
+  "pos": "verb",
+  "ipaUK": "/bɪˈsmɜːtʃ/",
+  "ipaUS": "/bɪˈsmɝːtʃ/",
+  "senses": [
+   {
+    "guideword": "DAMAGE",
+    "level": "C2",
+    "defEN": "to damage someone's reputation",
+    "defVI": "bôi nhọ",
+    "examples": [
+     {
+      "en": "besmirch his good name",
+      "vi": "bôi nhọ thanh danh anh ấy"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bibliophile",
+  "pos": "noun",
+  "ipaUK": "/ˈbɪb.li.ə.faɪl/",
+  "ipaUS": "/ˈbɪb.li.ə.faɪl/",
+  "senses": [
+   {
+    "guideword": "BOOKS",
+    "level": "C2",
+    "defEN": "a person who loves and collects books",
+    "defVI": "người mê sách",
+    "examples": [
+     {
+      "en": "a true bibliophile",
+      "vi": "một người mê sách thực thụ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blandishment",
+  "pos": "noun",
+  "ipaUK": "/ˈblæn.dɪʃ.mənt/",
+  "ipaUS": "/ˈblæn.dɪʃ.mənt/",
+  "senses": [
+   {
+    "guideword": "PERSUADE",
+    "level": "C2",
+    "defEN": "pleasant words used to persuade someone",
+    "defVI": "lời đường mật",
+    "examples": [
+     {
+      "en": "resist their blandishments",
+      "vi": "cưỡng lại lời đường mật của họ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "blatantly",
+  "pos": "adverb",
+  "ipaUK": "/ˈbleɪ.tənt.li/",
+  "ipaUS": "/ˈbleɪ.tənt.li/",
+  "senses": [
+   {
+    "guideword": "OBVIOUS",
+    "level": "C2",
+    "defEN": "in a very obvious and shameless way",
+    "defVI": "một cách trắng trợn",
+    "examples": [
+     {
+      "en": "blatantly unfair",
+      "vi": "bất công trắng trợn"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bountifully",
+  "pos": "adverb",
+  "ipaUK": "/ˈbaʊn.tɪ.fəl.i/",
+  "ipaUS": "/ˈbaʊn.t̬ɪ.fəl.i/",
+  "senses": [
+   {
+    "guideword": "GENEROUS",
+    "level": "C2",
+    "defEN": "in a generous or plentiful way",
+    "defVI": "dồi dào, hào phóng",
+    "examples": [
+     {
+      "en": "The land provides bountifully.",
+      "vi": "Đất đai cho sản vật dồi dào."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bravura",
+  "pos": "noun",
+  "ipaUK": "/brəˈvjʊə.rə/",
+  "ipaUS": "/brəˈvjʊr.ə/",
+  "senses": [
+   {
+    "guideword": "SKILL",
+    "level": "C2",
+    "defEN": "great skill and style in a performance",
+    "defVI": "sự điêu luyện",
+    "examples": [
+     {
+      "en": "a performance of real bravura",
+      "vi": "màn trình diễn thật điêu luyện"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "bristling",
+  "pos": "adjective",
+  "ipaUK": "/ˈbrɪs.lɪŋ/",
+  "ipaUS": "/ˈbrɪs.lɪŋ/",
+  "senses": [
+   {
+    "guideword": "FULL",
+    "level": "C2",
+    "defEN": "full of something",
+    "defVI": "đầy rẫy",
+    "examples": [
+     {
+      "en": "a city bristling with cameras",
+      "vi": "thành phố đầy rẫy camera"
+     }
+    ]
+   }
+  ]
+ }
+]

@@ -39,6 +39,57 @@ struct SettingsPanel: View {
                         .padding(.horizontal, 4).padding(.top, 1)
                 }
 
+                // MARK: Learn
+                section("Learn") {
+                    toggleRow("Tự bung 1 từ định kỳ", icon: "sparkles", isOn: $settings.learnAutoPopup)
+                    HStack(spacing: 9) {
+                        Image(systemName: "clock").font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
+                        Text("Mỗi \(settings.learnPopupMinutes) phút").font(.system(size: 11.5))
+                            .foregroundStyle(.white.opacity(0.9))
+                        Spacer(minLength: 0)
+                        Stepper("", value: $settings.learnPopupMinutes, in: 5...180, step: 5).labelsHidden()
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    HStack(spacing: 9) {
+                        Image(systemName: settings.learnPaused ? "pause.circle.fill" : "pause.circle")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
+                        Text(settings.learnPauseLabel ?? "Tạm dừng popup").font(.system(size: 11.5))
+                            .foregroundStyle(.white.opacity(0.9))
+                        Spacer(minLength: 0)
+                        if settings.learnPaused {
+                            Button("Tiếp tục") { settings.learnPausedUntil = nil }
+                                .buttonStyle(.plain).font(.system(size: 10.5, weight: .semibold))
+                                .foregroundStyle(.white.opacity(0.8))
+                        } else {
+                            Menu("Chọn") {
+                                ForEach(AppSettings.learnPauseOptions(), id: \.0) { opt in
+                                    Button(opt.0) { settings.learnPausedUntil = opt.1 }
+                                }
+                            }
+                            .menuStyle(.borderlessButton).fixedSize().font(.system(size: 10.5, weight: .semibold))
+                        }
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    toggleRow("Bỏ qua khi app full màn hình", icon: "arrow.up.left.and.arrow.down.right", isOn: $settings.learnSkipFullscreen)
+                    toggleRow("Âm báo khi bung", icon: "bell.and.waves.left.and.right", isOn: $settings.learnSoundEnabled)
+                    HStack(spacing: 9) {
+                        Image(systemName: "speaker.wave.2.fill").font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
+                        Text("Âm lượng").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+                        Slider(value: $settings.learnSoundVolume, in: 0...1)
+                        Button("Nghe thử") { LearnChime.play(volume: Float(settings.learnSoundVolume)) }
+                            .buttonStyle(.plain).font(.system(size: 10.5, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.8))
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    linkButton("Mở cửa sổ học", icon: "macwindow") { LearnWindowController.shared.show() }
+                }
+
                 // MARK: Notifications
                 section("Notifications") {
                     HStack(spacing: 8) {

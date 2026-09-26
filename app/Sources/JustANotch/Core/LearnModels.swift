@@ -34,48 +34,139 @@ struct SenseKey: Hashable, Codable, CustomStringConvertible {
     var description: String { "\(wordID)#\(index)" }
 }
 
-enum ReviewGrade: Int, CaseIterable { case again = 0, hard, good, easy
-    var label: String {
-        switch self { case .again: "Quên"; case .hard: "Khó"; case .good: "Nhớ"; case .easy: "Dễ" }
+/// 3 dạng câu hỏi luyện từ (theo EngZone).
+enum PracticeMode: String, Codable, CaseIterable {
+    case mcqWord      // cho từ → chọn nghĩa
+    case mcqMeaning   // cho nghĩa → chọn từ
+    case fill         // cho nghĩa + gợi ý số ký tự → gõ từ
+
+    var title: String {
+        switch self { case .mcqWord: "Chọn nghĩa"; case .mcqMeaning: "Chọn từ"; case .fill: "Điền từ" }
     }
 }
 
-/// Trạng thái SRS (SM-2 rút gọn) của một sense.
+/// Trạng thái SRS của một sense — chấm đúng/sai tự động, thuộc khi đúng đủ 10 lần
+/// VÀ đã đúng ở đủ cả 3 dạng câu hỏi.
 struct ReviewState: Codable, Equatable {
+    static let masterAt = 10
+
     var ease: Double = 2.5
     var intervalDays: Double = 0
     var reps: Int = 0
     var lapses: Int = 0
     var due: Date
     var lastReviewed: Date?
+    var correct: Int = 0
+    var modes: [PracticeMode] = []
 
+    var mastered: Bool { correct >= Self.masterAt && Set(modes).count == PracticeMode.allCases.count }
+
+    init(due: Date) { self.due = due }
     static func new(now: Date) -> ReviewState { ReviewState(due: now) }
 
-    /// Trả về trạng thái sau khi chấm điểm. Thuần, dễ test.
-    func graded(_ g: ReviewGrade, now: Date) -> ReviewState {
+    /// Khoảng ôn kế tiếp (ngày) nếu trả lời đúng/sai bây giờ.
+    func nextIntervalDays(correct ok: Bool) -> Double {
+        guard ok else { return 0 }
+        let r = reps + 1
+        return r == 1 ? 1 : r == 2 ? 3 : (intervalDays * ease).rounded()
+    }
+
+    /// Ghi một lượt trả lời. Đúng → giãn lịch; sai → reset chuỗi, ôn lại ngay.
+    func recorded(correct ok: Bool, mode: PracticeMode, now: Date) -> ReviewState {
         var s = self
         s.lastReviewed = now
-        switch g {
-        case .again:
-            s.lapses += 1
+        if ok {
+            s.intervalDays = nextIntervalDays(correct: true)
+            s.correct += 1
+            if !s.modes.contains(mode) { s.modes.append(mode) }
+            s.reps += 1
+            s.ease = min(2.6, s.ease + 0.1)
+        } else {
             s.reps = 0
-            s.ease = max(1.3, s.ease - 0.2)
             s.intervalDays = 0
-            s.due = now.addingTimeInterval(10 * 60)      // gặp lại sau 10 phút
-            return s
-        case .hard:
-            s.ease = max(1.3, s.ease - 0.15)
-            s.intervalDays = s.reps == 0 ? 0.5 : max(1, s.intervalDays * 1.2)
-        case .good:
-            s.intervalDays = s.reps == 0 ? 1 : (s.reps == 1 ? 3 : s.intervalDays * s.ease)
-        case .easy:
-            s.ease += 0.15
-            s.intervalDays = s.reps == 0 ? 3 : max(4, s.intervalDays * s.ease * 1.3)
+            s.lapses += 1
+            s.ease = max(1.3, s.ease - 0.2)
         }
-        s.reps += 1
         s.due = now.addingTimeInterval(s.intervalDays * 86_400)
         return s
     }
+
+    private enum CodingKeys: String, CodingKey { case ease, intervalDays, reps, lapses, due, lastReviewed, correct, modes }
+    init(from d: Decoder) throws {
+        let c = try d.container(keyedBy: CodingKeys.self)
+        ease = try c.decodeIfPresent(Double.self, forKey: .ease) ?? 2.5
+        intervalDays = try c.decodeIfPresent(Double.self, forKey: .intervalDays) ?? 0
+        reps = try c.decodeIfPresent(Int.self, forKey: .reps) ?? 0
+        lapses = try c.decodeIfPresent(Int.self, forKey: .lapses) ?? 0
+        due = try c.decode(Date.self, forKey: .due)
+        lastReviewed = try c.decodeIfPresent(Date.self, forKey: .lastReviewed)
+        correct = try c.decodeIfPresent(Int.self, forKey: .correct) ?? 0
+        modes = try c.decodeIfPresent([PracticeMode].self, forKey: .modes) ?? []
+    }
+
+    static func intervalText(days: Double) -> String {
+        if days <= 0 { return "ôn lại ngay" }
+        if days < 30 { return "ôn lại sau \(Int(days)) ngày" }
+        if days < 365 { return "ôn lại sau \(Int((days / 30).rounded())) tháng" }
+        return "ôn lại sau \(Int((days / 365).rounded())) năm"
+    }
+}
+
+/// Một câu ôn bài cũ: sense × dạng câu hỏi (mỗi từ ôn đủ cả 3 dạng).
+struct ReviewItem: Codable, Hashable {
+    let key: SenseKey
+    let mode: PracticeMode
+    var id: String { "\(key)|\(mode.rawValue)" }
+}
+
+/// Bài học trong ngày: 10 sense B2–C2. Chưa thuộc hết → hôm sau học nối tiếp (giữ từ
+/// chưa thuộc, lấp chỗ trống bằng từ mới). Thuộc hết → "hoàn thành", người học chọn
+/// học bộ khác hoặc ôn lại bộ này (không giới hạn, không reset tiến độ).
+struct DailySet: Codable, Equatable {
+    static let size = 10
+    static let levels: Set<String> = ["B2", "C1", "C2"]
+
+    var day: String
+    var keys: [SenseKey]
+    /// Số lần mỗi sense đã hiện (key = SenseKey.description) — để xoay vòng đều.
+    var shown: [String: Int] = [:]
+    /// Đã chọn "Ôn lại 10 từ này" sau khi hoàn thành → hỏi cả từ đã thuộc.
+    var reviewAgain = false
+    /// Popup đã báo "hoàn thành" (chỉ báo 1 lần).
+    var announced = false
+    /// Các bộ đã hoàn thành trong ngày (trước khi chọn "Học 10 từ khác") — hôm sau ôn lại.
+    var completed: [SenseKey] = []
+    /// Ôn bài cũ (bắt buộc, đầu ngày): các câu (từ × 3 dạng) còn phải hỏi.
+    var reviewQueue: [ReviewItem] = []
+    /// Kết quả từng câu ôn bài cũ (key = ReviewItem.id).
+    var reviewResults: [String: Bool] = [:]
+    /// Đã xem màn tổng kết ôn bài cũ.
+    var reviewSummaryAcked = false
+
+    init(day: String, keys: [SenseKey], shown: [String: Int] = [:]) {
+        self.day = day; self.keys = keys; self.shown = shown
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case day, keys, shown, reviewAgain, announced, completed, reviewQueue, reviewResults, reviewSummaryAcked
+    }
+    init(from d: Decoder) throws {
+        let c = try d.container(keyedBy: CodingKeys.self)
+        day = try c.decode(String.self, forKey: .day)
+        keys = try c.decode([SenseKey].self, forKey: .keys)
+        shown = try c.decodeIfPresent([String: Int].self, forKey: .shown) ?? [:]
+        reviewAgain = try c.decodeIfPresent(Bool.self, forKey: .reviewAgain) ?? false
+        announced = try c.decodeIfPresent(Bool.self, forKey: .announced) ?? false
+        completed = try c.decodeIfPresent([SenseKey].self, forKey: .completed) ?? []
+        reviewQueue = (try? c.decodeIfPresent([ReviewItem].self, forKey: .reviewQueue)) ?? []
+        reviewResults = try c.decodeIfPresent([String: Bool].self, forKey: .reviewResults) ?? [:]
+        reviewSummaryAcked = try c.decodeIfPresent(Bool.self, forKey: .reviewSummaryAcked) ?? false
+    }
+
+    /// Đang trong phần ôn bài cũ (còn câu phải hỏi).
+    var reviewing: Bool { !reviewQueue.isEmpty }
+    /// Ôn xong nhưng chưa xem tổng kết.
+    var needsReviewSummary: Bool { reviewQueue.isEmpty && !reviewResults.isEmpty && !reviewSummaryAcked }
 }
 
 /// Streak + số lượt ôn theo ngày (key yyyy-MM-dd).
@@ -106,13 +197,30 @@ struct LearnStats: Codable, Equatable {
     }
 }
 
-/// Một lượt học: thẻ lật hoặc quiz 4 đáp án.
-struct LearnPrompt: Equatable {
-    enum Kind: Equatable {
-        case card
-        case quiz(options: [String], correct: Int)   // options = defVI
-    }
+/// Một câu hỏi luyện từ. mcq: `options` + `correct`; fill: `answer` (headword).
+struct PracticeQuestion: Equatable {
     let key: SenseKey
-    let isNew: Bool
-    let kind: Kind
+    let mode: PracticeMode
+    let options: [String]
+    let correct: Int
+    let answer: String
+
+    /// Gợi ý số ký tự: "resilient" → "‧ ‧ ‧ ‧ ‧ ‧ ‧ ‧ ‧" (không lộ chữ nào).
+    var charHint: String { answer.map { $0 == " " ? " " : "‧" }.joined(separator: " ") }
+
+    static func normalize(_ s: String) -> String {
+        s.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            .split(whereSeparator: \.isWhitespace).joined(separator: " ")
+    }
+    func isCorrect(fill input: String) -> Bool { Self.normalize(input) == Self.normalize(answer) }
+}
+
+/// Một lượt học trên notch: giới thiệu từ mới, hoặc một câu hỏi.
+enum LearnPrompt: Equatable {
+    case intro(SenseKey)
+    case question(PracticeQuestion)
+
+    var key: SenseKey {
+        switch self { case let .intro(k): k; case let .question(q): q.key }
+    }
 }

@@ -28,6 +28,35 @@ final class AppSettings: ObservableObject {
     @Published var showClipboard: Bool { didSet { d.set(showClipboard, forKey: "cfg.showClipboard") } }
     @Published var showTimer: Bool { didSet { d.set(showTimer, forKey: "cfg.showTimer") } }
     @Published var showLearn: Bool { didSet { d.set(showLearn, forKey: "cfg.showLearn") } }
+    // MARK: Learn — notch tự bung 1 lượt học sau mỗi N phút.
+    @Published var learnAutoPopup: Bool { didSet { d.set(learnAutoPopup, forKey: "cfg.learnAutoPopup") } }
+    @Published var learnPopupMinutes: Int { didSet { d.set(learnPopupMinutes, forKey: "cfg.learnPopupMinutes") } }
+    @Published var learnSoundEnabled: Bool { didSet { d.set(learnSoundEnabled, forKey: "cfg.learnSound") } }
+    @Published var learnSkipFullscreen: Bool { didSet { d.set(learnSkipFullscreen, forKey: "cfg.learnSkipFullscreen") } }
+    @Published var learnSoundVolume: Double { didSet { d.set(learnSoundVolume, forKey: "cfg.learnSoundVolume") } }
+    /// Tạm dừng popup Learn tới mốc này (nil = đang chạy; distantFuture = tới khi bật lại).
+    @Published var learnPausedUntil: Date? { didSet { d.set(learnPausedUntil, forKey: "cfg.learnPausedUntil") } }
+
+    var learnPaused: Bool { (learnPausedUntil ?? .distantPast) > Date() }
+
+    /// Các lựa chọn tạm dừng (nhãn, mốc kết thúc).
+    static func learnPauseOptions(now: Date = Date()) -> [(String, Date)] {
+        let cal = Calendar.current
+        let endOfDay = cal.date(bySettingHour: 23, minute: 59, second: 59, of: now) ?? now
+        return [("30 phút", now.addingTimeInterval(30 * 60)),
+                ("1 giờ", now.addingTimeInterval(3600)),
+                ("2 giờ", now.addingTimeInterval(2 * 3600)),
+                ("Hết hôm nay", endOfDay),
+                ("Tới khi bật lại", .distantFuture)]
+    }
+
+    /// "Tạm dừng tới 15:30" / "Tạm dừng tới khi bật lại".
+    var learnPauseLabel: String? {
+        guard learnPaused, let u = learnPausedUntil else { return nil }
+        if u == .distantFuture { return "Đã tạm dừng tới khi bật lại" }
+        let f = DateFormatter(); f.dateFormat = Calendar.current.isDateInToday(u) ? "HH:mm" : "HH:mm dd/MM"
+        return "Đã tạm dừng tới \(f.string(from: u))"
+    }
 
     // MARK: Pomodoro — tuỳ biến chu kỳ + chuông.
     @Published var pomoWorkMinutes: Int { didSet { d.set(pomoWorkMinutes, forKey: "cfg.pomoWork") } }
@@ -91,6 +120,11 @@ final class AppSettings: ObservableObject {
             "cfg.showClipboard": true,
             "cfg.showTimer": true,
             "cfg.showLearn": true,
+            "cfg.learnAutoPopup": true,
+            "cfg.learnPopupMinutes": 15,
+            "cfg.learnSound": true,
+            "cfg.learnSkipFullscreen": true,
+            "cfg.learnSoundVolume": 0.6,
             "cfg.forceReduceMotion": false,
             "cfg.doubleTapCommand": false,
             "cfg.fKeyAppsOn": true,
@@ -108,6 +142,12 @@ final class AppSettings: ObservableObject {
         showClipboard = d.bool(forKey: "cfg.showClipboard")
         showTimer = d.bool(forKey: "cfg.showTimer")
         showLearn = d.bool(forKey: "cfg.showLearn")
+        learnAutoPopup = d.bool(forKey: "cfg.learnAutoPopup")
+        learnPopupMinutes = d.integer(forKey: "cfg.learnPopupMinutes")
+        learnSoundEnabled = d.bool(forKey: "cfg.learnSound")
+        learnSkipFullscreen = d.bool(forKey: "cfg.learnSkipFullscreen")
+        learnSoundVolume = d.double(forKey: "cfg.learnSoundVolume")
+        learnPausedUntil = d.object(forKey: "cfg.learnPausedUntil") as? Date
         pomoWorkMinutes = d.integer(forKey: "cfg.pomoWork")
         pomoShortMinutes = d.integer(forKey: "cfg.pomoShort")
         pomoLongMinutes = d.integer(forKey: "cfg.pomoLong")

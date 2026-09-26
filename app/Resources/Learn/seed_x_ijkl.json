@@ -1,0 +1,6826 @@
+[
+ {
+  "headword": "ice",
+  "pos": "noun",
+  "ipaUK": "/aɪs/",
+  "ipaUS": "/aɪs/",
+  "senses": [
+   {
+    "guideword": "FROZEN WATER",
+    "level": "B1",
+    "defEN": "water that has become solid because it is very cold",
+    "defVI": "nước đá",
+    "examples": [
+     {
+      "en": "The lake was covered in ice.",
+      "vi": "Mặt hồ phủ đầy băng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "idea",
+  "pos": "noun",
+  "ipaUK": "/aɪˈdɪə/",
+  "ipaUS": "/aɪˈdiː.ə/",
+  "senses": [
+   {
+    "guideword": "SUGGESTION",
+    "level": "B1",
+    "defEN": "a thought or plan about what to do",
+    "defVI": "ý tưởng",
+    "examples": [
+     {
+      "en": "That's a great idea!",
+      "vi": "Ý tưởng hay đấy!"
+     }
+    ]
+   },
+   {
+    "guideword": "KNOWLEDGE",
+    "level": "B2",
+    "defEN": "an understanding or picture of something in your mind",
+    "defVI": "khái niệm, sự hình dung",
+    "examples": [
+     {
+      "en": "I have no idea where she lives.",
+      "vi": "Tôi không biết cô ấy sống ở đâu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ideal",
+  "pos": "adjective",
+  "ipaUK": "/aɪˈdɪəl/",
+  "ipaUS": "/aɪˈdiː.əl/",
+  "senses": [
+   {
+    "guideword": "PERFECT",
+    "level": "B1",
+    "defEN": "the best possible for a particular purpose",
+    "defVI": "lý tưởng",
+    "examples": [
+     {
+      "en": "It's an ideal place for a picnic.",
+      "vi": "Đó là chỗ lý tưởng để đi dã ngoại."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "identical",
+  "pos": "adjective",
+  "ipaUK": "/aɪˈden.tɪ.kəl/",
+  "ipaUS": "/aɪˈden.t̬ɪ.kəl/",
+  "senses": [
+   {
+    "guideword": "EXACTLY THE SAME",
+    "level": "B2",
+    "defEN": "exactly alike in every way",
+    "defVI": "giống hệt nhau",
+    "examples": [
+     {
+      "en": "The two dresses are almost identical.",
+      "vi": "Hai chiếc váy gần như giống hệt nhau."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "identity",
+  "pos": "noun",
+  "ipaUK": "/aɪˈden.tə.ti/",
+  "ipaUS": "/aɪˈden.t̬ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "WHO SOMEONE IS",
+    "level": "B2",
+    "defEN": "the facts that show who a person is",
+    "defVI": "danh tính",
+    "examples": [
+     {
+      "en": "Police are trying to confirm his identity.",
+      "vi": "Cảnh sát đang cố xác nhận danh tính của anh ta."
+     }
+    ]
+   },
+   {
+    "guideword": "CHARACTER",
+    "level": "C1",
+    "defEN": "the qualities that make a person or group different from others",
+    "defVI": "bản sắc",
+    "examples": [
+     {
+      "en": "The town has a strong cultural identity.",
+      "vi": "Thị trấn có bản sắc văn hoá mạnh mẽ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ideology",
+  "pos": "noun",
+  "ipaUK": "/ˌaɪ.diˈɒl.ə.dʒi/",
+  "ipaUS": "/ˌaɪ.diˈɑː.lə.dʒi/",
+  "senses": [
+   {
+    "guideword": "BELIEFS",
+    "level": "C1",
+    "defEN": "a set of ideas that a political or economic system is based on",
+    "defVI": "hệ tư tưởng",
+    "examples": [
+     {
+      "en": "They share the same political ideology.",
+      "vi": "Họ có chung một hệ tư tưởng chính trị."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "idiom",
+  "pos": "noun",
+  "ipaUK": "/ˈɪd.i.əm/",
+  "ipaUS": "/ˈɪd.i.əm/",
+  "senses": [
+   {
+    "guideword": "PHRASE",
+    "level": "B2",
+    "defEN": "a group of words whose meaning is different from the meanings of the separate words",
+    "defVI": "thành ngữ",
+    "examples": [
+     {
+      "en": "'Break a leg' is an idiom meaning good luck.",
+      "vi": "'Break a leg' là thành ngữ có nghĩa là chúc may mắn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "idle",
+  "pos": "adjective",
+  "ipaUK": "/ˈaɪ.dəl/",
+  "ipaUS": "/ˈaɪ.dəl/",
+  "senses": [
+   {
+    "guideword": "NOT WORKING",
+    "level": "C1",
+    "defEN": "not being used or not doing any work",
+    "defVI": "nhàn rỗi, không hoạt động",
+    "examples": [
+     {
+      "en": "The machines stood idle during the strike.",
+      "vi": "Máy móc nằm im trong suốt cuộc đình công."
+     }
+    ]
+   },
+   {
+    "guideword": "POINTLESS",
+    "level": "C2",
+    "defEN": "having no real purpose or effect",
+    "defVI": "vu vơ, vô ích",
+    "examples": [
+     {
+      "en": "It was just idle gossip.",
+      "vi": "Đó chỉ là chuyện tầm phào vô căn cứ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "idolize",
+  "pos": "verb",
+  "ipaUK": "/ˈaɪ.dəl.aɪz/",
+  "ipaUS": "/ˈaɪ.dəl.aɪz/",
+  "senses": [
+   {
+    "guideword": "ADMIRE",
+    "level": "C2",
+    "defEN": "to admire someone so much that you think they are perfect",
+    "defVI": "thần tượng hoá",
+    "examples": [
+     {
+      "en": "He idolized his older brother.",
+      "vi": "Cậu ấy thần tượng anh trai mình."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ignite",
+  "pos": "verb",
+  "ipaUK": "/ɪɡˈnaɪt/",
+  "ipaUS": "/ɪɡˈnaɪt/",
+  "senses": [
+   {
+    "guideword": "START BURNING",
+    "level": "C1",
+    "defEN": "to start to burn or make something start to burn",
+    "defVI": "bốc cháy, đốt cháy",
+    "examples": [
+     {
+      "en": "A spark ignited the dry grass.",
+      "vi": "Một tia lửa làm bãi cỏ khô bốc cháy."
+     }
+    ]
+   },
+   {
+    "guideword": "CAUSE FEELINGS",
+    "level": "C2",
+    "defEN": "to cause a strong feeling or reaction to begin",
+    "defVI": "khơi dậy, châm ngòi",
+    "examples": [
+     {
+      "en": "The decision ignited a fierce debate.",
+      "vi": "Quyết định đó châm ngòi cho một cuộc tranh cãi gay gắt."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ignorance",
+  "pos": "noun",
+  "ipaUK": "/ˈɪɡ.nər.əns/",
+  "ipaUS": "/ˈɪɡ.nɚ.əns/",
+  "senses": [
+   {
+    "guideword": "NOT KNOWING",
+    "level": "B2",
+    "defEN": "lack of knowledge or information about something",
+    "defVI": "sự thiếu hiểu biết",
+    "examples": [
+     {
+      "en": "His rude remarks came from ignorance.",
+      "vi": "Những lời thô lỗ của anh ta xuất phát từ sự thiếu hiểu biết."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ignore",
+  "pos": "verb",
+  "ipaUK": "/ɪɡˈnɔːr/",
+  "ipaUS": "/ɪɡˈnɔːr/",
+  "senses": [
+   {
+    "guideword": "GIVE NO ATTENTION",
+    "level": "B1",
+    "defEN": "to pay no attention to something or someone on purpose",
+    "defVI": "phớt lờ",
+    "examples": [
+     {
+      "en": "She ignored my advice.",
+      "vi": "Cô ấy phớt lờ lời khuyên của tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "illegal",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈliː.ɡəl/",
+  "ipaUS": "/ɪˈliː.ɡəl/",
+  "senses": [
+   {
+    "guideword": "AGAINST THE LAW",
+    "level": "B1",
+    "defEN": "not allowed by law",
+    "defVI": "bất hợp pháp",
+    "examples": [
+     {
+      "en": "It is illegal to drive without a licence.",
+      "vi": "Lái xe không có bằng là bất hợp pháp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "illicit",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈlɪs.ɪt/",
+  "ipaUS": "/ɪˈlɪs.ɪt/",
+  "senses": [
+   {
+    "guideword": "NOT ALLOWED",
+    "level": "C2",
+    "defEN": "not permitted by law or by social rules",
+    "defVI": "trái phép, lén lút",
+    "examples": [
+     {
+      "en": "They were involved in the illicit drug trade.",
+      "vi": "Họ dính líu tới buôn bán ma tuý trái phép."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "illness",
+  "pos": "noun",
+  "ipaUK": "/ˈɪl.nəs/",
+  "ipaUS": "/ˈɪl.nəs/",
+  "senses": [
+   {
+    "guideword": "BEING ILL",
+    "level": "B1",
+    "defEN": "a disease or a period of being sick",
+    "defVI": "bệnh, sự ốm đau",
+    "examples": [
+     {
+      "en": "She missed a week of school through illness.",
+      "vi": "Cô bé nghỉ học một tuần vì ốm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "illuminate",
+  "pos": "verb",
+  "ipaUK": "/ɪˈluː.mɪ.neɪt/",
+  "ipaUS": "/ɪˈluː.mə.neɪt/",
+  "senses": [
+   {
+    "guideword": "GIVE LIGHT",
+    "level": "C1",
+    "defEN": "to shine light on something",
+    "defVI": "chiếu sáng",
+    "examples": [
+     {
+      "en": "Candles illuminated the room.",
+      "vi": "Những ngọn nến thắp sáng căn phòng."
+     }
+    ]
+   },
+   {
+    "guideword": "EXPLAIN",
+    "level": "C2",
+    "defEN": "to make something clearer and easier to understand",
+    "defVI": "làm sáng tỏ",
+    "examples": [
+     {
+      "en": "The study illuminates the causes of the problem.",
+      "vi": "Nghiên cứu làm sáng tỏ nguyên nhân của vấn đề."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "illusion",
+  "pos": "noun",
+  "ipaUK": "/ɪˈluː.ʒən/",
+  "ipaUS": "/ɪˈluː.ʒən/",
+  "senses": [
+   {
+    "guideword": "FALSE BELIEF",
+    "level": "C1",
+    "defEN": "an idea or belief that is not true",
+    "defVI": "ảo tưởng",
+    "examples": [
+     {
+      "en": "She has no illusions about how hard the job is.",
+      "vi": "Cô ấy không hề ảo tưởng về độ khó của công việc."
+     }
+    ]
+   },
+   {
+    "guideword": "FALSE IMAGE",
+    "level": "B2",
+    "defEN": "something that looks different from what it really is",
+    "defVI": "ảo ảnh, ảo giác",
+    "examples": [
+     {
+      "en": "Mirrors give an illusion of more space.",
+      "vi": "Gương tạo ảo giác không gian rộng hơn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "illustrate",
+  "pos": "verb",
+  "ipaUK": "/ˈɪl.ə.streɪt/",
+  "ipaUS": "/ˈɪl.ə.streɪt/",
+  "senses": [
+   {
+    "guideword": "EXPLAIN",
+    "level": "B2",
+    "defEN": "to show the meaning of something by giving examples",
+    "defVI": "minh hoạ, làm rõ",
+    "examples": [
+     {
+      "en": "This case illustrates the need for new rules.",
+      "vi": "Trường hợp này cho thấy rõ sự cần thiết của quy định mới."
+     }
+    ]
+   },
+   {
+    "guideword": "DRAW",
+    "level": "B1",
+    "defEN": "to add pictures to a book or article",
+    "defVI": "vẽ minh hoạ",
+    "examples": [
+     {
+      "en": "The book is illustrated with colour photos.",
+      "vi": "Cuốn sách có minh hoạ bằng ảnh màu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "illustrious",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈlʌs.tri.əs/",
+  "ipaUS": "/ɪˈlʌs.tri.əs/",
+  "senses": [
+   {
+    "guideword": "FAMOUS",
+    "level": "C2",
+    "defEN": "well known and highly respected for past achievements",
+    "defVI": "lừng lẫy, lỗi lạc",
+    "examples": [
+     {
+      "en": "She had an illustrious career in science.",
+      "vi": "Bà có một sự nghiệp khoa học lừng lẫy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "image",
+  "pos": "noun",
+  "ipaUK": "/ˈɪm.ɪdʒ/",
+  "ipaUS": "/ˈɪm.ɪdʒ/",
+  "senses": [
+   {
+    "guideword": "PICTURE",
+    "level": "B1",
+    "defEN": "a picture, especially one on a screen or in a mirror",
+    "defVI": "hình ảnh",
+    "examples": [
+     {
+      "en": "The image on the TV was blurry.",
+      "vi": "Hình ảnh trên TV bị mờ."
+     }
+    ]
+   },
+   {
+    "guideword": "REPUTATION",
+    "level": "B2",
+    "defEN": "the way that people think of someone or something",
+    "defVI": "hình tượng, hình ảnh",
+    "examples": [
+     {
+      "en": "The company wants to improve its image.",
+      "vi": "Công ty muốn cải thiện hình ảnh của mình."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "imaginative",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈmædʒ.ɪ.nə.tɪv/",
+  "ipaUS": "/ɪˈmædʒ.ə.nə.t̬ɪv/",
+  "senses": [
+   {
+    "guideword": "CREATIVE",
+    "level": "B2",
+    "defEN": "good at having new and clever ideas",
+    "defVI": "giàu trí tưởng tượng",
+    "examples": [
+     {
+      "en": "She's an imaginative writer.",
+      "vi": "Cô ấy là một nhà văn giàu trí tưởng tượng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "imagine",
+  "pos": "verb",
+  "ipaUK": "/ɪˈmædʒ.ɪn/",
+  "ipaUS": "/ɪˈmædʒ.ɪn/",
+  "senses": [
+   {
+    "guideword": "PICTURE IN MIND",
+    "level": "B1",
+    "defEN": "to form a picture of something in your mind",
+    "defVI": "tưởng tượng",
+    "examples": [
+     {
+      "en": "Imagine living on a desert island.",
+      "vi": "Hãy tưởng tượng sống trên một hòn đảo hoang."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "imbalance",
+  "pos": "noun",
+  "ipaUK": "/ɪmˈbæl.əns/",
+  "ipaUS": "/ɪmˈbæl.əns/",
+  "senses": [
+   {
+    "guideword": "UNEQUAL",
+    "level": "C1",
+    "defEN": "a situation in which two things are not equal or not in the correct proportions",
+    "defVI": "sự mất cân bằng",
+    "examples": [
+     {
+      "en": "There is a trade imbalance between the two countries.",
+      "vi": "Có sự mất cân bằng thương mại giữa hai nước."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "imitate",
+  "pos": "verb",
+  "ipaUK": "/ˈɪm.ɪ.teɪt/",
+  "ipaUS": "/ˈɪm.ə.teɪt/",
+  "senses": [
+   {
+    "guideword": "COPY",
+    "level": "B2",
+    "defEN": "to copy the way someone speaks or behaves",
+    "defVI": "bắt chước",
+    "examples": [
+     {
+      "en": "Children often imitate their parents.",
+      "vi": "Trẻ con thường bắt chước bố mẹ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "immaculate",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈmæk.jə.lət/",
+  "ipaUS": "/ɪˈmæk.jə.lət/",
+  "senses": [
+   {
+    "guideword": "VERY CLEAN",
+    "level": "C2",
+    "defEN": "perfectly clean and tidy",
+    "defVI": "sạch bong, tinh tươm",
+    "examples": [
+     {
+      "en": "Her kitchen is always immaculate.",
+      "vi": "Bếp của cô ấy lúc nào cũng sạch bong."
+     }
+    ]
+   },
+   {
+    "guideword": "PERFECT",
+    "level": "C2",
+    "defEN": "without any mistakes",
+    "defVI": "hoàn hảo, không tì vết",
+    "examples": [
+     {
+      "en": "He gave an immaculate performance.",
+      "vi": "Anh ấy có màn trình diễn hoàn hảo."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "immediate",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈmiː.di.ət/",
+  "ipaUS": "/ɪˈmiː.di.ət/",
+  "senses": [
+   {
+    "guideword": "AT ONCE",
+    "level": "B1",
+    "defEN": "happening now or without any delay",
+    "defVI": "ngay lập tức",
+    "examples": [
+     {
+      "en": "We need an immediate answer.",
+      "vi": "Chúng tôi cần câu trả lời ngay."
+     }
+    ]
+   },
+   {
+    "guideword": "CLOSE",
+    "level": "C1",
+    "defEN": "closest in space or relationship",
+    "defVI": "trực tiếp, gần nhất",
+    "examples": [
+     {
+      "en": "Only immediate family attended.",
+      "vi": "Chỉ người thân ruột thịt dự."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "immense",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈmens/",
+  "ipaUS": "/ɪˈmens/",
+  "senses": [
+   {
+    "guideword": "HUGE",
+    "level": "B2",
+    "defEN": "extremely large in size or degree",
+    "defVI": "to lớn, bao la",
+    "examples": [
+     {
+      "en": "The project cost an immense amount of money.",
+      "vi": "Dự án tốn một khoản tiền khổng lồ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "immerse",
+  "pos": "verb",
+  "ipaUK": "/ɪˈmɜːs/",
+  "ipaUS": "/ɪˈmɝːs/",
+  "senses": [
+   {
+    "guideword": "INVOLVE DEEPLY",
+    "level": "C1",
+    "defEN": "to become completely involved in an activity",
+    "defVI": "đắm mình, chìm đắm",
+    "examples": [
+     {
+      "en": "She immersed herself in her studies.",
+      "vi": "Cô ấy vùi đầu vào việc học."
+     }
+    ]
+   },
+   {
+    "guideword": "PUT IN LIQUID",
+    "level": "C2",
+    "defEN": "to put something completely under a liquid",
+    "defVI": "nhúng chìm",
+    "examples": [
+     {
+      "en": "Immerse the fabric in hot water.",
+      "vi": "Nhúng vải vào nước nóng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "immigrant",
+  "pos": "noun",
+  "ipaUK": "/ˈɪm.ɪ.ɡrənt/",
+  "ipaUS": "/ˈɪm.ə.ɡrənt/",
+  "senses": [
+   {
+    "guideword": "PERSON",
+    "level": "B2",
+    "defEN": "a person who comes to live in a foreign country",
+    "defVI": "người nhập cư",
+    "examples": [
+     {
+      "en": "Many immigrants settled in the city.",
+      "vi": "Nhiều người nhập cư định cư ở thành phố."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "imminent",
+  "pos": "adjective",
+  "ipaUK": "/ˈɪm.ɪ.nənt/",
+  "ipaUS": "/ˈɪm.ə.nənt/",
+  "senses": [
+   {
+    "guideword": "ABOUT TO HAPPEN",
+    "level": "C2",
+    "defEN": "likely to happen very soon, often something bad",
+    "defVI": "sắp xảy ra",
+    "examples": [
+     {
+      "en": "They warned of an imminent storm.",
+      "vi": "Họ cảnh báo một cơn bão sắp ập tới."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "immune",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈmjuːn/",
+  "ipaUS": "/ɪˈmjuːn/",
+  "senses": [
+   {
+    "guideword": "PROTECTED",
+    "level": "C1",
+    "defEN": "not able to catch a particular disease",
+    "defVI": "miễn dịch",
+    "examples": [
+     {
+      "en": "Once you've had the disease, you're immune to it.",
+      "vi": "Khi đã mắc bệnh rồi thì bạn sẽ miễn dịch với nó."
+     }
+    ]
+   },
+   {
+    "guideword": "NOT AFFECTED",
+    "level": "C2",
+    "defEN": "not influenced by something",
+    "defVI": "không bị ảnh hưởng, miễn nhiễm",
+    "examples": [
+     {
+      "en": "He seems immune to criticism.",
+      "vi": "Anh ta dường như miễn nhiễm với lời chỉ trích."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "impair",
+  "pos": "verb",
+  "ipaUK": "/ɪmˈpeər/",
+  "ipaUS": "/ɪmˈper/",
+  "senses": [
+   {
+    "guideword": "DAMAGE",
+    "level": "C2",
+    "defEN": "to make something weaker or less effective",
+    "defVI": "làm suy giảm",
+    "examples": [
+     {
+      "en": "Alcohol impairs your ability to drive.",
+      "vi": "Rượu làm suy giảm khả năng lái xe."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "impartial",
+  "pos": "adjective",
+  "ipaUK": "/ɪmˈpɑː.ʃəl/",
+  "ipaUS": "/ɪmˈpɑːr.ʃəl/",
+  "senses": [
+   {
+    "guideword": "FAIR",
+    "level": "C2",
+    "defEN": "not supporting one side more than another",
+    "defVI": "công bằng, vô tư",
+    "examples": [
+     {
+      "en": "A judge must be impartial.",
+      "vi": "Thẩm phán phải công tâm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "impatient",
+  "pos": "adjective",
+  "ipaUK": "/ɪmˈpeɪ.ʃənt/",
+  "ipaUS": "/ɪmˈpeɪ.ʃənt/",
+  "senses": [
+   {
+    "guideword": "EASILY ANNOYED",
+    "level": "B1",
+    "defEN": "easily annoyed by waiting or by other people's mistakes",
+    "defVI": "thiếu kiên nhẫn",
+    "examples": [
+     {
+      "en": "Don't be so impatient; the bus will come soon.",
+      "vi": "Đừng nóng vội thế, xe buýt sắp tới rồi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "impeccable",
+  "pos": "adjective",
+  "ipaUK": "/ɪmˈpek.ə.bəl/",
+  "ipaUS": "/ɪmˈpek.ə.bəl/",
+  "senses": [
+   {
+    "guideword": "PERFECT",
+    "level": "C2",
+    "defEN": "having no faults at all",
+    "defVI": "hoàn hảo, không chê vào đâu được",
+    "examples": [
+     {
+      "en": "She has impeccable manners.",
+      "vi": "Cô ấy có cách cư xử không chê vào đâu được."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "impede",
+  "pos": "verb",
+  "ipaUK": "/ɪmˈpiːd/",
+  "ipaUS": "/ɪmˈpiːd/",
+  "senses": [
+   {
+    "guideword": "SLOW DOWN",
+    "level": "C2",
+    "defEN": "to make it harder for something to move forward or develop",
+    "defVI": "cản trở",
+    "examples": [
+     {
+      "en": "Heavy snow impeded the rescue.",
+      "vi": "Tuyết dày cản trở công tác cứu hộ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "imperative",
+  "pos": "adjective",
+  "ipaUK": "/ɪmˈper.ə.tɪv/",
+  "ipaUS": "/ɪmˈper.ə.t̬ɪv/",
+  "senses": [
+   {
+    "guideword": "VERY IMPORTANT",
+    "level": "C1",
+    "defEN": "extremely important and needing to be done",
+    "defVI": "cấp bách, bắt buộc",
+    "examples": [
+     {
+      "en": "It is imperative that we act now.",
+      "vi": "Chúng ta bắt buộc phải hành động ngay."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "imperceptible",
+  "pos": "adjective",
+  "ipaUK": "/ˌɪm.pəˈsep.tə.bəl/",
+  "ipaUS": "/ˌɪm.pɚˈsep.tə.bəl/",
+  "senses": [
+   {
+    "guideword": "TOO SMALL",
+    "level": "C2",
+    "defEN": "so small or slight that it cannot be noticed",
+    "defVI": "không thể nhận thấy",
+    "examples": [
+     {
+      "en": "The change was almost imperceptible.",
+      "vi": "Sự thay đổi hầu như không thể nhận ra."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "implement",
+  "pos": "verb",
+  "ipaUK": "/ˈɪm.plɪ.ment/",
+  "ipaUS": "/ˈɪm.plə.ment/",
+  "senses": [
+   {
+    "guideword": "PUT INTO ACTION",
+    "level": "C1",
+    "defEN": "to start using a plan or system",
+    "defVI": "thực hiện, triển khai",
+    "examples": [
+     {
+      "en": "The new policy will be implemented next year.",
+      "vi": "Chính sách mới sẽ được triển khai vào năm tới."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "implication",
+  "pos": "noun",
+  "ipaUK": "/ˌɪm.plɪˈkeɪ.ʃən/",
+  "ipaUS": "/ˌɪm.pləˈkeɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "EFFECT",
+    "level": "C1",
+    "defEN": "a possible result or effect of an action or decision",
+    "defVI": "hệ quả, tác động",
+    "examples": [
+     {
+      "en": "The plan has serious implications for jobs.",
+      "vi": "Kế hoạch có tác động nghiêm trọng đến việc làm."
+     }
+    ]
+   },
+   {
+    "guideword": "SUGGESTION",
+    "level": "C2",
+    "defEN": "something that is suggested without being said directly",
+    "defVI": "hàm ý",
+    "examples": [
+     {
+      "en": "The implication was that he had lied.",
+      "vi": "Hàm ý là anh ta đã nói dối."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "imply",
+  "pos": "verb",
+  "ipaUK": "/ɪmˈplaɪ/",
+  "ipaUS": "/ɪmˈplaɪ/",
+  "senses": [
+   {
+    "guideword": "SUGGEST",
+    "level": "B2",
+    "defEN": "to suggest something without saying it directly",
+    "defVI": "ngụ ý",
+    "examples": [
+     {
+      "en": "Are you implying that I'm lazy?",
+      "vi": "Anh đang ngụ ý tôi lười à?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "import",
+  "pos": "verb",
+  "ipaUK": "/ɪmˈpɔːt/",
+  "ipaUS": "/ɪmˈpɔːrt/",
+  "senses": [
+   {
+    "guideword": "BRING IN",
+    "level": "B1",
+    "defEN": "to buy goods from another country and bring them in",
+    "defVI": "nhập khẩu",
+    "examples": [
+     {
+      "en": "We import most of our oil.",
+      "vi": "Chúng tôi nhập khẩu phần lớn dầu mỏ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "impose",
+  "pos": "verb",
+  "ipaUK": "/ɪmˈpəʊz/",
+  "ipaUS": "/ɪmˈpoʊz/",
+  "senses": [
+   {
+    "guideword": "FORCE",
+    "level": "C1",
+    "defEN": "to officially make a rule, tax or punishment apply",
+    "defVI": "áp đặt, áp (thuế, lệnh)",
+    "examples": [
+     {
+      "en": "The government imposed a ban on smoking.",
+      "vi": "Chính phủ áp lệnh cấm hút thuốc."
+     }
+    ]
+   },
+   {
+    "guideword": "CAUSE TROUBLE",
+    "level": "C2",
+    "defEN": "to expect someone to do something for you when it is not convenient",
+    "defVI": "làm phiền, lợi dụng",
+    "examples": [
+     {
+      "en": "I don't want to impose on you.",
+      "vi": "Tôi không muốn làm phiền anh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "impoverished",
+  "pos": "adjective",
+  "ipaUK": "/ɪmˈpɒv.ər.ɪʃt/",
+  "ipaUS": "/ɪmˈpɑː.vɚ.ɪʃt/",
+  "senses": [
+   {
+    "guideword": "POOR",
+    "level": "C2",
+    "defEN": "very poor",
+    "defVI": "nghèo khó, bần cùng",
+    "examples": [
+     {
+      "en": "They grew up in an impoverished area.",
+      "vi": "Họ lớn lên ở một vùng nghèo khó."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "impress",
+  "pos": "verb",
+  "ipaUK": "/ɪmˈpres/",
+  "ipaUS": "/ɪmˈpres/",
+  "senses": [
+   {
+    "guideword": "CAUSE ADMIRATION",
+    "level": "B1",
+    "defEN": "to make someone feel admiration and respect",
+    "defVI": "gây ấn tượng",
+    "examples": [
+     {
+      "en": "She impressed the interviewers.",
+      "vi": "Cô ấy gây ấn tượng với người phỏng vấn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "impressive",
+  "pos": "adjective",
+  "ipaUK": "/ɪmˈpres.ɪv/",
+  "ipaUS": "/ɪmˈpres.ɪv/",
+  "senses": [
+   {
+    "guideword": "VERY GOOD",
+    "level": "B1",
+    "defEN": "making you admire it because it is very good or large",
+    "defVI": "ấn tượng",
+    "examples": [
+     {
+      "en": "That was an impressive result.",
+      "vi": "Đó là một kết quả ấn tượng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "imprison",
+  "pos": "verb",
+  "ipaUK": "/ɪmˈprɪz.ən/",
+  "ipaUS": "/ɪmˈprɪz.ən/",
+  "senses": [
+   {
+    "guideword": "PUT IN PRISON",
+    "level": "B2",
+    "defEN": "to put someone in prison",
+    "defVI": "bỏ tù, giam cầm",
+    "examples": [
+     {
+      "en": "He was imprisoned for fraud.",
+      "vi": "Ông ta bị bỏ tù vì tội lừa đảo."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "improvise",
+  "pos": "verb",
+  "ipaUK": "/ˈɪm.prə.vaɪz/",
+  "ipaUS": "/ˈɪm.prə.vaɪz/",
+  "senses": [
+   {
+    "guideword": "MAKE UP",
+    "level": "C1",
+    "defEN": "to do or make something without preparation using what is available",
+    "defVI": "ứng biến, ứng tác",
+    "examples": [
+     {
+      "en": "I forgot my notes so I had to improvise.",
+      "vi": "Tôi quên ghi chú nên phải ứng biến."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "impulse",
+  "pos": "noun",
+  "ipaUK": "/ˈɪm.pʌls/",
+  "ipaUS": "/ˈɪm.pʌls/",
+  "senses": [
+   {
+    "guideword": "SUDDEN WISH",
+    "level": "C1",
+    "defEN": "a sudden strong wish to do something without thinking",
+    "defVI": "sự bốc đồng, thôi thúc",
+    "examples": [
+     {
+      "en": "I bought the shoes on impulse.",
+      "vi": "Tôi mua đôi giày trong lúc bốc đồng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inaccurate",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈæk.jə.rət/",
+  "ipaUS": "/ɪnˈæk.jɚ.ət/",
+  "senses": [
+   {
+    "guideword": "NOT CORRECT",
+    "level": "B2",
+    "defEN": "not completely correct or exact",
+    "defVI": "không chính xác",
+    "examples": [
+     {
+      "en": "The report contained inaccurate figures.",
+      "vi": "Bản báo cáo có số liệu không chính xác."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inadequate",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈnæd.ɪ.kwət/",
+  "ipaUS": "/ɪˈnæd.ə.kwət/",
+  "senses": [
+   {
+    "guideword": "NOT ENOUGH",
+    "level": "C1",
+    "defEN": "not good enough or not enough in amount",
+    "defVI": "không đủ, không thoả đáng",
+    "examples": [
+     {
+      "en": "The hospital has inadequate staff.",
+      "vi": "Bệnh viện thiếu nhân viên."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inadvertently",
+  "pos": "adverb",
+  "ipaUK": "/ˌɪn.ədˈvɜː.tənt.li/",
+  "ipaUS": "/ˌɪn.ədˈvɝː.t̬ənt.li/",
+  "senses": [
+   {
+    "guideword": "BY ACCIDENT",
+    "level": "C2",
+    "defEN": "without intending to",
+    "defVI": "vô tình",
+    "examples": [
+     {
+      "en": "I inadvertently deleted the file.",
+      "vi": "Tôi vô tình xoá mất tệp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "incapable",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈkeɪ.pə.bəl/",
+  "ipaUS": "/ɪnˈkeɪ.pə.bəl/",
+  "senses": [
+   {
+    "guideword": "NOT ABLE",
+    "level": "C1",
+    "defEN": "not able to do something",
+    "defVI": "không có khả năng",
+    "examples": [
+     {
+      "en": "He seems incapable of telling the truth.",
+      "vi": "Anh ta dường như không thể nói thật."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "incense",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈsens/",
+  "ipaUS": "/ɪnˈsens/",
+  "senses": [
+   {
+    "guideword": "MAKE ANGRY",
+    "level": "C2",
+    "defEN": "to make someone extremely angry",
+    "defVI": "chọc giận",
+    "examples": [
+     {
+      "en": "The comments incensed local people.",
+      "vi": "Những lời bình luận khiến dân địa phương nổi giận."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "incident",
+  "pos": "noun",
+  "ipaUK": "/ˈɪn.sɪ.dənt/",
+  "ipaUS": "/ˈɪn.sə.dənt/",
+  "senses": [
+   {
+    "guideword": "EVENT",
+    "level": "B2",
+    "defEN": "an event, especially an unusual or unpleasant one",
+    "defVI": "sự việc, vụ việc",
+    "examples": [
+     {
+      "en": "Police are investigating the incident.",
+      "vi": "Cảnh sát đang điều tra vụ việc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "incidentally",
+  "pos": "adverb",
+  "ipaUK": "/ˌɪn.sɪˈden.təl.i/",
+  "ipaUS": "/ˌɪn.səˈden.t̬əl.i/",
+  "senses": [
+   {
+    "guideword": "BY THE WAY",
+    "level": "C1",
+    "defEN": "used when adding something that is less important or a new topic",
+    "defVI": "nhân tiện",
+    "examples": [
+     {
+      "en": "Incidentally, have you seen my keys?",
+      "vi": "Nhân tiện, bạn có thấy chìa khoá của tôi không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inclination",
+  "pos": "noun",
+  "ipaUK": "/ˌɪn.klɪˈneɪ.ʃən/",
+  "ipaUS": "/ˌɪn.kləˈneɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "WISH",
+    "level": "C2",
+    "defEN": "a feeling that makes you want to act in a particular way",
+    "defVI": "khuynh hướng, ý muốn",
+    "examples": [
+     {
+      "en": "I had no inclination to go out.",
+      "vi": "Tôi chẳng muốn ra ngoài."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "income",
+  "pos": "noun",
+  "ipaUK": "/ˈɪn.kʌm/",
+  "ipaUS": "/ˈɪn.kʌm/",
+  "senses": [
+   {
+    "guideword": "MONEY",
+    "level": "B1",
+    "defEN": "money that you earn from work or investments",
+    "defVI": "thu nhập",
+    "examples": [
+     {
+      "en": "They live on a small income.",
+      "vi": "Họ sống bằng thu nhập ít ỏi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "incompatible",
+  "pos": "adjective",
+  "ipaUK": "/ˌɪn.kəmˈpæt.ə.bəl/",
+  "ipaUS": "/ˌɪn.kəmˈpæt̬.ə.bəl/",
+  "senses": [
+   {
+    "guideword": "CANNOT WORK TOGETHER",
+    "level": "C1",
+    "defEN": "not able to exist or work together",
+    "defVI": "không tương thích, không hợp",
+    "examples": [
+     {
+      "en": "This software is incompatible with older phones.",
+      "vi": "Phần mềm này không tương thích với điện thoại đời cũ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "incompetent",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈkɒm.pɪ.tənt/",
+  "ipaUS": "/ɪnˈkɑːm.pə.t̬ənt/",
+  "senses": [
+   {
+    "guideword": "NOT SKILLED",
+    "level": "C1",
+    "defEN": "not having the ability to do a job well",
+    "defVI": "bất tài, kém cỏi",
+    "examples": [
+     {
+      "en": "The manager was accused of being incompetent.",
+      "vi": "Người quản lý bị cho là kém năng lực."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inconsistent",
+  "pos": "adjective",
+  "ipaUK": "/ˌɪn.kənˈsɪs.tənt/",
+  "ipaUS": "/ˌɪn.kənˈsɪs.tənt/",
+  "senses": [
+   {
+    "guideword": "CHANGING",
+    "level": "C1",
+    "defEN": "not staying the same in quality or behaviour",
+    "defVI": "không nhất quán, thất thường",
+    "examples": [
+     {
+      "en": "His work has been inconsistent this year.",
+      "vi": "Công việc của anh ấy năm nay không ổn định."
+     }
+    ]
+   },
+   {
+    "guideword": "NOT MATCHING",
+    "level": "C2",
+    "defEN": "not agreeing with other facts",
+    "defVI": "mâu thuẫn",
+    "examples": [
+     {
+      "en": "Her story was inconsistent with the evidence.",
+      "vi": "Lời kể của cô ấy mâu thuẫn với bằng chứng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inconvenient",
+  "pos": "adjective",
+  "ipaUK": "/ˌɪn.kənˈviː.ni.ənt/",
+  "ipaUS": "/ˌɪn.kənˈviː.ni.ənt/",
+  "senses": [
+   {
+    "guideword": "CAUSING PROBLEMS",
+    "level": "B2",
+    "defEN": "causing problems or difficulties, often at a bad time",
+    "defVI": "bất tiện",
+    "examples": [
+     {
+      "en": "Is this an inconvenient time to call?",
+      "vi": "Giờ này gọi có bất tiện không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "incorporate",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈkɔː.pər.eɪt/",
+  "ipaUS": "/ɪnˈkɔːr.pɚ.eɪt/",
+  "senses": [
+   {
+    "guideword": "INCLUDE",
+    "level": "C1",
+    "defEN": "to include something as part of something larger",
+    "defVI": "kết hợp, đưa vào",
+    "examples": [
+     {
+      "en": "We incorporated your ideas into the plan.",
+      "vi": "Chúng tôi đã đưa ý tưởng của bạn vào kế hoạch."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "incredible",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈkred.ə.bəl/",
+  "ipaUS": "/ɪnˈkred.ə.bəl/",
+  "senses": [
+   {
+    "guideword": "VERY GOOD",
+    "level": "B1",
+    "defEN": "extremely good or large",
+    "defVI": "tuyệt vời, phi thường",
+    "examples": [
+     {
+      "en": "The view from the top was incredible.",
+      "vi": "Quang cảnh từ đỉnh thật tuyệt vời."
+     }
+    ]
+   },
+   {
+    "guideword": "HARD TO BELIEVE",
+    "level": "B2",
+    "defEN": "impossible or very hard to believe",
+    "defVI": "khó tin",
+    "examples": [
+     {
+      "en": "It seems incredible that nobody noticed.",
+      "vi": "Thật khó tin là không ai để ý."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "incur",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈkɜːr/",
+  "ipaUS": "/ɪnˈkɝː/",
+  "senses": [
+   {
+    "guideword": "EXPERIENCE",
+    "level": "C2",
+    "defEN": "to experience something bad, such as a cost or punishment, because of your actions",
+    "defVI": "gánh chịu, chuốc lấy",
+    "examples": [
+     {
+      "en": "The company incurred huge losses.",
+      "vi": "Công ty chịu khoản lỗ khổng lồ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "indeed",
+  "pos": "adverb",
+  "ipaUK": "/ɪnˈdiːd/",
+  "ipaUS": "/ɪnˈdiːd/",
+  "senses": [
+   {
+    "guideword": "REALLY",
+    "level": "B2",
+    "defEN": "used to emphasize that something is true",
+    "defVI": "thực sự, quả thật",
+    "examples": [
+     {
+      "en": "It was indeed a difficult decision.",
+      "vi": "Đó quả thật là một quyết định khó khăn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "indicate",
+  "pos": "verb",
+  "ipaUK": "/ˈɪn.dɪ.keɪt/",
+  "ipaUS": "/ˈɪn.də.keɪt/",
+  "senses": [
+   {
+    "guideword": "SHOW",
+    "level": "B2",
+    "defEN": "to show that something exists or is likely to be true",
+    "defVI": "cho thấy, biểu thị",
+    "examples": [
+     {
+      "en": "Research indicates that exercise improves mood.",
+      "vi": "Nghiên cứu cho thấy tập thể dục cải thiện tâm trạng."
+     }
+    ]
+   },
+   {
+    "guideword": "POINT",
+    "level": "B2",
+    "defEN": "to point to someone or something",
+    "defVI": "chỉ vào",
+    "examples": [
+     {
+      "en": "She indicated the door with her hand.",
+      "vi": "Cô ấy lấy tay chỉ về phía cửa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "indifferent",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈdɪf.ər.ənt/",
+  "ipaUS": "/ɪnˈdɪf.ɚ.ənt/",
+  "senses": [
+   {
+    "guideword": "NOT CARING",
+    "level": "C1",
+    "defEN": "not interested in or caring about something",
+    "defVI": "thờ ơ, dửng dưng",
+    "examples": [
+     {
+      "en": "He seemed indifferent to her suffering.",
+      "vi": "Anh ta có vẻ dửng dưng trước nỗi khổ của cô."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "indigenous",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈdɪdʒ.ɪ.nəs/",
+  "ipaUS": "/ɪnˈdɪdʒ.ə.nəs/",
+  "senses": [
+   {
+    "guideword": "NATIVE",
+    "level": "C2",
+    "defEN": "having always lived or grown in a place",
+    "defVI": "bản địa",
+    "examples": [
+     {
+      "en": "Indigenous people have lived here for centuries.",
+      "vi": "Người bản địa đã sống ở đây hàng thế kỷ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "indignant",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈdɪɡ.nənt/",
+  "ipaUS": "/ɪnˈdɪɡ.nənt/",
+  "senses": [
+   {
+    "guideword": "ANGRY",
+    "level": "C2",
+    "defEN": "angry because you think something is unfair",
+    "defVI": "phẫn nộ, bất bình",
+    "examples": [
+     {
+      "en": "She was indignant at being blamed.",
+      "vi": "Cô ấy bất bình vì bị đổ lỗi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "individual",
+  "pos": "noun",
+  "ipaUK": "/ˌɪn.dɪˈvɪdʒ.u.əl/",
+  "ipaUS": "/ˌɪn.dəˈvɪdʒ.u.əl/",
+  "senses": [
+   {
+    "guideword": "ONE PERSON",
+    "level": "B2",
+    "defEN": "a single person, considered separately from a group",
+    "defVI": "cá nhân",
+    "examples": [
+     {
+      "en": "Every individual has the right to vote.",
+      "vi": "Mỗi cá nhân đều có quyền bỏ phiếu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "induce",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈdʒuːs/",
+  "ipaUS": "/ɪnˈduːs/",
+  "senses": [
+   {
+    "guideword": "CAUSE",
+    "level": "C2",
+    "defEN": "to cause something to happen, often a physical state",
+    "defVI": "gây ra, làm phát sinh",
+    "examples": [
+     {
+      "en": "The drug may induce sleepiness.",
+      "vi": "Thuốc có thể gây buồn ngủ."
+     }
+    ]
+   },
+   {
+    "guideword": "PERSUADE",
+    "level": "C2",
+    "defEN": "to persuade someone to do something",
+    "defVI": "thuyết phục, xui khiến",
+    "examples": [
+     {
+      "en": "Nothing could induce me to go back.",
+      "vi": "Không gì có thể khiến tôi quay lại."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "indulge",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈdʌldʒ/",
+  "ipaUS": "/ɪnˈdʌldʒ/",
+  "senses": [
+   {
+    "guideword": "ALLOW PLEASURE",
+    "level": "C1",
+    "defEN": "to let yourself have something enjoyable",
+    "defVI": "nuông chiều, thả mình",
+    "examples": [
+     {
+      "en": "I indulged in a hot bath.",
+      "vi": "Tôi thả mình trong bồn nước nóng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "industrious",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈdʌs.tri.əs/",
+  "ipaUS": "/ɪnˈdʌs.tri.əs/",
+  "senses": [
+   {
+    "guideword": "HARD-WORKING",
+    "level": "C2",
+    "defEN": "working hard and with energy",
+    "defVI": "cần cù, siêng năng",
+    "examples": [
+     {
+      "en": "They are an industrious team.",
+      "vi": "Họ là một đội rất cần mẫn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "industry",
+  "pos": "noun",
+  "ipaUK": "/ˈɪn.də.stri/",
+  "ipaUS": "/ˈɪn.də.stri/",
+  "senses": [
+   {
+    "guideword": "PRODUCTION",
+    "level": "B1",
+    "defEN": "the businesses that make a particular product or provide a service",
+    "defVI": "ngành công nghiệp",
+    "examples": [
+     {
+      "en": "She works in the film industry.",
+      "vi": "Cô ấy làm trong ngành điện ảnh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inefficient",
+  "pos": "adjective",
+  "ipaUK": "/ˌɪn.ɪˈfɪʃ.ənt/",
+  "ipaUS": "/ˌɪn.ɪˈfɪʃ.ənt/",
+  "senses": [
+   {
+    "guideword": "WASTEFUL",
+    "level": "B2",
+    "defEN": "not using time, money or energy well",
+    "defVI": "kém hiệu quả",
+    "examples": [
+     {
+      "en": "The old heating system is very inefficient.",
+      "vi": "Hệ thống sưởi cũ rất kém hiệu quả."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inept",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈnept/",
+  "ipaUS": "/ɪˈnept/",
+  "senses": [
+   {
+    "guideword": "UNSKILLED",
+    "level": "C2",
+    "defEN": "having no skill at something",
+    "defVI": "vụng về, kém cỏi",
+    "examples": [
+     {
+      "en": "He's socially inept.",
+      "vi": "Anh ta vụng về trong giao tiếp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inequality",
+  "pos": "noun",
+  "ipaUK": "/ˌɪn.ɪˈkwɒl.ə.ti/",
+  "ipaUS": "/ˌɪn.ɪˈkwɑː.lə.t̬i/",
+  "senses": [
+   {
+    "guideword": "UNFAIRNESS",
+    "level": "C1",
+    "defEN": "an unfair situation where some people have more than others",
+    "defVI": "sự bất bình đẳng",
+    "examples": [
+     {
+      "en": "Income inequality is growing.",
+      "vi": "Bất bình đẳng thu nhập ngày càng tăng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "infamous",
+  "pos": "adjective",
+  "ipaUK": "/ˈɪn.fə.məs/",
+  "ipaUS": "/ˈɪn.fə.məs/",
+  "senses": [
+   {
+    "guideword": "FAMOUS FOR BAD",
+    "level": "C2",
+    "defEN": "well known for something bad",
+    "defVI": "khét tiếng, tai tiếng",
+    "examples": [
+     {
+      "en": "The prison became infamous for its cruelty.",
+      "vi": "Nhà tù trở nên khét tiếng vì sự tàn bạo."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "infant",
+  "pos": "noun",
+  "ipaUK": "/ˈɪn.fənt/",
+  "ipaUS": "/ˈɪn.fənt/",
+  "senses": [
+   {
+    "guideword": "BABY",
+    "level": "C1",
+    "defEN": "a baby or very young child",
+    "defVI": "trẻ sơ sinh",
+    "examples": [
+     {
+      "en": "The infant slept peacefully.",
+      "vi": "Đứa bé ngủ yên lành."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "infect",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈfekt/",
+  "ipaUS": "/ɪnˈfekt/",
+  "senses": [
+   {
+    "guideword": "GIVE DISEASE",
+    "level": "B2",
+    "defEN": "to pass a disease to a person, animal or plant",
+    "defVI": "lây nhiễm",
+    "examples": [
+     {
+      "en": "The virus infected thousands.",
+      "vi": "Virus đã lây nhiễm cho hàng nghìn người."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "infer",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈfɜːr/",
+  "ipaUS": "/ɪnˈfɝː/",
+  "senses": [
+   {
+    "guideword": "CONCLUDE",
+    "level": "C2",
+    "defEN": "to form an opinion from the facts you have",
+    "defVI": "suy ra",
+    "examples": [
+     {
+      "en": "From his tone, I inferred that he was upset.",
+      "vi": "Từ giọng điệu, tôi suy ra anh ấy đang buồn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inferior",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈfɪə.ri.ər/",
+  "ipaUS": "/ɪnˈfɪr.i.ɚ/",
+  "senses": [
+   {
+    "guideword": "WORSE",
+    "level": "C1",
+    "defEN": "not as good as someone or something else",
+    "defVI": "kém hơn, thấp kém",
+    "examples": [
+     {
+      "en": "Cheap products are often inferior.",
+      "vi": "Hàng rẻ thường chất lượng kém hơn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "infinite",
+  "pos": "adjective",
+  "ipaUK": "/ˈɪn.fɪ.nət/",
+  "ipaUS": "/ˈɪn.fə.nət/",
+  "senses": [
+   {
+    "guideword": "WITHOUT LIMIT",
+    "level": "C1",
+    "defEN": "without end or limit",
+    "defVI": "vô hạn",
+    "examples": [
+     {
+      "en": "She has infinite patience.",
+      "vi": "Cô ấy có sự kiên nhẫn vô hạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inflation",
+  "pos": "noun",
+  "ipaUK": "/ɪnˈfleɪ.ʃən/",
+  "ipaUS": "/ɪnˈfleɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "PRICE RISE",
+    "level": "C1",
+    "defEN": "a general rise in prices over time",
+    "defVI": "lạm phát",
+    "examples": [
+     {
+      "en": "Inflation is at its highest level in years.",
+      "vi": "Lạm phát đang ở mức cao nhất trong nhiều năm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inflict",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈflɪkt/",
+  "ipaUS": "/ɪnˈflɪkt/",
+  "senses": [
+   {
+    "guideword": "CAUSE HARM",
+    "level": "C2",
+    "defEN": "to force something unpleasant, such as pain, on someone",
+    "defVI": "gây ra (tổn hại)",
+    "examples": [
+     {
+      "en": "The storm inflicted serious damage.",
+      "vi": "Cơn bão gây thiệt hại nghiêm trọng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "informal",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈfɔː.məl/",
+  "ipaUS": "/ɪnˈfɔːr.məl/",
+  "senses": [
+   {
+    "guideword": "RELAXED",
+    "level": "B1",
+    "defEN": "relaxed and friendly, not official",
+    "defVI": "thân mật, không trang trọng",
+    "examples": [
+     {
+      "en": "It was an informal meeting.",
+      "vi": "Đó là một buổi gặp thân mật."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ingenious",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈdʒiː.ni.əs/",
+  "ipaUS": "/ɪnˈdʒiːn.jəs/",
+  "senses": [
+   {
+    "guideword": "CLEVER",
+    "level": "C2",
+    "defEN": "very clever and original",
+    "defVI": "khéo léo, tài tình",
+    "examples": [
+     {
+      "en": "What an ingenious solution!",
+      "vi": "Thật là một giải pháp tài tình!"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ingredient",
+  "pos": "noun",
+  "ipaUK": "/ɪnˈɡriː.di.ənt/",
+  "ipaUS": "/ɪnˈɡriː.di.ənt/",
+  "senses": [
+   {
+    "guideword": "FOOD",
+    "level": "B1",
+    "defEN": "one of the foods used to make a dish",
+    "defVI": "nguyên liệu",
+    "examples": [
+     {
+      "en": "Mix all the ingredients together.",
+      "vi": "Trộn đều tất cả nguyên liệu."
+     }
+    ]
+   },
+   {
+    "guideword": "PART",
+    "level": "C1",
+    "defEN": "one of the parts of something successful",
+    "defVI": "yếu tố",
+    "examples": [
+     {
+      "en": "Trust is a key ingredient of friendship.",
+      "vi": "Niềm tin là yếu tố then chốt của tình bạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inhabitant",
+  "pos": "noun",
+  "ipaUK": "/ɪnˈhæb.ɪ.tənt/",
+  "ipaUS": "/ɪnˈhæb.ə.t̬ənt/",
+  "senses": [
+   {
+    "guideword": "RESIDENT",
+    "level": "B2",
+    "defEN": "a person or animal that lives in a place",
+    "defVI": "cư dân",
+    "examples": [
+     {
+      "en": "The town has about 5,000 inhabitants.",
+      "vi": "Thị trấn có khoảng 5.000 cư dân."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inherit",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈher.ɪt/",
+  "ipaUS": "/ɪnˈher.ɪt/",
+  "senses": [
+   {
+    "guideword": "RECEIVE",
+    "level": "B2",
+    "defEN": "to receive money or property from someone who has died",
+    "defVI": "thừa kế",
+    "examples": [
+     {
+      "en": "She inherited the house from her aunt.",
+      "vi": "Cô ấy thừa kế ngôi nhà từ dì."
+     }
+    ]
+   },
+   {
+    "guideword": "HAVE A QUALITY",
+    "level": "C1",
+    "defEN": "to have a quality that came from your parents",
+    "defVI": "di truyền, thừa hưởng",
+    "examples": [
+     {
+      "en": "He inherited his father's temper.",
+      "vi": "Anh ấy thừa hưởng tính nóng nảy của bố."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inhibit",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈhɪb.ɪt/",
+  "ipaUS": "/ɪnˈhɪb.ɪt/",
+  "senses": [
+   {
+    "guideword": "PREVENT",
+    "level": "C2",
+    "defEN": "to stop something from happening or developing easily",
+    "defVI": "kìm hãm, ức chế",
+    "examples": [
+     {
+      "en": "High taxes may inhibit growth.",
+      "vi": "Thuế cao có thể kìm hãm tăng trưởng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "initial",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈnɪʃ.əl/",
+  "ipaUS": "/ɪˈnɪʃ.əl/",
+  "senses": [
+   {
+    "guideword": "FIRST",
+    "level": "B2",
+    "defEN": "happening at the beginning",
+    "defVI": "ban đầu",
+    "examples": [
+     {
+      "en": "My initial reaction was surprise.",
+      "vi": "Phản ứng ban đầu của tôi là ngạc nhiên."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "initiative",
+  "pos": "noun",
+  "ipaUK": "/ɪˈnɪʃ.ə.tɪv/",
+  "ipaUS": "/ɪˈnɪʃ.ə.t̬ɪv/",
+  "senses": [
+   {
+    "guideword": "PLAN",
+    "level": "C1",
+    "defEN": "a new plan to solve a problem",
+    "defVI": "sáng kiến",
+    "examples": [
+     {
+      "en": "The city launched a recycling initiative.",
+      "vi": "Thành phố khởi động một sáng kiến tái chế."
+     }
+    ]
+   },
+   {
+    "guideword": "ABILITY",
+    "level": "B2",
+    "defEN": "the ability to decide and act without being told",
+    "defVI": "tính chủ động",
+    "examples": [
+     {
+      "en": "She showed great initiative.",
+      "vi": "Cô ấy thể hiện tính chủ động cao."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "injure",
+  "pos": "verb",
+  "ipaUK": "/ˈɪn.dʒər/",
+  "ipaUS": "/ˈɪn.dʒɚ/",
+  "senses": [
+   {
+    "guideword": "HURT",
+    "level": "B1",
+    "defEN": "to hurt a person or animal",
+    "defVI": "làm bị thương",
+    "examples": [
+     {
+      "en": "Two people were injured in the crash.",
+      "vi": "Hai người bị thương trong vụ tai nạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "injustice",
+  "pos": "noun",
+  "ipaUK": "/ɪnˈdʒʌs.tɪs/",
+  "ipaUS": "/ɪnˈdʒʌs.tɪs/",
+  "senses": [
+   {
+    "guideword": "UNFAIRNESS",
+    "level": "C1",
+    "defEN": "a situation in which people are treated unfairly",
+    "defVI": "sự bất công",
+    "examples": [
+     {
+      "en": "They fought against social injustice.",
+      "vi": "Họ đấu tranh chống bất công xã hội."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "innate",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈneɪt/",
+  "ipaUS": "/ɪˈneɪt/",
+  "senses": [
+   {
+    "guideword": "NATURAL",
+    "level": "C2",
+    "defEN": "present from birth, not learned",
+    "defVI": "bẩm sinh",
+    "examples": [
+     {
+      "en": "She has an innate talent for music.",
+      "vi": "Cô ấy có năng khiếu âm nhạc bẩm sinh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "innocent",
+  "pos": "adjective",
+  "ipaUK": "/ˈɪn.ə.sənt/",
+  "ipaUS": "/ˈɪn.ə.sənt/",
+  "senses": [
+   {
+    "guideword": "NOT GUILTY",
+    "level": "B1",
+    "defEN": "not having done a crime",
+    "defVI": "vô tội",
+    "examples": [
+     {
+      "en": "He claims he is innocent.",
+      "vi": "Anh ta khẳng định mình vô tội."
+     }
+    ]
+   },
+   {
+    "guideword": "NAIVE",
+    "level": "B2",
+    "defEN": "having little experience of the bad side of life",
+    "defVI": "ngây thơ",
+    "examples": [
+     {
+      "en": "She was young and innocent.",
+      "vi": "Cô ấy còn trẻ và ngây thơ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "innovation",
+  "pos": "noun",
+  "ipaUK": "/ˌɪn.əˈveɪ.ʃən/",
+  "ipaUS": "/ˌɪn.əˈveɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "NEW IDEA",
+    "level": "B2",
+    "defEN": "a new idea, method or product, or the use of new ideas",
+    "defVI": "sự đổi mới, cải tiến",
+    "examples": [
+     {
+      "en": "The company is known for innovation.",
+      "vi": "Công ty nổi tiếng về sự đổi mới."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inquiry",
+  "pos": "noun",
+  "ipaUK": "/ɪnˈkwaɪə.ri/",
+  "ipaUS": "/ˈɪn.kwɚ.i/",
+  "senses": [
+   {
+    "guideword": "QUESTION",
+    "level": "B2",
+    "defEN": "a question you ask to get information",
+    "defVI": "sự hỏi thông tin",
+    "examples": [
+     {
+      "en": "We received many inquiries about the job.",
+      "vi": "Chúng tôi nhận nhiều câu hỏi về công việc."
+     }
+    ]
+   },
+   {
+    "guideword": "INVESTIGATION",
+    "level": "C1",
+    "defEN": "an official process to find out why something happened",
+    "defVI": "cuộc điều tra",
+    "examples": [
+     {
+      "en": "There will be a public inquiry into the accident.",
+      "vi": "Sẽ có một cuộc điều tra công khai về vụ tai nạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inquisitive",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈkwɪz.ə.tɪv/",
+  "ipaUS": "/ɪnˈkwɪz.ə.t̬ɪv/",
+  "senses": [
+   {
+    "guideword": "CURIOUS",
+    "level": "C2",
+    "defEN": "wanting to find out about things, sometimes too much",
+    "defVI": "tò mò, ham hỏi",
+    "examples": [
+     {
+      "en": "Kids are naturally inquisitive.",
+      "vi": "Trẻ con vốn tò mò."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "insane",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈseɪn/",
+  "ipaUS": "/ɪnˈseɪn/",
+  "senses": [
+   {
+    "guideword": "MENTALLY ILL",
+    "level": "B2",
+    "defEN": "seriously mentally ill",
+    "defVI": "điên, mất trí",
+    "examples": [
+     {
+      "en": "He was declared insane.",
+      "vi": "Anh ta bị tuyên bố là mất trí."
+     }
+    ]
+   },
+   {
+    "guideword": "VERY SILLY",
+    "level": "B2",
+    "defEN": "very foolish or unreasonable",
+    "defVI": "điên rồ",
+    "examples": [
+     {
+      "en": "It's insane to drive in this weather.",
+      "vi": "Lái xe trong thời tiết này thì thật điên rồ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "insecure",
+  "pos": "adjective",
+  "ipaUK": "/ˌɪn.sɪˈkjʊər/",
+  "ipaUS": "/ˌɪn.səˈkjʊr/",
+  "senses": [
+   {
+    "guideword": "NOT CONFIDENT",
+    "level": "B2",
+    "defEN": "not confident about yourself",
+    "defVI": "thiếu tự tin, bất an",
+    "examples": [
+     {
+      "en": "She feels insecure about her looks.",
+      "vi": "Cô ấy tự ti về ngoại hình."
+     }
+    ]
+   },
+   {
+    "guideword": "NOT SAFE",
+    "level": "C1",
+    "defEN": "not safe or protected",
+    "defVI": "không an toàn, bấp bênh",
+    "examples": [
+     {
+      "en": "Many jobs are now insecure.",
+      "vi": "Nhiều công việc giờ đây bấp bênh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "insight",
+  "pos": "noun",
+  "ipaUK": "/ˈɪn.saɪt/",
+  "ipaUS": "/ˈɪn.saɪt/",
+  "senses": [
+   {
+    "guideword": "UNDERSTANDING",
+    "level": "C1",
+    "defEN": "a clear and deep understanding of something",
+    "defVI": "sự thấu hiểu, cái nhìn sâu sắc",
+    "examples": [
+     {
+      "en": "The book gives insight into village life.",
+      "vi": "Cuốn sách mang lại cái nhìn sâu sắc về đời sống làng quê."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "insignificant",
+  "pos": "adjective",
+  "ipaUK": "/ˌɪn.sɪɡˈnɪf.ɪ.kənt/",
+  "ipaUS": "/ˌɪn.sɪɡˈnɪf.ə.kənt/",
+  "senses": [
+   {
+    "guideword": "UNIMPORTANT",
+    "level": "C1",
+    "defEN": "too small or unimportant to matter",
+    "defVI": "không đáng kể",
+    "examples": [
+     {
+      "en": "The cost is insignificant.",
+      "vi": "Chi phí không đáng kể."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "insinuate",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈsɪn.ju.eɪt/",
+  "ipaUS": "/ɪnˈsɪn.ju.eɪt/",
+  "senses": [
+   {
+    "guideword": "SUGGEST BAD",
+    "level": "C2",
+    "defEN": "to suggest something unpleasant in an indirect way",
+    "defVI": "bóng gió, ám chỉ",
+    "examples": [
+     {
+      "en": "Are you insinuating that I cheated?",
+      "vi": "Anh đang ám chỉ tôi gian lận à?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inspect",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈspekt/",
+  "ipaUS": "/ɪnˈspekt/",
+  "senses": [
+   {
+    "guideword": "LOOK CAREFULLY",
+    "level": "B2",
+    "defEN": "to look at something carefully to check it",
+    "defVI": "kiểm tra, thanh tra",
+    "examples": [
+     {
+      "en": "The officer inspected my passport.",
+      "vi": "Viên chức kiểm tra hộ chiếu của tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inspire",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈspaɪər/",
+  "ipaUS": "/ɪnˈspaɪr/",
+  "senses": [
+   {
+    "guideword": "ENCOURAGE",
+    "level": "B2",
+    "defEN": "to make someone want to do something good or creative",
+    "defVI": "truyền cảm hứng",
+    "examples": [
+     {
+      "en": "Her story inspired me to travel.",
+      "vi": "Câu chuyện của cô ấy truyền cảm hứng cho tôi đi du lịch."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "instability",
+  "pos": "noun",
+  "ipaUK": "/ˌɪn.stəˈbɪl.ə.ti/",
+  "ipaUS": "/ˌɪn.stəˈbɪl.ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "UNCERTAINTY",
+    "level": "C1",
+    "defEN": "a situation that is likely to change suddenly",
+    "defVI": "sự bất ổn",
+    "examples": [
+     {
+      "en": "Political instability scared investors.",
+      "vi": "Bất ổn chính trị khiến nhà đầu tư lo sợ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "install",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈstɔːl/",
+  "ipaUS": "/ɪnˈstɑːl/",
+  "senses": [
+   {
+    "guideword": "PUT IN",
+    "level": "B1",
+    "defEN": "to put equipment or software in place so it can be used",
+    "defVI": "cài đặt, lắp đặt",
+    "examples": [
+     {
+      "en": "I installed the new app yesterday.",
+      "vi": "Tôi đã cài ứng dụng mới hôm qua."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "instance",
+  "pos": "noun",
+  "ipaUK": "/ˈɪn.stəns/",
+  "ipaUS": "/ˈɪn.stəns/",
+  "senses": [
+   {
+    "guideword": "EXAMPLE",
+    "level": "B2",
+    "defEN": "a particular example of something",
+    "defVI": "ví dụ, trường hợp",
+    "examples": [
+     {
+      "en": "In this instance, we made an exception.",
+      "vi": "Trong trường hợp này, chúng tôi đã ngoại lệ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "instant",
+  "pos": "adjective",
+  "ipaUK": "/ˈɪn.stənt/",
+  "ipaUS": "/ˈɪn.stənt/",
+  "senses": [
+   {
+    "guideword": "IMMEDIATE",
+    "level": "B2",
+    "defEN": "happening immediately",
+    "defVI": "ngay lập tức",
+    "examples": [
+     {
+      "en": "The film was an instant success.",
+      "vi": "Bộ phim thành công ngay lập tức."
+     }
+    ]
+   },
+   {
+    "guideword": "QUICK FOOD",
+    "level": "B1",
+    "defEN": "able to be made very quickly",
+    "defVI": "ăn liền, pha liền",
+    "examples": [
+     {
+      "en": "I had instant noodles for lunch.",
+      "vi": "Tôi ăn mì gói bữa trưa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "instinct",
+  "pos": "noun",
+  "ipaUK": "/ˈɪn.stɪŋkt/",
+  "ipaUS": "/ˈɪn.stɪŋkt/",
+  "senses": [
+   {
+    "guideword": "NATURAL FEELING",
+    "level": "C1",
+    "defEN": "a natural way of behaving that is not learned",
+    "defVI": "bản năng",
+    "examples": [
+     {
+      "en": "Trust your instincts.",
+      "vi": "Hãy tin vào bản năng của mình."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "institution",
+  "pos": "noun",
+  "ipaUK": "/ˌɪn.stɪˈtʃuː.ʃən/",
+  "ipaUS": "/ˌɪn.stəˈtuː.ʃən/",
+  "senses": [
+   {
+    "guideword": "ORGANIZATION",
+    "level": "C1",
+    "defEN": "a large, important organization such as a university or bank",
+    "defVI": "tổ chức, thể chế",
+    "examples": [
+     {
+      "en": "She works for a financial institution.",
+      "vi": "Cô ấy làm cho một tổ chức tài chính."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "instruct",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈstrʌkt/",
+  "ipaUS": "/ɪnˈstrʌkt/",
+  "senses": [
+   {
+    "guideword": "ORDER",
+    "level": "B2",
+    "defEN": "to tell someone to do something, officially",
+    "defVI": "chỉ thị, yêu cầu",
+    "examples": [
+     {
+      "en": "We were instructed to wait outside.",
+      "vi": "Chúng tôi được yêu cầu chờ bên ngoài."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "instrument",
+  "pos": "noun",
+  "ipaUK": "/ˈɪn.strə.mənt/",
+  "ipaUS": "/ˈɪn.strə.mənt/",
+  "senses": [
+   {
+    "guideword": "MUSIC",
+    "level": "B1",
+    "defEN": "an object used for playing music",
+    "defVI": "nhạc cụ",
+    "examples": [
+     {
+      "en": "Do you play an instrument?",
+      "vi": "Bạn có chơi nhạc cụ nào không?"
+     }
+    ]
+   },
+   {
+    "guideword": "TOOL",
+    "level": "B2",
+    "defEN": "a tool used for a particular job",
+    "defVI": "dụng cụ",
+    "examples": [
+     {
+      "en": "surgical instruments",
+      "vi": "dụng cụ phẫu thuật"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "insufficient",
+  "pos": "adjective",
+  "ipaUK": "/ˌɪn.səˈfɪʃ.ənt/",
+  "ipaUS": "/ˌɪn.səˈfɪʃ.ənt/",
+  "senses": [
+   {
+    "guideword": "NOT ENOUGH",
+    "level": "C1",
+    "defEN": "not enough for a purpose",
+    "defVI": "không đủ",
+    "examples": [
+     {
+      "en": "There was insufficient evidence.",
+      "vi": "Không đủ bằng chứng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "insult",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈsʌlt/",
+  "ipaUS": "/ɪnˈsʌlt/",
+  "senses": [
+   {
+    "guideword": "BE RUDE",
+    "level": "B2",
+    "defEN": "to say or do something rude to someone",
+    "defVI": "xúc phạm, lăng mạ",
+    "examples": [
+     {
+      "en": "He insulted the waiter.",
+      "vi": "Anh ta xúc phạm người phục vụ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "insurance",
+  "pos": "noun",
+  "ipaUK": "/ɪnˈʃɔː.rəns/",
+  "ipaUS": "/ɪnˈʃʊr.əns/",
+  "senses": [
+   {
+    "guideword": "PROTECTION",
+    "level": "B1",
+    "defEN": "an agreement where you pay a company and it pays you if something bad happens",
+    "defVI": "bảo hiểm",
+    "examples": [
+     {
+      "en": "Do you have travel insurance?",
+      "vi": "Bạn có bảo hiểm du lịch không?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "intact",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈtækt/",
+  "ipaUS": "/ɪnˈtækt/",
+  "senses": [
+   {
+    "guideword": "UNDAMAGED",
+    "level": "C2",
+    "defEN": "complete and not damaged",
+    "defVI": "nguyên vẹn",
+    "examples": [
+     {
+      "en": "The old church survived intact.",
+      "vi": "Nhà thờ cổ vẫn còn nguyên vẹn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "integral",
+  "pos": "adjective",
+  "ipaUK": "/ˈɪn.tɪ.ɡrəl/",
+  "ipaUS": "/ˈɪn.t̬ə.ɡrəl/",
+  "senses": [
+   {
+    "guideword": "NECESSARY",
+    "level": "C2",
+    "defEN": "necessary and important as a part of a whole",
+    "defVI": "không thể thiếu",
+    "examples": [
+     {
+      "en": "Music is an integral part of the festival.",
+      "vi": "Âm nhạc là phần không thể thiếu của lễ hội."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "integrate",
+  "pos": "verb",
+  "ipaUK": "/ˈɪn.tɪ.ɡreɪt/",
+  "ipaUS": "/ˈɪn.t̬ə.ɡreɪt/",
+  "senses": [
+   {
+    "guideword": "COMBINE",
+    "level": "C1",
+    "defEN": "to combine two or more things into one",
+    "defVI": "tích hợp",
+    "examples": [
+     {
+      "en": "The app integrates with your calendar.",
+      "vi": "Ứng dụng tích hợp với lịch của bạn."
+     }
+    ]
+   },
+   {
+    "guideword": "JOIN SOCIETY",
+    "level": "C1",
+    "defEN": "to become part of a group or society",
+    "defVI": "hoà nhập",
+    "examples": [
+     {
+      "en": "Newcomers find it hard to integrate.",
+      "vi": "Người mới đến khó hoà nhập."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "intellectual",
+  "pos": "adjective",
+  "ipaUK": "/ˌɪn.təlˈek.tʃu.əl/",
+  "ipaUS": "/ˌɪn.t̬əlˈek.tʃu.əl/",
+  "senses": [
+   {
+    "guideword": "OF THE MIND",
+    "level": "C1",
+    "defEN": "relating to the ability to think and understand",
+    "defVI": "thuộc trí tuệ",
+    "examples": [
+     {
+      "en": "The job needs intellectual effort.",
+      "vi": "Công việc đòi hỏi nỗ lực trí tuệ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "intelligence",
+  "pos": "noun",
+  "ipaUK": "/ɪnˈtel.ɪ.dʒəns/",
+  "ipaUS": "/ɪnˈtel.ə.dʒəns/",
+  "senses": [
+   {
+    "guideword": "ABILITY",
+    "level": "B2",
+    "defEN": "the ability to learn, understand and think",
+    "defVI": "trí thông minh",
+    "examples": [
+     {
+      "en": "She is a woman of great intelligence.",
+      "vi": "Cô ấy là người rất thông minh."
+     }
+    ]
+   },
+   {
+    "guideword": "SECRET INFORMATION",
+    "level": "C1",
+    "defEN": "secret information about enemies, or the people who collect it",
+    "defVI": "tình báo",
+    "examples": [
+     {
+      "en": "military intelligence",
+      "vi": "tình báo quân sự"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "intend",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈtend/",
+  "ipaUS": "/ɪnˈtend/",
+  "senses": [
+   {
+    "guideword": "PLAN",
+    "level": "B1",
+    "defEN": "to have a plan to do something",
+    "defVI": "định, có ý định",
+    "examples": [
+     {
+      "en": "I intend to finish it today.",
+      "vi": "Tôi định làm xong hôm nay."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "intense",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈtens/",
+  "ipaUS": "/ɪnˈtens/",
+  "senses": [
+   {
+    "guideword": "EXTREME",
+    "level": "B2",
+    "defEN": "very great or strong",
+    "defVI": "dữ dội, mãnh liệt",
+    "examples": [
+     {
+      "en": "The heat was intense.",
+      "vi": "Cái nóng thật dữ dội."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "intention",
+  "pos": "noun",
+  "ipaUK": "/ɪnˈten.ʃən/",
+  "ipaUS": "/ɪnˈten.ʃən/",
+  "senses": [
+   {
+    "guideword": "PLAN",
+    "level": "B1",
+    "defEN": "something you plan to do",
+    "defVI": "ý định",
+    "examples": [
+     {
+      "en": "I have no intention of leaving.",
+      "vi": "Tôi không hề có ý định rời đi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "interact",
+  "pos": "verb",
+  "ipaUK": "/ˌɪn.təˈrækt/",
+  "ipaUS": "/ˌɪn.t̬ɚˈækt/",
+  "senses": [
+   {
+    "guideword": "COMMUNICATE",
+    "level": "C1",
+    "defEN": "to talk and do things with other people",
+    "defVI": "tương tác, giao tiếp",
+    "examples": [
+     {
+      "en": "Teachers interact with students every day.",
+      "vi": "Giáo viên tương tác với học sinh mỗi ngày."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "interfere",
+  "pos": "verb",
+  "ipaUK": "/ˌɪn.təˈfɪər/",
+  "ipaUS": "/ˌɪn.t̬ɚˈfɪr/",
+  "senses": [
+   {
+    "guideword": "GET INVOLVED",
+    "level": "B2",
+    "defEN": "to become involved in something when you are not wanted",
+    "defVI": "can thiệp, xen vào",
+    "examples": [
+     {
+      "en": "Stop interfering in my life!",
+      "vi": "Đừng xen vào cuộc sống của tôi!"
+     }
+    ]
+   },
+   {
+    "guideword": "PREVENT",
+    "level": "C1",
+    "defEN": "to stop something from working or happening properly",
+    "defVI": "cản trở, gây nhiễu",
+    "examples": [
+     {
+      "en": "Stress can interfere with sleep.",
+      "vi": "Căng thẳng có thể gây ảnh hưởng đến giấc ngủ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "interim",
+  "pos": "adjective",
+  "ipaUK": "/ˈɪn.tər.ɪm/",
+  "ipaUS": "/ˈɪn.t̬ɚ.ɪm/",
+  "senses": [
+   {
+    "guideword": "TEMPORARY",
+    "level": "C2",
+    "defEN": "temporary, until something permanent is arranged",
+    "defVI": "tạm thời, lâm thời",
+    "examples": [
+     {
+      "en": "An interim manager was appointed.",
+      "vi": "Một quản lý tạm thời được bổ nhiệm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "internal",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈtɜː.nəl/",
+  "ipaUS": "/ɪnˈtɝː.nəl/",
+  "senses": [
+   {
+    "guideword": "INSIDE",
+    "level": "B2",
+    "defEN": "existing or happening inside a person, body, organization or country",
+    "defVI": "nội bộ, bên trong",
+    "examples": [
+     {
+      "en": "It's an internal matter.",
+      "vi": "Đó là chuyện nội bộ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "interrupt",
+  "pos": "verb",
+  "ipaUK": "/ˌɪn.təˈrʌpt/",
+  "ipaUS": "/ˌɪn.t̬əˈrʌpt/",
+  "senses": [
+   {
+    "guideword": "STOP SPEAKING",
+    "level": "B1",
+    "defEN": "to stop someone while they are speaking",
+    "defVI": "ngắt lời",
+    "examples": [
+     {
+      "en": "Please don't interrupt me.",
+      "vi": "Làm ơn đừng ngắt lời tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "interval",
+  "pos": "noun",
+  "ipaUK": "/ˈɪn.tə.vəl/",
+  "ipaUS": "/ˈɪn.t̬ɚ.vəl/",
+  "senses": [
+   {
+    "guideword": "TIME BETWEEN",
+    "level": "C1",
+    "defEN": "a period of time between two events",
+    "defVI": "khoảng thời gian, quãng",
+    "examples": [
+     {
+      "en": "Buses run at 10-minute intervals.",
+      "vi": "Xe buýt chạy cách nhau 10 phút."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "intimate",
+  "pos": "adjective",
+  "ipaUK": "/ˈɪn.tɪ.mət/",
+  "ipaUS": "/ˈɪn.t̬ə.mət/",
+  "senses": [
+   {
+    "guideword": "CLOSE",
+    "level": "C1",
+    "defEN": "having a very close relationship",
+    "defVI": "thân mật, gần gũi",
+    "examples": [
+     {
+      "en": "They are intimate friends.",
+      "vi": "Họ là bạn thân thiết."
+     }
+    ]
+   },
+   {
+    "guideword": "DETAILED",
+    "level": "C2",
+    "defEN": "detailed and complete",
+    "defVI": "sâu sắc, tường tận",
+    "examples": [
+     {
+      "en": "He has an intimate knowledge of the area.",
+      "vi": "Ông ấy hiểu tường tận khu vực này."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "intimidate",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈtɪm.ɪ.deɪt/",
+  "ipaUS": "/ɪnˈtɪm.ə.deɪt/",
+  "senses": [
+   {
+    "guideword": "FRIGHTEN",
+    "level": "C1",
+    "defEN": "to frighten someone, often to make them do something",
+    "defVI": "đe doạ, doạ dẫm",
+    "examples": [
+     {
+      "en": "They tried to intimidate the witness.",
+      "vi": "Họ cố đe doạ nhân chứng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "intricate",
+  "pos": "adjective",
+  "ipaUK": "/ˈɪn.trɪ.kət/",
+  "ipaUS": "/ˈɪn.trə.kət/",
+  "senses": [
+   {
+    "guideword": "DETAILED",
+    "level": "C2",
+    "defEN": "having many small parts arranged in a complicated way",
+    "defVI": "phức tạp, tinh xảo",
+    "examples": [
+     {
+      "en": "The carpet has an intricate pattern.",
+      "vi": "Tấm thảm có hoa văn tinh xảo."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "intrigue",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈtriːɡ/",
+  "ipaUS": "/ɪnˈtriːɡ/",
+  "senses": [
+   {
+    "guideword": "INTEREST",
+    "level": "C1",
+    "defEN": "to make someone very interested",
+    "defVI": "gây tò mò, hấp dẫn",
+    "examples": [
+     {
+      "en": "The idea intrigued me.",
+      "vi": "Ý tưởng đó khiến tôi tò mò."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "intrinsic",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈtrɪn.zɪk/",
+  "ipaUS": "/ɪnˈtrɪn.zɪk/",
+  "senses": [
+   {
+    "guideword": "BASIC",
+    "level": "C2",
+    "defEN": "being a basic part of what something is",
+    "defVI": "nội tại, thực chất",
+    "examples": [
+     {
+      "en": "The painting has little intrinsic value.",
+      "vi": "Bức tranh có ít giá trị thực chất."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "introduce",
+  "pos": "verb",
+  "ipaUK": "/ˌɪn.trəˈdʒuːs/",
+  "ipaUS": "/ˌɪn.trəˈduːs/",
+  "senses": [
+   {
+    "guideword": "MEET",
+    "level": "B1",
+    "defEN": "to tell someone another person's name when they first meet",
+    "defVI": "giới thiệu",
+    "examples": [
+     {
+      "en": "Let me introduce my sister.",
+      "vi": "Để tôi giới thiệu em gái tôi."
+     }
+    ]
+   },
+   {
+    "guideword": "BRING IN",
+    "level": "B2",
+    "defEN": "to bring something into use for the first time",
+    "defVI": "đưa vào, ban hành",
+    "examples": [
+     {
+      "en": "The law was introduced in 2020.",
+      "vi": "Luật được ban hành năm 2020."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "intrude",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈtruːd/",
+  "ipaUS": "/ɪnˈtruːd/",
+  "senses": [
+   {
+    "guideword": "ENTER UNWANTED",
+    "level": "C2",
+    "defEN": "to go into a place or situation where you are not wanted",
+    "defVI": "xâm phạm, quấy rầy",
+    "examples": [
+     {
+      "en": "I'm sorry to intrude.",
+      "vi": "Xin lỗi đã làm phiền."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "intuition",
+  "pos": "noun",
+  "ipaUK": "/ˌɪn.tʃuˈɪʃ.ən/",
+  "ipaUS": "/ˌɪn.tuˈɪʃ.ən/",
+  "senses": [
+   {
+    "guideword": "FEELING",
+    "level": "C1",
+    "defEN": "the ability to know something without clear reasons",
+    "defVI": "trực giác",
+    "examples": [
+     {
+      "en": "My intuition told me not to trust him.",
+      "vi": "Trực giác bảo tôi đừng tin anh ta."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "invade",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈveɪd/",
+  "ipaUS": "/ɪnˈveɪd/",
+  "senses": [
+   {
+    "guideword": "ENTER BY FORCE",
+    "level": "B2",
+    "defEN": "to enter a country by force with an army",
+    "defVI": "xâm lược",
+    "examples": [
+     {
+      "en": "The army invaded in 1939.",
+      "vi": "Quân đội xâm lược vào năm 1939."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "invaluable",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈvæl.ju.ə.bəl/",
+  "ipaUS": "/ɪnˈvæl.jə.bəl/",
+  "senses": [
+   {
+    "guideword": "VERY USEFUL",
+    "level": "C1",
+    "defEN": "extremely useful",
+    "defVI": "vô giá, cực kỳ hữu ích",
+    "examples": [
+     {
+      "en": "Your help has been invaluable.",
+      "vi": "Sự giúp đỡ của bạn vô cùng quý giá."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "invent",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈvent/",
+  "ipaUS": "/ɪnˈvent/",
+  "senses": [
+   {
+    "guideword": "CREATE",
+    "level": "B1",
+    "defEN": "to design or create something new",
+    "defVI": "phát minh",
+    "examples": [
+     {
+      "en": "Who invented the telephone?",
+      "vi": "Ai đã phát minh ra điện thoại?"
+     }
+    ]
+   },
+   {
+    "guideword": "MAKE UP",
+    "level": "B2",
+    "defEN": "to make up a story or excuse that is not true",
+    "defVI": "bịa ra",
+    "examples": [
+     {
+      "en": "He invented an excuse for being late.",
+      "vi": "Anh ta bịa lý do để đi muộn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "inventory",
+  "pos": "noun",
+  "ipaUK": "/ˈɪn.vən.tər.i/",
+  "ipaUS": "/ˈɪn.vən.tɔːr.i/",
+  "senses": [
+   {
+    "guideword": "LIST",
+    "level": "C2",
+    "defEN": "a detailed list of all the things in a place",
+    "defVI": "bản kê khai, hàng tồn kho",
+    "examples": [
+     {
+      "en": "We made an inventory of the furniture.",
+      "vi": "Chúng tôi lập danh sách đồ đạc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "invest",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈvest/",
+  "ipaUS": "/ɪnˈvest/",
+  "senses": [
+   {
+    "guideword": "PUT MONEY",
+    "level": "B2",
+    "defEN": "to put money into something to make a profit",
+    "defVI": "đầu tư",
+    "examples": [
+     {
+      "en": "He invested in property.",
+      "vi": "Anh ấy đầu tư vào bất động sản."
+     }
+    ]
+   },
+   {
+    "guideword": "GIVE TIME",
+    "level": "C1",
+    "defEN": "to spend time or effort on something to make it succeed",
+    "defVI": "dồn (công sức, thời gian)",
+    "examples": [
+     {
+      "en": "She invested a lot of time in the project.",
+      "vi": "Cô ấy dồn nhiều thời gian vào dự án."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "investigate",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈves.tɪ.ɡeɪt/",
+  "ipaUS": "/ɪnˈves.tə.ɡeɪt/",
+  "senses": [
+   {
+    "guideword": "EXAMINE",
+    "level": "B1",
+    "defEN": "to try to find out the facts about something",
+    "defVI": "điều tra",
+    "examples": [
+     {
+      "en": "Police are investigating the robbery.",
+      "vi": "Cảnh sát đang điều tra vụ cướp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "invisible",
+  "pos": "adjective",
+  "ipaUK": "/ɪnˈvɪz.ə.bəl/",
+  "ipaUS": "/ɪnˈvɪz.ə.bəl/",
+  "senses": [
+   {
+    "guideword": "NOT SEEN",
+    "level": "B2",
+    "defEN": "impossible to see",
+    "defVI": "vô hình",
+    "examples": [
+     {
+      "en": "The virus is invisible to the eye.",
+      "vi": "Virus mắt thường không thấy được."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "invoke",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈvəʊk/",
+  "ipaUS": "/ɪnˈvoʊk/",
+  "senses": [
+   {
+    "guideword": "USE A LAW",
+    "level": "C2",
+    "defEN": "to use a law or rule to support what you are doing",
+    "defVI": "viện dẫn",
+    "examples": [
+     {
+      "en": "He invoked his right to remain silent.",
+      "vi": "Anh ta viện dẫn quyền giữ im lặng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "involve",
+  "pos": "verb",
+  "ipaUK": "/ɪnˈvɒlv/",
+  "ipaUS": "/ɪnˈvɑːlv/",
+  "senses": [
+   {
+    "guideword": "INCLUDE",
+    "level": "B1",
+    "defEN": "to have something as a necessary part",
+    "defVI": "liên quan, bao gồm",
+    "examples": [
+     {
+      "en": "The job involves a lot of travel.",
+      "vi": "Công việc đòi hỏi đi lại nhiều."
+     }
+    ]
+   },
+   {
+    "guideword": "TAKE PART",
+    "level": "B2",
+    "defEN": "to make someone take part in something",
+    "defVI": "lôi kéo, cho tham gia",
+    "examples": [
+     {
+      "en": "We try to involve parents in school life.",
+      "vi": "Chúng tôi cố gắng để phụ huynh tham gia hoạt động của trường."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ironic",
+  "pos": "adjective",
+  "ipaUK": "/aɪˈrɒn.ɪk/",
+  "ipaUS": "/aɪˈrɑː.nɪk/",
+  "senses": [
+   {
+    "guideword": "STRANGE",
+    "level": "C1",
+    "defEN": "strange because it is the opposite of what you expect",
+    "defVI": "trớ trêu",
+    "examples": [
+     {
+      "en": "It's ironic that the fire station burned down.",
+      "vi": "Thật trớ trêu là trạm cứu hoả lại bị cháy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "irony",
+  "pos": "noun",
+  "ipaUK": "/ˈaɪ.rə.ni/",
+  "ipaUS": "/ˈaɪ.rə.ni/",
+  "senses": [
+   {
+    "guideword": "OPPOSITE",
+    "level": "C1",
+    "defEN": "a situation that is strange because things happen in the opposite way to what you expect",
+    "defVI": "sự trớ trêu, mỉa mai",
+    "examples": [
+     {
+      "en": "The irony is that he hated money.",
+      "vi": "Điều trớ trêu là ông ấy ghét tiền."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "irrational",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈræʃ.ən.əl/",
+  "ipaUS": "/ɪˈræʃ.ən.əl/",
+  "senses": [
+   {
+    "guideword": "NOT REASONABLE",
+    "level": "C1",
+    "defEN": "not based on clear thinking",
+    "defVI": "phi lý",
+    "examples": [
+     {
+      "en": "She has an irrational fear of birds.",
+      "vi": "Cô ấy sợ chim một cách vô lý."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "irrelevant",
+  "pos": "adjective",
+  "ipaUK": "/ɪˈrel.ə.vənt/",
+  "ipaUS": "/ɪˈrel.ə.vənt/",
+  "senses": [
+   {
+    "guideword": "NOT CONNECTED",
+    "level": "C1",
+    "defEN": "not related to what is being discussed",
+    "defVI": "không liên quan",
+    "examples": [
+     {
+      "en": "His age is irrelevant.",
+      "vi": "Tuổi tác của anh ấy không liên quan."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "irresistible",
+  "pos": "adjective",
+  "ipaUK": "/ˌɪr.ɪˈzɪs.tə.bəl/",
+  "ipaUS": "/ˌɪr.əˈzɪs.tə.bəl/",
+  "senses": [
+   {
+    "guideword": "TOO STRONG",
+    "level": "C1",
+    "defEN": "so attractive or strong that you cannot refuse it",
+    "defVI": "không thể cưỡng lại",
+    "examples": [
+     {
+      "en": "The cake was irresistible.",
+      "vi": "Chiếc bánh ngon không cưỡng nổi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "irresponsible",
+  "pos": "adjective",
+  "ipaUK": "/ˌɪr.ɪˈspɒn.sə.bəl/",
+  "ipaUS": "/ˌɪr.əˈspɑːn.sə.bəl/",
+  "senses": [
+   {
+    "guideword": "CARELESS",
+    "level": "B2",
+    "defEN": "not thinking about the results of your actions",
+    "defVI": "vô trách nhiệm",
+    "examples": [
+     {
+      "en": "It was irresponsible to leave the kids alone.",
+      "vi": "Để bọn trẻ ở một mình là vô trách nhiệm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "irreversible",
+  "pos": "adjective",
+  "ipaUK": "/ˌɪr.ɪˈvɜː.sə.bəl/",
+  "ipaUS": "/ˌɪr.əˈvɝː.sə.bəl/",
+  "senses": [
+   {
+    "guideword": "CANNOT CHANGE BACK",
+    "level": "C2",
+    "defEN": "not possible to change back to how it was",
+    "defVI": "không thể đảo ngược",
+    "examples": [
+     {
+      "en": "The damage may be irreversible.",
+      "vi": "Thiệt hại có thể không thể khôi phục."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "irritate",
+  "pos": "verb",
+  "ipaUK": "/ˈɪr.ɪ.teɪt/",
+  "ipaUS": "/ˈɪr.ə.teɪt/",
+  "senses": [
+   {
+    "guideword": "ANNOY",
+    "level": "B2",
+    "defEN": "to make someone annoyed",
+    "defVI": "làm khó chịu",
+    "examples": [
+     {
+      "en": "His constant talking irritated me.",
+      "vi": "Việc anh ta nói liên tục làm tôi bực."
+     }
+    ]
+   },
+   {
+    "guideword": "HURT SKIN",
+    "level": "C1",
+    "defEN": "to make a part of the body sore",
+    "defVI": "gây kích ứng",
+    "examples": [
+     {
+      "en": "This soap may irritate your skin.",
+      "vi": "Xà phòng này có thể gây kích ứng da."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "isolate",
+  "pos": "verb",
+  "ipaUK": "/ˈaɪ.sə.leɪt/",
+  "ipaUS": "/ˈaɪ.sə.leɪt/",
+  "senses": [
+   {
+    "guideword": "SEPARATE",
+    "level": "C1",
+    "defEN": "to separate something or someone from others",
+    "defVI": "cô lập, cách ly",
+    "examples": [
+     {
+      "en": "Sick patients were isolated.",
+      "vi": "Bệnh nhân được cách ly."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "issue",
+  "pos": "noun",
+  "ipaUK": "/ˈɪʃ.uː/",
+  "ipaUS": "/ˈɪʃ.uː/",
+  "senses": [
+   {
+    "guideword": "PROBLEM",
+    "level": "B2",
+    "defEN": "a subject or problem that people are discussing",
+    "defVI": "vấn đề",
+    "examples": [
+     {
+      "en": "Climate change is a major issue.",
+      "vi": "Biến đổi khí hậu là vấn đề lớn."
+     }
+    ]
+   },
+   {
+    "guideword": "MAGAZINE",
+    "level": "B2",
+    "defEN": "a copy of a magazine or newspaper published at a particular time",
+    "defVI": "số (báo, tạp chí)",
+    "examples": [
+     {
+      "en": "Did you read this month's issue?",
+      "vi": "Bạn đọc số tháng này chưa?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "item",
+  "pos": "noun",
+  "ipaUK": "/ˈaɪ.təm/",
+  "ipaUS": "/ˈaɪ.t̬əm/",
+  "senses": [
+   {
+    "guideword": "THING",
+    "level": "B1",
+    "defEN": "a single thing in a list or group",
+    "defVI": "món, mục",
+    "examples": [
+     {
+      "en": "There are ten items on the list.",
+      "vi": "Có mười mục trong danh sách."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "itinerary",
+  "pos": "noun",
+  "ipaUK": "/aɪˈtɪn.ər.ər.i/",
+  "ipaUS": "/aɪˈtɪn.ə.rer.i/",
+  "senses": [
+   {
+    "guideword": "TRAVEL PLAN",
+    "level": "C2",
+    "defEN": "a detailed plan of a journey",
+    "defVI": "lịch trình",
+    "examples": [
+     {
+      "en": "Our itinerary includes three cities.",
+      "vi": "Lịch trình của chúng tôi gồm ba thành phố."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "jail",
+  "pos": "noun",
+  "ipaUK": "/dʒeɪl/",
+  "ipaUS": "/dʒeɪl/",
+  "senses": [
+   {
+    "guideword": "PRISON",
+    "level": "B1",
+    "defEN": "a place where criminals are kept as a punishment",
+    "defVI": "nhà tù",
+    "examples": [
+     {
+      "en": "He spent two years in jail.",
+      "vi": "Anh ta ngồi tù hai năm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "jam",
+  "pos": "noun",
+  "ipaUK": "/dʒæm/",
+  "ipaUS": "/dʒæm/",
+  "senses": [
+   {
+    "guideword": "FOOD",
+    "level": "B1",
+    "defEN": "a sweet food made from fruit and sugar, spread on bread",
+    "defVI": "mứt",
+    "examples": [
+     {
+      "en": "toast with strawberry jam",
+      "vi": "bánh mì nướng với mứt dâu"
+     }
+    ]
+   },
+   {
+    "guideword": "TRAFFIC",
+    "level": "B1",
+    "defEN": "a situation where too many vehicles stop movement",
+    "defVI": "sự tắc đường",
+    "examples": [
+     {
+      "en": "We were stuck in a traffic jam.",
+      "vi": "Chúng tôi bị kẹt xe."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "jargon",
+  "pos": "noun",
+  "ipaUK": "/ˈdʒɑː.ɡən/",
+  "ipaUS": "/ˈdʒɑːr.ɡən/",
+  "senses": [
+   {
+    "guideword": "SPECIAL WORDS",
+    "level": "C2",
+    "defEN": "special words used by a particular group that others find hard to understand",
+    "defVI": "biệt ngữ, thuật ngữ chuyên môn",
+    "examples": [
+     {
+      "en": "The report is full of legal jargon.",
+      "vi": "Bản báo cáo đầy thuật ngữ pháp lý."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "jealous",
+  "pos": "adjective",
+  "ipaUK": "/ˈdʒel.əs/",
+  "ipaUS": "/ˈdʒel.əs/",
+  "senses": [
+   {
+    "guideword": "WANTING",
+    "level": "B1",
+    "defEN": "unhappy because someone has something you want",
+    "defVI": "ghen tị",
+    "examples": [
+     {
+      "en": "She was jealous of her friend's success.",
+      "vi": "Cô ấy ghen tị với thành công của bạn."
+     }
+    ]
+   },
+   {
+    "guideword": "LOVE",
+    "level": "B2",
+    "defEN": "upset because someone you love seems interested in another person",
+    "defVI": "ghen (trong tình yêu)",
+    "examples": [
+     {
+      "en": "Her boyfriend gets jealous easily.",
+      "vi": "Bạn trai cô ấy rất dễ ghen."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "jeopardize",
+  "pos": "verb",
+  "ipaUK": "/ˈdʒep.ə.daɪz/",
+  "ipaUS": "/ˈdʒep.ɚ.daɪz/",
+  "senses": [
+   {
+    "guideword": "PUT AT RISK",
+    "level": "C2",
+    "defEN": "to put something in danger of being harmed or lost",
+    "defVI": "gây nguy hại, đe doạ",
+    "examples": [
+     {
+      "en": "Don't jeopardize your career.",
+      "vi": "Đừng làm hỏng sự nghiệp của bạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "jewellery",
+  "pos": "noun",
+  "ipaUK": "/ˈdʒuː.əl.ri/",
+  "ipaUS": "/ˈdʒuː.əl.ri/",
+  "senses": [
+   {
+    "guideword": "ORNAMENTS",
+    "level": "B1",
+    "defEN": "decorations such as rings and necklaces that people wear",
+    "defVI": "đồ trang sức",
+    "examples": [
+     {
+      "en": "She wore gold jewellery.",
+      "vi": "Cô ấy đeo trang sức vàng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "job",
+  "pos": "noun",
+  "ipaUK": "/dʒɒb/",
+  "ipaUS": "/dʒɑːb/",
+  "senses": [
+   {
+    "guideword": "WORK",
+    "level": "B1",
+    "defEN": "the regular work that a person does to earn money",
+    "defVI": "việc làm, công việc",
+    "examples": [
+     {
+      "en": "She got a new job last month.",
+      "vi": "Cô ấy có việc mới tháng trước."
+     }
+    ]
+   },
+   {
+    "guideword": "TASK",
+    "level": "B1",
+    "defEN": "a particular piece of work",
+    "defVI": "nhiệm vụ, việc",
+    "examples": [
+     {
+      "en": "You did a great job.",
+      "vi": "Bạn làm tốt lắm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "jog",
+  "pos": "verb",
+  "ipaUK": "/dʒɒɡ/",
+  "ipaUS": "/dʒɑːɡ/",
+  "senses": [
+   {
+    "guideword": "RUN SLOWLY",
+    "level": "B1",
+    "defEN": "to run slowly for exercise",
+    "defVI": "chạy bộ",
+    "examples": [
+     {
+      "en": "I jog every morning.",
+      "vi": "Tôi chạy bộ mỗi sáng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "join",
+  "pos": "verb",
+  "ipaUK": "/dʒɔɪn/",
+  "ipaUS": "/dʒɔɪn/",
+  "senses": [
+   {
+    "guideword": "BECOME A MEMBER",
+    "level": "B1",
+    "defEN": "to become a member of a group",
+    "defVI": "gia nhập",
+    "examples": [
+     {
+      "en": "I joined a gym.",
+      "vi": "Tôi đăng ký tập gym."
+     }
+    ]
+   },
+   {
+    "guideword": "CONNECT",
+    "level": "B2",
+    "defEN": "to connect or fasten things together",
+    "defVI": "nối, ghép",
+    "examples": [
+     {
+      "en": "Join the two pieces with glue.",
+      "vi": "Dán hai mảnh lại với nhau bằng keo."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "joint",
+  "pos": "adjective",
+  "ipaUK": "/dʒɔɪnt/",
+  "ipaUS": "/dʒɔɪnt/",
+  "senses": [
+   {
+    "guideword": "SHARED",
+    "level": "B2",
+    "defEN": "belonging to or done by two or more people",
+    "defVI": "chung",
+    "examples": [
+     {
+      "en": "They have a joint bank account.",
+      "vi": "Họ có tài khoản ngân hàng chung."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "journal",
+  "pos": "noun",
+  "ipaUK": "/ˈdʒɜː.nəl/",
+  "ipaUS": "/ˈdʒɝː.nəl/",
+  "senses": [
+   {
+    "guideword": "MAGAZINE",
+    "level": "B2",
+    "defEN": "a serious magazine about a particular subject",
+    "defVI": "tạp chí chuyên ngành",
+    "examples": [
+     {
+      "en": "She published her study in a medical journal.",
+      "vi": "Bà công bố nghiên cứu trên một tạp chí y khoa."
+     }
+    ]
+   },
+   {
+    "guideword": "DIARY",
+    "level": "B2",
+    "defEN": "a written record of what you do each day",
+    "defVI": "nhật ký",
+    "examples": [
+     {
+      "en": "I keep a travel journal.",
+      "vi": "Tôi viết nhật ký du lịch."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "journey",
+  "pos": "noun",
+  "ipaUK": "/ˈdʒɜː.ni/",
+  "ipaUS": "/ˈdʒɝː.ni/",
+  "senses": [
+   {
+    "guideword": "TRAVEL",
+    "level": "B1",
+    "defEN": "an act of travelling from one place to another",
+    "defVI": "chuyến đi, hành trình",
+    "examples": [
+     {
+      "en": "The journey takes three hours.",
+      "vi": "Chuyến đi mất ba tiếng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "joy",
+  "pos": "noun",
+  "ipaUK": "/dʒɔɪ/",
+  "ipaUS": "/dʒɔɪ/",
+  "senses": [
+   {
+    "guideword": "HAPPINESS",
+    "level": "B2",
+    "defEN": "great happiness",
+    "defVI": "niềm vui",
+    "examples": [
+     {
+      "en": "Their faces were full of joy.",
+      "vi": "Khuôn mặt họ tràn đầy niềm vui."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "jubilant",
+  "pos": "adjective",
+  "ipaUK": "/ˈdʒuː.bɪ.lənt/",
+  "ipaUS": "/ˈdʒuː.bəl.ənt/",
+  "senses": [
+   {
+    "guideword": "VERY HAPPY",
+    "level": "C2",
+    "defEN": "feeling or showing great happiness because of success",
+    "defVI": "hân hoan, tưng bừng",
+    "examples": [
+     {
+      "en": "Jubilant fans filled the streets.",
+      "vi": "Người hâm mộ hân hoan tràn ra đường phố."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "judge",
+  "pos": "verb",
+  "ipaUK": "/dʒʌdʒ/",
+  "ipaUS": "/dʒʌdʒ/",
+  "senses": [
+   {
+    "guideword": "FORM OPINION",
+    "level": "B2",
+    "defEN": "to form an opinion about someone or something",
+    "defVI": "đánh giá, phán xét",
+    "examples": [
+     {
+      "en": "Don't judge people by their appearance.",
+      "vi": "Đừng đánh giá người khác qua vẻ bề ngoài."
+     }
+    ]
+   },
+   {
+    "guideword": "COMPETITION",
+    "level": "B2",
+    "defEN": "to decide the winner of a competition",
+    "defVI": "làm giám khảo, chấm",
+    "examples": [
+     {
+      "en": "She will judge the cooking contest.",
+      "vi": "Cô ấy sẽ chấm cuộc thi nấu ăn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "judgement",
+  "pos": "noun",
+  "ipaUK": "/ˈdʒʌdʒ.mənt/",
+  "ipaUS": "/ˈdʒʌdʒ.mənt/",
+  "senses": [
+   {
+    "guideword": "OPINION",
+    "level": "B2",
+    "defEN": "an opinion about something after thinking carefully",
+    "defVI": "sự đánh giá, nhận định",
+    "examples": [
+     {
+      "en": "In my judgement, it's too risky.",
+      "vi": "Theo nhận định của tôi, việc đó quá rủi ro."
+     }
+    ]
+   },
+   {
+    "guideword": "ABILITY",
+    "level": "C1",
+    "defEN": "the ability to make good decisions",
+    "defVI": "khả năng phán đoán",
+    "examples": [
+     {
+      "en": "I trust her judgement.",
+      "vi": "Tôi tin vào khả năng phán đoán của cô ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "judicial",
+  "pos": "adjective",
+  "ipaUK": "/dʒuːˈdɪʃ.əl/",
+  "ipaUS": "/dʒuːˈdɪʃ.əl/",
+  "senses": [
+   {
+    "guideword": "OF COURTS",
+    "level": "C2",
+    "defEN": "relating to courts of law and judges",
+    "defVI": "thuộc tư pháp",
+    "examples": [
+     {
+      "en": "the judicial system",
+      "vi": "hệ thống tư pháp"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "judicious",
+  "pos": "adjective",
+  "ipaUK": "/dʒuːˈdɪʃ.əs/",
+  "ipaUS": "/dʒuːˈdɪʃ.əs/",
+  "senses": [
+   {
+    "guideword": "WISE",
+    "level": "C2",
+    "defEN": "showing good judgement and careful thought",
+    "defVI": "sáng suốt, khôn ngoan",
+    "examples": [
+     {
+      "en": "With judicious planning, we saved money.",
+      "vi": "Nhờ lên kế hoạch khôn ngoan, chúng tôi tiết kiệm được tiền."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "juggle",
+  "pos": "verb",
+  "ipaUK": "/ˈdʒʌɡ.əl/",
+  "ipaUS": "/ˈdʒʌɡ.əl/",
+  "senses": [
+   {
+    "guideword": "MANAGE",
+    "level": "C1",
+    "defEN": "to try to deal with several activities at the same time",
+    "defVI": "xoay xở, cân bằng nhiều việc",
+    "examples": [
+     {
+      "en": "She juggles work and family.",
+      "vi": "Cô ấy xoay xở giữa công việc và gia đình."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "jump",
+  "pos": "verb",
+  "ipaUK": "/dʒʌmp/",
+  "ipaUS": "/dʒʌmp/",
+  "senses": [
+   {
+    "guideword": "PUSH INTO AIR",
+    "level": "B1",
+    "defEN": "to push yourself into the air using your legs",
+    "defVI": "nhảy",
+    "examples": [
+     {
+      "en": "The cat jumped onto the table.",
+      "vi": "Con mèo nhảy lên bàn."
+     }
+    ]
+   },
+   {
+    "guideword": "INCREASE",
+    "level": "B2",
+    "defEN": "to increase suddenly by a large amount",
+    "defVI": "tăng vọt",
+    "examples": [
+     {
+      "en": "Prices jumped by 20%.",
+      "vi": "Giá tăng vọt 20%."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "junction",
+  "pos": "noun",
+  "ipaUK": "/ˈdʒʌŋk.ʃən/",
+  "ipaUS": "/ˈdʒʌŋk.ʃən/",
+  "senses": [
+   {
+    "guideword": "ROAD",
+    "level": "B2",
+    "defEN": "a place where roads or railway lines meet",
+    "defVI": "ngã ba, giao lộ",
+    "examples": [
+     {
+      "en": "Turn left at the next junction.",
+      "vi": "Rẽ trái ở giao lộ tiếp theo."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "junior",
+  "pos": "adjective",
+  "ipaUK": "/ˈdʒuː.ni.ər/",
+  "ipaUS": "/ˈdʒuː.njɚ/",
+  "senses": [
+   {
+    "guideword": "LOW RANK",
+    "level": "B2",
+    "defEN": "having a low position in an organization",
+    "defVI": "cấp dưới, cấp thấp",
+    "examples": [
+     {
+      "en": "He's a junior doctor.",
+      "vi": "Anh ấy là bác sĩ trẻ mới vào nghề."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "jurisdiction",
+  "pos": "noun",
+  "ipaUK": "/ˌdʒʊə.rɪsˈdɪk.ʃən/",
+  "ipaUS": "/ˌdʒʊr.ɪsˈdɪk.ʃən/",
+  "senses": [
+   {
+    "guideword": "LEGAL POWER",
+    "level": "C2",
+    "defEN": "the official power to make legal decisions",
+    "defVI": "quyền tài phán, thẩm quyền",
+    "examples": [
+     {
+      "en": "The case is outside our jurisdiction.",
+      "vi": "Vụ việc nằm ngoài thẩm quyền của chúng tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "jury",
+  "pos": "noun",
+  "ipaUK": "/ˈdʒʊə.ri/",
+  "ipaUS": "/ˈdʒʊr.i/",
+  "senses": [
+   {
+    "guideword": "COURT",
+    "level": "C1",
+    "defEN": "a group of people who decide if someone is guilty in a court",
+    "defVI": "bồi thẩm đoàn",
+    "examples": [
+     {
+      "en": "The jury found him not guilty.",
+      "vi": "Bồi thẩm đoàn tuyên anh ta vô tội."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "justice",
+  "pos": "noun",
+  "ipaUK": "/ˈdʒʌs.tɪs/",
+  "ipaUS": "/ˈdʒʌs.tɪs/",
+  "senses": [
+   {
+    "guideword": "FAIRNESS",
+    "level": "B2",
+    "defEN": "fair treatment of people",
+    "defVI": "công lý, sự công bằng",
+    "examples": [
+     {
+      "en": "They demanded justice for the victims.",
+      "vi": "Họ đòi công lý cho các nạn nhân."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "juvenile",
+  "pos": "adjective",
+  "ipaUK": "/ˈdʒuː.vən.aɪl/",
+  "ipaUS": "/ˈdʒuː.vən.əl/",
+  "senses": [
+   {
+    "guideword": "YOUNG PEOPLE",
+    "level": "C2",
+    "defEN": "relating to young people who are not yet adults",
+    "defVI": "vị thành niên",
+    "examples": [
+     {
+      "en": "juvenile crime",
+      "vi": "tội phạm vị thành niên"
+     }
+    ]
+   },
+   {
+    "guideword": "CHILDISH",
+    "level": "C2",
+    "defEN": "silly and more typical of a child",
+    "defVI": "trẻ con, ấu trĩ",
+    "examples": [
+     {
+      "en": "His jokes are rather juvenile.",
+      "vi": "Những câu đùa của anh ta khá trẻ con."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "juxtapose",
+  "pos": "verb",
+  "ipaUK": "/ˌdʒʌk.stəˈpəʊz/",
+  "ipaUS": "/ˈdʒʌk.stə.poʊz/",
+  "senses": [
+   {
+    "guideword": "PLACE TOGETHER",
+    "level": "C2",
+    "defEN": "to put different things close together to compare them",
+    "defVI": "đặt cạnh nhau (để so sánh)",
+    "examples": [
+     {
+      "en": "The exhibition juxtaposes old and new art.",
+      "vi": "Triển lãm đặt nghệ thuật cũ và mới cạnh nhau."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "keen",
+  "pos": "adjective",
+  "ipaUK": "/kiːn/",
+  "ipaUS": "/kiːn/",
+  "senses": [
+   {
+    "guideword": "EAGER",
+    "level": "B1",
+    "defEN": "very interested or wanting to do something",
+    "defVI": "hăng hái, ham thích",
+    "examples": [
+     {
+      "en": "He's keen on football.",
+      "vi": "Cậu ấy mê bóng đá."
+     }
+    ]
+   },
+   {
+    "guideword": "STRONG",
+    "level": "C1",
+    "defEN": "very strong or sharp",
+    "defVI": "nhạy bén, sắc",
+    "examples": [
+     {
+      "en": "Dogs have a keen sense of smell.",
+      "vi": "Chó có khứu giác nhạy bén."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "kettle",
+  "pos": "noun",
+  "ipaUK": "/ˈket.əl/",
+  "ipaUS": "/ˈket̬.əl/",
+  "senses": [
+   {
+    "guideword": "CONTAINER",
+    "level": "B1",
+    "defEN": "a container used to boil water",
+    "defVI": "ấm đun nước",
+    "examples": [
+     {
+      "en": "I'll put the kettle on.",
+      "vi": "Tôi sẽ đun ấm nước."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "key",
+  "pos": "adjective",
+  "ipaUK": "/kiː/",
+  "ipaUS": "/kiː/",
+  "senses": [
+   {
+    "guideword": "IMPORTANT",
+    "level": "B2",
+    "defEN": "very important and having a lot of influence",
+    "defVI": "then chốt, chủ chốt",
+    "examples": [
+     {
+      "en": "She played a key role in the project.",
+      "vi": "Cô ấy đóng vai trò then chốt trong dự án."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "kidnap",
+  "pos": "verb",
+  "ipaUK": "/ˈkɪd.næp/",
+  "ipaUS": "/ˈkɪd.næp/",
+  "senses": [
+   {
+    "guideword": "TAKE AWAY",
+    "level": "B2",
+    "defEN": "to take someone away illegally and keep them as a prisoner",
+    "defVI": "bắt cóc",
+    "examples": [
+     {
+      "en": "The businessman was kidnapped.",
+      "vi": "Doanh nhân đó bị bắt cóc."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "kin",
+  "pos": "noun",
+  "ipaUK": "/kɪn/",
+  "ipaUS": "/kɪn/",
+  "senses": [
+   {
+    "guideword": "FAMILY",
+    "level": "C2",
+    "defEN": "the members of your family",
+    "defVI": "họ hàng, thân nhân",
+    "examples": [
+     {
+      "en": "Police have informed his next of kin.",
+      "vi": "Cảnh sát đã báo cho người thân gần nhất của anh ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "kind",
+  "pos": "noun",
+  "ipaUK": "/kaɪnd/",
+  "ipaUS": "/kaɪnd/",
+  "senses": [
+   {
+    "guideword": "TYPE",
+    "level": "B1",
+    "defEN": "a group of things that are similar",
+    "defVI": "loại, kiểu",
+    "examples": [
+     {
+      "en": "What kind of music do you like?",
+      "vi": "Bạn thích loại nhạc nào?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "kindle",
+  "pos": "verb",
+  "ipaUK": "/ˈkɪn.dəl/",
+  "ipaUS": "/ˈkɪn.dəl/",
+  "senses": [
+   {
+    "guideword": "START FEELING",
+    "level": "C2",
+    "defEN": "to make someone start to feel an emotion or interest",
+    "defVI": "khơi dậy, nhen nhóm",
+    "examples": [
+     {
+      "en": "The trip kindled her love of nature.",
+      "vi": "Chuyến đi khơi dậy tình yêu thiên nhiên trong cô."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "kindness",
+  "pos": "noun",
+  "ipaUK": "/ˈkaɪnd.nəs/",
+  "ipaUS": "/ˈkaɪnd.nəs/",
+  "senses": [
+   {
+    "guideword": "BEING KIND",
+    "level": "B1",
+    "defEN": "the quality of being generous and caring",
+    "defVI": "lòng tốt",
+    "examples": [
+     {
+      "en": "Thank you for your kindness.",
+      "vi": "Cảm ơn lòng tốt của bạn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "kingdom",
+  "pos": "noun",
+  "ipaUK": "/ˈkɪŋ.dəm/",
+  "ipaUS": "/ˈkɪŋ.dəm/",
+  "senses": [
+   {
+    "guideword": "COUNTRY",
+    "level": "B2",
+    "defEN": "a country ruled by a king or queen",
+    "defVI": "vương quốc",
+    "examples": [
+     {
+      "en": "the Kingdom of Thailand",
+      "vi": "Vương quốc Thái Lan"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "kit",
+  "pos": "noun",
+  "ipaUK": "/kɪt/",
+  "ipaUS": "/kɪt/",
+  "senses": [
+   {
+    "guideword": "SET",
+    "level": "B2",
+    "defEN": "a set of things used for a particular purpose",
+    "defVI": "bộ dụng cụ",
+    "examples": [
+     {
+      "en": "a first-aid kit",
+      "vi": "bộ sơ cứu"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "knack",
+  "pos": "noun",
+  "ipaUK": "/næk/",
+  "ipaUS": "/næk/",
+  "senses": [
+   {
+    "guideword": "SKILL",
+    "level": "C2",
+    "defEN": "a special ability to do something well, often without effort",
+    "defVI": "sở trường, tài vặt",
+    "examples": [
+     {
+      "en": "She has a knack for making people laugh.",
+      "vi": "Cô ấy có tài chọc cười người khác."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "kneel",
+  "pos": "verb",
+  "ipaUK": "/niːl/",
+  "ipaUS": "/niːl/",
+  "senses": [
+   {
+    "guideword": "GO ON KNEES",
+    "level": "B2",
+    "defEN": "to go down on your knees",
+    "defVI": "quỳ",
+    "examples": [
+     {
+      "en": "He knelt down to tie his shoe.",
+      "vi": "Anh ấy quỳ xuống buộc dây giày."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "knit",
+  "pos": "verb",
+  "ipaUK": "/nɪt/",
+  "ipaUS": "/nɪt/",
+  "senses": [
+   {
+    "guideword": "MAKE CLOTHES",
+    "level": "B2",
+    "defEN": "to make clothes from wool using long needles",
+    "defVI": "đan",
+    "examples": [
+     {
+      "en": "My grandma knitted me a scarf.",
+      "vi": "Bà đan cho tôi một chiếc khăn."
+     }
+    ]
+   },
+   {
+    "guideword": "CLOSE",
+    "level": "C2",
+    "defEN": "closely connected (close-knit)",
+    "defVI": "gắn bó chặt chẽ",
+    "examples": [
+     {
+      "en": "a close-knit community",
+      "vi": "một cộng đồng gắn bó"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "knot",
+  "pos": "noun",
+  "ipaUK": "/nɒt/",
+  "ipaUS": "/nɑːt/",
+  "senses": [
+   {
+    "guideword": "TIED STRING",
+    "level": "B2",
+    "defEN": "a place where pieces of string or rope are tied together",
+    "defVI": "nút thắt",
+    "examples": [
+     {
+      "en": "Tie a knot in the rope.",
+      "vi": "Thắt một nút trên sợi dây."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "knowledgeable",
+  "pos": "adjective",
+  "ipaUK": "/ˈnɒl.ɪ.dʒə.bəl/",
+  "ipaUS": "/ˈnɑː.lɪ.dʒə.bəl/",
+  "senses": [
+   {
+    "guideword": "KNOWING A LOT",
+    "level": "C1",
+    "defEN": "knowing a lot about a subject",
+    "defVI": "am hiểu, hiểu biết rộng",
+    "examples": [
+     {
+      "en": "He's very knowledgeable about wine.",
+      "vi": "Anh ấy rất am hiểu về rượu vang."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "label",
+  "pos": "noun",
+  "ipaUK": "/ˈleɪ.bəl/",
+  "ipaUS": "/ˈleɪ.bəl/",
+  "senses": [
+   {
+    "guideword": "INFORMATION",
+    "level": "B1",
+    "defEN": "a piece of paper attached to something that gives information about it",
+    "defVI": "nhãn",
+    "examples": [
+     {
+      "en": "Read the label before use.",
+      "vi": "Đọc nhãn trước khi dùng."
+     }
+    ]
+   },
+   {
+    "guideword": "DESCRIPTION",
+    "level": "C1",
+    "defEN": "a word used to describe someone, often unfairly",
+    "defVI": "cái mác, sự dán nhãn",
+    "examples": [
+     {
+      "en": "He hated the label 'lazy'.",
+      "vi": "Anh ấy ghét bị gán mác 'lười'."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "laboratory",
+  "pos": "noun",
+  "ipaUK": "/ləˈbɒr.ə.tər.i/",
+  "ipaUS": "/ˈlæb.rə.tɔːr.i/",
+  "senses": [
+   {
+    "guideword": "ROOM",
+    "level": "B1",
+    "defEN": "a room used for scientific work",
+    "defVI": "phòng thí nghiệm",
+    "examples": [
+     {
+      "en": "The samples were sent to a laboratory.",
+      "vi": "Mẫu được gửi đến phòng thí nghiệm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "laborious",
+  "pos": "adjective",
+  "ipaUK": "/ləˈbɔː.ri.əs/",
+  "ipaUS": "/ləˈbɔːr.i.əs/",
+  "senses": [
+   {
+    "guideword": "HARD",
+    "level": "C2",
+    "defEN": "needing a lot of time and effort",
+    "defVI": "vất vả, tốn công",
+    "examples": [
+     {
+      "en": "Checking the data was a laborious task.",
+      "vi": "Kiểm tra dữ liệu là việc tốn công."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "labour",
+  "pos": "noun",
+  "ipaUK": "/ˈleɪ.bər/",
+  "ipaUS": "/ˈleɪ.bɚ/",
+  "senses": [
+   {
+    "guideword": "WORK",
+    "level": "B2",
+    "defEN": "practical work, especially hard physical work",
+    "defVI": "lao động",
+    "examples": [
+     {
+      "en": "The cost includes parts and labour.",
+      "vi": "Chi phí gồm phụ tùng và tiền công."
+     }
+    ]
+   },
+   {
+    "guideword": "BIRTH",
+    "level": "C1",
+    "defEN": "the process of giving birth to a baby",
+    "defVI": "sự chuyển dạ",
+    "examples": [
+     {
+      "en": "She went into labour at midnight.",
+      "vi": "Cô ấy chuyển dạ lúc nửa đêm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lack",
+  "pos": "noun",
+  "ipaUK": "/læk/",
+  "ipaUS": "/læk/",
+  "senses": [
+   {
+    "guideword": "NOT ENOUGH",
+    "level": "B2",
+    "defEN": "the situation of not having enough of something",
+    "defVI": "sự thiếu",
+    "examples": [
+     {
+      "en": "The plan failed through lack of money.",
+      "vi": "Kế hoạch thất bại vì thiếu tiền."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ladder",
+  "pos": "noun",
+  "ipaUK": "/ˈlæd.ər/",
+  "ipaUS": "/ˈlæd.ɚ/",
+  "senses": [
+   {
+    "guideword": "CLIMBING",
+    "level": "B1",
+    "defEN": "a piece of equipment with steps used for climbing",
+    "defVI": "cái thang",
+    "examples": [
+     {
+      "en": "He climbed the ladder to fix the roof.",
+      "vi": "Anh ấy trèo thang sửa mái nhà."
+     }
+    ]
+   },
+   {
+    "guideword": "PROGRESS",
+    "level": "C1",
+    "defEN": "a series of stages for moving up, such as in a career",
+    "defVI": "nấc thang (sự nghiệp)",
+    "examples": [
+     {
+      "en": "She moved quickly up the career ladder.",
+      "vi": "Cô ấy thăng tiến nhanh chóng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lament",
+  "pos": "verb",
+  "ipaUK": "/ləˈment/",
+  "ipaUS": "/ləˈment/",
+  "senses": [
+   {
+    "guideword": "REGRET",
+    "level": "C2",
+    "defEN": "to express sadness or regret about something",
+    "defVI": "than thở, tiếc thương",
+    "examples": [
+     {
+      "en": "He lamented the loss of his youth.",
+      "vi": "Ông ấy than tiếc tuổi trẻ đã qua."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "land",
+  "pos": "verb",
+  "ipaUK": "/lænd/",
+  "ipaUS": "/lænd/",
+  "senses": [
+   {
+    "guideword": "ARRIVE",
+    "level": "B1",
+    "defEN": "to arrive on the ground after flying",
+    "defVI": "hạ cánh",
+    "examples": [
+     {
+      "en": "The plane landed on time.",
+      "vi": "Máy bay hạ cánh đúng giờ."
+     }
+    ]
+   },
+   {
+    "guideword": "GET",
+    "level": "C1",
+    "defEN": "to succeed in getting something good",
+    "defVI": "giành được",
+    "examples": [
+     {
+      "en": "She landed a job at a top firm.",
+      "vi": "Cô ấy giành được việc ở một công ty hàng đầu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "landmark",
+  "pos": "noun",
+  "ipaUK": "/ˈlænd.mɑːk/",
+  "ipaUS": "/ˈlænd.mɑːrk/",
+  "senses": [
+   {
+    "guideword": "BUILDING",
+    "level": "B2",
+    "defEN": "a building or place that is easy to recognize",
+    "defVI": "địa danh, công trình nổi bật",
+    "examples": [
+     {
+      "en": "The tower is a famous landmark.",
+      "vi": "Toà tháp là một địa danh nổi tiếng."
+     }
+    ]
+   },
+   {
+    "guideword": "IMPORTANT EVENT",
+    "level": "C1",
+    "defEN": "an important stage in the development of something",
+    "defVI": "cột mốc",
+    "examples": [
+     {
+      "en": "a landmark decision",
+      "vi": "một quyết định mang tính cột mốc"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "landscape",
+  "pos": "noun",
+  "ipaUK": "/ˈlænd.skeɪp/",
+  "ipaUS": "/ˈlænd.skeɪp/",
+  "senses": [
+   {
+    "guideword": "VIEW",
+    "level": "B2",
+    "defEN": "the appearance of an area of land",
+    "defVI": "phong cảnh",
+    "examples": [
+     {
+      "en": "The landscape is beautiful in autumn.",
+      "vi": "Phong cảnh đẹp vào mùa thu."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lane",
+  "pos": "noun",
+  "ipaUK": "/leɪn/",
+  "ipaUS": "/leɪn/",
+  "senses": [
+   {
+    "guideword": "ROAD PART",
+    "level": "B1",
+    "defEN": "one part of a road, marked by lines",
+    "defVI": "làn đường",
+    "examples": [
+     {
+      "en": "Stay in the left lane.",
+      "vi": "Đi ở làn bên trái."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lapse",
+  "pos": "noun",
+  "ipaUK": "/læps/",
+  "ipaUS": "/læps/",
+  "senses": [
+   {
+    "guideword": "FAILURE",
+    "level": "C2",
+    "defEN": "a short failure to do something correctly",
+    "defVI": "sự sơ suất, sai sót",
+    "examples": [
+     {
+      "en": "a lapse of concentration",
+      "vi": "một phút lơ là"
+     }
+    ]
+   },
+   {
+    "guideword": "TIME",
+    "level": "C2",
+    "defEN": "a period of time passing between two things",
+    "defVI": "khoảng thời gian trôi qua",
+    "examples": [
+     {
+      "en": "After a lapse of ten years, they met again.",
+      "vi": "Sau mười năm, họ gặp lại nhau."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "large-scale",
+  "pos": "adjective",
+  "ipaUK": "/ˌlɑːdʒˈskeɪl/",
+  "ipaUS": "/ˌlɑːrdʒˈskeɪl/",
+  "senses": [
+   {
+    "guideword": "BIG",
+    "level": "C1",
+    "defEN": "involving many people or things",
+    "defVI": "quy mô lớn",
+    "examples": [
+     {
+      "en": "a large-scale survey",
+      "vi": "một khảo sát quy mô lớn"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "largely",
+  "pos": "adverb",
+  "ipaUK": "/ˈlɑːdʒ.li/",
+  "ipaUS": "/ˈlɑːrdʒ.li/",
+  "senses": [
+   {
+    "guideword": "MAINLY",
+    "level": "B2",
+    "defEN": "mostly or mainly",
+    "defVI": "phần lớn, chủ yếu",
+    "examples": [
+     {
+      "en": "The success was largely due to luck.",
+      "vi": "Thành công phần lớn nhờ may mắn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "last",
+  "pos": "verb",
+  "ipaUK": "/lɑːst/",
+  "ipaUS": "/læst/",
+  "senses": [
+   {
+    "guideword": "CONTINUE",
+    "level": "B1",
+    "defEN": "to continue for a period of time",
+    "defVI": "kéo dài",
+    "examples": [
+     {
+      "en": "The meeting lasted two hours.",
+      "vi": "Cuộc họp kéo dài hai tiếng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lately",
+  "pos": "adverb",
+  "ipaUK": "/ˈleɪt.li/",
+  "ipaUS": "/ˈleɪt.li/",
+  "senses": [
+   {
+    "guideword": "RECENTLY",
+    "level": "B2",
+    "defEN": "recently",
+    "defVI": "gần đây",
+    "examples": [
+     {
+      "en": "I've been very busy lately.",
+      "vi": "Dạo này tôi rất bận."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "latent",
+  "pos": "adjective",
+  "ipaUK": "/ˈleɪ.tənt/",
+  "ipaUS": "/ˈleɪ.tənt/",
+  "senses": [
+   {
+    "guideword": "HIDDEN",
+    "level": "C2",
+    "defEN": "existing but not yet developed or active",
+    "defVI": "tiềm ẩn",
+    "examples": [
+     {
+      "en": "She has latent talent as an actor.",
+      "vi": "Cô ấy có tài năng diễn xuất tiềm ẩn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "latter",
+  "pos": "noun",
+  "ipaUK": "/ˈlæt.ər/",
+  "ipaUS": "/ˈlæt̬.ɚ/",
+  "senses": [
+   {
+    "guideword": "SECOND",
+    "level": "C1",
+    "defEN": "the second of two things just mentioned",
+    "defVI": "cái sau, người sau",
+    "examples": [
+     {
+      "en": "Of tea and coffee, I prefer the latter.",
+      "vi": "Giữa trà và cà phê, tôi thích cái sau hơn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "laugh",
+  "pos": "verb",
+  "ipaUK": "/lɑːf/",
+  "ipaUS": "/læf/",
+  "senses": [
+   {
+    "guideword": "MAKE SOUND",
+    "level": "B1",
+    "defEN": "to make sounds that show you think something is funny",
+    "defVI": "cười",
+    "examples": [
+     {
+      "en": "They laughed at his joke.",
+      "vi": "Họ cười câu đùa của anh ấy."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "launch",
+  "pos": "verb",
+  "ipaUK": "/lɔːntʃ/",
+  "ipaUS": "/lɑːntʃ/",
+  "senses": [
+   {
+    "guideword": "START",
+    "level": "B2",
+    "defEN": "to begin an activity or sell a new product",
+    "defVI": "ra mắt, khởi động",
+    "examples": [
+     {
+      "en": "The company launched a new phone.",
+      "vi": "Công ty ra mắt điện thoại mới."
+     }
+    ]
+   },
+   {
+    "guideword": "SEND",
+    "level": "B2",
+    "defEN": "to send a rocket or ship into the air or water",
+    "defVI": "phóng, hạ thuỷ",
+    "examples": [
+     {
+      "en": "They launched a satellite.",
+      "vi": "Họ phóng một vệ tinh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "laundry",
+  "pos": "noun",
+  "ipaUK": "/ˈlɔːn.dri/",
+  "ipaUS": "/ˈlɑːn.dri/",
+  "senses": [
+   {
+    "guideword": "CLOTHES",
+    "level": "B1",
+    "defEN": "clothes that need to be washed or have been washed",
+    "defVI": "đồ giặt",
+    "examples": [
+     {
+      "en": "I do the laundry on Sundays.",
+      "vi": "Tôi giặt đồ vào Chủ nhật."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lavish",
+  "pos": "adjective",
+  "ipaUK": "/ˈlæv.ɪʃ/",
+  "ipaUS": "/ˈlæv.ɪʃ/",
+  "senses": [
+   {
+    "guideword": "EXPENSIVE",
+    "level": "C2",
+    "defEN": "large and expensive, often more than necessary",
+    "defVI": "xa hoa, hào phóng",
+    "examples": [
+     {
+      "en": "They held a lavish wedding.",
+      "vi": "Họ tổ chức một đám cưới xa hoa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lawn",
+  "pos": "noun",
+  "ipaUK": "/lɔːn/",
+  "ipaUS": "/lɑːn/",
+  "senses": [
+   {
+    "guideword": "GRASS",
+    "level": "B1",
+    "defEN": "an area of short grass near a house",
+    "defVI": "bãi cỏ",
+    "examples": [
+     {
+      "en": "He mows the lawn every week.",
+      "vi": "Anh ấy cắt cỏ mỗi tuần."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lawsuit",
+  "pos": "noun",
+  "ipaUK": "/ˈlɔː.suːt/",
+  "ipaUS": "/ˈlɑː.suːt/",
+  "senses": [
+   {
+    "guideword": "LEGAL CASE",
+    "level": "C1",
+    "defEN": "a case in a court of law brought by one person or group against another",
+    "defVI": "vụ kiện",
+    "examples": [
+     {
+      "en": "She filed a lawsuit against the company.",
+      "vi": "Cô ấy đệ đơn kiện công ty."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lawyer",
+  "pos": "noun",
+  "ipaUK": "/ˈlɔɪ.ər/",
+  "ipaUS": "/ˈlɑː.jɚ/",
+  "senses": [
+   {
+    "guideword": "PROFESSION",
+    "level": "B1",
+    "defEN": "a person whose job is to give legal advice and represent people in court",
+    "defVI": "luật sư",
+    "examples": [
+     {
+      "en": "You should talk to a lawyer.",
+      "vi": "Bạn nên nói chuyện với luật sư."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "layer",
+  "pos": "noun",
+  "ipaUK": "/ˈleɪ.ər/",
+  "ipaUS": "/ˈleɪ.ɚ/",
+  "senses": [
+   {
+    "guideword": "LEVEL",
+    "level": "B2",
+    "defEN": "an amount of something that covers a surface, or a level between others",
+    "defVI": "lớp, tầng",
+    "examples": [
+     {
+      "en": "A layer of dust covered the table.",
+      "vi": "Một lớp bụi phủ lên bàn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "layout",
+  "pos": "noun",
+  "ipaUK": "/ˈleɪ.aʊt/",
+  "ipaUS": "/ˈleɪ.aʊt/",
+  "senses": [
+   {
+    "guideword": "ARRANGEMENT",
+    "level": "C1",
+    "defEN": "the way that parts of something are arranged",
+    "defVI": "bố cục, cách bố trí",
+    "examples": [
+     {
+      "en": "I like the layout of the kitchen.",
+      "vi": "Tôi thích cách bố trí căn bếp."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lazy",
+  "pos": "adjective",
+  "ipaUK": "/ˈleɪ.zi/",
+  "ipaUS": "/ˈleɪ.zi/",
+  "senses": [
+   {
+    "guideword": "NOT WORKING",
+    "level": "B1",
+    "defEN": "not wanting to work or make any effort",
+    "defVI": "lười biếng",
+    "examples": [
+     {
+      "en": "He's too lazy to cook.",
+      "vi": "Anh ta quá lười để nấu ăn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "leadership",
+  "pos": "noun",
+  "ipaUK": "/ˈliː.də.ʃɪp/",
+  "ipaUS": "/ˈliː.dɚ.ʃɪp/",
+  "senses": [
+   {
+    "guideword": "LEADING",
+    "level": "B2",
+    "defEN": "the position or ability of leading a group",
+    "defVI": "khả năng lãnh đạo, sự lãnh đạo",
+    "examples": [
+     {
+      "en": "She showed strong leadership.",
+      "vi": "Cô ấy thể hiện khả năng lãnh đạo mạnh mẽ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "leaflet",
+  "pos": "noun",
+  "ipaUK": "/ˈliː.flət/",
+  "ipaUS": "/ˈliː.flət/",
+  "senses": [
+   {
+    "guideword": "PAPER",
+    "level": "B1",
+    "defEN": "a piece of paper with information, given out free",
+    "defVI": "tờ rơi",
+    "examples": [
+     {
+      "en": "They handed out leaflets in the street.",
+      "vi": "Họ phát tờ rơi trên phố."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "leak",
+  "pos": "verb",
+  "ipaUK": "/liːk/",
+  "ipaUS": "/liːk/",
+  "senses": [
+   {
+    "guideword": "LIQUID ESCAPE",
+    "level": "B2",
+    "defEN": "to let liquid or gas escape through a hole",
+    "defVI": "rò rỉ",
+    "examples": [
+     {
+      "en": "The roof leaks when it rains.",
+      "vi": "Mái nhà dột khi trời mưa."
+     }
+    ]
+   },
+   {
+    "guideword": "SECRET",
+    "level": "C1",
+    "defEN": "to give secret information to the public",
+    "defVI": "làm lộ, tiết lộ",
+    "examples": [
+     {
+      "en": "Someone leaked the report to the press.",
+      "vi": "Ai đó đã làm lộ báo cáo cho báo chí."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lean",
+  "pos": "verb",
+  "ipaUK": "/liːn/",
+  "ipaUS": "/liːn/",
+  "senses": [
+   {
+    "guideword": "BEND",
+    "level": "B2",
+    "defEN": "to move your body so that it is not straight",
+    "defVI": "nghiêng người, dựa",
+    "examples": [
+     {
+      "en": "She leaned against the wall.",
+      "vi": "Cô ấy dựa vào tường."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "leap",
+  "pos": "noun",
+  "ipaUK": "/liːp/",
+  "ipaUS": "/liːp/",
+  "senses": [
+   {
+    "guideword": "JUMP",
+    "level": "C1",
+    "defEN": "a big jump",
+    "defVI": "cú nhảy vọt",
+    "examples": [
+     {
+      "en": "He cleared the stream in one leap.",
+      "vi": "Anh ấy nhảy qua con suối chỉ một bước."
+     }
+    ]
+   },
+   {
+    "guideword": "CHANGE",
+    "level": "C1",
+    "defEN": "a large increase or change",
+    "defVI": "bước nhảy vọt",
+    "examples": [
+     {
+      "en": "a huge leap in technology",
+      "vi": "một bước nhảy vọt về công nghệ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lease",
+  "pos": "noun",
+  "ipaUK": "/liːs/",
+  "ipaUS": "/liːs/",
+  "senses": [
+   {
+    "guideword": "RENT AGREEMENT",
+    "level": "C1",
+    "defEN": "a legal agreement to rent a property for a period",
+    "defVI": "hợp đồng thuê",
+    "examples": [
+     {
+      "en": "We signed a two-year lease.",
+      "vi": "Chúng tôi ký hợp đồng thuê hai năm."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "leave",
+  "pos": "noun",
+  "ipaUK": "/liːv/",
+  "ipaUS": "/liːv/",
+  "senses": [
+   {
+    "guideword": "HOLIDAY",
+    "level": "B2",
+    "defEN": "time away from work that you are allowed",
+    "defVI": "kỳ nghỉ phép",
+    "examples": [
+     {
+      "en": "She's on maternity leave.",
+      "vi": "Cô ấy đang nghỉ thai sản."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lecture",
+  "pos": "noun",
+  "ipaUK": "/ˈlek.tʃər/",
+  "ipaUS": "/ˈlek.tʃɚ/",
+  "senses": [
+   {
+    "guideword": "TALK",
+    "level": "B1",
+    "defEN": "a formal talk on a subject, especially at a university",
+    "defVI": "bài giảng",
+    "examples": [
+     {
+      "en": "I have a lecture at nine.",
+      "vi": "Tôi có tiết giảng lúc chín giờ."
+     }
+    ]
+   },
+   {
+    "guideword": "CRITICISM",
+    "level": "C1",
+    "defEN": "a long angry talk telling someone how to behave",
+    "defVI": "bài thuyết giáo, lời răn",
+    "examples": [
+     {
+      "en": "Spare me the lecture!",
+      "vi": "Đừng lên lớp tôi nữa!"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "legacy",
+  "pos": "noun",
+  "ipaUK": "/ˈleɡ.ə.si/",
+  "ipaUS": "/ˈleɡ.ə.si/",
+  "senses": [
+   {
+    "guideword": "WHAT REMAINS",
+    "level": "C1",
+    "defEN": "something that remains from an earlier time or person",
+    "defVI": "di sản",
+    "examples": [
+     {
+      "en": "The war left a legacy of hatred.",
+      "vi": "Chiến tranh để lại di sản của hận thù."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "legend",
+  "pos": "noun",
+  "ipaUK": "/ˈledʒ.ənd/",
+  "ipaUS": "/ˈledʒ.ənd/",
+  "senses": [
+   {
+    "guideword": "OLD STORY",
+    "level": "B2",
+    "defEN": "a very old story that may not be true",
+    "defVI": "truyền thuyết",
+    "examples": [
+     {
+      "en": "According to legend, the lake has no bottom.",
+      "vi": "Theo truyền thuyết, hồ này không có đáy."
+     }
+    ]
+   },
+   {
+    "guideword": "FAMOUS PERSON",
+    "level": "B2",
+    "defEN": "a very famous person admired for their skill",
+    "defVI": "huyền thoại",
+    "examples": [
+     {
+      "en": "He's a football legend.",
+      "vi": "Ông ấy là huyền thoại bóng đá."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "legislation",
+  "pos": "noun",
+  "ipaUK": "/ˌledʒ.ɪˈsleɪ.ʃən/",
+  "ipaUS": "/ˌledʒ.əˈsleɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "LAWS",
+    "level": "C1",
+    "defEN": "a law or group of laws",
+    "defVI": "pháp luật, luật pháp",
+    "examples": [
+     {
+      "en": "New legislation protects workers.",
+      "vi": "Luật mới bảo vệ người lao động."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "leisure",
+  "pos": "noun",
+  "ipaUK": "/ˈleʒ.ər/",
+  "ipaUS": "/ˈliː.ʒɚ/",
+  "senses": [
+   {
+    "guideword": "FREE TIME",
+    "level": "B1",
+    "defEN": "time when you are not working",
+    "defVI": "thời gian rảnh",
+    "examples": [
+     {
+      "en": "What do you do in your leisure time?",
+      "vi": "Bạn làm gì lúc rảnh?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lend",
+  "pos": "verb",
+  "ipaUK": "/lend/",
+  "ipaUS": "/lend/",
+  "senses": [
+   {
+    "guideword": "GIVE FOR A TIME",
+    "level": "B1",
+    "defEN": "to give something to someone for a short time, expecting it back",
+    "defVI": "cho mượn",
+    "examples": [
+     {
+      "en": "Can you lend me your pen?",
+      "vi": "Bạn cho tôi mượn bút được không?"
+     }
+    ]
+   },
+   {
+    "guideword": "ADD QUALITY",
+    "level": "C2",
+    "defEN": "to add a particular quality to something",
+    "defVI": "tạo thêm, mang lại",
+    "examples": [
+     {
+      "en": "The candles lent the room a warm feel.",
+      "vi": "Những ngọn nến mang lại cảm giác ấm áp cho căn phòng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "length",
+  "pos": "noun",
+  "ipaUK": "/leŋθ/",
+  "ipaUS": "/leŋθ/",
+  "senses": [
+   {
+    "guideword": "SIZE",
+    "level": "B1",
+    "defEN": "the measurement of something from one end to the other",
+    "defVI": "chiều dài",
+    "examples": [
+     {
+      "en": "The room is five metres in length.",
+      "vi": "Căn phòng dài năm mét."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lenient",
+  "pos": "adjective",
+  "ipaUK": "/ˈliː.ni.ənt/",
+  "ipaUS": "/ˈliː.ni.ənt/",
+  "senses": [
+   {
+    "guideword": "NOT STRICT",
+    "level": "C2",
+    "defEN": "not as strict as expected when punishing someone",
+    "defVI": "khoan dung, nhân nhượng",
+    "examples": [
+     {
+      "en": "The judge gave a lenient sentence.",
+      "vi": "Thẩm phán tuyên một bản án nhẹ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lesson",
+  "pos": "noun",
+  "ipaUK": "/ˈles.ən/",
+  "ipaUS": "/ˈles.ən/",
+  "senses": [
+   {
+    "guideword": "CLASS",
+    "level": "B1",
+    "defEN": "a period of time for learning something",
+    "defVI": "bài học, tiết học",
+    "examples": [
+     {
+      "en": "I have piano lessons on Fridays.",
+      "vi": "Tôi học piano vào thứ Sáu."
+     }
+    ]
+   },
+   {
+    "guideword": "EXPERIENCE",
+    "level": "B2",
+    "defEN": "something you learn from a bad experience",
+    "defVI": "bài học (kinh nghiệm)",
+    "examples": [
+     {
+      "en": "I've learned my lesson.",
+      "vi": "Tôi đã rút ra bài học."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lethal",
+  "pos": "adjective",
+  "ipaUK": "/ˈliː.θəl/",
+  "ipaUS": "/ˈliː.θəl/",
+  "senses": [
+   {
+    "guideword": "DEADLY",
+    "level": "C2",
+    "defEN": "able to cause death",
+    "defVI": "gây chết người",
+    "examples": [
+     {
+      "en": "a lethal dose of poison",
+      "vi": "một liều độc chết người"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "level",
+  "pos": "noun",
+  "ipaUK": "/ˈlev.əl/",
+  "ipaUS": "/ˈlev.əl/",
+  "senses": [
+   {
+    "guideword": "AMOUNT",
+    "level": "B1",
+    "defEN": "the amount or degree of something",
+    "defVI": "mức độ",
+    "examples": [
+     {
+      "en": "Noise levels were high.",
+      "vi": "Mức độ ồn cao."
+     }
+    ]
+   },
+   {
+    "guideword": "FLOOR",
+    "level": "B1",
+    "defEN": "a floor of a building",
+    "defVI": "tầng",
+    "examples": [
+     {
+      "en": "The shop is on level 2.",
+      "vi": "Cửa hàng ở tầng 2."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "liability",
+  "pos": "noun",
+  "ipaUK": "/ˌlaɪ.əˈbɪl.ə.ti/",
+  "ipaUS": "/ˌlaɪ.əˈbɪl.ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "LEGAL",
+    "level": "C2",
+    "defEN": "legal responsibility for something",
+    "defVI": "trách nhiệm pháp lý",
+    "examples": [
+     {
+      "en": "The company denied liability.",
+      "vi": "Công ty chối bỏ trách nhiệm."
+     }
+    ]
+   },
+   {
+    "guideword": "PROBLEM",
+    "level": "C2",
+    "defEN": "someone or something that causes problems",
+    "defVI": "gánh nặng, mối nguy",
+    "examples": [
+     {
+      "en": "His temper makes him a liability to the team.",
+      "vi": "Tính nóng nảy khiến anh ta thành gánh nặng cho đội."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "liable",
+  "pos": "adjective",
+  "ipaUK": "/ˈlaɪ.ə.bəl/",
+  "ipaUS": "/ˈlaɪ.ə.bəl/",
+  "senses": [
+   {
+    "guideword": "RESPONSIBLE",
+    "level": "C2",
+    "defEN": "legally responsible for something",
+    "defVI": "chịu trách nhiệm pháp lý",
+    "examples": [
+     {
+      "en": "You are liable for any damage.",
+      "vi": "Bạn phải chịu trách nhiệm cho mọi hư hỏng."
+     }
+    ]
+   },
+   {
+    "guideword": "LIKELY",
+    "level": "C2",
+    "defEN": "likely to do or suffer something",
+    "defVI": "dễ, có khả năng",
+    "examples": [
+     {
+      "en": "The road is liable to flood.",
+      "vi": "Con đường dễ bị ngập."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "liberal",
+  "pos": "adjective",
+  "ipaUK": "/ˈlɪb.ər.əl/",
+  "ipaUS": "/ˈlɪb.ɚ.əl/",
+  "senses": [
+   {
+    "guideword": "OPEN-MINDED",
+    "level": "C1",
+    "defEN": "accepting different opinions and ways of behaving",
+    "defVI": "phóng khoáng, cởi mở",
+    "examples": [
+     {
+      "en": "She has liberal views on marriage.",
+      "vi": "Cô ấy có quan điểm cởi mở về hôn nhân."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "liberate",
+  "pos": "verb",
+  "ipaUK": "/ˈlɪb.ər.eɪt/",
+  "ipaUS": "/ˈlɪb.ə.reɪt/",
+  "senses": [
+   {
+    "guideword": "MAKE FREE",
+    "level": "C2",
+    "defEN": "to help someone or somewhere to become free",
+    "defVI": "giải phóng",
+    "examples": [
+     {
+      "en": "The city was liberated in 1945.",
+      "vi": "Thành phố được giải phóng năm 1945."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "liberty",
+  "pos": "noun",
+  "ipaUK": "/ˈlɪb.ə.ti/",
+  "ipaUS": "/ˈlɪb.ɚ.t̬i/",
+  "senses": [
+   {
+    "guideword": "FREEDOM",
+    "level": "C1",
+    "defEN": "the freedom to live as you wish",
+    "defVI": "tự do",
+    "examples": [
+     {
+      "en": "They fought for liberty.",
+      "vi": "Họ đấu tranh vì tự do."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "licence",
+  "pos": "noun",
+  "ipaUK": "/ˈlaɪ.səns/",
+  "ipaUS": "/ˈlaɪ.səns/",
+  "senses": [
+   {
+    "guideword": "DOCUMENT",
+    "level": "B1",
+    "defEN": "an official document that allows you to do or own something",
+    "defVI": "giấy phép",
+    "examples": [
+     {
+      "en": "a driving licence",
+      "vi": "bằng lái xe"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lifelong",
+  "pos": "adjective",
+  "ipaUK": "/ˈlaɪf.lɒŋ/",
+  "ipaUS": "/ˈlaɪf.lɑːŋ/",
+  "senses": [
+   {
+    "guideword": "WHOLE LIFE",
+    "level": "C1",
+    "defEN": "lasting for the whole of your life",
+    "defVI": "suốt đời",
+    "examples": [
+     {
+      "en": "They became lifelong friends.",
+      "vi": "Họ trở thành bạn cả đời."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lifestyle",
+  "pos": "noun",
+  "ipaUK": "/ˈlaɪf.staɪl/",
+  "ipaUS": "/ˈlaɪf.staɪl/",
+  "senses": [
+   {
+    "guideword": "WAY OF LIVING",
+    "level": "B1",
+    "defEN": "the way that someone lives",
+    "defVI": "lối sống",
+    "examples": [
+     {
+      "en": "She has a healthy lifestyle.",
+      "vi": "Cô ấy có lối sống lành mạnh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lifetime",
+  "pos": "noun",
+  "ipaUK": "/ˈlaɪf.taɪm/",
+  "ipaUS": "/ˈlaɪf.taɪm/",
+  "senses": [
+   {
+    "guideword": "TIME ALIVE",
+    "level": "B2",
+    "defEN": "the period of time that someone is alive",
+    "defVI": "cả đời",
+    "examples": [
+     {
+      "en": "a once-in-a-lifetime chance",
+      "vi": "cơ hội ngàn năm có một"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lift",
+  "pos": "verb",
+  "ipaUK": "/lɪft/",
+  "ipaUS": "/lɪft/",
+  "senses": [
+   {
+    "guideword": "RAISE",
+    "level": "B1",
+    "defEN": "to move something to a higher position",
+    "defVI": "nâng, nhấc",
+    "examples": [
+     {
+      "en": "Can you help me lift this box?",
+      "vi": "Bạn giúp tôi nhấc cái thùng này được không?"
+     }
+    ]
+   },
+   {
+    "guideword": "END A RULE",
+    "level": "C1",
+    "defEN": "to remove a rule or restriction",
+    "defVI": "dỡ bỏ",
+    "examples": [
+     {
+      "en": "The ban was lifted last year.",
+      "vi": "Lệnh cấm đã được dỡ bỏ năm ngoái."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "likelihood",
+  "pos": "noun",
+  "ipaUK": "/ˈlaɪ.kli.hʊd/",
+  "ipaUS": "/ˈlaɪ.kli.hʊd/",
+  "senses": [
+   {
+    "guideword": "CHANCE",
+    "level": "C1",
+    "defEN": "the chance that something will happen",
+    "defVI": "khả năng xảy ra",
+    "examples": [
+     {
+      "en": "There is little likelihood of rain.",
+      "vi": "Ít khả năng mưa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "likewise",
+  "pos": "adverb",
+  "ipaUK": "/ˈlaɪk.waɪz/",
+  "ipaUS": "/ˈlaɪk.waɪz/",
+  "senses": [
+   {
+    "guideword": "SAME",
+    "level": "C1",
+    "defEN": "in the same way",
+    "defVI": "tương tự, cũng vậy",
+    "examples": [
+     {
+      "en": "Water the plants and do likewise with the flowers.",
+      "vi": "Tưới cây và làm tương tự với hoa."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "limb",
+  "pos": "noun",
+  "ipaUK": "/lɪm/",
+  "ipaUS": "/lɪm/",
+  "senses": [
+   {
+    "guideword": "ARM OR LEG",
+    "level": "C1",
+    "defEN": "an arm or leg",
+    "defVI": "chân tay",
+    "examples": [
+     {
+      "en": "He broke two limbs in the fall.",
+      "vi": "Anh ấy gãy hai chi khi ngã."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "limitation",
+  "pos": "noun",
+  "ipaUK": "/ˌlɪm.ɪˈteɪ.ʃən/",
+  "ipaUS": "/ˌlɪm.əˈteɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "WEAKNESS",
+    "level": "C1",
+    "defEN": "a weakness or lack of ability",
+    "defVI": "hạn chế, giới hạn",
+    "examples": [
+     {
+      "en": "Know your own limitations.",
+      "vi": "Hãy biết giới hạn của bản thân."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "linger",
+  "pos": "verb",
+  "ipaUK": "/ˈlɪŋ.ɡər/",
+  "ipaUS": "/ˈlɪŋ.ɡɚ/",
+  "senses": [
+   {
+    "guideword": "STAY LONGER",
+    "level": "C2",
+    "defEN": "to stay somewhere or continue for longer than usual",
+    "defVI": "nán lại, lưu lại",
+    "examples": [
+     {
+      "en": "The smell lingered for hours.",
+      "vi": "Mùi hương còn vương lại hàng giờ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "linguistic",
+  "pos": "adjective",
+  "ipaUK": "/lɪŋˈɡwɪs.tɪk/",
+  "ipaUS": "/lɪŋˈɡwɪs.tɪk/",
+  "senses": [
+   {
+    "guideword": "LANGUAGE",
+    "level": "C1",
+    "defEN": "relating to language",
+    "defVI": "thuộc ngôn ngữ",
+    "examples": [
+     {
+      "en": "children's linguistic development",
+      "vi": "sự phát triển ngôn ngữ của trẻ"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "link",
+  "pos": "noun",
+  "ipaUK": "/lɪŋk/",
+  "ipaUS": "/lɪŋk/",
+  "senses": [
+   {
+    "guideword": "CONNECTION",
+    "level": "B1",
+    "defEN": "a connection between two people, things or ideas",
+    "defVI": "mối liên hệ",
+    "examples": [
+     {
+      "en": "There's a link between diet and health.",
+      "vi": "Có mối liên hệ giữa ăn uống và sức khoẻ."
+     }
+    ]
+   },
+   {
+    "guideword": "INTERNET",
+    "level": "B1",
+    "defEN": "a connection between pages on the internet",
+    "defVI": "đường dẫn, liên kết",
+    "examples": [
+     {
+      "en": "Click on the link below.",
+      "vi": "Nhấp vào đường dẫn bên dưới."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "liquid",
+  "pos": "noun",
+  "ipaUK": "/ˈlɪk.wɪd/",
+  "ipaUS": "/ˈlɪk.wɪd/",
+  "senses": [
+   {
+    "guideword": "SUBSTANCE",
+    "level": "B1",
+    "defEN": "a substance, like water, that flows",
+    "defVI": "chất lỏng",
+    "examples": [
+     {
+      "en": "Drink plenty of liquids.",
+      "vi": "Uống nhiều nước."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "literacy",
+  "pos": "noun",
+  "ipaUK": "/ˈlɪt.ər.ə.si/",
+  "ipaUS": "/ˈlɪt̬.ɚ.ə.si/",
+  "senses": [
+   {
+    "guideword": "READING",
+    "level": "C1",
+    "defEN": "the ability to read and write",
+    "defVI": "khả năng đọc viết",
+    "examples": [
+     {
+      "en": "Adult literacy rates have improved.",
+      "vi": "Tỷ lệ biết chữ ở người lớn đã tăng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "literal",
+  "pos": "adjective",
+  "ipaUK": "/ˈlɪt.ər.əl/",
+  "ipaUS": "/ˈlɪt̬.ɚ.əl/",
+  "senses": [
+   {
+    "guideword": "BASIC MEANING",
+    "level": "C1",
+    "defEN": "having the most basic meaning of a word",
+    "defVI": "theo nghĩa đen",
+    "examples": [
+     {
+      "en": "The literal meaning is quite different.",
+      "vi": "Nghĩa đen khá khác biệt."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "literally",
+  "pos": "adverb",
+  "ipaUK": "/ˈlɪt.ər.əl.i/",
+  "ipaUS": "/ˈlɪt̬.ɚ.əl.i/",
+  "senses": [
+   {
+    "guideword": "EXACTLY",
+    "level": "B2",
+    "defEN": "having the real or original meaning of a word",
+    "defVI": "đúng theo nghĩa đen",
+    "examples": [
+     {
+      "en": "He literally jumped for joy.",
+      "vi": "Anh ấy đúng là nhảy lên vì vui."
+     }
+    ]
+   },
+   {
+    "guideword": "EMPHASIS",
+    "level": "C1",
+    "defEN": "used to emphasize something, even when not exactly true",
+    "defVI": "thật sự là (nhấn mạnh)",
+    "examples": [
+     {
+      "en": "I literally have no time.",
+      "vi": "Tôi thật sự chẳng có chút thời gian nào."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "literature",
+  "pos": "noun",
+  "ipaUK": "/ˈlɪt.rə.tʃər/",
+  "ipaUS": "/ˈlɪt̬.ɚ.ə.tʃɚ/",
+  "senses": [
+   {
+    "guideword": "WRITING",
+    "level": "B1",
+    "defEN": "books, poems and plays considered as art",
+    "defVI": "văn học",
+    "examples": [
+     {
+      "en": "She studies English literature.",
+      "vi": "Cô ấy học văn học Anh."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "litigation",
+  "pos": "noun",
+  "ipaUK": "/ˌlɪt.ɪˈɡeɪ.ʃən/",
+  "ipaUS": "/ˌlɪt̬.əˈɡeɪ.ʃən/",
+  "senses": [
+   {
+    "guideword": "LEGAL ACTION",
+    "level": "C2",
+    "defEN": "the process of taking a case to a court of law",
+    "defVI": "sự kiện tụng",
+    "examples": [
+     {
+      "en": "They want to avoid costly litigation.",
+      "vi": "Họ muốn tránh việc kiện tụng tốn kém."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "litter",
+  "pos": "noun",
+  "ipaUK": "/ˈlɪt.ər/",
+  "ipaUS": "/ˈlɪt̬.ɚ/",
+  "senses": [
+   {
+    "guideword": "RUBBISH",
+    "level": "B2",
+    "defEN": "pieces of rubbish left in public places",
+    "defVI": "rác xả bừa bãi",
+    "examples": [
+     {
+      "en": "The park was full of litter.",
+      "vi": "Công viên đầy rác."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "livelihood",
+  "pos": "noun",
+  "ipaUK": "/ˈlaɪv.li.hʊd/",
+  "ipaUS": "/ˈlaɪv.li.hʊd/",
+  "senses": [
+   {
+    "guideword": "INCOME",
+    "level": "C2",
+    "defEN": "the way someone earns the money they need to live",
+    "defVI": "kế sinh nhai",
+    "examples": [
+     {
+      "en": "Fishing is their main livelihood.",
+      "vi": "Đánh cá là kế sinh nhai chính của họ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lively",
+  "pos": "adjective",
+  "ipaUK": "/ˈlaɪv.li/",
+  "ipaUS": "/ˈlaɪv.li/",
+  "senses": [
+   {
+    "guideword": "FULL OF ENERGY",
+    "level": "B1",
+    "defEN": "full of energy and interest",
+    "defVI": "sôi nổi, sống động",
+    "examples": [
+     {
+      "en": "We had a lively discussion.",
+      "vi": "Chúng tôi có cuộc thảo luận sôi nổi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "load",
+  "pos": "noun",
+  "ipaUK": "/ləʊd/",
+  "ipaUS": "/loʊd/",
+  "senses": [
+   {
+    "guideword": "AMOUNT CARRIED",
+    "level": "B2",
+    "defEN": "something that is carried, especially heavy",
+    "defVI": "hàng chở, gánh",
+    "examples": [
+     {
+      "en": "The truck was carrying a heavy load.",
+      "vi": "Xe tải chở hàng nặng."
+     }
+    ]
+   },
+   {
+    "guideword": "WORK",
+    "level": "C1",
+    "defEN": "the amount of work someone has to do",
+    "defVI": "khối lượng (công việc)",
+    "examples": [
+     {
+      "en": "Teachers have a heavy workload.",
+      "vi": "Giáo viên có khối lượng công việc lớn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "loan",
+  "pos": "noun",
+  "ipaUK": "/ləʊn/",
+  "ipaUS": "/loʊn/",
+  "senses": [
+   {
+    "guideword": "MONEY",
+    "level": "B2",
+    "defEN": "an amount of money that you borrow from a bank",
+    "defVI": "khoản vay",
+    "examples": [
+     {
+      "en": "He took out a loan to buy a car.",
+      "vi": "Anh ấy vay tiền để mua xe."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "loathe",
+  "pos": "verb",
+  "ipaUK": "/ləʊð/",
+  "ipaUS": "/loʊð/",
+  "senses": [
+   {
+    "guideword": "HATE",
+    "level": "C2",
+    "defEN": "to hate someone or something very much",
+    "defVI": "ghê tởm, ghét cay ghét đắng",
+    "examples": [
+     {
+      "en": "I loathe waiting in queues.",
+      "vi": "Tôi cực ghét xếp hàng chờ."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lobby",
+  "pos": "noun",
+  "ipaUK": "/ˈlɒb.i/",
+  "ipaUS": "/ˈlɑː.bi/",
+  "senses": [
+   {
+    "guideword": "ENTRANCE",
+    "level": "B2",
+    "defEN": "a large room near the entrance of a building",
+    "defVI": "sảnh",
+    "examples": [
+     {
+      "en": "I'll meet you in the hotel lobby.",
+      "vi": "Tôi sẽ gặp bạn ở sảnh khách sạn."
+     }
+    ]
+   },
+   {
+    "guideword": "GROUP",
+    "level": "C2",
+    "defEN": "a group trying to persuade politicians to support its interests",
+    "defVI": "nhóm vận động hành lang",
+    "examples": [
+     {
+      "en": "the gun lobby",
+      "vi": "nhóm vận động ủng hộ súng đạn"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "local",
+  "pos": "adjective",
+  "ipaUK": "/ˈləʊ.kəl/",
+  "ipaUS": "/ˈloʊ.kəl/",
+  "senses": [
+   {
+    "guideword": "NEARBY",
+    "level": "B1",
+    "defEN": "relating to the area where you live",
+    "defVI": "địa phương",
+    "examples": [
+     {
+      "en": "Buy from local shops.",
+      "vi": "Mua ở các cửa hàng địa phương."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "locate",
+  "pos": "verb",
+  "ipaUK": "/ləʊˈkeɪt/",
+  "ipaUS": "/ˈloʊ.keɪt/",
+  "senses": [
+   {
+    "guideword": "FIND",
+    "level": "B2",
+    "defEN": "to find the exact position of something",
+    "defVI": "xác định vị trí",
+    "examples": [
+     {
+      "en": "Rescuers located the missing boat.",
+      "vi": "Đội cứu hộ đã xác định được chiếc thuyền mất tích."
+     }
+    ]
+   },
+   {
+    "guideword": "BE IN A PLACE",
+    "level": "B2",
+    "defEN": "to be in a particular place",
+    "defVI": "nằm ở, toạ lạc",
+    "examples": [
+     {
+      "en": "The hotel is located near the beach.",
+      "vi": "Khách sạn nằm gần bãi biển."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lofty",
+  "pos": "adjective",
+  "ipaUK": "/ˈlɒf.ti/",
+  "ipaUS": "/ˈlɑːf.ti/",
+  "senses": [
+   {
+    "guideword": "HIGH IDEAS",
+    "level": "C2",
+    "defEN": "showing high moral standards or ambitious ideas",
+    "defVI": "cao cả, cao thượng",
+    "examples": [
+     {
+      "en": "lofty ideals",
+      "vi": "những lý tưởng cao cả"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "logic",
+  "pos": "noun",
+  "ipaUK": "/ˈlɒdʒ.ɪk/",
+  "ipaUS": "/ˈlɑː.dʒɪk/",
+  "senses": [
+   {
+    "guideword": "REASONING",
+    "level": "C1",
+    "defEN": "a sensible reason or way of thinking",
+    "defVI": "lô-gíc, lập luận",
+    "examples": [
+     {
+      "en": "I don't see the logic in that.",
+      "vi": "Tôi không thấy điều đó hợp lý."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "logical",
+  "pos": "adjective",
+  "ipaUK": "/ˈlɒdʒ.ɪ.kəl/",
+  "ipaUS": "/ˈlɑː.dʒɪ.kəl/",
+  "senses": [
+   {
+    "guideword": "SENSIBLE",
+    "level": "B2",
+    "defEN": "using clear and reasonable thinking",
+    "defVI": "hợp lý, có lô-gíc",
+    "examples": [
+     {
+      "en": "That's the logical choice.",
+      "vi": "Đó là lựa chọn hợp lý."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "loneliness",
+  "pos": "noun",
+  "ipaUK": "/ˈləʊn.li.nəs/",
+  "ipaUS": "/ˈloʊn.li.nəs/",
+  "senses": [
+   {
+    "guideword": "BEING ALONE",
+    "level": "B2",
+    "defEN": "the state of being unhappy because you are alone",
+    "defVI": "sự cô đơn",
+    "examples": [
+     {
+      "en": "Many elderly people suffer from loneliness.",
+      "vi": "Nhiều người già chịu cảnh cô đơn."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "longevity",
+  "pos": "noun",
+  "ipaUK": "/lɒnˈdʒev.ə.ti/",
+  "ipaUS": "/lɑːnˈdʒev.ə.t̬i/",
+  "senses": [
+   {
+    "guideword": "LONG LIFE",
+    "level": "C2",
+    "defEN": "living or lasting for a long time",
+    "defVI": "sự trường thọ, tuổi thọ",
+    "examples": [
+     {
+      "en": "The island is famous for the longevity of its people.",
+      "vi": "Hòn đảo nổi tiếng về tuổi thọ của cư dân."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "loophole",
+  "pos": "noun",
+  "ipaUK": "/ˈluːp.həʊl/",
+  "ipaUS": "/ˈluːp.hoʊl/",
+  "senses": [
+   {
+    "guideword": "WEAKNESS IN RULE",
+    "level": "C2",
+    "defEN": "a small mistake in a law that lets people avoid obeying it",
+    "defVI": "kẽ hở (luật)",
+    "examples": [
+     {
+      "en": "They used a tax loophole.",
+      "vi": "Họ lợi dụng kẽ hở về thuế."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "loose",
+  "pos": "adjective",
+  "ipaUK": "/luːs/",
+  "ipaUS": "/luːs/",
+  "senses": [
+   {
+    "guideword": "NOT TIGHT",
+    "level": "B1",
+    "defEN": "not firmly fixed, or not fitting tightly",
+    "defVI": "lỏng, rộng",
+    "examples": [
+     {
+      "en": "This screw is loose.",
+      "vi": "Con ốc này bị lỏng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lottery",
+  "pos": "noun",
+  "ipaUK": "/ˈlɒt.ər.i/",
+  "ipaUS": "/ˈlɑː.t̬ɚ.i/",
+  "senses": [
+   {
+    "guideword": "GAME",
+    "level": "B2",
+    "defEN": "a game in which people buy numbered tickets to win prizes",
+    "defVI": "xổ số",
+    "examples": [
+     {
+      "en": "He won the lottery.",
+      "vi": "Anh ấy trúng xổ số."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "loyal",
+  "pos": "adjective",
+  "ipaUK": "/ˈlɔɪ.əl/",
+  "ipaUS": "/ˈlɔɪ.əl/",
+  "senses": [
+   {
+    "guideword": "FAITHFUL",
+    "level": "B2",
+    "defEN": "always supporting a person or organization",
+    "defVI": "trung thành",
+    "examples": [
+     {
+      "en": "She's a loyal friend.",
+      "vi": "Cô ấy là người bạn trung thành."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lucid",
+  "pos": "adjective",
+  "ipaUK": "/ˈluː.sɪd/",
+  "ipaUS": "/ˈluː.sɪd/",
+  "senses": [
+   {
+    "guideword": "CLEAR",
+    "level": "C2",
+    "defEN": "clearly expressed and easy to understand",
+    "defVI": "rõ ràng, mạch lạc",
+    "examples": [
+     {
+      "en": "a lucid explanation",
+      "vi": "một lời giải thích mạch lạc"
+     }
+    ]
+   },
+   {
+    "guideword": "THINKING CLEARLY",
+    "level": "C2",
+    "defEN": "able to think clearly, especially after being ill",
+    "defVI": "tỉnh táo, minh mẫn",
+    "examples": [
+     {
+      "en": "He was lucid until the end.",
+      "vi": "Ông ấy minh mẫn đến phút cuối."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lucrative",
+  "pos": "adjective",
+  "ipaUK": "/ˈluː.krə.tɪv/",
+  "ipaUS": "/ˈluː.krə.t̬ɪv/",
+  "senses": [
+   {
+    "guideword": "PROFITABLE",
+    "level": "C2",
+    "defEN": "producing a lot of money",
+    "defVI": "sinh lời, béo bở",
+    "examples": [
+     {
+      "en": "a lucrative contract",
+      "vi": "một hợp đồng béo bở"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "ludicrous",
+  "pos": "adjective",
+  "ipaUK": "/ˈluː.dɪ.krəs/",
+  "ipaUS": "/ˈluː.də.krəs/",
+  "senses": [
+   {
+    "guideword": "SILLY",
+    "level": "C2",
+    "defEN": "so silly that it is funny",
+    "defVI": "lố bịch, nực cười",
+    "examples": [
+     {
+      "en": "That's a ludicrous idea.",
+      "vi": "Đó là một ý tưởng nực cười."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "luggage",
+  "pos": "noun",
+  "ipaUK": "/ˈlʌɡ.ɪdʒ/",
+  "ipaUS": "/ˈlʌɡ.ɪdʒ/",
+  "senses": [
+   {
+    "guideword": "BAGS",
+    "level": "B1",
+    "defEN": "the bags and cases you take when travelling",
+    "defVI": "hành lý",
+    "examples": [
+     {
+      "en": "How much luggage do you have?",
+      "vi": "Bạn có bao nhiêu hành lý?"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lure",
+  "pos": "verb",
+  "ipaUK": "/lʊər/",
+  "ipaUS": "/lʊr/",
+  "senses": [
+   {
+    "guideword": "ATTRACT",
+    "level": "C2",
+    "defEN": "to persuade someone to go somewhere or do something by offering something attractive",
+    "defVI": "dụ dỗ, lôi kéo",
+    "examples": [
+     {
+      "en": "Low prices lure customers in.",
+      "vi": "Giá thấp lôi kéo khách hàng."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "luxury",
+  "pos": "noun",
+  "ipaUK": "/ˈlʌk.ʃər.i/",
+  "ipaUS": "/ˈlʌk.ʃɚ.i/",
+  "senses": [
+   {
+    "guideword": "COMFORT",
+    "level": "B1",
+    "defEN": "great comfort, usually expensive",
+    "defVI": "sự xa xỉ, sang trọng",
+    "examples": [
+     {
+      "en": "They live in luxury.",
+      "vi": "Họ sống trong nhung lụa."
+     }
+    ]
+   },
+   {
+    "guideword": "NOT NEEDED",
+    "level": "B2",
+    "defEN": "something expensive that you enjoy but do not need",
+    "defVI": "thứ xa xỉ",
+    "examples": [
+     {
+      "en": "A holiday abroad is a luxury for us.",
+      "vi": "Đi nghỉ nước ngoài là điều xa xỉ với chúng tôi."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "headword": "lyrics",
+  "pos": "noun",
+  "ipaUK": "/ˈlɪr.ɪks/",
+  "ipaUS": "/ˈlɪr.ɪks/",
+  "senses": [
+   {
+    "guideword": "SONG WORDS",
+    "level": "B2",
+    "defEN": "the words of a song",
+    "defVI": "lời bài hát",
+    "examples": [
+     {
+      "en": "I can't remember the lyrics.",
+      "vi": "Tôi không nhớ lời bài hát."
+     }
+    ]
+   }
+  ]
+ }
+]
