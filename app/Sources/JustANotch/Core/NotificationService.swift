@@ -23,8 +23,12 @@ final class NotificationService: NotificationServiceProtocol {
     let permissionState = CurrentValueSubject<NotificationPermissionState, Never>(.unknown)
 
     private let maxAge: TimeInterval = 8 * 3600
-    private let queue = DispatchQueue(label: "com.notchisland.notifications", qos: .utility)
+    private let queue = DispatchQueue(label: "com.notchisland.notifications", qos: .userInitiated)
     private var pollTimer: DispatchSourceTimer?
+    // Watches the SQLite WAL so a new notification is picked up the moment
+    // usernoted writes it, instead of waiting for the next poll tick.
+    private var walWatcher: DispatchSourceFileSystemObject?
+    private var walFD: Int32 = -1
     private var db: OpaquePointer?
     private var tracker = NewArrivalTracker()
 
@@ -39,23 +43,55 @@ final class NotificationService: NotificationServiceProtocol {
 
     private static let dbPath = ("~/Library/Group Containers/group.com.apple.usernoted/db2/db" as NSString)
         .expandingTildeInPath
+    private static let walPath = dbPath + "-wal"
 
     func start() {
         stop()
         let t = DispatchSource.makeTimerSource(queue: queue)
-        t.schedule(deadline: .now(), repeating: 2.0)
+        // Poll stays as a safety net (WAL checkpoints / watcher re-arm gaps);
+        // the watcher below is what makes arrivals feel instant.
+        t.schedule(deadline: .now(), repeating: 0.5, leeway: .milliseconds(100))
         t.setEventHandler { [weak self] in self?.tick() }
         t.resume()
         pollTimer = t
+        queue.async { [weak self] in self?.armWALWatcher() }
     }
 
     func stop() {
         pollTimer?.cancel(); pollTimer = nil
+        queue.sync { tearDownWALWatcher() }
         // Close on `queue` so it can't race an in-flight tick()'s use of `db`.
         queue.sync {
             if let db { sqlite3_close(db) }
             db = nil
         }
+    }
+
+    // MARK: - WAL watcher (on `queue`)
+
+    /// Watch the WAL for writes so `tick()` runs immediately on a new row.
+    /// The WAL is recreated on checkpoint/truncate, so delete/rename re-arms.
+    private func armWALWatcher() {
+        tearDownWALWatcher()
+        let fd = open(Self.walPath, O_EVTONLY)
+        guard fd >= 0 else { return }   // no WAL yet; poll will retry via tick()
+        walFD = fd
+        let src = DispatchSource.makeFileSystemObjectSource(
+            fileDescriptor: fd, eventMask: [.write, .extend, .delete, .rename], queue: queue)
+        src.setEventHandler { [weak self] in
+            guard let self else { return }
+            let data = src.data
+            self.tick()
+            if data.contains(.delete) || data.contains(.rename) { self.armWALWatcher() }
+        }
+        src.setCancelHandler { close(fd) }
+        src.resume()
+        walWatcher = src
+    }
+
+    private func tearDownWALWatcher() {
+        walWatcher?.cancel(); walWatcher = nil
+        walFD = -1
     }
 
     // MARK: - Poll loop (on `queue`)
@@ -75,6 +111,7 @@ final class NotificationService: NotificationServiceProtocol {
         if rc == SQLITE_OK, let handle {
             db = handle
             publishPermission(.granted)
+            if walWatcher == nil { armWALWatcher() }
             return true
         }
         if let handle { sqlite3_close(handle) }

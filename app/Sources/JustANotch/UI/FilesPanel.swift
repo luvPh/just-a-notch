@@ -33,6 +33,8 @@ struct FilesPanel: View {
     @State private var dropTargeted = false
     /// Catalogue con đang được nhắm để thả file vào (tô sáng tile tương ứng).
     @State private var dropOnCatID: UUID? = nil
+    /// Catalogue (theo path) đang được nhắm khi thả vào vùng "— trống —".
+    @State private var dropOnEmptyPath: [UUID]? = nil
     /// Multi-select trong cây (id → thông tin mục). Cmd/Shift-click.
     @State private var selection: [UUID: Selected] = [:]
     @State private var lastTreeTap: UUID?
@@ -44,6 +46,10 @@ struct FilesPanel: View {
     @State private var lastClickAt: Date = .distantPast
     /// Hover cho nút menu "di chuyển" (Menu không tự có hover như SelActionButton).
     @State private var moveHovering = false
+    /// Monitor keyDown cho điều hướng bàn phím — chỉ sống khi panel ở dạng expand.
+    @State private var keyMonitor: Any? = nil
+    /// Mục cần cuộn tới sau khi dời ô chọn bằng bàn phím.
+    @State private var scrollTarget: UUID? = nil
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var navSpring: Animation {
@@ -146,6 +152,91 @@ struct FilesPanel: View {
     }
 
     private func clearSelection() { selection.removeAll(); lastTreeTap = nil }
+
+
+    // MARK: - Điều hướng bàn phím (chỉ ở dạng expand)
+    //
+    // ↑↓←→ di chuyển ô đang chọn trong lưới 3 cột (theo đúng thứ tự hiển thị,
+    // gồm cả các nhánh đang xổ inline) · Shift+mũi tên mở rộng vùng chọn ·
+    // Return/⌘↓ mở mục · ⌘↑ lên catalogue cha · ⌘⌫ xoá mục đang chọn.
+
+    private func installKeyMonitor() {
+        guard keyMonitor == nil else { return }
+        keyMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown]) { event in
+            handleKey(event) ? nil : event
+        }
+    }
+    private func removeKeyMonitor() {
+        if let m = keyMonitor { NSEvent.removeMonitor(m); keyMonitor = nil }
+    }
+
+    private func handleKey(_ event: NSEvent) -> Bool {
+        // Chỉ nhận khi đang mở rộng, không đang gõ text (đổi tên / tạo catalogue).
+        guard expanded, !creatingCatalogue, !renamingFile else { return false }
+        if NSApp.keyWindow?.firstResponder is NSText { return false }
+
+        let mods = event.modifierFlags.intersection([.command, .option, .control, .shift])
+        let cmd = mods.contains(.command)
+        let shift = mods == [.shift]
+        let bare = mods.isEmpty
+
+        switch event.keyCode {
+        case 123 where bare || shift: return moveFocus(by: -1, extend: shift)   // ←
+        case 124 where bare || shift: return moveFocus(by: 1, extend: shift)    // →
+        case 126 where bare || shift: return moveFocus(by: -gridColumnCount, extend: shift)  // ↑
+        case 125 where bare || shift: return moveFocus(by: gridColumnCount, extend: shift)   // ↓
+        case 126 where cmd:                                     // ⌘↑ → lên 1 cấp
+            folderUp()
+            return true
+        case 36, 76:                                            // Return / Enter → mở
+            return openFocused()
+        case 125 where cmd:                                     // ⌘↓ → mở (kiểu Finder)
+            return openFocused()
+        case 51 where cmd:                                      // ⌘⌫ → xoá mục đang chọn
+            guard !selection.isEmpty else { return false }
+            deleteSelected()
+            return true
+        default:
+            return false
+        }
+    }
+
+    private var gridColumnCount: Int { 3 }
+
+    /// Dời ô đang chọn theo `delta` trong thứ tự hiển thị phẳng.
+    private func moveFocus(by delta: Int, extend: Bool) -> Bool {
+        let order = flatVisibleIDs()
+        guard !order.isEmpty else { return false }
+        let table = visibleSelectables()
+        let cur = lastTreeTap.flatMap { order.firstIndex(of: $0) }
+        let next: Int
+        if let cur {
+            next = min(max(cur + delta, 0), order.count - 1)
+            if next == cur { return true }
+        } else {
+            next = delta > 0 ? 0 : order.count - 1
+        }
+        guard let sel = table[order[next]] else { return false }
+        if extend {
+            rangeTreeSelect(sel.id)
+        } else {
+            selectOnly(sel)
+        }
+        scrollTarget = sel.id
+        return true
+    }
+
+    /// Mở mục đang trỏ: catalogue → vào trong, file/folder → mở bằng app mặc định.
+    private func openFocused() -> Bool {
+        guard let id = lastTreeTap, let sel = visibleSelectables()[id] else { return false }
+        clearSelection()
+        if sel.isCatalogue {
+            navigate(to: sel.parentPath + [sel.id])
+        } else if let f = sel.file {
+            store.open(f)
+        }
+        return true
+    }
 
     // MARK: Hành động hàng loạt (cây)
 
@@ -343,7 +434,13 @@ struct FilesPanel: View {
         .contentShape(Rectangle())
         .onTapGesture { clearSelection(); clearFavSelection() }   // bấm khoảng trống → bỏ chọn
         .onChange(of: favSelection.count) { _, n in selCount = n }
-        .onDisappear { selCount = 0 }   // rời panel → xoá đếm ở wing
+        // Bàn phím chỉ điều hướng khi ở dạng expand.
+        .onAppear { if expanded { installKeyMonitor() } }
+        .onChange(of: expanded) { _, wide in wide ? installKeyMonitor() : removeKeyMonitor() }
+        .onDisappear {
+            selCount = 0   // rời panel → xoá đếm ở wing
+            removeKeyMonitor()
+        }
     }
 
     /// Bọc vùng nội dung (list/favorites) làm vùng thả — KHÔNG gồm toolbar.
@@ -520,11 +617,19 @@ struct FilesPanel: View {
     }
 
     private var list: some View {
-        ScrollView {
-            catalogueBody(current.children, files: current.files, parentPath: path)
-                .padding(.top, 2)
+        ScrollViewReader { proxy in
+            ScrollView {
+                catalogueBody(current.children, files: current.files, parentPath: path)
+                    .padding(.top, 2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .scrollIndicators(.never)
+            .onChange(of: scrollTarget) { _, id in
+                guard let id else { return }
+                withAnimation(navSpring) { proxy.scrollTo(id, anchor: .center) }
+                scrollTarget = nil
+            }
         }
-        .scrollIndicators(.never)
     }
 
     /// Nội dung 1 catalogue: mỗi type là 1 group riêng (catalogue con · folder · file),
@@ -547,11 +652,40 @@ struct FilesPanel: View {
                     itemGrid(plainFiles, parentPath: parentPath)
                 }
                 if empty {
-                    Text("— trống —").font(.system(size: 12)).foregroundStyle(.white.opacity(0.3))
-                        .padding(.vertical, 6).padding(.horizontal, 4)
+                    emptyDropArea(parentPath: parentPath)
                 }
             }
         )
+    }
+
+    /// Vùng "— trống —" của một catalogue rỗng: cũng là drop target cho chính catalogue đó,
+    /// nếu không sẽ không thể kéo file/folder vào một catalogue con đang trống.
+    private func emptyDropArea(parentPath: [UUID]) -> some View {
+        let targeted = dropOnEmptyPath == parentPath
+        return Text(targeted ? "Thả để thêm vào đây" : "— trống —")
+            .font(.system(size: 12))
+            .foregroundStyle(.white.opacity(targeted ? 0.8 : 0.3))
+            .padding(.vertical, 10).padding(.horizontal, 8)
+            .frame(maxWidth: .infinity, minHeight: 46, alignment: .leading)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(catTint.opacity(targeted ? 0.12 : 0.0))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8).strokeBorder(
+                            catTint.opacity(targeted ? 0.8 : 0.18),
+                            style: StrokeStyle(lineWidth: 1, dash: [4, 3])
+                        )
+                    )
+            )
+            .contentShape(Rectangle())
+            .animation(.easeOut(duration: 0.12), value: targeted)
+            .onDrop(of: [.fileURL], isTargeted: Binding(
+                get: { dropOnEmptyPath == parentPath },
+                set: { hit in
+                    if hit { dropOnEmptyPath = parentPath }
+                    else if dropOnEmptyPath == parentPath { dropOnEmptyPath = nil }
+                }
+            )) { handleDrop($0, intoCatalogueAt: parentPath) }
     }
 
     private var thinDivider: some View {
@@ -582,14 +716,14 @@ struct FilesPanel: View {
 
     private func catalogueTile(_ cat: Catalogue, parentPath: [UUID], siblings: [UUID]) -> some View {
         let isOpen = expandedIDs.contains(cat.id)
-        let hasContents = (cat.children.count + cat.files.count) > 0
         let sel = Selected(id: cat.id, isCatalogue: true, parentPath: parentPath, name: cat.name, file: nil)
         return HStack(spacing: 6) {
             Image(systemName: "folder.fill").font(.system(size: 12.5)).foregroundStyle(catTint)
             Text(cat.name).font(.system(size: 12, weight: .semibold))
                 .foregroundStyle(.white).lineLimit(1).truncationMode(.tail)
             Spacer(minLength: 2)
-            DiscloseButton(isOpen: isOpen, enabled: hasContents) {
+            // Luôn cho xổ, kể cả khi trống — để có vùng thả file/folder vào catalogue rỗng.
+            DiscloseButton(isOpen: isOpen, enabled: true) {
                 toggleExpand(cat.id, siblings: siblings)
             }
         }
@@ -605,6 +739,7 @@ struct FilesPanel: View {
         }
         .animation(.easeOut(duration: 0.12), value: dropOnCatID == cat.id)
         .contentShape(Rectangle())
+        .id(cat.id)
         // Thả file từ ngoài vào ĐÚNG catalogue con này (không phụ thuộc thư mục đang mở).
         .onDrop(of: [.fileURL], isTargeted: Binding(
             get: { dropOnCatID == cat.id },
@@ -654,6 +789,7 @@ struct FilesPanel: View {
         .padding(.vertical, 7).padding(.horizontal, 9)
         .modifier(GridTileStyle(selected: selection[file.id] != nil, selTint: catTint))
         .contentShape(Rectangle())
+        .id(file.id)
         .highPriorityGesture(TapGesture().modifiers(.command).onEnded { toggleTreeSelect(sel) })
         .highPriorityGesture(TapGesture().modifiers(.shift).onEnded { rangeTreeSelect(file.id) })
         .onTapGesture {

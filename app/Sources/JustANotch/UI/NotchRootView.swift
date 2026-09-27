@@ -654,7 +654,7 @@ struct NotchRootView: View {
         let count = group.records.count
         return Group {
             if count <= 1 {
-                notificationCard(group.records[0], action: { vm.openApp(bundleId: group.records[0].bundleId) })
+                notificationCard(group.records[0], action: { vm.openNotification(group.records[0]) })
             } else if expanded {
                 VStack(alignment: .leading, spacing: 6) {
                     // Collapse control at the TOP so it's always reachable even
@@ -672,7 +672,7 @@ struct NotchRootView: View {
                     }
                     .buttonStyle(.plain)
                     ForEach(group.records) { rec in
-                        notificationCard(rec, action: { vm.openApp(bundleId: rec.bundleId) })
+                        notificationCard(rec, action: { vm.openNotification(rec) })
                     }
                 }
             } else {

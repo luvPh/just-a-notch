@@ -12,6 +12,10 @@ struct NotificationRecord: Identifiable, Equatable {
     let subtitle: String
     let body: String
     let date: Date
+    /// Deep link carried by the notification payload, when the sending app
+    /// embeds one (e.g. `slack://channel?...`). Clicking the card opens this
+    /// instead of merely activating the app. Nil for apps that embed nothing.
+    var deepLink: URL? = nil
 
     /// Best single line of secondary text for compact display.
     var detailLine: String { body.isEmpty ? subtitle : body }

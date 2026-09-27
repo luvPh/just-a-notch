@@ -113,6 +113,11 @@ final class NotchViewModel: ObservableObject {
     /// Lưới 6 cột/hàng; cao 150 cho 1 hàng, phình thêm mỗi hàng, tối đa 2 hàng.
     private let shelfRowExtra: CGFloat = 86
     var shelfRows: Int {
+    /// Hẹn bung shelf khi nhấc file (dwell) — xem `shelfOpenDelay`.
+    private var shelfShowWork: DispatchWorkItem?
+    /// Nhấc file lên rồi phải giữ cú kéo đủ lâu mới bung kệ — tránh kệ nháy ra
+    /// mỗi lần kéo-thả nhanh trong Finder mà không có ý định dùng notch.
+    private let shelfOpenDelay: TimeInterval = 2
         guard !shelf.isEmpty else { return 1 }
         return min(2, (shelf.count + 5) / 6)
     }
@@ -122,19 +127,35 @@ final class NotchViewModel: ObservableObject {
     /// giữ mở làm đích thả và KHÔNG bị hẹn thu dù con trỏ chưa vào notch.
     @Published var systemFileDragActive = false
 
-    /// Nhấc file ở bất kỳ đâu ⇒ bung kệ luôn để có đích thả.
+    /// Nhấc file ở bất kỳ đâu ⇒ hẹn bung kệ sau `shelfOpenDelay` (nếu cú kéo còn).
+    /// Kéo thẳng lên notch vẫn bung ngay (hover/dragEnter gọi `presentShelf`).
     func beginSystemFileDrag() {
         guard !expanded else { return }
         systemFileDragActive = true
-        presentShelf()
+        scheduleShelfShow()
+    }
+
+    /// Hẹn bung kệ; huỷ nếu cú kéo kết thúc trước hạn.
+    private func scheduleShelfShow() {
+        guard shelfShowWork == nil, !shelfActive else { return }
+        let work = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            shelfShowWork = nil
+            guard systemFileDragActive, !expanded else { return }
+            presentShelf()
+        }
+        shelfShowWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + shelfOpenDelay, execute: work)
     }
 
     /// Nhả chuột ⇒ hết cú kéo; kệ thu như bình thường nếu con trỏ không ở trên notch.
     func endSystemFileDrag() {
         guard systemFileDragActive else { return }
+    private func cancelShelfShow() { shelfShowWork?.cancel(); shelfShowWork = nil }
         systemFileDragActive = false
         if shelfActive { scheduleShelfHide() }
     }
+        cancelShelfShow()
 
     /// Bung shelf.
     func presentShelf() {
@@ -142,6 +163,7 @@ final class NotchViewModel: ObservableObject {
         clearHUD()
         shelfActive = true
     }
+        cancelShelfShow()
     /// Hẹn thu shelf sau 1s (gọi khi chuột rời hover). Chỉ hẹn một lần.
     func scheduleShelfHide() {
         guard shelfHideWork == nil else { return }
@@ -153,7 +175,7 @@ final class NotchViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: work)
     }
     func cancelShelfHide() { shelfHideWork?.cancel(); shelfHideWork = nil }
-    func dismissShelf() { cancelShelfHide(); shelfActive = false }
+    func dismissShelf() { cancelShelfShow(); cancelShelfHide(); shelfActive = false }
     /// Notch đóng + đang giữ file → tô ánh sáng chạy viền mời hover.
     var shelfGlowing: Bool {
         !shelfActive && !expanded && !showingHUD && !shelf.isEmpty
@@ -503,7 +525,7 @@ final class NotchViewModel: ObservableObject {
 
     /// Activate the app that sent the current HUD notification, then clear it.
     func openSourceApp() {
-        if let record = hudNotification { openApp(bundleId: record.bundleId) }
+        if let record = hudNotification { openNotification(record) }
         clearHUD()
     }
 
@@ -533,3 +555,22 @@ final class NotchViewModel: ObservableObject {
     func setVolume(_ volume: Double, live: Bool = false) { media.setVolume(volume, live: live) }
     func start() { media.start(); media.refresh(); notifier.start(); startLearnScheduler() }
 }
+    /// Open a notification's click target: its embedded deep link when the
+    /// sending app provided one (jumps straight to the conversation/section),
+    /// otherwise just activate the app.
+    func openNotification(_ record: NotificationRecord) {
+        guard let link = record.deepLink else {
+            openApp(bundleId: record.bundleId)
+            return
+        }
+        // Route the link through the sending app when it can handle it, so a
+        // plain https link doesn't bounce to the browser for an app that owns it.
+        if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: record.bundleId),
+           let handler = NSWorkspace.shared.urlForApplication(toOpen: link), handler == appURL {
+            NSWorkspace.shared.open([link], withApplicationAt: appURL,
+                                    configuration: NSWorkspace.OpenConfiguration())
+        } else {
+            NSWorkspace.shared.open(link)
+        }
+    }
+

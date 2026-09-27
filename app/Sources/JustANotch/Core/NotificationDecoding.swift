@@ -21,7 +21,8 @@ func decodeNotification(id: Int64, bundleId: String, appName: String, payload: D
     let date = parseNotificationDate(top: dict, req: req) ?? Date()
 
     return NotificationRecord(id: id, bundleId: bundleId, appName: appName,
-                              title: title, subtitle: subtitle, body: body, date: date)
+                              title: title, subtitle: subtitle, body: body, date: date,
+                              deepLink: extractDeepLink(from: dict))
 }
 
 /// Resolve a notification's timestamp. A binary-plist date value deserializes to
@@ -73,4 +74,70 @@ func groupByApp(_ records: [NotificationRecord]) -> [NotificationGroup] {
         return NotificationGroup(bundleId: bundle, appName: recs.first?.appName ?? bundle, records: recs)
     }
     return groups.sorted { ($0.records.first?.date ?? .distantPast) > ($1.records.first?.date ?? .distantPast) }
+}
+
+// MARK: - Deep links
+
+/// Keys whose values are artwork/attachment paths, never a click target.
+private let deepLinkSkipKeyFragments = ["icon", "image", "atta", "thumb", "artwork", "sound"]
+/// Keys that explicitly name a link; their values win over incidental matches.
+private let deepLinkPreferredKeyFragments = ["url", "link", "uri", "launch"]
+/// Image/media suffixes: a "URL" ending in one of these is an asset, not a target.
+private let deepLinkAssetSuffixes = [".png", ".jpg", ".jpeg", ".gif", ".heic", ".webp", ".caf", ".aiff"]
+
+/// Find the click-through target embedded in a notification payload, if any.
+///
+/// Apps have no single standard slot for this: some put it in `req["url"]`,
+/// others bury it in the archived user-info blob (`usda`) under their own key.
+/// So we walk the whole payload — descending into nested dicts, arrays and
+/// plist-encoded `Data` — and take the best URL-looking string we find,
+/// preferring explicitly link-named keys. Returns nil when nothing qualifies,
+/// which is the common case (iMessage, many system notifications).
+func extractDeepLink(from payload: [String: Any]) -> URL? {
+    var best: (rank: Int, url: URL)?
+    walkForDeepLink(payload, key: "", depth: 0) { rank, url in
+        if best == nil || rank < best!.rank { best = (rank, url) }
+    }
+    return best?.url
+}
+
+private func walkForDeepLink(_ value: Any, key: String, depth: Int,
+                             found: (Int, URL) -> Void) {
+    guard depth < 6 else { return }
+    let lowerKey = key.lowercased()
+    if deepLinkSkipKeyFragments.contains(where: lowerKey.contains) { return }
+
+    switch value {
+    case let dict as [String: Any]:
+        for (k, v) in dict { walkForDeepLink(v, key: k, depth: depth + 1, found: found) }
+    case let array as [Any]:
+        for v in array { walkForDeepLink(v, key: key, depth: depth + 1, found: found) }
+    case let data as Data:
+        // `usda` and friends are plists nested inside the outer plist.
+        if let nested = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) {
+            walkForDeepLink(nested, key: key, depth: depth + 1, found: found)
+        }
+    case let string as String:
+        guard let url = deepLinkURL(from: string) else { return }
+        let preferred = deepLinkPreferredKeyFragments.contains(where: lowerKey.contains)
+        // Custom schemes (slack://, msteams://) jump straight to the right place;
+        // an https link usually only opens a browser, so rank it lower.
+        let custom = !["http", "https", "file"].contains(url.scheme ?? "")
+        found((preferred ? 0 : 2) + (custom ? 0 : 1), url)
+    default:
+        return
+    }
+}
+
+/// Parse a string into a deep-link URL, rejecting plain text, file paths and
+/// asset references.
+private func deepLinkURL(from string: String) -> URL? {
+    let trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard trimmed.count >= 8, trimmed.count <= 2048,
+          !trimmed.contains(" "), trimmed.contains("://"),
+          let url = URL(string: trimmed), let scheme = url.scheme,
+          scheme != "file", !scheme.isEmpty else { return nil }
+    let lower = trimmed.lowercased()
+    guard !deepLinkAssetSuffixes.contains(where: lower.hasSuffix) else { return nil }
+    return url
 }
