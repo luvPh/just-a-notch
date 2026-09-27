@@ -152,14 +152,10 @@ struct WordHeadline: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            // Headword KHÔNG bao giờ bị bẻ giữa chữ: cả hàng vừa thì để chung dòng,
-            // không vừa thì loại từ/guideword/level xuống dòng dưới.
-            ViewThatFits(in: .horizontal) {
-                HStack(alignment: .firstTextBaseline, spacing: 6) { headword; meta }
-                VStack(alignment: .leading, spacing: 1) {
-                    headword
-                    HStack(alignment: .firstTextBaseline, spacing: 6) { meta }
-                }
+            // Từ luôn một dòng riêng (không bẻ giữa chữ); loại từ/guideword/level ở dòng dưới.
+            VStack(alignment: .leading, spacing: 1) {
+                headword
+                HStack(alignment: .firstTextBaseline, spacing: 6) { meta }
             }
             HStack(spacing: 10) {
                 ipa("UK", word.ipaUK, uk: true)

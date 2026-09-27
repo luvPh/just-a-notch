@@ -60,12 +60,18 @@ struct PracticeQuestionView: View {
     @ViewBuilder private var prompt: some View {
         switch q.mode {
         case .mcqWord:
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
+            // Từ một dòng riêng (không bao giờ bẻ giữa chữ, dài thì thu nhỏ); loại từ +
+            // phiên âm xuống dòng dưới.
+            VStack(alignment: .leading, spacing: 1) {
                 Text(word.headword).font(.system(size: 20 * fs, weight: .bold))
-                Text(word.pos).italic().font(.system(size: 11 * fs)).foregroundStyle(pal.purple)
-                Button { Pronouncer.speak(word.headword, uk: false) } label: {
-                    Text(word.ipaUS).font(.system(size: 11 * fs)).foregroundStyle(.secondary)
-                }.buttonStyle(.plain).learnHover(scale: 1.05, brighten: 0.3)
+                    .lineLimit(1).minimumScaleFactor(0.55)
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    Text(word.pos).italic().font(.system(size: 11 * fs)).foregroundStyle(pal.purple)
+                    Button { Pronouncer.speak(word.headword, uk: false) } label: {
+                        Text(word.ipaUS).font(.system(size: 11 * fs)).foregroundStyle(.secondary)
+                    }.buttonStyle(.plain).learnHover(scale: 1.05, brighten: 0.3)
+                }
+                .lineLimit(1)
             }
         case .mcqMeaning, .fill:
             VStack(alignment: .leading, spacing: 2) {
