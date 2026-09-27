@@ -75,6 +75,15 @@ final class AppSettings: ObservableObject {
                        longBreakMinutes: pomoLongMinutes, roundsBeforeLongBreak: pomoRounds)
     }
 
+    // MARK: Nhắc đứng dậy + uống nước (lịch cố định giờ làm, xem BreakSchedule).
+    @Published var breakReminderOn: Bool { didSet { d.set(breakReminderOn, forKey: "cfg.breakOn") } }
+    @Published var breakSoundOn: Bool { didSet { d.set(breakSoundOn, forKey: "cfg.breakSound") } }
+    @Published var breakVolume: Double { didSet { d.set(breakVolume, forKey: "cfg.breakVolume") } }
+
+    // MARK: Claude Code — chỉ báo tiến trình + thông báo xong/chờ duyệt (dữ liệu từ hook).
+    @Published var claudeOn: Bool { didSet { d.set(claudeOn, forKey: "cfg.claudeOn") } }
+    @Published var claudeSoundOn: Bool { didSet { d.set(claudeSoundOn, forKey: "cfg.claudeSound") } }
+
     // MARK: Motion — force reduced motion regardless of the system setting.
     @Published var forceReduceMotion: Bool { didSet { d.set(forceReduceMotion, forKey: "cfg.forceReduceMotion") } }
 
@@ -131,6 +140,8 @@ final class AppSettings: ObservableObject {
             "cfg.pomoWork": 25, "cfg.pomoShort": 5, "cfg.pomoLong": 15,
             "cfg.pomoRounds": 4, "cfg.pomoAutoStart": true,
             "cfg.timerSoundOn": true, "cfg.timerSound": "Glass", "cfg.timerVolume": 0.8,
+            "cfg.claudeOn": true, "cfg.claudeSound": true,
+            "cfg.breakOn": true, "cfg.breakSound": true, "cfg.breakVolume": 0.6,
             "cfg.notifSoundOn": true, "cfg.notifSound": "Ping", "cfg.notifVolume": 0.7,
         ])
         showFiles = d.bool(forKey: "cfg.showFiles")
@@ -157,6 +168,11 @@ final class AppSettings: ObservableObject {
         timerSoundName = d.string(forKey: "cfg.timerSound") ?? "Glass"
         timerVolume = d.double(forKey: "cfg.timerVolume")
         timerPage = d.integer(forKey: "cfg.timerPage")
+        claudeOn = d.bool(forKey: "cfg.claudeOn")
+        claudeSoundOn = d.bool(forKey: "cfg.claudeSound")
+        breakReminderOn = d.bool(forKey: "cfg.breakOn")
+        breakSoundOn = d.bool(forKey: "cfg.breakSound")
+        breakVolume = d.double(forKey: "cfg.breakVolume")
         forceReduceMotion = d.bool(forKey: "cfg.forceReduceMotion")
         doubleTapCommand = d.bool(forKey: "cfg.doubleTapCommand")
         fKeyAppsEnabled = d.bool(forKey: "cfg.fKeyAppsOn")

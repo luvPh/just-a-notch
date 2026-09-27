@@ -6,6 +6,7 @@ import AppKit
 struct SettingsPanel: View {
     @ObservedObject var settings: AppSettings
     @ObservedObject var vm: NotchViewModel
+    @ObservedObject private var claude = ClaudeActivityStore.shared
 
     private static let repoURL = URL(string: "https://github.com/luvPh/just-a-notch")!
 
@@ -88,6 +89,63 @@ struct SettingsPanel: View {
                     .padding(.horizontal, 8).padding(.vertical, 4)
                     .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
                     linkButton("Mở cửa sổ học", icon: "macwindow") { LearnWindowController.shared.show() }
+                }
+
+                // MARK: Claude Code
+                section("Claude Code") {
+                    toggleRow("Hiện tiến trình + báo xong/chờ duyệt", icon: "sparkle", isOn: $settings.claudeOn)
+                    HStack(spacing: 9) {
+                        Image(systemName: "bell.and.waves.left.and.right").font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
+                        Text("Âm báo").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+                        Spacer(minLength: 0)
+                        Button("Xong") { ClaudeChime.play(.done) }
+                            .buttonStyle(.plain).font(.system(size: 10.5, weight: .semibold)).foregroundStyle(.white.opacity(0.8))
+                        Button("Chờ duyệt") { ClaudeChime.play(.waiting) }
+                            .buttonStyle(.plain).font(.system(size: 10.5, weight: .semibold)).foregroundStyle(.white.opacity(0.8))
+                        Toggle("", isOn: $settings.claudeSoundOn).labelsHidden().toggleStyle(GlowToggleStyle())
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    HStack(spacing: 8) {
+                        statusDot(claude.receivedAny ? .green : .orange)
+                        Text(claude.receivedAny ? "Đã nhận sự kiện từ hook" : "Chưa nhận sự kiện hook nào")
+                            .font(.system(size: 11)).foregroundStyle(.white.opacity(0.7))
+                        Spacer(minLength: 0)
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 6)
+                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    linkButton("Copy đường dẫn thư mục sự kiện", icon: "doc.on.doc") {
+                        NSPasteboard.general.clearContents()
+                        NSPasteboard.general.setString(ClaudeActivityStore.eventsDir.path, forType: .string)
+                    }
+                    Text("Notch đọc sự kiện hook Claude Code (mỗi sự kiện một file .json trong thư mục trên). Cần đăng ký hook SessionStart · UserPromptSubmit · PreToolUse · Notification · Stop · SessionEnd ghi stdin vào đó.")
+                        .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
+                        .padding(.horizontal, 4).padding(.top, 1)
+                }
+
+                // MARK: Nhắc nghỉ
+                section("Nhắc đứng dậy · uống nước") {
+                    toggleRow("Nhắc mỗi 30 phút trong giờ làm", icon: "figure.stand", isOn: $settings.breakReminderOn)
+                    toggleRow("Âm báo", icon: "drop.fill", isOn: $settings.breakSoundOn)
+                    HStack(spacing: 9) {
+                        Image(systemName: "speaker.wave.2.fill").font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
+                        Text("Âm lượng").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+                        Slider(value: $settings.breakVolume, in: 0...1)
+                        Button("Nghe thử") { BreakChime.play(volume: Float(settings.breakVolume)) }
+                            .buttonStyle(.plain).font(.system(size: 10.5, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.8))
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    linkButton("Xem thử lời nhắc", icon: "eye") {
+                        vm.collapse()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { vm.showBreak() }
+                    }
+                    Text("T2–T6, 9:30–11:30 và 13:30–17:30 (bỏ giờ trưa, ngày lễ). Rời máy quá 5 phút thì bỏ lượt; app full màn hình thì không kêu.")
+                        .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
+                        .padding(.horizontal, 4).padding(.top, 1)
                 }
 
                 // MARK: Notifications

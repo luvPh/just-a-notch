@@ -9,15 +9,19 @@ import AppKit
 final class NotchViewModel: ObservableObject {
     @Published var track: MediaTrack?
     @Published var playback: PlaybackState = .unsupported
-    @Published var expanded = false { didSet { noteInteraction() } }
-    @Published var hovering = false {
-        didSet { scheduleTransportReveal(); noteInteraction() }
+    @Published var expanded = false {
+        didSet { if expanded { closeLauncher() }; noteInteraction() }
     }
-    /// The ◀ ⏯ ▶ transport is revealed only after the pointer has rested on the
-    /// island for `transportRevealDelay`; it hides immediately on leave.
+    @Published var hovering = false {
+        didSet {
+            if !hovering { hideTransport() }
+            scheduleLauncherReveal()
+            noteInteraction()
+        }
+    }
+    /// ◀ ⏯ ▶ hiện khi BẤM vào soundwave (không còn tự hiện khi hover); chuột rời
+    /// notch thì thu về soundwave.
     @Published private(set) var transportVisible = false
-    private var transportWork: DispatchWorkItem?
-    let transportRevealDelay: TimeInterval = 0.75
     /// "Up Next" / playlist panel for the playing source (YouTube).
     @Published var showList = false
     /// True khi tab đang mở là Lịch — panel cần chiều cao lớn hơn player.
@@ -109,15 +113,15 @@ final class NotchViewModel: ObservableObject {
     /// Thu sau 1s khi chuột rời hover.
     @Published var shelfActive = false
     private var shelfHideWork: DispatchWorkItem?
-    let shelfWidth: CGFloat = 600
-    /// Lưới 6 cột/hàng; cao 150 cho 1 hàng, phình thêm mỗi hàng, tối đa 2 hàng.
-    private let shelfRowExtra: CGFloat = 86
-    var shelfRows: Int {
     /// Hẹn bung shelf khi nhấc file (dwell) — xem `shelfOpenDelay`.
     private var shelfShowWork: DispatchWorkItem?
     /// Nhấc file lên rồi phải giữ cú kéo đủ lâu mới bung kệ — tránh kệ nháy ra
     /// mỗi lần kéo-thả nhanh trong Finder mà không có ý định dùng notch.
     private let shelfOpenDelay: TimeInterval = 2
+    let shelfWidth: CGFloat = 600
+    /// Lưới 6 cột/hàng; cao 150 cho 1 hàng, phình thêm mỗi hàng, tối đa 2 hàng.
+    private let shelfRowExtra: CGFloat = 86
+    var shelfRows: Int {
         guard !shelf.isEmpty else { return 1 }
         return min(2, (shelf.count + 5) / 6)
     }
@@ -147,23 +151,23 @@ final class NotchViewModel: ObservableObject {
         shelfShowWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + shelfOpenDelay, execute: work)
     }
+    private func cancelShelfShow() { shelfShowWork?.cancel(); shelfShowWork = nil }
 
     /// Nhả chuột ⇒ hết cú kéo; kệ thu như bình thường nếu con trỏ không ở trên notch.
     func endSystemFileDrag() {
+        cancelShelfShow()
         guard systemFileDragActive else { return }
-    private func cancelShelfShow() { shelfShowWork?.cancel(); shelfShowWork = nil }
         systemFileDragActive = false
         if shelfActive { scheduleShelfHide() }
     }
-        cancelShelfShow()
 
     /// Bung shelf.
     func presentShelf() {
+        cancelShelfShow()
         cancelShelfHide()
         clearHUD()
         shelfActive = true
     }
-        cancelShelfShow()
     /// Hẹn thu shelf sau 1s (gọi khi chuột rời hover). Chỉ hẹn một lần.
     func scheduleShelfHide() {
         guard shelfHideWork == nil else { return }
@@ -199,14 +203,20 @@ final class NotchViewModel: ObservableObject {
         media.playbackState.receive(on: RunLoop.main).sink { [weak self] in self?.playback = $0 }.store(in: &bag)
 
         notifier.history.receive(on: RunLoop.main)
-            .sink { [weak self] in self?.notifications = $0 }.store(in: &bag)
+            .sink { [weak self] in self?.notifications = Self.dropClaude($0) }.store(in: &bag)
         notifier.permissionState.receive(on: RunLoop.main)
             .sink { [weak self] in self?.notificationsPermissionDenied = ($0 == .denied) }.store(in: &bag)
         notifier.latestArrival.receive(on: RunLoop.main)
+            .filter { !(AppSettings.shared.claudeOn && ClaudeNotificationFilter.isClaude($0)) }
             .sink { [weak self] in
                 self?.playNotifSound()
                 self?.showHUD($0)
             }.store(in: &bag)
+    }
+
+    /// Bật theo dõi Claude trên notch → bỏ thông báo hệ thống của Claude (tránh báo trùng).
+    private static func dropClaude(_ list: [NotificationRecord]) -> [NotificationRecord] {
+        AppSettings.shared.claudeOn ? list.filter { !ClaudeNotificationFilter.isClaude($0) } : list
     }
 
     /// Phát âm báo khi có thông báo mới (độc lập với chuông timer).
@@ -268,7 +278,8 @@ final class NotchViewModel: ObservableObject {
     enum CompactState { case quiet, resting, reading }
     var compactState: CompactState {
         guard let track, Self.hasRealTitle(track) else { return .quiet }
-        return titleReveal ? .reading : .resting
+        // Launcher đang mở → thu tiêu đề để dải icon không phải rộng theo wing trái 150pt.
+        return titleReveal && !launcherOpen ? .reading : .resting
     }
 
     // MARK: Geometry (wings around the fixed camera core)
@@ -276,39 +287,198 @@ final class NotchViewModel: ObservableObject {
     // Symmetric wings while playing; the reading state only grows the LEFT wing
     // (the 150pt title expansion), keeping the right wing steady.
     var leftReveal: CGFloat {
-        switch compactState { case .quiet: 10; case .resting: 40; case .reading: 150 }
+        if breakActive { return breakLeftWing }
+        if claudeAlert != nil { return claudeAlertLeftWing }
+        // Clawd (25pt) thay chỗ icon nguồn nhạc (18pt) → wing trái nhỉnh hơn một chút.
+        let clawd = claudeIndicatorVisible
+        switch compactState {
+        case .quiet:   return clawd ? 54 : 10
+        case .resting: return clawd ? 54 : 40
+        case .reading: return clawd ? 166 : 150
+        }
     }
     var rightReveal: CGFloat {
-        // Hovering the compact island reveals ◀ ⏯ ▶ in the right wing, so it
-        // grows to fit the transport controls (the waveform lived here before).
+        if breakActive { return breakRightWing }
+        if claudeAlert != nil { return claudeAlertRightWing }
+        // Bấm soundwave → ◀ ⏯ ▶ ở wing phải, nới rộng cho vừa 3 nút.
         if hoverControls { return 106 }
-        let base: CGFloat
-        switch compactState { case .quiet: base = 10; case .resting: base = 40; case .reading: base = 40 }
+        var base: CGFloat = compactState == .quiet ? 10 : 40
         // Đồng hồ đếm ngược chiếm chỗ waveform ở wing phải → nới rộng để badge đủ chỗ.
-        return anyTimerRunning ? max(base, 42) : base
+        if anyTimerRunning { base = max(base, 42) }
+        return base
     }
-    /// True once the delayed reveal has fired — the trigger for morphing the
-    /// waveform into transport buttons and widening the right wing.
+    /// True khi người dùng đã bấm soundwave — morph waveform thành nút và nới wing phải.
     var hoverControls: Bool { transportVisible }
 
-    /// Arm/cancel the delayed transport reveal as hover state changes.
-    private func scheduleTransportReveal() {
-        transportWork?.cancel()
-        let canShow = hovering && hasMedia && !expanded && !showingHUD
-        if canShow {
+    /// Bấm soundwave → hiện ◀ ⏯ ▶ (chỉ bật, bấm lần nữa vào khe giữa nút không tắt).
+    func showTransport() {
+        guard hasMedia, !expanded, !showingHUD, !transportVisible else { return }
+        // Đang điều khiển nhạc thì không bật quick tool (và đóng nếu đang mở).
+        closeLauncher()
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.78)) { transportVisible = true }
+    }
+    private func hideTransport() {
+        guard transportVisible else { return }
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.78)) { transportVisible = false }
+    }
+
+    // MARK: Launcher (hover lâu → dải icon tính năng nhanh)
+
+    /// Dải icon đang mở dưới notch.
+    @Published private(set) var launcherOpen = false
+    /// Tính năng đang mở trong launcher (nil = đang xem hàng icon).
+    @Published var launcherFeature: LauncherFeature? {
+        didSet { noteLauncherInteraction() }
+    }
+    private var launcherWork: DispatchWorkItem?
+    private var launcherIdleWork: DispatchWorkItem?
+    let launcherRevealDelay: TimeInterval = 0.75
+    /// Chuột rời dải icon → đợi chừng này rồi mới thu (lỡ tay trượt ra vẫn kịp quay lại).
+    let launcherLeaveGrace: TimeInterval = 0.8
+    /// Đang trong một tính năng mà chuột rời notch → tự thu sau chừng này giây.
+    let launcherIdleClose: TimeInterval = 20
+    /// Hàng icon + một dòng tên tool đang hover bên dưới.
+    let launcherStripHeight: CGFloat = 50
+
+    private var canShowLauncher: Bool {
+        !expanded && !showingHUD && !shelfActive && !systemFileDragActive && !breakActive
+            && claudeAlert == nil && !transportVisible && !LauncherFeature.allCases.isEmpty
+    }
+    var launcherVisible: Bool { launcherOpen && !expanded && !showingHUD && !shelfActive }
+
+    // MARK: Claude Code (tiến trình qua hook)
+
+    @Published private(set) var claudeSessions: [ClaudeSession] = []
+    /// Thông báo ngắn ở hai wing khi một phiên xong / chờ duyệt.
+    @Published private(set) var claudeAlert: ClaudeTransition?
+    private var claudeAlertWork: DispatchWorkItem?
+    let claudeAlertLeftWing: CGFloat = 212
+    let claudeAlertRightWing: CGFloat = 12
+    /// Lượt làm ngắn hơn chừng này thì không bung "xong rồi" (tránh ồn).
+    let claudeDoneMinDuration: TimeInterval = 10
+
+    var claudeIndicatorVisible: Bool {
+        AppSettings.shared.claudeOn && claudeSessions.contains(where: \.isActive)
+    }
+    var claudeWaiting: Bool { claudeSessions.contains { $0.state == .waiting } }
+    /// Compact có gì để hiện ở wing không (nhạc hoặc Clawd).
+    var hasCompactContent: Bool { hasMedia || claudeIndicatorVisible }
+
+    private func handleClaude(_ t: ClaudeTransition) {
+        let s = AppSettings.shared
+        guard s.claudeOn else { return }
+        let kind: ClaudeChime.Kind
+        switch t {
+        case .waiting: kind = .waiting
+        case .done(let x, let d):
+            kind = .done
+            guard d >= claudeDoneMinDuration else { return }
+            // Đang nhìn đúng app chứa phiên → không cần báo "xong".
+            if let b = x.bundleID, NSWorkspace.shared.frontmostApplication?.bundleIdentifier == b { return }
+        }
+        if s.claudeSoundOn { ClaudeChime.play(kind) }
+        // Notch đang bận thì chỉ kêu, chỉ báo ở wing vẫn cập nhật.
+        guard !expanded, !showingHUD, !shelfActive, !breakActive, !launcherOpen else { return }
+        hideTransport()
+        withAnimation(.spring(response: 0.45, dampingFraction: 0.8)) { claudeAlert = t }
+        claudeAlertWork?.cancel()
+        let work = DispatchWorkItem { [weak self] in self?.dismissClaudeAlert() }
+        claudeAlertWork = work
+        let hold: TimeInterval = kind == .waiting ? 8 : 5
+        DispatchQueue.main.asyncAfter(deadline: .now() + hold, execute: work)
+    }
+
+    func dismissClaudeAlert() {
+        claudeAlertWork?.cancel(); claudeAlertWork = nil
+        guard claudeAlert != nil else { return }
+        withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) { claudeAlert = nil }
+    }
+
+    #if DEBUG
+    /// Chỉ cho snapshot test: dựng trạng thái Claude mà không cần hook thật.
+    func _previewClaude(sessions: [ClaudeSession], alert: ClaudeTransition? = nil) {
+        claudeSessions = sessions
+        claudeAlert = alert
+    }
+    #endif
+
+    /// Bấm vào thông báo → mở app chứa phiên.
+    func openClaudeAlert() {
+        switch claudeAlert {
+        case .waiting(let s)?, .done(let s, _)?: ClaudeActivityStore.focus(s)
+        case nil: break
+        }
+        dismissClaudeAlert()
+    }
+    var launcherBodyHeight: CGFloat { launcherFeature?.bodyHeight ?? launcherStripHeight }
+    /// Canh giữa notch: đủ rộng cho tính năng và cho hàng wing (bù lệch tâm hai wing).
+    var launcherWidth: CGFloat {
+        max(launcherFeature?.width ?? 240, compactWidth + abs(rightReveal - leftReveal))
+    }
+
+    private func scheduleLauncherReveal() {
+        launcherWork?.cancel(); launcherWork = nil
+        if hovering {
+            launcherIdleWork?.cancel(); launcherIdleWork = nil
+            guard !launcherOpen, canShowLauncher else { return }
             let work = DispatchWorkItem { [weak self] in
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.78)) { self?.transportVisible = true }
+                guard let self, hovering, canShowLauncher else { return }
+                withAnimation(.spring(response: 0.42, dampingFraction: 0.8)) { self.launcherOpen = true }
             }
-            transportWork = work
-            DispatchQueue.main.asyncAfter(deadline: .now() + transportRevealDelay, execute: work)
-        } else if transportVisible {
-            withAnimation(.spring(response: 0.4, dampingFraction: 0.78)) { transportVisible = false }
+            launcherWork = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + launcherRevealDelay, execute: work)
+        } else if launcherOpen {
+            if launcherFeature == nil { scheduleLauncherLeaveClose() } else { noteLauncherInteraction() }
+        }
+    }
+
+    /// Hẹn thu hàng icon sau `launcherLeaveGrace`; hover lại (scheduleLauncherReveal) sẽ huỷ.
+    private func scheduleLauncherLeaveClose() {
+        launcherIdleWork?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            guard let self, !hovering, launcherFeature == nil else { return }
+            closeLauncher()
+        }
+        launcherIdleWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + launcherLeaveGrace, execute: work)
+    }
+
+    /// Có thao tác trong tính năng (gõ phím…) → hoãn đồng hồ tự thu.
+    func noteLauncherInteraction() {
+        launcherIdleWork?.cancel(); launcherIdleWork = nil
+        guard launcherOpen, launcherFeature != nil, !hovering else { return }
+        let work = DispatchWorkItem { [weak self] in
+            guard let self, !hovering else { return }
+            closeLauncher()
+        }
+        launcherIdleWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + launcherIdleClose, execute: work)
+    }
+
+    func openLauncherFeature(_ f: LauncherFeature) {
+        withAnimation(.spring(response: 0.42, dampingFraction: 0.82)) { launcherFeature = f }
+    }
+    /// ← trong tính năng: về hàng icon (hoặc thu hẳn nếu chuột đã rời notch).
+    func launcherBack() {
+        guard launcherFeature != nil else { closeLauncher(); return }
+        withAnimation(.spring(response: 0.42, dampingFraction: 0.82)) { launcherFeature = nil }
+        if !hovering { closeLauncher() }
+    }
+    func closeLauncher() {
+        launcherWork?.cancel(); launcherWork = nil
+        launcherIdleWork?.cancel(); launcherIdleWork = nil
+        guard launcherOpen || launcherFeature != nil else { return }
+        withAnimation(.spring(response: 0.42, dampingFraction: 0.85)) {
+            launcherOpen = false
+            launcherFeature = nil
         }
     }
     var compactHeight: CGFloat { compactState == .quiet ? 38 : 40 }
     var compactWidth: CGFloat { leftReveal + coreWidth + rightReveal }
     /// Fixed marquee viewport for the title (left reading wing minus icon + pads).
     var titleViewport: CGFloat { 150 - 18 - 13 - 8 }
+    /// Phiên nên nhảy tới khi bấm Clawd: đang chờ duyệt trước, rồi đang chạy.
+    var claudeFocusTarget: ClaudeSession? { claudeSessions.first(where: \.isActive) }
 
     // Expanded window. (Bề ngang gọn; chiều cao giữ nguyên.)
     let expandedWidth: CGFloat = 380
@@ -349,6 +519,7 @@ final class NotchViewModel: ObservableObject {
     var surfaceWidth: CGFloat {
         if shelfActive { return shelfWidth }
         if showingHUD { return hudWidth }
+        if launcherVisible { return launcherWidth }
         if expanded && learnPopup { return learnPopupWidth }
         if filesWide { return filesExpandedWidth }
         return expanded ? expandedWidth : compactWidth
@@ -359,6 +530,7 @@ final class NotchViewModel: ObservableObject {
     var surfaceHeight: CGFloat {
         if shelfActive { return shelfHeight }
         if showingHUD { return hudHeight }
+        if launcherVisible { return compactHeight + launcherBodyHeight }
         if !expanded { return compactHeight }
         if learnPopup { return learnPopupHeight }
         if timerEditorTall { return 300 }
@@ -371,13 +543,22 @@ final class NotchViewModel: ObservableObject {
     }
     /// Keep the camera core centred on the notch: shift by half the reveal imbalance.
     /// HUD and expanded are both centred, so no shift.
-    var centerXOffset: CGFloat { (expanded || showingHUD || shelfActive) ? 0 : (rightReveal - leftReveal) / 2 }
+    var centerXOffset: CGFloat { isCentred ? 0 : wingImbalance }
+    /// Lệch tâm do hai wing không đều — hàng wing trong launcher bù lại đúng chừng này.
+    var wingImbalance: CGFloat { (rightReveal - leftReveal) / 2 }
+    /// Bề mặt canh giữa notch (thay vì canh theo lõi camera + wing trái).
+    var isCentred: Bool { expanded || showingHUD || shelfActive || launcherVisible }
+    /// Phóng nhẹ khi hover (và giữ nguyên suốt lúc launcher mở) — neo ở mép trên.
+    var hoverScale: CGFloat { !expanded && (hovering || launcherVisible) ? 1.03 : 1.0 }
 
     var bottomRadius: CGFloat {
         if shelfActive { return 26 }
         if showingHUD { return 22 }
+        if launcherVisible { return launcherFeature == nil ? 20 : 22 }
         return expanded ? 26 : (compactState == .quiet ? 10 : 14)
     }
+    /// Launcher giữ "tai" 9 như lúc thu gọn: tai to hơn sẽ lấn mép thân vào trong,
+    /// làm icon ở wing trông như bị đẩy sát mép khi dải icon thả xuống.
     var topRadius: CGFloat { (expanded || shelfActive) ? 12 : 9 }
 
     /// Đặt bởi global hotkey (⌃⌥1/2/3) — NotchRootView phân giải theo danh sách tab
@@ -413,7 +594,7 @@ final class NotchViewModel: ObservableObject {
         guard Date().timeIntervalSince(launchedAt) >= learnLaunchGrace,
               Date().timeIntervalSince(lastLearnPopup) >= Double(s.learnPopupMinutes) * 60 else { return }
         // Đang dùng notch / kệ / HUD → để lượt sau.
-        guard !expanded, !shelfActive, !showingHUD, !hovering else { return }
+        guard !expanded, !shelfActive, !showingHUD, !hovering, !launcherOpen, !breakActive, claudeAlert == nil else { return }
         // App phía trước full màn hình (phim/game/họp) → không chen vào, thử lại lượt sau.
         if s.learnSkipFullscreen && FullscreenDetector.isFrontAppFullscreen() { return }
         popLearn()
@@ -444,6 +625,62 @@ final class NotchViewModel: ObservableObject {
         }
         learnCollapseWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + learnPopupLinger, execute: work)
+    }
+
+    // MARK: Nhắc đứng dậy + uống nước (thụ động, theo `BreakSchedule`)
+
+    /// Lời nhắc đang hiện ở hai wing (không bung panel).
+    @Published private(set) var breakActive = false
+    /// Mèo + chữ nằm hết ở wing trái (đồng bộ với Clawd); wing phải chỉ còn mép nhỏ.
+    let breakLeftWing: CGFloat = 176
+    let breakRightWing: CGFloat = 12
+    let breakDuration: TimeInterval = 6
+    private var breakTick: Timer?
+    private var breakHideWork: DispatchWorkItem?
+    /// Mốc gần nhất đã xử lý (đã nhắc hoặc đã bỏ) — lưu bền để khởi động lại app
+    /// trong cùng khung 5' không nhắc lặp.
+    private var lastBreakSlot: Date? {
+        get { UserDefaults.standard.object(forKey: "break.lastSlot") as? Date }
+        set { UserDefaults.standard.set(newValue, forKey: "break.lastSlot") }
+    }
+
+    func startBreakScheduler() {
+        breakTick = Timer.scheduledTimer(withTimeInterval: 15, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated { self?.breakTickFired() }
+        }
+    }
+
+    private func breakTickFired() {
+        guard AppSettings.shared.breakReminderOn,
+              let slot = BreakSchedule.dueSlot(now: Date(), lastHandled: lastBreakSlot) else { return }
+        // Đã rời máy (khoá màn hình / không đụng phím chuột > 5') → coi như đã đứng dậy.
+        if UserPresence.isAway(idleThreshold: 5 * 60) { lastBreakSlot = slot; return }
+        // Notch đang bận (panel, popup Learn, HUD, kệ, launcher, kéo file) → chờ lượt
+        // tick sau; quá cửa sổ 5' thì `dueSlot` tự bỏ mốc này.
+        guard !expanded, !showingHUD, !shelfActive, !launcherOpen, !systemFileDragActive, claudeAlert == nil else { return }
+        lastBreakSlot = slot
+        showBreak()
+    }
+
+    /// Hiện lời nhắc ~6s kèm âm (trừ khi app phía trước đang full màn hình).
+    func showBreak() {
+        guard !breakActive else { return }
+        hideTransport()
+        withAnimation(.spring(response: 0.45, dampingFraction: 0.8)) { breakActive = true }
+        let s = AppSettings.shared
+        if s.breakSoundOn, !FullscreenDetector.isFrontAppFullscreen() {
+            BreakChime.play(volume: Float(s.breakVolume))
+        }
+        breakHideWork?.cancel()
+        let work = DispatchWorkItem { [weak self] in self?.dismissBreak() }
+        breakHideWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + breakDuration, execute: work)
+    }
+
+    func dismissBreak() {
+        breakHideWork?.cancel(); breakHideWork = nil
+        guard breakActive else { return }
+        withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) { breakActive = false }
     }
 
     // MARK: Actions
@@ -497,7 +734,7 @@ final class NotchViewModel: ObservableObject {
     /// Pop a HUD banner; latest arrival replaces any current one (no queue).
     /// Suppressed while expanded so it doesn't fight the open player.
     private func showHUD(_ record: NotificationRecord) {
-        guard !expanded, !shelfActive else { return }
+        guard !expanded, !shelfActive, !launcherOpen else { return }
         hudClearWork?.cancel()
         withAnimation(.spring(response: 0.42, dampingFraction: 0.8)) { hudNotification = record }
         let work = DispatchWorkItem { [weak self] in
@@ -512,6 +749,25 @@ final class NotchViewModel: ObservableObject {
     func openApp(bundleId: String) {
         guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleId) else { return }
         NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration())
+    }
+
+    /// Open a notification's click target: its embedded deep link when the
+    /// sending app provided one (jumps straight to the conversation/section),
+    /// otherwise just activate the app.
+    func openNotification(_ record: NotificationRecord) {
+        guard let link = record.deepLink else {
+            openApp(bundleId: record.bundleId)
+            return
+        }
+        // Route the link through the sending app when it can handle it, so a
+        // plain https link doesn't bounce to the browser for an app that owns it.
+        if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: record.bundleId),
+           let handler = NSWorkspace.shared.urlForApplication(toOpen: link), handler == appURL {
+            NSWorkspace.shared.open([link], withApplicationAt: appURL,
+                                    configuration: NSWorkspace.OpenConfiguration())
+        } else {
+            NSWorkspace.shared.open(link)
+        }
     }
 
     /// Activate the app currently playing media (resolved from its localized
@@ -553,24 +809,14 @@ final class NotchViewModel: ObservableObject {
     func seek(toFraction fraction: Double) { media.seek(toFraction: fraction) }
     /// Volume of the playing source itself (not the system volume).
     func setVolume(_ volume: Double, live: Bool = false) { media.setVolume(volume, live: live) }
-    func start() { media.start(); media.refresh(); notifier.start(); startLearnScheduler() }
-}
-    /// Open a notification's click target: its embedded deep link when the
-    /// sending app provided one (jumps straight to the conversation/section),
-    /// otherwise just activate the app.
-    func openNotification(_ record: NotificationRecord) {
-        guard let link = record.deepLink else {
-            openApp(bundleId: record.bundleId)
-            return
-        }
-        // Route the link through the sending app when it can handle it, so a
-        // plain https link doesn't bounce to the browser for an app that owns it.
-        if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: record.bundleId),
-           let handler = NSWorkspace.shared.urlForApplication(toOpen: link), handler == appURL {
-            NSWorkspace.shared.open([link], withApplicationAt: appURL,
-                                    configuration: NSWorkspace.OpenConfiguration())
-        } else {
-            NSWorkspace.shared.open(link)
-        }
+    func start() {
+        media.start(); media.refresh(); notifier.start()
+        startLearnScheduler(); startBreakScheduler()
+        let claude = ClaudeActivityStore.shared
+        claude.$sessions.receive(on: RunLoop.main)
+            .sink { [weak self] in self?.claudeSessions = $0 }.store(in: &bag)
+        claude.transitions.receive(on: RunLoop.main)
+            .sink { [weak self] in self?.handleClaude($0) }.store(in: &bag)
+        claude.start()
     }
-
+}

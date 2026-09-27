@@ -57,6 +57,8 @@ final class NotchWindowController {
                 // Catcher phủ lõi notch nên phải thay luôn hành vi bấm island:
                 // đang mở shelf → thu shelf; đang expand → THU notch; còn lại → mở.
                 if vm.shelfActive { vm.dismissShelf(); return }
+                if vm.breakActive { vm.dismissBreak(); return }
+                if vm.claudeAlert != nil { vm.openClaudeAlert(); return }
                 if vm.expanded { vm.collapse() }
                 else { vm.refreshMedia(); vm.expanded = true }
             })
@@ -81,10 +83,10 @@ final class NotchWindowController {
 
         // While expanded OR while a HUD banner is showing, the panel must receive
         // clicks (controls / tap-to-open-source-app). Cũng bật/tắt timer bám con trỏ.
-        vm.$expanded.combineLatest(vm.$hudNotification, vm.$shelfActive)
+        vm.$expanded.combineLatest(vm.$hudNotification, vm.$shelfActive, vm.$launcherOpen)
             .receive(on: RunLoop.main)
-            .sink { [weak self] exp, hud, shelf in
-                let live = exp || hud != nil || shelf
+            .sink { [weak self] exp, hud, shelf, launcher in
+                let live = exp || hud != nil || shelf || launcher
                 if live { self?.panel.ignoresMouseEvents = false }
                 self?.updateHover()
                 self?.setHoverTracking(active: live)
@@ -94,11 +96,12 @@ final class NotchWindowController {
         // Space, ←/→) route to us. A .nonactivatingPanel can be key without
         // activating the app, so the frontmost app keeps its menu bar. On collapse
         // we resign key and keyboard returns to whatever app is in front.
-        vm.$expanded
+        // Launcher mở tính năng có ô nhập (máy tính) → panel cũng cần key để gõ phím.
+        vm.$expanded.combineLatest(vm.$launcherFeature)
             .receive(on: RunLoop.main)
-            .sink { [weak self] exp in
+            .sink { [weak self] exp, feature in
                 guard let self else { return }
-                if exp {
+                if exp || feature != nil {
                     self.panel.allowsKey = true
                     self.panel.makeKey()
                 } else {
@@ -138,11 +141,11 @@ final class NotchWindowController {
 
     /// Surface bounding rect in screen (bottom-left origin) coordinates.
     private var islandScreenRect: CGRect {
-        let w = vm.surfaceWidth, h = vm.surfaceHeight
-        let centred = vm.expanded || vm.showingHUD || vm.shelfActive
-        let left: CGFloat = centred
-            ? coreCenterX - w / 2
-            : coreCenterX - vm.coreWidth / 2 - vm.leftReveal
+        // Tính cả mức phóng hover (neo mép trên) để mép dưới launcher không lọt click.
+        let w = vm.surfaceWidth * vm.hoverScale, h = vm.surfaceHeight * vm.hoverScale
+        // Tâm bề mặt = tâm lõi + centerXOffset (0 khi canh giữa) — đúng cả khi launcher
+        // nới rộng hơn hàng wing.
+        let left: CGFloat = coreCenterX + vm.centerXOffset - w / 2
         return CGRect(x: left, y: screenTopY - h, width: w, height: h)
     }
 
@@ -157,7 +160,8 @@ final class NotchWindowController {
         panel.setFrame(frame, display: true)
 
         // Catcher phủ lõi notch (rộng hơn chút để dễ kéo trúng), luôn ở đỉnh màn hình.
-        let cw = vm.coreWidth + 30
+        // Chỉ nhỉnh hơn lõi 8pt: rộng hơn sẽ che mất icon nguồn / soundwave ở hai wing.
+        let cw = vm.coreWidth + 8
         let ch = vm.notchHeight + 4
         shelfCatcher.setFrame(CGRect(x: coreCenterX - cw / 2, y: screenTopY - ch, width: cw, height: ch))
         shelfCatcher.orderFront()
@@ -177,6 +181,11 @@ final class NotchWindowController {
         // Bấm ra ngoài island khi đang expand thì thu notch — TRỪ tab Files (đang
         // expand): giữ panel mở để kéo-thả file/folder vào. Thu tab Files bằng cách
         // bấm vùng trống trong notch (xem onTapGesture ở surface).
+        // Bấm ra ngoài khi launcher đang mở → thu launcher.
+        monitors.append(NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown]) { [weak self] _ in
+            guard let self, self.vm.launcherOpen, !self.vm.expanded else { return }
+            if !self.islandScreenRect.contains(NSEvent.mouseLocation) { self.vm.closeLauncher() }
+        } as Any)
         monitors.append(NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown]) { [weak self] _ in
             guard let self, self.vm.expanded, !self.vm.keepOpenOnOutsideClick else { return }
             if !self.islandScreenRect.contains(NSEvent.mouseLocation) { self.vm.collapse() }

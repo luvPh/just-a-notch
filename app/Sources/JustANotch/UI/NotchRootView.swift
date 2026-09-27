@@ -53,6 +53,7 @@ struct NotchRootView: View {
     @State private var volumeAutoHide: DispatchWorkItem?
     @State private var lastSentVolume: Double = -1
     @State private var artHover = false
+    @State private var waveHover = false
     @State private var hoveredQueueID: String?
     // Notifications: which app-piles are expanded (by bundleId).
     @State private var expandedGroups: Set<String> = []
@@ -78,7 +79,9 @@ struct NotchRootView: View {
                 .frame(width: vm.surfaceWidth, height: vm.surfaceHeight, alignment: .top)
                 // A whisper of lift on hover; the real reveal is the wing widening
                 // to expose the transport controls (see `compactRight`).
-                .scaleEffect(vm.hovering && !vm.expanded ? 1.03 : 1.0, anchor: .top)
+                // Launcher mở ra từ trạng thái hover → giữ nguyên mức phóng để notch không
+                // co lại lúc dải icon thả xuống; đóng launcher mới trở về 1.0.
+                .scaleEffect(vm.hoverScale, anchor: .top)
                 .offset(x: vm.centerXOffset)
                 .onHover { vm.hovering = $0 }
                 .animation(hoverSpring, value: vm.hovering)
@@ -93,6 +96,11 @@ struct NotchRootView: View {
                 // Files mở rộng cả chiều ngang (ẩn sidebar) — phình mềm sang hai bên.
                 .animation(openSpring, value: vm.surfaceWidth)
                 .animation(revealSpring, value: vm.showingHUD)
+                .animation(openSpring, value: vm.launcherOpen)
+                .animation(openSpring, value: vm.launcherFeature)
+                .animation(revealSpring, value: vm.breakActive)
+                .animation(revealSpring, value: vm.claudeAlert)
+                .animation(revealSpring, value: vm.claudeIndicatorVisible)
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -133,6 +141,12 @@ struct NotchRootView: View {
 
     /// Returns true if the event was handled (and should be swallowed).
     private func handleKey(_ event: NSEvent) -> Bool {
+        // Launcher đang mở một tính năng (panel key) → Esc quay về hàng icon.
+        if !vm.expanded, vm.launcherFeature != nil, event.keyCode == 53,
+           !(NSApp.keyWindow?.firstResponder is NSText) {
+            vm.launcherBack()
+            return true
+        }
         guard vm.expanded else { return false }
         // Never steal keys while editing a text field (rename / new catalogue).
         if NSApp.keyWindow?.firstResponder is NSText { return false }
@@ -213,8 +227,29 @@ struct NotchRootView: View {
                     .transition(.blurFade)
             } else if vm.expanded {
                 player.transition(.blurFade)
-            } else if vm.hasMedia {
-                compact.transition(.blurFade)
+            } else if vm.breakActive {
+                BreakReminderView(vm: vm, reduceMotion: reduceMotion)
+                    .transition(.blurFade)
+            } else if let alert = vm.claudeAlert {
+                ClaudeAlertView(vm: vm, alert: alert, reduceMotion: reduceMotion)
+                    .transition(.blurFade)
+            } else if vm.hasCompactContent || vm.launcherVisible {
+                // Launcher: bề mặt canh giữa notch, hàng wing bù lệch tâm để lõi camera
+                // vẫn nằm giữa; dải icon / tính năng thả xuống ngay dưới.
+                VStack(spacing: 0) {
+                    if vm.hasCompactContent {
+                        compact.offset(x: vm.launcherVisible ? vm.wingImbalance : 0)
+                    } else {
+                        Color.clear.frame(height: vm.compactHeight)
+                    }
+                    if vm.launcherVisible {
+                        LauncherBody(vm: vm, reduceMotion: reduceMotion)
+                            .frame(height: vm.launcherBodyHeight)
+                            .transition(.asymmetric(insertion: .opacity.combined(with: .offset(y: -8)),
+                                                    removal: .opacity))
+                    }
+                }
+                .transition(.blurFade)
             }
         }
         .clipShape(shape)
@@ -230,6 +265,10 @@ struct NotchRootView: View {
         .contentShape(shape)
         .onTapGesture {
             if vm.showingHUD { vm.openSourceApp(); return }
+            if vm.breakActive { vm.dismissBreak(); return }
+            if vm.claudeAlert != nil { vm.openClaudeAlert(); return }
+            // Đang trong một tính năng của launcher: bấm vùng trống không mở panel.
+            if vm.launcherVisible && vm.launcherFeature != nil { return }
             if vm.shelfActive { vm.dismissShelf() }
             if !vm.expanded { vm.refreshMedia(); withAnimation(openSpring) { vm.expanded = true } }
         }
@@ -303,30 +342,58 @@ struct NotchRootView: View {
 
     private var compact: some View {
         HStack(spacing: 0) {
+            // ZStack có sẵn Color.clear: không có nhạc thì HStack bên trong rỗng, SwiftUI
+            // bỏ luôn cả khung + overlay (Clawd) nếu không có gì làm nền.
+            ZStack(alignment: .leading) {
+            Color.clear
             HStack(spacing: 8) {
-                SourceIcon(sourceApp: vm.track?.sourceAppName ?? "", size: 18)
-                    .contentShape(Rectangle())
-                    .onTapGesture { vm.openSourceMediaApp() }
+                if vm.claudeIndicatorVisible {
+                    // Claude đang chạy/chờ duyệt → Clawd thay chỗ icon nguồn nhạc; bấm để
+                    // nhảy tới phiên đó.
+                    // Thụt vào để né "tai" cong ở mép trái NotchShape.
+                    ClaudeWingIndicator(waiting: vm.claudeWaiting,
+                                        sessionID: vm.claudeFocusTarget?.id ?? "",
+                                        reduceMotion: reduceMotion)
+                        .padding(.leading, 10)
+                        .contentShape(Rectangle())
+                        .onTapGesture { if let s = vm.claudeFocusTarget { ClaudeActivityStore.focus(s) } }
+                        .transition(.blurFade)
+                } else if vm.hasMedia {
+                    SourceIconButton(sourceApp: vm.track?.sourceAppName ?? "", reduceMotion: reduceMotion) {
+                        vm.openSourceMediaApp()
+                    }
+                    .padding(.trailing, -6)   // khung bấm 30pt nhưng giữ khoảng cách tới tiêu đề như cũ
+                    .transition(.blurFade)
+                }
                 if vm.compactState == .reading, let track = vm.track {
                     MarqueeText(text: track.title, viewport: vm.titleViewport,
                                 onPanDuration: vm.scheduleTitleRetraction)
                 }
             }
-            .padding(.leading, 13)
+            .padding(.leading, 7)
+            }
             .frame(width: vm.leftReveal, alignment: .leading)
             .clipped()
 
             Color.clear.frame(width: vm.coreWidth)
 
-            compactRight
-                .padding(.trailing, 15)
+            Group {
+                if vm.hasMedia { compactRight.padding(.trailing, 15) } else { Color.clear }
+            }
                 .frame(width: vm.rightReveal, alignment: .trailing)
+                .frame(maxHeight: .infinity)
+                // Cả wing phải là vùng bấm soundwave → hiện ◀ ⏯ ▶ (các nút con nhận bấm riêng).
+                .contentShape(Rectangle())
+                .onTapGesture { vm.showTransport() }
+                .onHover { h in
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) { waveHover = h }
+                }
                 .clipped()
         }
         .frame(width: vm.compactWidth, height: vm.compactHeight)
     }
 
-    // Right wing: the soundwave morphs into ◀ ⏯ ▶ transport controls on hover.
+    // Right wing: bấm soundwave → morph thành ◀ ⏯ ▶ transport controls.
     // Both layers share the trailing edge and cross-dissolve (opacity + blur +
     // scale) so the waveform appears to *become* the play/pause button while the
     // skip buttons unfold outward from it.
@@ -338,6 +405,9 @@ struct NotchRootView: View {
         return ZStack(alignment: .trailing) {
             OrganicWaveform(active: vm.isPlaying, reduceMotion: reduceMotion, bars: 6)
                 .frame(width: 18, height: 11)
+                // Hover gợi ý "bấm được": sáng + phóng nhẹ.
+                .brightness(waveHover && !on ? 0.25 : 0)
+                .scaleEffect(waveHover && !on ? 1.18 : 1, anchor: .trailing)
                 .opacity(on || timer.isRunning ? 0 : 1)
                 .blur(radius: on || timer.isRunning ? 5 : 0)
                 .scaleEffect(on ? 0.55 : 1, anchor: .trailing)
