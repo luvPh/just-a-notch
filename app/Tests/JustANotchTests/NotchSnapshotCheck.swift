@@ -174,12 +174,13 @@ final class SpriteVideoCheck: XCTestCase {
         let sub = URL(fileURLWithPath: dir).appendingPathComponent("logo")
         try? FileManager.default.removeItem(at: sub)
         try FileManager.default.createDirectory(at: sub, withIntermediateDirectories: true)
-        let n = ClaudeSpark.cycle.count * ClaudeSpark.framesPerGlyph * 3
+        let n = ClaudeSpark.keyframes.count * ClaudeSpark.framesPerMorph * 2
         for i in 0..<n {
             let t = Double(i) / ClaudeSpark.fps
+            let p = ClaudeSpark.pose(at: t)
             let view = VStack(spacing: 22) {
-                ClaudeSparkGlyph(frame: ClaudeSpark.frame(at: t), size: 180, twinkle: ClaudeSpark.twinkle(at: t))
-                Text("logo Claude đổi hình · ✢ ✳ ✶ ✻ ✽").font(.system(size: 22, weight: .semibold, design: .rounded))
+                ClaudeSparkCanvas(shape: p.shape, angle: p.angle, size: 180, twinkle: ClaudeSpark.twinkle(at: t))
+                Text("logo Claude biến hình · 8 khung/giây").font(.system(size: 22, weight: .semibold, design: .rounded))
                     .foregroundStyle(.white.opacity(0.7))
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity).background(Color.black)

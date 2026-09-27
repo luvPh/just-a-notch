@@ -48,84 +48,128 @@ struct ClawdSprite: View {
     }
 }
 
-// MARK: - Logo Claude nhấp nháy đổi hình (như spinner của Claude Code)
+// MARK: - Logo Claude biến hình (như spinner của Claude Code, nhưng morph mượt)
 
-/// Ngôi sao cam đổi hình liên tục · ✢ ✳ ✶ ✻ ✽ (tới rồi lui) kèm nhấp nháy nhẹ —
-/// đúng kiểu spinner "đang suy nghĩ" của Claude Code.
+/// Hình dạng logo: 12 "cánh" đặt đều 30°, mỗi cánh là một capsule thuôn (gốc dày `b`,
+/// đầu dày `t`, dài `l`, đơn vị = bán kính khung) + đĩa giữa bán kính `c`. Mọi hình
+/// (chấm, 4 cánh hoa, sao 6 cánh, 12 tia, 6 cánh hoa…) đều là một bộ số như vậy, nên
+/// khung chuyển là NỘI SUY hình học — cánh mọc dài/phình/thu dần, không chồng mờ.
+struct SparkShape {
+    static let rays = 12
+    var l: [Double]
+    var b: [Double]
+    var t: [Double]
+    var c: Double
+
+    static func uniform(on slots: (Int) -> Bool, l: Double, b: Double, t: Double, c: Double,
+                        jitter: [Double] = []) -> SparkShape {
+        var L = [Double](repeating: 0, count: rays), B = L, T = L
+        for k in 0..<rays where slots(k) {
+            L[k] = l * (jitter.isEmpty ? 1 : jitter[k % jitter.count]); B[k] = b; T[k] = t
+        }
+        return SparkShape(l: L, b: B, t: T, c: c)
+    }
+
+    static let dot     = uniform(on: { _ in false }, l: 0, b: 0, t: 0, c: 0.30)
+    static let petals4 = uniform(on: { $0 % 3 == 0 }, l: 0.95, b: 0.07, t: 0.22, c: 0.12)
+    static let star6   = uniform(on: { $0 % 2 == 0 }, l: 0.96, b: 0.26, t: 0.03, c: 0.20)
+    /// 12 tia dài ngắn so le — gần với logo Claude nhất.
+    static let spokes  = uniform(on: { _ in true }, l: 0.96, b: 0.075, t: 0.065, c: 0.10,
+                                 jitter: [1, 0.78, 0.92, 0.74, 1, 0.84, 0.9, 0.76, 0.98, 0.8, 0.88, 0.72])
+    static let petals6 = uniform(on: { $0 % 2 == 1 }, l: 0.9, b: 0.06, t: 0.24, c: 0.14)
+
+    static func lerp(_ a: SparkShape, _ z: SparkShape, _ f: Double) -> SparkShape {
+        func mix(_ x: [Double], _ y: [Double]) -> [Double] { zip(x, y).map { $0 + ($1 - $0) * f } }
+        return SparkShape(l: mix(a.l, z.l), b: mix(a.b, z.b), t: mix(a.t, z.t), c: a.c + (z.c - a.c) * f)
+    }
+}
+
 struct ClaudeSpark: View {
     var size: CGFloat
     var color: Color = Clawd.clay
     let reduceMotion: Bool
     @State private var start = Date()
 
-    static let glyphs = ["·", "✢", "✳", "✶", "✻", "✽"]
-    /// Tới rồi lui, không lặp khung ở hai đầu: · ✢ ✳ ✶ ✻ ✽ ✻ ✶ ✳ ✢
-    static let cycle: [String] = glyphs + glyphs.dropFirst().dropLast().reversed()
-    /// 8 khung/giây, mỗi hình giữ 2 khung: khung đầu là hình trọn vẹn, khung sau là
-    /// khung chuyển (hình cũ mờ + co + xoay nhẹ, hình mới hiện dần) — đổi hình mượt, không gấp.
+    /// Chuỗi hình (khép vòng). Mỗi bước chỉ MỌC THÊM hoặc THU BỚT cánh đối xứng (qua
+    /// 12 tia — hình logo Claude), không đổi thẳng giữa hai bộ cánh lệch nhau.
+    static let keyframes: [SparkShape] = [.dot, .petals4, .spokes, .star6, .spokes, .petals6, .spokes, .petals4]
+    /// 8 khung/giây; mỗi lần đổi hình morph qua `framesPerMorph` khung (có ease in/out).
     static let fps = 8.0
-    static let framesPerGlyph = 2
+    static let framesPerMorph = 4
+    static var loopDuration: TimeInterval { Double(keyframes.count * framesPerMorph) / fps }
+
+    /// Hình + góc xoay tại thời điểm t (lượng tử theo 8 khung/giây).
+    static func pose(at t: TimeInterval) -> (shape: SparkShape, angle: Double) {
+        let n = Int(t * fps)
+        let seg = (n / framesPerMorph) % keyframes.count
+        let f = Double(n % framesPerMorph) / Double(framesPerMorph)
+        let e = f * f * (3 - 2 * f)
+        let shape = SparkShape.lerp(keyframes[seg], keyframes[(seg + 1) % keyframes.count], e)
+        return (shape, Double(n) * 3.75)   // xoay đều 30°/giây
+    }
+    static func twinkle(at t: TimeInterval) -> Double { 0.82 + 0.18 * (0.5 + 0.5 * sin(t * 2.6)) }
 
     var body: some View {
         Group {
             if reduceMotion {
-                ClaudeSparkGlyph(frame: .init(from: "✻", to: "✻", mix: 0), size: size, twinkle: 1, color: color)
+                ClaudeSparkCanvas(shape: .spokes, angle: 0, size: size, twinkle: 1, color: color)
             } else {
                 TimelineView(.periodic(from: start, by: 1.0 / Self.fps)) { ctx in
                     let t = ctx.date.timeIntervalSince(start)
-                    ClaudeSparkGlyph(frame: Self.frame(at: t), size: size, twinkle: Self.twinkle(at: t), color: color)
+                    let p = Self.pose(at: t)
+                    ClaudeSparkCanvas(shape: p.shape, angle: p.angle, size: size,
+                                      twinkle: Self.twinkle(at: t), color: color)
                 }
             }
         }
         .frame(width: size, height: size)
     }
-
-    struct Frame { let from: String; let to: String; let mix: Double }
-
-    /// Khung thứ n: hình `cycle[n / 2]`; khung lẻ trộn 50% sang hình kế tiếp.
-    static func frame(at t: TimeInterval) -> Frame {
-        let n = Int(t * fps)
-        let g = (n / framesPerGlyph) % cycle.count
-        let sub = n % framesPerGlyph
-        let mix = Double(sub) / Double(framesPerGlyph)
-        return Frame(from: cycle[g], to: cycle[(g + 1) % cycle.count], mix: mix)
-    }
-    /// Thời lượng một vòng đổi hình.
-    static var loopDuration: TimeInterval { Double(cycle.count * framesPerGlyph) / fps }
-    static func twinkle(at t: TimeInterval) -> Double { 0.78 + 0.22 * (0.5 + 0.5 * sin(t * 2.6)) }
 }
 
-/// Một khung của logo (tách riêng để dựng video soát hoạt ảnh): hình cũ `from` và hình
-/// mới `to` chồng lên nhau theo `mix` (0 = chỉ hình cũ).
-struct ClaudeSparkGlyph: View {
-    let frame: ClaudeSpark.Frame
+/// Vẽ một hình `SparkShape` (tách riêng để dựng video soát hoạt ảnh).
+struct ClaudeSparkCanvas: View {
+    let shape: SparkShape
+    let angle: Double
     let size: CGFloat
     let twinkle: Double
     var color: Color = Clawd.clay
 
     var body: some View {
-        let m = frame.mix
-        ZStack {
-            glyph(frame.from)
-                .opacity(1 - m)
-                .scaleEffect(1 - 0.18 * m)
-                .rotationEffect(.degrees(22 * m))
-            if m > 0 {
-                glyph(frame.to)
-                    .opacity(m)
-                    .scaleEffect(0.82 + 0.18 * m)
-                    .rotationEffect(.degrees(-22 * (1 - m)))
+        Canvas { ctx, sz in
+            let r = min(sz.width, sz.height) / 2
+            let center = CGPoint(x: sz.width / 2, y: sz.height / 2)
+            var path = Path()
+            for k in 0..<SparkShape.rays {
+                let l = shape.l[k]
+                guard l > 0.02 else { continue }
+                // Cánh ngắn thì cũng mảnh lại — không để lại "cục" ở tâm khi co về 0.
+                let grow = min(1, l / 0.3)
+                let b = shape.b[k] * grow * r, t = shape.t[k] * grow * r, L = l * r
+                let a = (Double(k) * 30 + angle) * .pi / 180
+                path.addPath(Self.ray(length: L, base: b, tip: t),
+                             transform: CGAffineTransform(rotationAngle: a)
+                                .concatenating(CGAffineTransform(translationX: center.x, y: center.y)))
             }
+            let c = shape.c * r
+            path.addEllipse(in: CGRect(x: center.x - c, y: center.y - c, width: 2 * c, height: 2 * c))
+            ctx.fill(path, with: .color(color))
         }
         .opacity(twinkle)
-        .shadow(color: color.opacity(0.55 * twinkle), radius: size * 0.18)
+        .shadow(color: color.opacity(0.5 * twinkle), radius: size * 0.16)
         .frame(width: size, height: size)
     }
 
-    private func glyph(_ g: String) -> some View {
-        Text(g)
-            .font(.system(size: size * (g == "·" ? 1.25 : 0.92), weight: .bold))
-            .foregroundStyle(color)
+    /// Capsule thuôn hướng +x: gốc bán kính `base` ở tâm, đầu bán kính `tip` cách tâm `length`.
+    static func ray(length L: CGFloat, base b: CGFloat, tip t: CGFloat) -> Path {
+        var p = Path()
+        let tipC = max(L - t, 0)
+        p.move(to: CGPoint(x: 0, y: -b))
+        p.addLine(to: CGPoint(x: tipC, y: -t))
+        p.addArc(center: CGPoint(x: tipC, y: 0), radius: t, startAngle: .degrees(-90), endAngle: .degrees(90), clockwise: false)
+        p.addLine(to: CGPoint(x: 0, y: b))
+        p.addArc(center: .zero, radius: b, startAngle: .degrees(90), endAngle: .degrees(270), clockwise: false)
+        p.closeSubpath()
+        return p
     }
 }
 
