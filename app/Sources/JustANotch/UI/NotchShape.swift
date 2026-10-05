@@ -5,13 +5,23 @@ import SwiftUI
 struct NotchShape: Shape {
     var bottom: CGFloat
     var inverse: CGFloat
+    /// Bo lồi ở hai góc trên (chế độ pill, màn hình không có notch). 0 = phẳng.
+    var top: CGFloat = 0
 
-    var animatableData: AnimatablePair<CGFloat, CGFloat> {
-        get { AnimatablePair(bottom, inverse) }
-        set { bottom = newValue.first; inverse = newValue.second }
+    var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
+        get { AnimatablePair(AnimatablePair(bottom, inverse), top) }
+        set { bottom = newValue.first.first; inverse = newValue.first.second; top = newValue.second }
     }
 
     func path(in rect: CGRect) -> Path {
+        if top > 0.5 {
+            // Pill: hình chữ nhật bo đều, góc dưới theo `bottom`, góc trên theo `top`.
+            let half = min(rect.width, rect.height) / 2
+            let t = min(top, half), b = min(bottom, half)
+            return UnevenRoundedRectangle(topLeadingRadius: t, bottomLeadingRadius: b,
+                                          bottomTrailingRadius: b, topTrailingRadius: t,
+                                          style: .continuous).path(in: rect)
+        }
         let ir = max(0, min(inverse, rect.width / 2 - 1))
         let br = max(0, min(bottom, rect.height - ir - 1, rect.width / 2 - ir - 1))
         var p = Path()

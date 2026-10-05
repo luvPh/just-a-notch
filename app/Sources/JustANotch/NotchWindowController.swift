@@ -137,6 +137,8 @@ final class NotchWindowController {
         // Physical notch (camera) height = safe-area top when present; 38pt fallback.
         let safeTop = screen.safeAreaInsets.top
         vm.notchHeight = safeTop > 0 ? safeTop : 38
+        // Không có notch vật lý (màn ngoài / Mac không tai thỏ) → dạng pill nổi.
+        vm.pillMode = notchScreen == nil
     }
 
     /// Surface bounding rect in screen (bottom-left origin) coordinates.
@@ -146,7 +148,8 @@ final class NotchWindowController {
         // Tâm bề mặt = tâm lõi + centerXOffset (0 khi canh giữa) — đúng cả khi launcher
         // nới rộng hơn hàng wing.
         let left: CGFloat = coreCenterX + vm.centerXOffset - w / 2
-        return CGRect(x: left, y: screenTopY - h, width: w, height: h)
+        let gap = vm.pillMode ? vm.pillGap : 0
+        return CGRect(x: left, y: screenTopY - h - gap, width: w, height: h)
     }
 
     /// The panel is a FIXED transparent canvas (widest × tallest state), positioned
@@ -155,7 +158,7 @@ final class NotchWindowController {
     /// Mouse pass-through outside the island keeps the transparent area click-through.
     private func layoutPanel() {
         let w = panelWidth
-        let h = vm.maxSurfaceHeight
+        let h = vm.maxSurfaceHeight + vm.pillGap
         let frame = CGRect(x: coreCenterX - w / 2, y: screenTopY - h, width: w, height: h)
         panel.setFrame(frame, display: true)
 

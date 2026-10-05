@@ -483,7 +483,7 @@ final class NotchViewModel: ObservableObject {
     var claudeFocusTarget: ClaudeSession? { claudeSessions.first(where: \.isActive) }
 
     // Expanded window. (Bề ngang gọn; chiều cao giữ nguyên.)
-    let expandedWidth: CGFloat = 380
+    let expandedWidth: CGFloat = 560
     let expandedHeight: CGFloat = 150
     // Taller window while the queue/playlist is open (list scrolls within).
     let listExpandedHeight: CGFloat = 340
@@ -500,6 +500,8 @@ final class NotchViewModel: ObservableObject {
     let filesExpandedHeight: CGFloat = 340
     /// Bề ngang panel Files khi bấm ⤢ — mở rộng để làm việc chính với tab này.
     let filesExpandedWidth: CGFloat = 640
+    let clipboardWidth: CGFloat = 640
+    let clipboardHeight: CGFloat = 210
     /// Chiều cao canvas cố định lớn nhất — panel window phải đủ cao cho mọi state.
     var maxSurfaceHeight: CGFloat {
         max(expandedHeight, listExpandedHeight, calendarMaxHeight, filesExpandedHeight, shelfHeight)
@@ -524,6 +526,7 @@ final class NotchViewModel: ObservableObject {
         if launcherVisible { return launcherWidth }
         if expanded && learnPopup { return learnPopupWidth }
         if filesWide { return filesExpandedWidth }
+        if expanded && clipTabActive { return clipboardWidth }
         return expanded ? expandedWidth : compactWidth
     }
     /// Tab Chuỗi tự tạo đang mở trình sửa → panel cao 300px cho thoải mái.
@@ -537,14 +540,13 @@ final class NotchViewModel: ObservableObject {
         if learnPopup { return learnPopupHeight }
         if timerEditorTall { return 300 }
         if isListOpen { return listExpandedHeight }
+        if clipTabActive { return clipboardHeight }
         if filesTabActive { return filesExpanded ? filesExpandedHeight : expandedHeight }
         if calTabActive { return calExpanded ? calendarExpandedHeight : expandedHeight }
         if notifTabActive { return expandedHeight }   // 150px như tab mặc định
         if panelWantsTall { return calendarExpandedHeight }
         return expandedHeight
     }
-    let clipboardWidth: CGFloat = 640
-    let clipboardHeight: CGFloat = 210
     /// Keep the camera core centred on the notch: shift by half the reveal imbalance.
     /// HUD and expanded are both centred, so no shift.
     var centerXOffset: CGFloat { isCentred ? 0 : wingImbalance }
@@ -559,17 +561,26 @@ final class NotchViewModel: ObservableObject {
         if shelfActive { return 26 }
         if showingHUD { return 22 }
         if launcherVisible { return launcherFeature == nil ? 20 : 22 }
+        if pillMode && !expanded { return surfaceHeight / 2 }
         return expanded ? 26 : (compactState == .quiet ? 10 : 14)
     }
     /// Launcher giữ "tai" 9 như lúc thu gọn: tai to hơn sẽ lấn mép thân vào trong,
     /// làm icon ở wing trông như bị đẩy sát mép khi dải icon thả xuống.
-    var topRadius: CGFloat { (expanded || shelfActive) ? 12 : 9 }
+    var topRadius: CGFloat { pillMode ? 0 : ((expanded || shelfActive) ? 12 : 9) }
+    /// Màn hình không có notch vật lý → hiển thị dạng pill nổi (bo cả 4 góc, cách mép trên).
+    @Published var pillMode = false
+    /// Khoảng cách pill ↔ mép trên màn hình.
+    let pillGap: CGFloat = 6
+    /// Bo góc trên ở chế độ pill: thu gọn = capsule, mở = khớp góc dưới.
+    var pillTopRadius: CGFloat {
+        guard pillMode else { return 0 }
+        return (expanded || shelfActive || showingHUD || launcherVisible) ? bottomRadius : surfaceHeight / 2
+    }
 
     /// Đặt bởi global hotkey (⌃⌥1/2/3) — NotchRootView phân giải theo danh sách tab
     /// đang hiển thị rồi tự xoá về nil. 1-based.
     @Published var pendingTabIndex: Int?
     /// Yêu cầu nhảy tới một tab cụ thể (dùng cho auto-popup Learn).
-        if expanded && clipTabActive { return clipboardWidth }
     @Published var pendingTab: RailTab?
 
     // MARK: Learn auto-popup
@@ -583,7 +594,6 @@ final class NotchViewModel: ObservableObject {
     private let launchedAt = Date()
     /// Không bung ngay lúc vừa mở app (kể cả khi đã quá hạn).
     private let learnLaunchGrace: TimeInterval = 60
-        if clipTabActive { return clipboardHeight }
     private var learnCollapseWork: DispatchWorkItem?
     /// Popup tự thu sau chừng này giây nếu người dùng chưa trả lời.
     private let learnPopupLinger: TimeInterval = 45

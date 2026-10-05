@@ -152,6 +152,41 @@ final class NotchSnapshotCheck: XCTestCase {
             }
         }.padding(20).background(.black)
         try snap("8-sprite", sheet, size: CGSize(width: 820, height: 200), wait: 0.3)
+
+        // 20. Clipboard dạng thẻ ngang.
+        let tmp = FileManager.default.temporaryDirectory.appendingPathComponent("clip-snap-\(UUID()).json")
+        let clip = ClipboardStore(fileURL: tmp, imagesDir: nil, autoPoll: false)
+        clip.recordText("Palette for the autumn set: Hokusai's Prussian blue as the base, ochre and vermilion accents.")
+        clip.recordText("https://github.com/anthropics/claude-code")
+        clip.recordText("#1F4E79")
+        clip.recordText("const palette = {\n  ink: \"#1F4E79\",\n  ochre: \"#C8963E\",\n};")
+        clip.togglePin(clip.items[2].id)
+        try snap("20-clipboard", ClipboardPanel(store: clip).padding(12).background(.black),
+                 size: CGSize(width: 620, height: 170), wait: 0.4)
+    }
+
+    /// Mỗi tab ở trạng thái mở rộng — để rà UI toàn app.
+    func testTabSnapshots() throws {
+        guard let dir = ProcessInfo.processInfo.environment["NOTCH_SNAP"] else { throw XCTSkip("no NOTCH_SNAP") }
+        out = dir
+        for tab in RailTab.allCases {
+            let (vm, _) = makeVM(media: true)
+            vm.expanded = true
+            vm.filesTabActive = tab == .files
+            vm.clipTabActive = tab == .clipboard
+            vm.calTabActive = tab == .calendar
+            vm.notifTabActive = tab == .notifications
+            vm.panelWantsTall = [.calendar, .settings, .learn].contains(tab)
+            try snap("tab-\(tab.rawValue)", NotchRootView(vm: vm, initialTab: tab),
+                     size: CGSize(width: 700, height: 380), wait: 1.2)
+        }
+        // Pill (màn hình không notch): thu gọn + mở.
+        var (pv, _) = makeVM(media: true)
+        pv.pillMode = true
+        try snap("pill-compact", NotchRootView(vm: pv), size: CGSize(width: 700, height: 120), wait: 0.6)
+        (pv, _) = makeVM(media: true)
+        pv.pillMode = true; pv.expanded = true
+        try snap("pill-expanded", NotchRootView(vm: pv), size: CGSize(width: 700, height: 260), wait: 1.0)
     }
 }
 
@@ -179,17 +214,6 @@ final class SpriteVideoCheck: XCTestCase {
             let t = Double(i) / ClaudeSpark.fps
             let p = ClaudeSpark.pose(at: t)
             let view = VStack(spacing: 22) {
-
-        // 20. Clipboard dạng thẻ ngang.
-        let tmp = FileManager.default.temporaryDirectory.appendingPathComponent("clip-snap-\(UUID()).json")
-        let clip = ClipboardStore(fileURL: tmp, imagesDir: nil, autoPoll: false)
-        clip.recordText("Palette for the autumn set: Hokusai's Prussian blue as the base, ochre and vermilion accents.")
-        clip.recordText("https://github.com/anthropics/claude-code")
-        clip.recordText("#1F4E79")
-        clip.recordText("const palette = {\n  ink: \"#1F4E79\",\n  ochre: \"#C8963E\",\n};")
-        clip.togglePin(clip.items[2].id)
-        try snap("20-clipboard", ClipboardPanel(store: clip).padding(12).background(.black),
-                 size: CGSize(width: 620, height: 170), wait: 0.4)
                 ClaudeSparkCanvas(shape: p.shape, angle: p.angle, size: 180, twinkle: ClaudeSpark.twinkle(at: t))
                 Text("logo Claude biến hình · 8 khung/giây").font(.system(size: 22, weight: .semibold, design: .rounded))
                     .foregroundStyle(.white.opacity(0.7))

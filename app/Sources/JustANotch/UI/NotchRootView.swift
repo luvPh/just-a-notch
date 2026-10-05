@@ -14,8 +14,9 @@ struct NotchRootView: View {
     // Đồng hồ để hiển thị ở wing (ưu tiên cái đang chạy).
     private var timer: TimerService { vm.displayTimer }
 
-    init(vm: NotchViewModel) {
+    init(vm: NotchViewModel, initialTab: RailTab = .music) {
         _vm = ObservedObject(wrappedValue: vm)
+        _railTab = State(initialValue: initialTab)
         _timerSingle = ObservedObject(wrappedValue: vm.timerSingle)
         _timerPomodoro = ObservedObject(wrappedValue: vm.timerPomodoro)
         _timerSequence = ObservedObject(wrappedValue: vm.timerSequence)
@@ -82,7 +83,7 @@ struct NotchRootView: View {
                 // Launcher mở ra từ trạng thái hover → giữ nguyên mức phóng để notch không
                 // co lại lúc dải icon thả xuống; đóng launcher mới trở về 1.0.
                 .scaleEffect(vm.hoverScale, anchor: .top)
-                .offset(x: vm.centerXOffset)
+                .offset(x: vm.centerXOffset, y: vm.pillMode ? vm.pillGap : 0)
                 .onHover { vm.hovering = $0 }
                 .animation(hoverSpring, value: vm.hovering)
                 .animation(revealSpring, value: vm.compactState)
@@ -210,7 +211,7 @@ struct NotchRootView: View {
     }
 
     private var surface: some View {
-        let shape = NotchShape(bottom: vm.bottomRadius, inverse: vm.topRadius)
+        let shape = NotchShape(bottom: vm.bottomRadius, inverse: vm.topRadius, top: vm.pillTopRadius)
         return ZStack(alignment: .top) {
             shape.fill(.black)
                 .shadow(color: .black.opacity(0.5), radius: vm.expanded ? 26 : 10, y: vm.expanded ? 14 : 5)
@@ -307,18 +308,6 @@ struct NotchRootView: View {
                     .padding(.trailing, 12).padding(.top, 12)
                     .allowsHitTesting(false)
                     .transition(.opacity)
-            }
-        }
-        // Nút ⚙️ cài đặt Timer sống ở WING PHẢI khi mở tab Timer.
-        .overlay(alignment: .topTrailing) {
-            if vm.expanded, railTab == .timer {
-                WingGearButton(open: timerSettingsOpen) {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) {
-                        timerSettingsOpen.toggle()
-                    }
-                }
-                .padding(.trailing, 17).padding(.top, 9)   // dịch vào trái 5px
-                .transition(.opacity)
             }
         }
     }
@@ -467,47 +456,60 @@ struct NotchRootView: View {
     // MARK: Expanded Alcove player
 
     private var player: some View {
-        // spacing 0: tự kiểm soát từng khoảng để rail↔divider luôn 14 (icon căn giữa
-        // như cũ), chỉ khoảng divider↔content mới thu hẹp ở tab Files.
-        HStack(alignment: .top, spacing: 0) {
-            // Ẩn sidebar (rail + divider) khi Files mở rộng — dồn toàn bộ chiều ngang cho tab.
-            if !vm.filesWide {
-                ThemeCarousel(tabs: visibleTabs, selection: $railTab, reduceMotion: reduceMotion)
-                    .onChange(of: railTab) { _, newTab in
-                        vm.panelWantsTall = (newTab == .calendar || newTab == .settings || newTab == .learn)
-                        vm.filesTabActive = (newTab == .files); vm.clipTabActive = (newTab == .clipboard)
-                        vm.calTabActive = (newTab == .calendar)
-                        vm.notifTabActive = (newTab == .notifications)
-                        if newTab != .files { vm.filesSelCount = 0 }   // rời tab Files → xoá đếm
-                        // Leaving music collapses the queue so the window shrinks back
-                        // to the default tab height instead of staying inflated.
-                        if vm.showList { withAnimation(openSpring) { vm.showList = false } }
+        VStack(alignment: .leading, spacing: 0) {
+            // Hàng header nằm NGANG camera: dải tab bên trái lõi, tên tab + công cụ bên phải.
+            HStack(spacing: 0) {
+                TabStrip(tabs: visibleTabs, selection: $railTab, reduceMotion: reduceMotion)
+                    .frame(width: headerSideWidth, alignment: .leading)
+                Spacer(minLength: 0)
+                HStack(spacing: 8) {
+                    Text(railTab.title)
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(.white.opacity(0.55))
+                        .lineLimit(1)
+                        .id(railTab).transition(.opacity)
+                    if railTab == .timer {
+                        WingGearButton(open: timerSettingsOpen) {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) {
+                                timerSettingsOpen.toggle()
+                            }
+                        }
                     }
-                    .padding(.top, vm.notchHeight + 8)   // sidebar LUÔN dưới camera, không đổi theo tab
-                    .padding(.trailing, 14)              // khoảng rail↔divider cố định
-                    .transition(.blurFade)
-                divider
-                    .padding(.top, vm.notchHeight + 8)
-                    .padding(.trailing, vm.filesTabActive ? 6 : 14)   // divider↔content: files thu hẹp
-                    .transition(.opacity)
+                }
+                .frame(width: headerSideWidth, alignment: .trailing)
             }
+            .frame(height: vm.notchHeight)
+            .onChange(of: railTab) { _, newTab in
+                vm.panelWantsTall = (newTab == .calendar || newTab == .settings || newTab == .learn)
+                vm.filesTabActive = (newTab == .files); vm.clipTabActive = (newTab == .clipboard)
+                vm.calTabActive = (newTab == .calendar)
+                vm.notifTabActive = (newTab == .notifications)
+                if newTab != .files { vm.filesSelCount = 0 }   // rời tab Files → xoá đếm
+                // Rời music → thu queue để notch co về chiều cao mặc định.
+                if vm.showList { withAnimation(openSpring) { vm.showList = false } }
+            }
+
             // Player controls stay fixed at the top; only the queue list scrolls
             // (the list has its own ScrollView). Fill the fixed window height so
             // that inner ScrollView gets a bounded height to scroll within.
             content
                 .id(railTab)                 // re-run the transition on tab change
                 .transition(.blurFade)
-                // Tab Files: content đẩy lên hàng wing (chừa 6px); tab khác chừa đủ camera.
-                .padding(.top, vm.filesTabActive ? 6 : vm.notchHeight + 8)
+                .padding(.top, 8)
                 .frame(maxHeight: .infinity, alignment: .top)
                 .animation(reduceMotion ? .easeInOut(duration: 0.18) : .spring(response: 0.34, dampingFraction: 0.82),
                            value: railTab)
         }
-        // Bỏ inset trái của rail khi ẩn sidebar để Files dùng trọn chiều ngang.
-        .padding(.leading, vm.filesWide ? 12 : 34).padding(.trailing, vm.filesTabActive ? 12 : 24)
+        .padding(.horizontal, 22)
         .padding(.bottom, 14)
         .frame(maxWidth: .infinity, alignment: .leading)
         .animation(openSpring, value: vm.filesWide)
+    }
+
+    /// Bề ngang mỗi bên header (trái/phải lõi camera). Pill: không có camera → dùng nửa bề mặt.
+    private var headerSideWidth: CGFloat {
+        let core = vm.pillMode ? 0 : vm.coreWidth + 12
+        return max(60, (vm.surfaceWidth - core) / 2 - 22)
     }
 
     // The right-hand panel — swaps with the centered carousel tab.
@@ -1288,8 +1290,9 @@ struct ScrollWheelCatcher: NSViewRepresentable {
                         return nil
                     }
                     let dy = e.hasPreciseScrollingDeltas ? e.scrollingDeltaY : e.deltaY * 6
-                    // Natural direction: content up → advance to the next tab.
-                    self.onScroll?(-dy)
+                    let dx = e.hasPreciseScrollingDeltas ? e.scrollingDeltaX : e.deltaX * 6
+                    // Natural direction: content up/left → advance to the next tab.
+                    self.onScroll?(abs(dx) > abs(dy) ? -dx : -dy)
                     if e.phase == .ended || e.phase == .cancelled {
                         self.onEnded?()
                     }
@@ -1299,5 +1302,56 @@ struct ScrollWheelCatcher: NSViewRepresentable {
         }
 
         deinit { if let m = monitor { NSEvent.removeMonitor(m) } }
+    }
+}
+
+/// Dải tab ngang trong header: icon mờ, tab đang chọn là viên thuốc trắng.
+/// Bấm để chọn; cuộn/vuốt hai ngón trên dải để chuyển tab.
+struct TabStrip: View {
+    let tabs: [RailTab]
+    @Binding var selection: RailTab
+    var reduceMotion: Bool
+
+    @Namespace private var ns
+    @State private var acc: CGFloat = 0
+    @State private var cooling = false
+
+    var body: some View {
+        HStack(spacing: 2) {
+            ForEach(tabs) { tab in
+                let on = tab == selection
+                Button {
+                    withAnimation(anim) { selection = tab }
+                } label: {
+                    Image(systemName: tab.icon)
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundStyle(on ? .black : .white.opacity(0.45))
+                        .frame(width: 24, height: 22)
+                        .background {
+                            if on {
+                                Capsule().fill(.white).matchedGeometryEffect(id: "sel", in: ns)
+                            }
+                        }
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .help(tab.title)
+            }
+        }
+        .background(ScrollWheelCatcher(onScroll: handle, onEnded: { acc = 0 }))
+    }
+
+    private var anim: Animation {
+        reduceMotion ? .easeInOut(duration: 0.15) : .spring(response: 0.3, dampingFraction: 0.8)
+    }
+
+    private func handle(_ d: CGFloat) {
+        if acc != 0, (d > 0) != (acc > 0) { acc = 0 }
+        acc += d
+        guard !cooling, abs(acc) >= 6, let i = tabs.firstIndex(of: selection) else { return }
+        let n = (i + (acc > 0 ? 1 : -1) + tabs.count) % tabs.count
+        acc = 0; cooling = true
+        withAnimation(anim) { selection = tabs[n] }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.18) { cooling = false }
     }
 }
