@@ -21,7 +21,18 @@ final class LearnDeckTests: XCTestCase {
         s = s.recorded(correct: true, mode: .fill, now: t0); XCTAssertEqual(s.intervalDays, 8) // 3 × 2.7→2.6 cap
         s = s.recorded(correct: false, mode: .fill, now: t0)
         XCTAssertEqual(s.reps, 0); XCTAssertEqual(s.lapses, 1); XCTAssertEqual(s.due, t0)
-        XCTAssertEqual(s.correct, 3)
+        XCTAssertEqual(s.correct, 1)                          // sai → trừ tiến độ thuộc
+    }
+
+    func testWrongAnswerDropsMastery() {
+        var s = ReviewState.new(now: t0)
+        s = s.recorded(correct: false, mode: .fill, now: t0)
+        XCTAssertEqual(s.correct, 0)                          // không âm
+        for m in PracticeMode.allCases { for _ in 0..<4 { s = s.recorded(correct: true, mode: m, now: t0) } }
+        XCTAssertTrue(s.mastered); XCTAssertEqual(s.correct, 12)
+        s = s.recorded(correct: false, mode: .fill, now: t0)
+        XCTAssertEqual(s.correct, ReviewState.masterAt - ReviewState.wrongPenalty)
+        XCTAssertFalse(s.mastered)
     }
 
     func testMasteryNeedsTenCorrectAcrossAllModes() {
@@ -209,12 +220,101 @@ final class DailyLessonFlowTests: XCTestCase {
         XCTAssertTrue(set.contains(s.current!.key))
         XCTAssertEqual(s.review(set[0])?.correct, 12)          // tiến độ không bị reset
         s.startNewDailySet(now: t0)
+        XCTAssertFalse(s.daily!.reviewAgain)
         XCTAssertTrue(Set(s.daily!.keys).isDisjoint(with: set))
         XCTAssertEqual(s.daily!.keys.count, 10)
     }
 }
 
+final class DailyReviewAgainTests: XCTestCase {
+    private let t0 = Date(timeIntervalSince1970: 1_800_000_000)
+    private func store() throws -> LearnStore {
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        let seed = (0..<30).map { i in LearnWord(headword: "w\(i)", pos: "noun", ipaUK: "", ipaUS: "",
+            senses: [LearnSense(guideword: "X", level: "C1", defEN: "", defVI: "n\(i)", examples: [])]) }
+        return LearnStore(dir: dir, seed: seed)
+    }
+    private func master(_ s: LearnStore, _ k: SenseKey) {
+        for m in PracticeMode.allCases { for _ in 0..<4 { s.record(k, correct: true, mode: m, now: t0) } }
+    }
+
+    /// Ôn lại = đúng 1 vòng: mỗi từ hỏi 1 lần rồi quay về màn hoàn thành.
+    func testReviewAgainIsOneRound() throws {
+        let s = try store()
+        let set = s.ensureDaily(now: t0).keys
+        set.forEach { master(s, $0) }
+        s.reviewDailyAgain()
+        var asked: [SenseKey] = []
+        while let p = s.ensurePrompt(now: t0) {
+            asked.append(p.key)
+            s.answer(correct: true, now: t0)
+            s.finishCurrent(now: t0)
+            if asked.count > 20 { return XCTFail("vòng ôn lại không dừng") }
+        }
+        XCTAssertEqual(Set(asked), Set(set)); XCTAssertEqual(asked.count, set.count)
+        XCTAssertTrue(s.dailyComplete)
+        XCTAssertEqual(s.daily!.keys, set)
+    }
+
+    /// Bấm "đã thuộc" khi ôn lại → bỏ qua từ đó, không thay bằng từ mới.
+    func testMarkKnownDuringReviewAgainKeepsSet() throws {
+        let s = try store()
+        let set = s.ensureDaily(now: t0).keys
+        set.forEach { master(s, $0) }
+        s.reviewDailyAgain()
+        s.markKnown(set[2].wordID, now: t0)
+        XCTAssertEqual(s.daily!.keys, set)
+        XCTAssertFalse(s.daily!.again.contains(set[2]))
+    }
+
+    /// Sai khi ôn lại → rớt thuộc, phải học tiếp tới khi thuộc lại mới hoàn thành.
+    func testWrongDuringReviewAgainMustRelearn() throws {
+        let s = try store()
+        let set = s.ensureDaily(now: t0).keys
+        set.forEach { master(s, $0) }
+        s.reviewDailyAgain()
+        s.record(set[0], correct: false, mode: .fill, now: t0)
+        set.dropFirst().forEach { s.record($0, correct: true, mode: .fill, now: t0) }
+        XCTAssertFalse(s.daily!.reviewAgain)
+        XCTAssertFalse(s.dailyComplete)
+        XCTAssertEqual(s.ensurePrompt(now: t0)?.key, set[0])
+    }
+
+    func testLegacyReviewAgainFlagBecomesOneRound() throws {
+        let json = #"{"day":"d","keys":[{"wordID":"a|noun","index":0},{"wordID":"b|noun","index":0}],"#
+            + #""shown":{"a|noun#0":20,"b|noun#0":6},"reviewAgain":true}"#
+        let d = try JSONDecoder().decode(DailySet.self, from: Data(json.utf8))
+        XCTAssertEqual(d.again, d.keys)
+        XCTAssertEqual(Set(d.shown.values), [20])
+    }
+}
+
 final class DailyReplaceKnownTests: XCTestCase {
+    /// Từ thay vào giữa chừng xoay vòng chung với cả bộ, không bị hỏi dồn liên tục.
+    func testReplacementWordJoinsRotation() throws {
+        let t0 = Date(timeIntervalSince1970: 1_800_000_000)
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        let seed = (0..<30).map { i in LearnWord(headword: "w\(i)", pos: "noun", ipaUK: "", ipaUS: "",
+            senses: [LearnSense(guideword: "X", level: "B2", defEN: "", defVI: "n\(i)", examples: [])]) }
+        let s = LearnStore(dir: dir, seed: seed)
+        let before = s.ensureDaily(now: t0).keys
+        for _ in 0..<30 {                                    // mỗi từ đã hiện ~3 lần
+            guard s.ensurePrompt(now: t0) != nil else { break }
+            s.answer(correct: true, now: t0); s.finishCurrent(now: t0)
+        }
+        s.markKnown(before[3].wordID, now: t0)
+        let fresh = s.daily!.keys.first { !before.contains($0) }!
+        var hits = 0
+        for _ in 0..<5 {
+            guard let p = s.ensurePrompt(now: t0) else { break }
+            if p.key == fresh { hits += 1 }
+            s.answer(correct: true, now: t0); s.finishCurrent(now: t0)
+        }
+        XCTAssertLessThanOrEqual(hits, 1)
+    }
+
     func testMarkKnownReplacesWordInDailySet() throws {
         let t0 = Date(timeIntervalSince1970: 1_800_000_000)
         let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -285,3 +385,27 @@ final class OldLessonReviewTests: XCTestCase {
         XCTAssertTrue(set2.keys.contains(day1[1]))
     }
 }
+
+final class RelearnRetryTests: XCTestCase {
+    func testWrongAnswerIsAskedAgainNextWithDifferentMode() throws {
+        let t0 = Date(timeIntervalSince1970: 1_800_000_000)
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        let seed = (0..<30).map { i in LearnWord(headword: "w\(i)", pos: "noun", ipaUK: "", ipaUS: "",
+            senses: [LearnSense(guideword: "X", level: "C1", defEN: "", defVI: "n\(i)", examples: [])]) }
+        let s = LearnStore(dir: dir, seed: seed)
+        let keys = s.ensureDaily(now: t0).keys
+        keys.forEach { s.introduce($0, now: t0) }
+        guard case let .question(q1)? = s.ensurePrompt(now: t0) else { return XCTFail() }
+        s.answer(correct: false, now: t0)
+        s.finishCurrent(now: t0)
+        guard case let .question(q2)? = s.ensurePrompt(now: t0) else { return XCTFail() }
+        XCTAssertEqual(q2.key, q1.key)
+        XCTAssertNotEqual(q2.mode, q1.mode)
+        s.answer(correct: true, now: t0)
+        s.finishCurrent(now: t0)
+        XCTAssertEqual(s.review(q1.key)?.correct, 1)          // lần hỏi lại có tính điểm
+        XCTAssertNil(s.daily?.retry)
+    }
+}
+

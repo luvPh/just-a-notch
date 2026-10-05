@@ -34,7 +34,6 @@ struct LearnPanel: View {
                         PracticeQuestionView(q: q, word: w, sense: s, stateBefore: store.review(q.key), compact: true,
                                              onAnswer: { store.answer(correct: $0) },
                                              onNext: { store.advance() },
-                                             onSkip: { store.skip() },
                                              onKnown: store.reviewRemaining > 0 ? nil : { store.markKnown(q.key.wordID); store.ensurePrompt() })
                     }
                 }
@@ -48,9 +47,9 @@ struct LearnPanel: View {
                 DailyCompleteView(store: store, compact: true)
                 Spacer(minLength: 0)
             } else {
-                Text(store.totalSenses == 0 ? "Chưa có kho từ." : "Hết từ để học rồi 🎉")
-                    .font(.caption).foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                NotchEmptyState(symbol: store.totalSenses == 0 ? "books.vertical" : "checkmark",
+                                title: store.totalSenses == 0 ? "Chưa có kho từ" : "Hết từ để học rồi",
+                                hint: store.totalSenses == 0 ? nil : "Quay lại sau để ôn tiếp nhé")
             }
         }
         .foregroundStyle(LearnPalette.notch.text)
@@ -62,18 +61,18 @@ struct LearnPanel: View {
 
     private var header: some View {
         HStack(spacing: 10) {
+            Text("Hôm nay").font(NotchTheme.toolbarTitle).foregroundStyle(.white)
             stat("flame.fill", "\(store.streak())", "ngày streak")
+                .padding(.horizontal, 8).frame(height: 22)
+                .background(Capsule().fill(NotchTheme.card))
             Spacer()
-            Button { LearnWindowController.shared.show() } label: {
-                Image(systemName: "macwindow").font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.75))
-            }.buttonStyle(.plain).help("Mở cửa sổ học").learnHover(scale: 1.15, brighten: 0.3)
+            NotchIconButton(symbol: "macwindow", help: "Mở cửa sổ học") { LearnWindowController.shared.show() }
         }
     }
 
     private func stat(_ icon: String, _ value: String, _ label: String) -> some View {
         HStack(spacing: 3) {
-            Image(systemName: icon).font(.system(size: 9, weight: .semibold)).foregroundStyle(.white.opacity(0.45))
+            Image(systemName: icon).font(.system(size: 9, weight: .semibold)).foregroundStyle(NotchTheme.accent)
             Text(value).font(.system(size: 11, weight: .bold)).monospacedDigit()
             Text(label).font(.system(size: 10)).foregroundStyle(.white.opacity(0.5))
         }
@@ -85,6 +84,8 @@ struct LearnPanel: View {
 struct LearnPopupCard: View {
     @ObservedObject var store: LearnStore
     let onDone: () -> Void
+    /// Panel đã được cấp bàn phím (người dùng bấm vào popup ở câu điền từ).
+    var keyboardReady = false
 
     private var dailyMastered: Int {
         (store.daily?.keys ?? []).filter { store.review($0)?.mastered == true }.count
@@ -123,9 +124,16 @@ struct LearnPopupCard: View {
                                   onKnown: { store.markKnown(p.key.wordID); onDone() })
                 case let .question(q):
                     PracticeQuestionView(q: q, word: w, sense: s, stateBefore: store.review(q.key), compact: true,
-                                         onAnswer: { store.answer(correct: $0) },
+                                         keyboardReady: keyboardReady,
+                                         onAnswer: { ok in
+                                             store.answer(correct: ok)
+                                             // Trả lời xong → tự thu: đúng thì nhanh, sai thì đủ lâu để đọc thẻ học lại.
+                                             let answered = p
+                                             DispatchQueue.main.asyncAfter(deadline: .now() + (ok ? 1.4 : 8)) {
+                                                 if store.current == answered { onDone() }
+                                             }
+                                         },
                                          onNext: onDone,
-                                         onSkip: { store.skipCurrent(); onDone() },
                                          onKnown: store.reviewRemaining > 0 ? nil : { store.markKnown(q.key.wordID); onDone() })
                 }
             } else if store.needsReviewSummary {

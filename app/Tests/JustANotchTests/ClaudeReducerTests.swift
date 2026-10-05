@@ -92,6 +92,8 @@ final class ClaudeNotificationFilterTests: XCTestCase {
         XCTAssertTrue(ClaudeNotificationFilter.isClaude(rec("com.anthropic.claudefordesktop", "Task done")))
         XCTAssertTrue(ClaudeNotificationFilter.isClaude(rec("fr.julienxx.oss.terminal-notifier", "Claude Code")))
         XCTAssertFalse(ClaudeNotificationFilter.isClaude(rec("com.tinyspeck.slackmacgap", "Tin nhắn mới")))
+        XCTAssertTrue(ClaudeNotificationFilter.isClaude(rec("com.openai.codex", "Task complete")))
+        XCTAssertTrue(ClaudeNotificationFilter.isClaude(rec("fr.julienxx.oss.terminal-notifier", "Codex")))
     }
 }
 
@@ -100,7 +102,43 @@ final class ClaudeWorkingVariantTests: XCTestCase {
     func testVariantIsStablePerSessionAndCoversAll() {
         let id = "3f2b9c1e-aaaa-bbbb-cccc-1234567890ab"
         XCTAssertEqual(ClaudeWorkingMark.variant(for: id), ClaudeWorkingMark.variant(for: id))
-        let seen = Set((0..<60).map { ClaudeWorkingMark.variant(for: "session-\($0)") })
-        XCTAssertEqual(seen.count, ClaudeWorkingMark.Variant.allCases.count)
+        for agent in [AgentKind.claude, .codex] {
+            let pool = ClaudeWorkingMark.pool(agent)
+            let seen = Set((0..<60).map { ClaudeWorkingMark.variant(for: "session-\($0)", agent: agent) })
+            XCTAssertEqual(seen, Set(pool), "\(agent) phải dùng đủ và chỉ dùng bộ kiểu của mình")
+        }
+    }
+}
+
+final class CodexEventTests: XCTestCase {
+    let t0 = Date(timeIntervalSince1970: 1_800_000_000)
+
+    func testCodexHeaderAndPermissionFlow() {
+        let pre = #"{"session_id":"abc","cwd":"/Users/x/repo/api","hook_event_name":"PreToolUse","tool_name":"apply_patch","tool_input":{"input":"*** Begin Patch\n*** Update File: src/server.ts\n@@\n-a\n+b\n*** End Patch"}}"#
+        let e = ClaudeReducer.parseEventFile(Data(("com.apple.Terminal\tApple_Terminal\tcodex\n" + pre).utf8), at: t0)!
+        XCTAssertEqual(e.agent, .codex)
+        XCTAssertEqual(e.detail, "server.ts")
+
+        var m: [String: ClaudeSession] = [:]
+        _ = ClaudeReducer.apply(ClaudeHookEvent(agent: .codex, session: "abc", cwd: "/r/api", name: "UserPromptSubmit",
+                                                at: t0), to: &m)
+        // Cùng session_id nhưng khác agent → hai phiên riêng.
+        _ = ClaudeReducer.apply(ClaudeHookEvent(agent: .claude, session: "abc", cwd: "/r/web", name: "UserPromptSubmit",
+                                                at: t0), to: &m)
+        XCTAssertEqual(m.count, 2)
+        XCTAssertEqual(m["codex:abc"]?.agent, .codex)
+
+        guard case .waiting(let s)? = ClaudeReducer.apply(
+            ClaudeHookEvent(agent: .codex, session: "abc", cwd: "/r/api", name: "PermissionRequest", tool: "Bash",
+                            at: t0 + 3), to: &m) else { return XCTFail() }
+        XCTAssertEqual(s.message, "Cần duyệt: Bash")
+        guard case .done(_, let d)? = ClaudeReducer.apply(
+            ClaudeHookEvent(agent: .codex, session: "abc", cwd: "/r/api", name: "Stop", at: t0 + 40), to: &m)
+        else { return XCTFail() }
+        XCTAssertEqual(d, 40)
+    }
+
+    func testCodexShellArgvSummary() {
+        XCTAssertEqual(ClaudeReducer.summarize(tool: "Bash", input: ["command": ["npm", "test"]]), "npm test")
     }
 }

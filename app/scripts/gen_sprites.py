@@ -399,6 +399,69 @@ def clawd_happy():
     ]
 
 
+# ---------------------------------------------------------------- Codex: terminal >_ 18×15
+
+TERM_TEXT = [6, 7, 8, 10, 11, 13, 14]      # vị trí "ký tự" trên dòng lệnh (có khoảng trắng)
+
+
+def term_frame(typed=0, cursor=True, out=0, border="G", mark=None, mark_n=99):
+    """Cửa sổ terminal pixel: thanh tiêu đề 3 chấm, dấu nhắc `>` xanh, dòng lệnh đang
+    gõ `typed` ký tự, con trỏ khối nháy, `out` dòng kết quả. mark = "?" / "check"."""
+    g = Grid(CL_W, CL_H)
+    for x in range(1, 17):
+        for y in range(1, 14):
+            g.put(x, y, border)
+    for x in range(2, 16):
+        g.put(x, 2, "H")
+        for y in range(3, 13):
+            g.put(x, y, "S")
+    for x, c in ((3, "r"), (5, "y"), (7, "n")):
+        g.put(x, 2, c)
+    if mark == "?":
+        for (x, y) in ((8, 5), (9, 5), (10, 5), (10, 6), (9, 7), (9, 8), (9, 10)):
+            g.put(x, y, "A")
+        return g.rows()
+    if mark == "check":
+        pts = [(5, 8), (6, 9), (7, 10), (8, 9), (9, 8), (10, 7), (11, 6), (12, 5)]
+        for (x, y) in pts[:mark_n]:
+            g.put(x, y, "P"); g.put(x, y + 1, "P")
+        return g.rows()
+    for (x, y) in ((3, 5), (4, 6), (3, 7)):
+        g.put(x, y, "P")
+    for x in TERM_TEXT[:typed]:
+        g.put(x, 6, "T")
+    if cursor:
+        cx = TERM_TEXT[typed - 1] + 1 if typed else 6
+        g.put(cx, 5, "C"); g.put(cx, 6, "C"); g.put(cx, 7, "C")
+    for i, row in enumerate((9, 11)[:out]):
+        for x in range(3, 3 + (11 if i == 0 else 7)):
+            g.put(x, row, "O")
+    return g.rows()
+
+
+def codex_work():
+    # Gõ lệnh (1 ký tự/khung, có ngập ngừng), "enter" → 2 dòng kết quả, xoá màn, con trỏ
+    # nháy chờ (đang nghĩ) rồi gõ lệnh mới.
+    f = []
+    for n in (0, 1, 2, 3, 3, 4, 5, 5, 6, 7):
+        f.append(term_frame(n, cursor=True))
+    f += [term_frame(7, cursor=False, out=1), term_frame(7, cursor=False, out=2),
+          term_frame(7, cursor=False, out=2), term_frame(7, cursor=False, out=2)]
+    for k in range(8):
+        f.append(term_frame(0, cursor=(k % 4) < 2))
+    return f
+
+
+def codex_alert():
+    return [term_frame(border="A", mark="?"), term_frame(border="A", mark="?"),
+            term_frame(border="G", mark="?"), term_frame(border="G", mark="?")]
+
+
+def codex_happy():
+    f = [term_frame(border="N", mark="check", mark_n=n) for n in (1, 2, 3, 4, 5, 6, 7, 8)]
+    return f + [term_frame(border="G", mark="check")] * 4
+
+
 # ---------------------------------------------------------------- Xuất
 
 PALETTES = {
@@ -407,6 +470,12 @@ PALETTES = {
         "L": (1.00, 0.87, 0.92), "D": (0.13, 0.07, 0.12), "W": (0.97, 0.98, 1.00),
         "C": (0.98, 0.40, 0.58), "c": (0.45, 0.14, 0.28), "o": (0.52, 0.20, 0.36),
         "B": (0.40, 0.78, 1.00), "b": (0.23, 0.56, 0.92), "g": (0.62, 0.70, 0.80),
+    },
+    "CodexTerm": {
+        "G": (0.50, 0.53, 0.60), "H": (0.30, 0.32, 0.38), "S": (0.07, 0.08, 0.10),
+        "r": (1.00, 0.37, 0.34), "y": (1.00, 0.76, 0.26), "n": (0.30, 0.82, 0.40),
+        "P": (0.42, 0.95, 0.58), "T": (0.86, 0.89, 0.93), "C": (0.86, 0.89, 0.93),
+        "O": (0.42, 0.45, 0.52), "A": (1.00, 0.78, 0.30), "N": (0.42, 0.95, 0.58),
     },
     "Clawd": {
         "O": (0.851, 0.467, 0.341), "h": (0.92, 0.58, 0.45), "d": (0.74, 0.38, 0.27),
@@ -433,7 +502,7 @@ def palette_swift(name):
     return f"    static let palette: [Character: Color] = [\n{items},\n    ]\n"
 
 
-def write_swift(cat, work, walk, alert, happy):
+def write_swift(cat, work, walk, alert, happy, term):
     s = ["// Sinh tự động bởi app/scripts/gen_sprites.py — đừng sửa tay.", "import SwiftUI", ""]
     s.append("extension PixelCat {")
     s.append(f"    static let width = {CAT_W}\n    static let height = {CAT_H}\n    static let fps = {float(CAT_FPS)}")
@@ -447,6 +516,12 @@ def write_swift(cat, work, walk, alert, happy):
     s.append(swift_frames("walk", walk))
     s.append(swift_frames("alert", alert))
     s.append(swift_frames("happy", happy))
+    s.append("}\n")
+    s.append("extension CodexTerm {")
+    s.append(f"    static let width = {CL_W}\n    static let height = {CL_H}\n    static let fps = 8.0")
+    s.append(palette_swift("CodexTerm"))
+    for name, frames in zip(("work", "alert", "happy"), term):
+        s.append(swift_frames(name, frames))
     s.append("}\n")
     with open(OUT, "w") as f:
         f.write("\n".join(s))
@@ -476,10 +551,12 @@ def preview(dirp, name, frames, pal, px, fps):
 if __name__ == "__main__":
     cat = cat_frames()
     work, walk, alert, happy = clawd_work(), clawd_walk(), clawd_alert(), clawd_happy()
-    write_swift(cat, work, walk, alert, happy)
+    term = (codex_work(), codex_alert(), codex_happy())
+    write_swift(cat, work, walk, alert, happy, term)
     print(f"wrote {OUT}: cat {len(cat)} frames, clawd {len(work)}/{len(alert)}/{len(happy)}")
     if "--preview" in sys.argv:
         d = sys.argv[sys.argv.index("--preview") + 1]
         preview(d, "cat", cat, PALETTES["PixelCat"], 8, CAT_FPS)
         preview(d, "clawd", work + alert + happy, PALETTES["Clawd"], 12, 8)
         preview(d, "clawd-walk", walk, PALETTES["Clawd"], 12, 8)
+        preview(d, "codex-term", term[0] + term[1] + term[2], PALETTES["CodexTerm"], 12, 8)

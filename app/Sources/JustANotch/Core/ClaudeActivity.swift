@@ -1,14 +1,22 @@
 import Foundation
 import AppKit
 import Combine
+import os
 
 // MARK: - Model
 
-/// Trạng thái một phiên Claude Code, dựng lại từ các sự kiện hook.
+/// Agent lập trình gửi sự kiện hook tới notch (cùng giao thức hook).
+enum AgentKind: String, Codable {
+    case claude, codex
+    var displayName: String { self == .claude ? "Claude" : "Codex" }
+}
+
+/// Trạng thái một phiên agent (Claude Code / Codex CLI), dựng lại từ các sự kiện hook.
 struct ClaudeSession: Identifiable, Equatable {
     enum State: String { case idle, working, waiting, done }
 
-    let id: String                 // session_id
+    let id: String                 // "<agent>:<session_id>" — hai agent có thể trùng id
+    var agent: AgentKind = .claude
     var cwd: String
     var state: State
     var tool: String?              // tool đang chạy (PreToolUse)
@@ -28,6 +36,7 @@ struct ClaudeSession: Identifiable, Equatable {
 
 /// Một sự kiện hook đã giải mã.
 struct ClaudeHookEvent: Equatable {
+    var agent: AgentKind = .claude
     var session: String
     var cwd: String
     var name: String               // hook_event_name
@@ -41,6 +50,10 @@ struct ClaudeHookEvent: Equatable {
 enum ClaudeTransition: Equatable {
     case waiting(ClaudeSession)
     case done(ClaudeSession, duration: TimeInterval)
+
+    var session: ClaudeSession {
+        switch self { case .waiting(let s): return s; case .done(let s, _): return s }
+    }
 }
 
 // MARK: - Reducer (thuần, có test)
@@ -52,9 +65,10 @@ enum ClaudeReducer {
     static let staleWorking: TimeInterval = 20 * 60
 
     static func apply(_ e: ClaudeHookEvent, to sessions: inout [String: ClaudeSession]) -> ClaudeTransition? {
-        if e.name == "SessionEnd" { sessions[e.session] = nil; return nil }
+        let key = e.agent == .claude ? e.session : "\(e.agent.rawValue):\(e.session)"
+        if e.name == "SessionEnd" { sessions[key] = nil; return nil }
 
-        var s = sessions[e.session] ?? ClaudeSession(id: e.session, cwd: e.cwd, state: .idle, updatedAt: e.at)
+        var s = sessions[key] ?? ClaudeSession(id: key, agent: e.agent, cwd: e.cwd, state: .idle, updatedAt: e.at)
         if !e.cwd.isEmpty { s.cwd = e.cwd }
         if let b = e.bundleID, !b.isEmpty { s.bundleID = b }
         s.updatedAt = e.at
@@ -81,6 +95,12 @@ enum ClaudeReducer {
                 transition = .waiting(s)
             }
             // "Claude is waiting for your input" (nhắc sau 60s rảnh) → không phải việc mới.
+        case "PermissionRequest":
+            // Codex (và Claude bản mới) báo xin quyền bằng sự kiện riêng.
+            s.state = .waiting
+            s.message = e.tool.map { "Cần duyệt: \($0)" } ?? "Đang chờ bạn duyệt"
+            if let t = e.tool { s.tool = t; s.detail = e.detail }
+            transition = .waiting(s)
         case "Stop":
             let was = s.state
             s.state = .done
@@ -92,7 +112,7 @@ enum ClaudeReducer {
         default:
             break
         }
-        sessions[e.session] = s
+        sessions[key] = s
         return transition
     }
 
@@ -107,14 +127,18 @@ enum ClaudeReducer {
 
     // MARK: Parse file sự kiện
 
-    /// Một file sự kiện = JSON stdin của hook Claude Code. Có thể có thêm một dòng
-    /// đầu (không phải JSON) dạng "<bundle id app chứa phiên>\t<TERM_PROGRAM>".
+    /// Một file sự kiện = JSON stdin của hook. Có thể có thêm một dòng đầu (không phải
+    /// JSON) dạng "<bundle id app chứa phiên>\t<TERM_PROGRAM>[\t<agent>]" — agent mặc định
+    /// là claude (script hook cũ không ghi trường này).
     static func parseEventFile(_ data: Data, at: Date) -> ClaudeHookEvent? {
         var body = data
         var bundle: String?
+        var agent = AgentKind.claude
         if data.first != UInt8(ascii: "{"), let nl = data.firstIndex(of: UInt8(ascii: "\n")) {
             let header = String(decoding: data[..<nl], as: UTF8.self)
-            bundle = header.split(separator: "\t", omittingEmptySubsequences: false).first.map(String.init)
+            let fields = header.split(separator: "\t", omittingEmptySubsequences: false).map(String.init)
+            bundle = fields.first
+            if fields.count > 2, let a = AgentKind(rawValue: fields[2].trimmingCharacters(in: .whitespaces)) { agent = a }
             body = Data(data[data.index(after: nl)...])
         }
         guard let json = try? JSONSerialization.jsonObject(with: body) as? [String: Any],
@@ -124,7 +148,7 @@ enum ClaudeReducer {
         var detail: String?
         if let input = json["tool_input"] as? [String: Any] { detail = summarize(tool: tool ?? "", input: input) }
         if name == "UserPromptSubmit", let p = json["prompt"] as? String { detail = oneLine(p, max: 60) }
-        return ClaudeHookEvent(session: session, cwd: json["cwd"] as? String ?? "", name: name,
+        return ClaudeHookEvent(agent: agent, session: session, cwd: json["cwd"] as? String ?? "", name: name,
                                tool: tool, detail: detail, message: json["message"] as? String,
                                bundleID: (bundle?.isEmpty ?? true) ? nil : bundle, at: at)
     }
@@ -132,8 +156,21 @@ enum ClaudeReducer {
     static func summarize(tool: String, input: [String: Any]) -> String? {
         func str(_ k: String) -> String? { (input[k] as? String).flatMap { $0.isEmpty ? nil : $0 } }
         switch tool {
-        case "Bash":
-            return str("description") ?? str("command").map { oneLine($0, max: 50) }
+        case "Bash", "shell", "exec_command", "local_shell":
+            if let d = str("description") { return d }
+            if let c = str("command") ?? str("cmd") { return oneLine(c, max: 50) }
+            // Codex có thể gửi lệnh dạng mảng argv.
+            if let arr = input["command"] as? [String], !arr.isEmpty { return oneLine(arr.joined(separator: " "), max: 50) }
+            return nil
+        case "apply_patch":
+            // "*** Update File: path" / "*** Add File: path" trong nội dung patch.
+            let patch = str("input") ?? str("patch") ?? str("command") ?? ""
+            for line in patch.split(separator: "\n") {
+                for tag in ["*** Update File: ", "*** Add File: ", "*** Delete File: "] where line.hasPrefix(tag) {
+                    return (String(line.dropFirst(tag.count)) as NSString).lastPathComponent
+                }
+            }
+            return nil
         case "Read", "Edit", "Write", "MultiEdit", "NotebookEdit":
             return (str("file_path") ?? str("notebook_path")).map { ($0 as NSString).lastPathComponent }
         case "Grep", "Glob":
@@ -168,6 +205,8 @@ final class ClaudeActivityStore: ObservableObject {
     let transitions = PassthroughSubject<ClaudeTransition, Never>()
 
     private var map: [String: ClaudeSession] = [:]
+    /// `log stream --level debug --predicate 'subsystem == "com.justanotch.app" && category == "agents"'`
+    private static let log = Logger(subsystem: "com.justanotch.app", category: "agents")
     private var timer: Timer?
     private var pruneCounter = 0
 
@@ -207,6 +246,7 @@ final class ClaudeActivityStore: ObservableObject {
             defer { try? fm.removeItem(at: url) }
             guard let data = try? Data(contentsOf: url),
                   let e = ClaudeReducer.parseEventFile(data, at: date) else { continue }
+            Self.log.notice("hook \(e.agent.rawValue, privacy: .public) \(e.name, privacy: .public) \(e.tool ?? "-", privacy: .public)")
             if let t = ClaudeReducer.apply(e, to: &map) { out.append(t) }
         }
         if !receivedAny { receivedAny = true; UserDefaults.standard.set(true, forKey: "claude.receivedAny") }
@@ -229,9 +269,11 @@ final class ClaudeActivityStore: ObservableObject {
         }
     }
 
-    /// Đưa app chứa phiên ra trước (Terminal / Claude desktop / VS Code…).
+    /// Đưa app chứa phiên ra trước (Terminal / Claude desktop / VS Code…). Hook trong app
+    /// Codex không mang bundle id → mặc định mở app Codex.
     static func focus(_ s: ClaudeSession) {
-        guard let b = s.bundleID,
+        let fallback = s.agent == .codex ? "com.openai.codex" : nil
+        guard let b = s.bundleID ?? fallback,
               let app = NSRunningApplication.runningApplications(withBundleIdentifier: b).first else { return }
         app.unhide()
         app.activate(options: [.activateAllWindows])
@@ -240,14 +282,20 @@ final class ClaudeActivityStore: ObservableObject {
 
 // MARK: - Lọc thông báo Claude khỏi tab/HUD Notifications
 
-/// Khi notch đã tự theo dõi Claude (Clawd + báo xong/chờ duyệt), thông báo hệ thống
-/// của Claude chỉ gây báo trùng → bỏ khỏi HUD và lịch sử Notifications.
+/// Khi notch đã tự theo dõi Claude / Codex (hình agent + báo xong/chờ duyệt), thông báo
+/// hệ thống của chúng chỉ gây báo trùng → bỏ khỏi HUD và lịch sử Notifications.
 enum ClaudeNotificationFilter {
-    static let claudeBundles: Set<String> = ["com.anthropic.claudefordesktop", "com.claudeai.bridge"]
+    /// Claude desktop, Claude Bridge, app Codex (tên hiển thị "ChatGPT" nhưng bundle là
+    /// com.openai.codex), Codex CLI kèm app, Codex Computer Use.
+    static let agentBundles: Set<String> = [
+        "com.anthropic.claudefordesktop", "com.claudeai.bridge",
+        "com.openai.codex", "com.openai.codex.cli", "com.openai.sky.CUAService",
+    ]
 
     static func isClaude(_ r: NotificationRecord) -> Bool {
-        if claudeBundles.contains(r.bundleId) || r.bundleId.hasPrefix("com.anthropic.") { return true }
-        // terminal-notifier / terminal gửi hộ hook Notification của Claude Code.
+        if agentBundles.contains(r.bundleId) || r.bundleId.hasPrefix("com.anthropic.") { return true }
+        // terminal-notifier / terminal gửi hộ hook thông báo của Claude Code / Codex.
         return r.title.localizedCaseInsensitiveContains("Claude Code")
+            || r.title.localizedCaseInsensitiveContains("Codex")
     }
 }

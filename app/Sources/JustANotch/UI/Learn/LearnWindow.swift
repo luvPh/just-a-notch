@@ -289,6 +289,8 @@ struct ReviewSessionView: View {
     @State private var testQueue: [SenseKey] = []
     @State private var pos = 0
     @State private var requeued: Set<SenseKey> = []
+    /// Từ vừa sai → lần hỏi lại (cuối lượt) dùng dạng khác dạng này.
+    @State private var wrongMode: [SenseKey: PracticeMode] = [:]
     @State private var question: PracticeQuestion?
     @State private var stateBefore: ReviewState?
     @State private var results: [(SenseKey, Bool)] = []
@@ -377,9 +379,12 @@ struct ReviewSessionView: View {
                                      onAnswer: { ok in
                                          results.append((k, ok))
                                          store.record(k, correct: ok, mode: q.mode)
+                                         // Sai/bỏ qua → học lại (thẻ trong câu hỏi) + hỏi lại 1 lần cuối lượt.
+                                         if !ok, !requeued.contains(k) {
+                                             requeued.insert(k); testQueue.append(k); wrongMode[k] = q.mode
+                                         }
                                      },
                                      onNext: nextQuestion,
-                                     onSkip: { skip(q) },
                                      onKnown: { markKnown(k) })
                 .id("q\(pos)")
                 .padding(28).frame(maxWidth: 680).learnCard(18)
@@ -397,7 +402,6 @@ struct ReviewSessionView: View {
                 PracticeQuestionView(q: q, word: w, sense: w.senses[k.index], stateBefore: stateBefore,
                                      onAnswer: { ok in store.record(k, correct: ok, mode: q.mode) },
                                      onNext: nextOldReview,
-                                     onSkip: { store.record(k, correct: false, mode: q.mode); nextOldReview() },
                                      onKnown: nil)   // bài kiểm tra: không cho "đã thuộc"
                 .id("old\(store.reviewRemaining)-\(k)")
                 .padding(28).frame(maxWidth: 680).learnCard(18)
@@ -548,7 +552,7 @@ struct ReviewSessionView: View {
 
     // MARK: Điều khiển
     private func start(keys: [SenseKey]? = nil) {
-        words = keys?.filter { store.daily?.reviewAgain == true || store.review($0)?.mastered != true }
+        words = keys?.filter { store.daily?.again.contains($0) == true || store.review($0)?.mastered != true }
             ?? store.studyBatch(size: batchSize, newLimit: newPerBatch)
         previewIndex = 0; results = []
         phase = words.isEmpty ? .start : .preview
@@ -557,26 +561,25 @@ struct ReviewSessionView: View {
     private func startTest() {
         words.forEach { store.introduce($0) }      // từ mới vào lịch ôn
         testQueue = words.shuffled()
-        pos = 0; requeued = []
+        pos = 0; requeued = []; wrongMode = [:]
         if testQueue.isEmpty { phase = .done } else { phase = .test; prepare() }
     }
 
     private func prepare() {
         guard pos < testQueue.count else { return }
-        stateBefore = store.review(testQueue[pos])
-        question = store.question(for: testQueue[pos])
+        let k = testQueue[pos]
+        stateBefore = store.review(k)
+        if let bad = wrongMode[k], pos >= testQueue.firstIndex(of: k).map({ $0 + 1 }) ?? 0 {
+            wrongMode[k] = nil
+            question = store.question(for: k, mode: PracticeMode.allCases.filter { $0 != bad }.randomElement()!)
+        } else {
+            question = store.question(for: k)
+        }
     }
 
     private func nextQuestion() {
         pos += 1
         if pos >= testQueue.count { phase = .done } else { prepare() }
-    }
-
-    private func skip(_ q: PracticeQuestion) {
-        results.append((q.key, false))
-        store.record(q.key, correct: false, mode: q.mode)
-        if !requeued.contains(q.key) { requeued.insert(q.key); testQueue.append(q.key) }
-        nextQuestion()
     }
 
     /// Đã thuộc: bỏ từ khỏi lượt (cả phần xem lại lẫn kiểm tra).

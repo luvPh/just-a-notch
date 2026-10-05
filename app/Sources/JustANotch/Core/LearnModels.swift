@@ -49,6 +49,8 @@ enum PracticeMode: String, Codable, CaseIterable {
 /// VÀ đã đúng ở đủ cả 3 dạng câu hỏi.
 struct ReviewState: Codable, Equatable {
     static let masterAt = 10
+    /// Trả lời sai → trừ bấy nhiêu lần đúng (tính từ mức trần `masterAt`, không âm).
+    static let wrongPenalty = 2
 
     var ease: Double = 2.5
     var intervalDays: Double = 0
@@ -71,7 +73,7 @@ struct ReviewState: Codable, Equatable {
         return r == 1 ? 1 : r == 2 ? 3 : (intervalDays * ease).rounded()
     }
 
-    /// Ghi một lượt trả lời. Đúng → giãn lịch; sai → reset chuỗi, ôn lại ngay.
+    /// Ghi một lượt trả lời. Đúng → giãn lịch; sai → reset chuỗi, trừ tiến độ thuộc, ôn lại ngay.
     func recorded(correct ok: Bool, mode: PracticeMode, now: Date) -> ReviewState {
         var s = self
         s.lastReviewed = now
@@ -83,6 +85,7 @@ struct ReviewState: Codable, Equatable {
             s.ease = min(2.6, s.ease + 0.1)
         } else {
             s.reps = 0
+            s.correct = max(0, min(s.correct, Self.masterAt) - Self.wrongPenalty)
             s.intervalDays = 0
             s.lapses += 1
             s.ease = max(1.3, s.ease - 0.2)
@@ -130,8 +133,8 @@ struct DailySet: Codable, Equatable {
     var keys: [SenseKey]
     /// Số lần mỗi sense đã hiện (key = SenseKey.description) — để xoay vòng đều.
     var shown: [String: Int] = [:]
-    /// Đã chọn "Ôn lại 10 từ này" sau khi hoàn thành → hỏi cả từ đã thuộc.
-    var reviewAgain = false
+    /// Vòng "Ôn lại 10 từ này": các từ còn phải hỏi lại 1 lần (kể cả đã thuộc). Hỏi hết → hoàn thành lại.
+    var again: [SenseKey] = []
     /// Popup đã báo "hoàn thành" (chỉ báo 1 lần).
     var announced = false
     /// Các bộ đã hoàn thành trong ngày (trước khi chọn "Học 10 từ khác") — hôm sau ôn lại.
@@ -142,25 +145,48 @@ struct DailySet: Codable, Equatable {
     var reviewResults: [String: Bool] = [:]
     /// Đã xem màn tổng kết ôn bài cũ.
     var reviewSummaryAcked = false
+    /// Câu vừa trả lời sai (trong bài hôm nay) → lượt popup kế tiếp hỏi lại bằng dạng khác.
+    var retry: ReviewItem?
 
     init(day: String, keys: [SenseKey], shown: [String: Int] = [:]) {
         self.day = day; self.keys = keys; self.shown = shown
     }
 
     private enum CodingKeys: String, CodingKey {
-        case day, keys, shown, reviewAgain, announced, completed, reviewQueue, reviewResults, reviewSummaryAcked
+        case day, keys, shown, again, announced, completed, reviewQueue, reviewResults, reviewSummaryAcked, retry
     }
     init(from d: Decoder) throws {
         let c = try d.container(keyedBy: CodingKeys.self)
         day = try c.decode(String.self, forKey: .day)
         keys = try c.decode([SenseKey].self, forKey: .keys)
         shown = try c.decodeIfPresent([String: Int].self, forKey: .shown) ?? [:]
-        reviewAgain = try c.decodeIfPresent(Bool.self, forKey: .reviewAgain) ?? false
+        again = try c.decodeIfPresent([SenseKey].self, forKey: .again) ?? []
+        // Bản cũ: cờ `reviewAgain` bật mãi → chuyển thành 1 vòng ôn lại cả bộ.
+        if try d.container(keyedBy: LegacyKeys.self).decodeIfPresent(Bool.self, forKey: .reviewAgain) == true,
+           !c.contains(.again) { again = keys; evenShown() }
         announced = try c.decodeIfPresent(Bool.self, forKey: .announced) ?? false
         completed = try c.decodeIfPresent([SenseKey].self, forKey: .completed) ?? []
         reviewQueue = (try? c.decodeIfPresent([ReviewItem].self, forKey: .reviewQueue)) ?? []
         reviewResults = try c.decodeIfPresent([String: Bool].self, forKey: .reviewResults) ?? [:]
         reviewSummaryAcked = try c.decodeIfPresent(Bool.self, forKey: .reviewSummaryAcked) ?? false
+        retry = try? c.decodeIfPresent(ReviewItem.self, forKey: .retry)
+    }
+    private enum LegacyKeys: String, CodingKey { case reviewAgain }
+
+    /// Đang trong vòng "Ôn lại 10 từ này".
+    var reviewAgain: Bool { !again.isEmpty }
+
+    /// Cân bộ đếm cả bộ về cùng mức (đầu vòng ôn lại) → mọi từ xoay vòng ngẫu nhiên, đều nhau.
+    mutating func evenShown() {
+        let top = shown.values.max() ?? 0
+        shown = Dictionary(uniqueKeysWithValues: keys.map { ($0.description, top) })
+    }
+
+    /// Từ mới vào bài giữa chừng: cho số lần hiện bằng từ ít hiện nhất để xoay vòng chung,
+    /// không bị hỏi dồn liên tục cho tới khi "đuổi kịp" các từ khác.
+    mutating func seedShown(_ k: SenseKey) {
+        let others = keys.filter { $0 != k }.compactMap { shown[$0.description] }
+        shown[k.description] = others.min() ?? 0
     }
 
     /// Đang trong phần ôn bài cũ (còn câu phải hỏi).

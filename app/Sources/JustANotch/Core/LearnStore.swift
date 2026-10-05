@@ -151,7 +151,12 @@ struct LearnDeck {
         // Ôn bài cũ bắt buộc làm trước; xong phải xem tổng kết rồi mới học bài mới.
         if let it = set.reviewQueue.first { return question(for: it.key, mode: it.mode, rng: &rng).map { .question($0) } }
         if set.needsReviewSummary { return nil }
-        let open = set.keys.filter { byID[$0.wordID] != nil && (set.reviewAgain || reviews[$0]?.mastered != true) }
+        // Vừa sai một từ → hỏi lại ngay từ đó, bằng dạng khác lần sai.
+        if let r = set.retry, set.keys.contains(r.key), byID[r.key.wordID] != nil, reviews[r.key]?.mastered != true {
+            let other = PracticeMode.allCases.filter { $0 != r.mode }.randomElement(using: &rng)!
+            if let q = question(for: r.key, mode: other, rng: &rng) { return .question(q) }
+        }
+        let open = set.keys.filter { byID[$0.wordID] != nil && (set.again.contains($0) || reviews[$0]?.mastered != true) }
         guard let least = open.map({ set.shown[$0.description] ?? 0 }).min() else { return nil }
         guard let k = open.filter({ (set.shown[$0.description] ?? 0) == least }).randomElement(using: &rng) else { return nil }
         if reviews[k] == nil { return .intro(k) }
@@ -231,17 +236,23 @@ final class LearnStore: ObservableObject {
     /// Lấy lượt học kế tiếp (không đổi nếu đang có lượt dở).
     @discardableResult
     func ensurePrompt(now: Date = Date()) -> LearnPrompt? {
+        fillPrompt(now: now)
+        return current
+    }
+
+    private func fillPrompt(now: Date) {
         if current == nil {
             let set = ensureDaily(now: now)
             // Bài hôm nay đã hoàn thành → không ra câu (UI hiện màn "hoàn thành").
             // Kho B2–C2 cạn (bộ rỗng) → quay về lịch ôn chung.
             current = deck.dailyPrompt(set, rng: &rng) ?? (set.keys.isEmpty ? deck.nextPrompt(now: now, rng: &rng) : nil)
+            // Đã đem câu hỏi lại ra dùng → xoá cờ (chỉ hỏi lại 1 lần).
+            if let r = daily?.retry, current?.key == r.key { daily?.retry = nil }
             if let k = current?.key, set.keys.contains(k) {
                 daily?.shown[k.description, default: 0] += 1
                 write(daily, "daily.json")
             }
         }
-        return current
     }
 
     /// Bài học hôm nay. Sang ngày mới: giữ từ chưa thuộc của bài cũ, lấp bằng từ mới.
@@ -257,8 +268,12 @@ final class LearnStore: ObservableObject {
         toReview = toReview.filter { deck.byID[$0.wordID] != nil && deck.reviews[$0] != nil && seen.insert($0).inserted }
         var d = deck.pickDaily(day: today, carry: oldDone ? [] : (old?.keys ?? []),
                                exclude: Set(toReview.map(\.wordID)), rng: &rng)
-        // Giữ bộ đếm xoay vòng của các từ học nối tiếp.
-        if let old { d.shown = old.shown.filter { k, _ in d.keys.contains { $0.description == k } } }
+        // Giữ bộ đếm xoay vòng của các từ học nối tiếp; từ mới bắt đầu ngang từ ít hiện nhất.
+        if let old {
+            d.shown = old.shown.filter { k, _ in d.keys.contains { $0.description == k } }
+            let base = d.shown.values.min() ?? 0
+            for k in d.keys where d.shown[k.description] == nil { d.shown[k.description] = base }
+        }
         d.reviewQueue = toReview.flatMap { k in PracticeMode.allCases.map { ReviewItem(key: k, mode: $0) } }
             .shuffled(using: &rng)
         setDaily(d)
@@ -314,7 +329,7 @@ final class LearnStore: ObservableObject {
         if !correct {
             d.reviewQueue.removeAll { $0.key == key }
             deck.resetProgress(key)
-            if !d.keys.contains(key) { d.keys.append(key) }
+            if !d.keys.contains(key) { d.keys.append(key); d.seedShown(key) }
         }
         setDaily(d)
     }
@@ -324,10 +339,13 @@ final class LearnStore: ObservableObject {
         Set((daily?.reviewResults ?? [:]).filter { !$0.value }.keys.map { $0.split(separator: "|").first! }).count
     }
 
-    /// "Ôn lại 10 từ này": tiếp tục hỏi cả từ đã thuộc, không reset tiến độ.
+    /// "Ôn lại 10 từ này": hỏi lại mỗi từ 1 lần (cả từ đã thuộc, không reset tiến độ);
+    /// hỏi hết cả bộ → lại màn hoàn thành.
     func reviewDailyAgain() {
         guard var d = daily else { return }
-        d.reviewAgain = true
+        d.again = d.keys.filter { deck.byID[$0.wordID] != nil }
+        d.evenShown()
+        d.announced = false                      // popup báo hoàn thành lại khi xong vòng
         setDaily(d)
         current = nil
     }
@@ -389,7 +407,18 @@ final class LearnStore: ObservableObject {
     func record(_ key: SenseKey, correct: Bool, mode: PracticeMode, now: Date = Date()) {
         deck.record(key, correct: correct, mode: mode, now: now)
         stats.record(now: now)
+        let wasOldReview = daily?.reviewQueue.contains { $0.key == key } == true
         handleReviewAnswer(key, correct: correct)
+        // Vòng ôn lại: đã hỏi lại từ này → xong phần của nó (sai thì học tiếp như từ chưa thuộc).
+        if var d = daily, d.again.contains(key) {
+            d.again.removeAll { $0 == key }
+            setDaily(d)
+        }
+        // Sai trong bài hôm nay (không phải ôn bài cũ) → đánh dấu hỏi lại ở lượt kế.
+        if !correct, !wasOldReview, var d = daily, d.keys.contains(key) {
+            d.retry = ReviewItem(key: key, mode: mode)
+            setDaily(d)
+        }
         save()
     }
 
@@ -417,9 +446,15 @@ final class LearnStore: ObservableObject {
     }
 
     func markKnown(_ id: String, now: Date = Date()) {
+        let wasKnown = isKnown(id)
         deck.markKnown(id, now: now)
         if current?.key.wordID == id { current = nil }
-        replaceInDaily(wordID: id, now: now)
+        if var d = daily, d.again.contains(where: { $0.wordID == id }) {
+            d.again.removeAll { $0.wordID == id }
+            setDaily(d)
+        }
+        // Từ vốn đã thuộc (vd. đang ôn lại) → chỉ bỏ qua, không thay bằng từ mới.
+        if !wasKnown { replaceInDaily(wordID: id, now: now) }
         save()
     }
 
@@ -435,8 +470,8 @@ final class LearnStore: ObservableObject {
         let old = d.keys[i]
         let exclude = Set(d.keys.map(\.wordID))
         let pick = deck.pickDaily(day: d.day, exclude: exclude, rng: &rng).keys.first
-        if let pick { d.keys[i] = pick } else { d.keys.remove(at: i) }
         d.shown[old.description] = nil
+        if let pick { d.keys[i] = pick; d.seedShown(pick) } else { d.keys.remove(at: i) }
         setDaily(d)
     }
 

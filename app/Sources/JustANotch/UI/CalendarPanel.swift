@@ -73,7 +73,7 @@ struct CalendarPanel: View {
         HStack(spacing: 6) {
             // Không còn nút ◀▶: tuần thì cuộn ngày, tháng thì trượt/cuộn để đổi tháng.
             Text(title)
-                .font(.system(size: 12.5, weight: .bold)).foregroundStyle(.white)
+                .font(NotchTheme.toolbarTitle).foregroundStyle(.white)
                 .lineLimit(1).minimumScaleFactor(0.6)
                 // Đổi tiêu đề tức thì cho khớp với lưới (MonthPager nhảy ~ngay lập tức).
                 .contentTransition(.numericText())
@@ -87,28 +87,14 @@ struct CalendarPanel: View {
 
     /// Chuyển tuần ⇄ tháng. Icon phản ánh hành động kế tiếp.
     private var expandButton: some View {
-        Button {
+        NotchIconButton(symbol: expanded ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right",
+                        help: expanded ? "Thu về tuần" : "Xem cả tháng") {
             withAnimation(toggleSpring) { expanded.toggle() }
-        } label: {
-            Image(systemName: expanded ? "arrow.down.right.and.arrow.up.left"
-                                       : "arrow.up.left.and.arrow.down.right")
-                .font(.system(size: 12, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.78))
-                .frame(width: 20, height: 20)
         }
-        .buttonStyle(.plain)
-        .help(expanded ? "Thu về tuần" : "Xem cả tháng")
     }
 
     private var todayButton: some View {
-        Button { goToday() } label: {
-            Image(systemName: "smallcircle.filled.circle")
-                .font(.system(size: 13, weight: .semibold))
-                .foregroundStyle(calAccent)
-                .frame(width: 20, height: 20)
-        }
-        .buttonStyle(.plain)
-        .help("Về hôm nay")
+        NotchIconButton(symbol: "smallcircle.filled.circle", help: "Về hôm nay") { goToday() }
     }
 
     private var modeToggle: some View {
@@ -126,7 +112,7 @@ struct CalendarPanel: View {
                 .font(.system(size: 10.5, weight: .semibold))
                 .lineLimit(1).fixedSize()
                 .foregroundStyle(isActive ? Color.black : .white.opacity(0.7))
-                .padding(.horizontal, 9).padding(.vertical, 3)
+                .padding(.horizontal, 9).frame(height: 18)
                 .background {
                     // Viên nền trắng TRƯỢT giữa hai chip (matchedGeometry).
                     if isActive {
@@ -298,8 +284,7 @@ struct CalendarPanel: View {
                     .fill(showToday ? calAccent : (hovered ? .white.opacity(0.12) : .clear))
             )
             // Hover: phóng nhẹ + TRƯỢT LÊN về phía con trỏ (phản hồi tức thì).
-            .scaleEffect(hovered ? 1.14 : 1.0)
-            .offset(y: hovered ? -2 : 0)
+            .scaleEffect(hovered ? 1.06 : 1.0)
             .zIndex(hovered ? 1 : 0)
             .opacity(info.inMonth ? 1 : 0.3)
             .contentShape(Rectangle())

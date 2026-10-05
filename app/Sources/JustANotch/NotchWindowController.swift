@@ -25,7 +25,6 @@ final class NotchWindowController {
     private var monitors: [Any] = []
     private var hoverTimer: Timer?
     private let hotKeys = HotKeyCenter()
-    private let filesPopup: FilesPopupController
     private var shelfCatcher: ShelfDropCatcher!
     private var dragWatcher: SystemDragWatcher!
     // Double-tap ⌘ → toggle notch. Global keyboard monitors ⇒ cần Accessibility.
@@ -35,12 +34,19 @@ final class NotchWindowController {
 
     private var coreCenterX: CGFloat = 0
     private var screenTopY: CGFloat = 0
+    /// Chế độ "theo màn đang dùng": màn hình notch đang đứng + bộ đếm kiểm tra.
+    private var followScreen: NSScreen?
+    private var followTimer: Timer?
+    /// Màn ứng viên + thời điểm con trỏ bắt đầu ở đó (chờ đủ lâu mới chuyển).
+    private var followCandidate: (screen: NSScreen, since: Date)?
+    private var hopping = false
+    private let followDelay: TimeInterval = 1.0
+    static let followValue = "__follow__"
 
     init() {
         media = MediaService()
         notifier = NotificationService()
         vm = NotchViewModel(media: media, notifier: notifier)
-        filesPopup = FilesPopupController(store: vm.fileStore)
         panel = NotchPanel(contentRect: NSRect(x: 0, y: 0, width: 300, height: 40))
         panel.contentView = ClickableHostingView(rootView: NotchRootView(vm: vm))
         panel.orderFrontRegardless()
@@ -97,11 +103,13 @@ final class NotchWindowController {
         // activating the app, so the frontmost app keeps its menu bar. On collapse
         // we resign key and keyboard returns to whatever app is in front.
         // Launcher mở tính năng có ô nhập (máy tính) → panel cũng cần key để gõ phím.
-        vm.$expanded.combineLatest(vm.$launcherFeature)
+        vm.$expanded.combineLatest(vm.$launcherFeature, vm.$learnPopupWantsKey)
             .receive(on: RunLoop.main)
-            .sink { [weak self] exp, feature in
+            .sink { [weak self] exp, feature, learnKey in
                 guard let self else { return }
-                if exp || feature != nil {
+                // Popup Learn định kỳ KHÔNG giành bàn phím (người dùng đang gõ ở app khác);
+                // câu hỏi trong popup chỉ cần bấm chuột.
+                if (exp && (!self.vm.learnPopup || learnKey)) || feature != nil {
                     self.panel.allowsKey = true
                     self.panel.makeKey()
                 } else {
@@ -113,6 +121,26 @@ final class NotchWindowController {
         NotificationCenter.default.addObserver(
             forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main
         ) { [weak self] _ in Task { @MainActor in self?.applyGeometry(); self?.layoutPanel() } }
+
+        // Đổi màn hình hiển thị trong Settings → đặt lại vị trí ngay.
+        ScreenshotController.shared.clipboard = vm.clipboard
+
+        AppSettings.shared.$pillMascot
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in DispatchQueue.main.async { self?.applyGeometry(); self?.layoutPanel() } }
+            .store(in: &bag)
+
+        AppSettings.shared.$displayName
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] v in
+                self?.followScreen = nil
+                self?.setFollow(v == Self.followValue)
+                self?.applyGeometry(); self?.layoutPanel()
+            }
+            .store(in: &bag)
+        setFollow(AppSettings.shared.displayName == Self.followValue)
 
         // Bật/tắt bộ phát hiện double-tap ⌘ theo Settings (emit ngay giá trị hiện tại).
         AppSettings.shared.$doubleTapCommand
@@ -127,8 +155,20 @@ final class NotchWindowController {
         // Always target the screen that physically owns the notch (never NSScreen.main,
         // which follows the active app to an external display).
         let probe = NotchGeometryProvider(simulateNotch: false)
-        let notchScreen = NSScreen.screens.first { probe.physicalNotchWidth(of: $0) != nil }
-        let screen = notchScreen ?? NSScreen.main ?? NSScreen.screens.first
+        // Người dùng chọn màn hình trong Settings → dùng màn đó (nếu còn cắm);
+        // mặc định ưu tiên màn có notch vật lý.
+        let wanted = AppSettings.shared.displayName
+        let picked: NSScreen?
+        if wanted == Self.followValue {
+            picked = followScreen ?? Self.screenUnderMouse()
+            followScreen = picked
+        } else {
+            picked = wanted.isEmpty ? nil : NSScreen.screens.first { $0.localizedName == wanted }
+        }
+        let auto = NSScreen.screens.first { probe.physicalNotchWidth(of: $0) != nil }
+        let target = picked ?? auto ?? NSScreen.main ?? NSScreen.screens.first
+        let notchScreen = target.flatMap { probe.physicalNotchWidth(of: $0) != nil ? $0 : nil }
+        let screen = target
         let provider = NotchGeometryProvider(simulateNotch: notchScreen == nil)
         guard let screen, let geo = provider.geometry(for: screen) else { return }
         coreCenterX = geo.screenFrame.midX
@@ -136,15 +176,70 @@ final class NotchWindowController {
         vm.coreWidth = geo.notchWidth
         // Physical notch (camera) height = safe-area top when present; 38pt fallback.
         let safeTop = screen.safeAreaInsets.top
-        vm.notchHeight = safeTop > 0 ? safeTop : 38
+        vm.notchHeight = safeTop > 0 ? safeTop : 30
         // Không có notch vật lý (màn ngoài / Mac không tai thỏ) → dạng pill nổi.
         vm.pillMode = notchScreen == nil
+        vm.menuBarHeight = max(20, screen.frame.maxY - screen.visibleFrame.maxY)
+        // Pill không có camera → bỏ khoảng trống ở giữa, hai wing áp sát nhau.
+        // Pill: lõi giữa đủ chỗ cho Clawd ngồi chill (và vẫn là vùng bấm mở notch).
+        if vm.pillMode { vm.coreWidth = AppSettings.shared.pillMascot ? 82 : 22 }   // 76pt cảnh + lề
+    }
+
+    private static func screenUnderMouse() -> NSScreen? {
+        let m = NSEvent.mouseLocation
+        return NSScreen.screens.first { NSMouseInRect(m, $0.frame, false) }
+    }
+
+    /// Theo màn đang dùng: con trỏ sang màn khác (và notch đang thu gọn) → chuyển notch sang đó.
+    private func setFollow(_ on: Bool) {
+        followTimer?.invalidate(); followTimer = nil
+        guard on else { return }
+        let t = Timer(timeInterval: 0.4, repeats: true) { [weak self] _ in
+            Task { @MainActor in self?.followTick() }
+        }
+        RunLoop.main.add(t, forMode: .common)
+        followTimer = t
+    }
+
+    private func followTick() {
+        guard !hopping, !vm.expanded, !vm.shelfActive, !vm.launcherVisible,
+              let s = Self.screenUnderMouse() else { return }
+        guard s != followScreen else { followCandidate = nil; return }
+        // Chuột chỉ "đi chơi" qua màn khác chốc lát thì không chuyển.
+        if followCandidate?.screen != s { followCandidate = (s, Date()); return }
+        guard let c = followCandidate, Date().timeIntervalSince(c.since) >= followDelay else { return }
+        followCandidate = nil
+        hop(to: s)
+    }
+
+    /// Thu notch lại ở màn cũ → dời panel → nở ra ở màn mới.
+    private func hop(to s: NSScreen) {
+        hopping = true
+        vm.hovering = false
+        withAnimation(.easeInOut(duration: 0.26)) { vm.screenHopHidden = true }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            guard let self else { return }
+            self.followScreen = s
+            // Đổi hình dạng (notch ↔ pill, bo góc, lõi) TỨC THÌ khi đang ẩn — không để
+            // các animation ngầm biến hình trước mắt người dùng.
+            var t = Transaction(); t.disablesAnimations = true
+            withTransaction(t) { self.applyGeometry() }
+            self.layoutPanel()
+        }
+        // Chờ SwiftUI vẽ xong hình dạng mới rồi mới nở ra.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.36) { [weak self] in
+            guard let self else { return }
+            // Phóng to từ nhỏ lên, không nảy quá cỡ rồi co lại.
+            withAnimation(.timingCurve(0.2, 0.9, 0.3, 1, duration: 0.42)) { self.vm.screenHopHidden = false }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { self.hopping = false }
+        }
     }
 
     /// Surface bounding rect in screen (bottom-left origin) coordinates.
     private var islandScreenRect: CGRect {
         // Tính cả mức phóng hover (neo mép trên) để mép dưới launcher không lọt click.
-        let w = vm.surfaceWidth * vm.hoverScale, h = vm.surfaceHeight * vm.hoverScale
+        let s = vm.hoverScale * vm.pillScale
+        let w = vm.surfaceWidth * s, h = vm.surfaceHeight * s
         // Tâm bề mặt = tâm lõi + centerXOffset (0 khi canh giữa) — đúng cả khi launcher
         // nới rộng hơn hàng wing.
         let left: CGFloat = coreCenterX + vm.centerXOffset - w / 2
@@ -158,7 +253,7 @@ final class NotchWindowController {
     /// Mouse pass-through outside the island keeps the transparent area click-through.
     private func layoutPanel() {
         let w = panelWidth
-        let h = vm.maxSurfaceHeight + vm.pillGap
+        let h = vm.maxSurfaceHeight + 3
         let frame = CGRect(x: coreCenterX - w / 2, y: screenTopY - h, width: w, height: h)
         panel.setFrame(frame, display: true)
 
@@ -193,6 +288,16 @@ final class NotchWindowController {
             guard let self, self.vm.expanded, !self.vm.keepOpenOnOutsideClick else { return }
             if !self.islandScreenRect.contains(NSEvent.mouseLocation) { self.vm.collapse() }
         } as Any)
+        // Popup Learn không giữ bàn phím; bấm vào popup khi đang là câu "điền từ" → lúc này mới
+        // cho panel nhận bàn phím (ô nhập tự focus sau đó). Ô nhập AppKit nuốt mouseDown nên
+        // phải bắt ở đây thay vì gesture SwiftUI.
+        monitors.append(NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown]) { [weak self] e in
+            guard let self, self.vm.expanded, self.vm.learnPopup, !self.vm.learnPopupWantsKey,
+                  self.islandScreenRect.contains(NSEvent.mouseLocation),
+                  case let .question(q)? = self.vm.learn.current, q.mode == .fill else { return e }
+            self.vm.learnPopupWantsKey = true
+            return e
+        })
         monitors.append(NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown]) { [weak self] e in
             guard let self, self.vm.expanded, !self.vm.keepOpenOnOutsideClick else { return e }
             if !self.islandScreenRect.contains(NSEvent.mouseLocation) { self.vm.collapse() }
@@ -210,10 +315,15 @@ final class NotchWindowController {
         hotKeys.register(keyCode: kVK_ANSI_1, modifiers: m) { [weak self] in self?.vm.requestTab(1) }
         hotKeys.register(keyCode: kVK_ANSI_2, modifiers: m) { [weak self] in self?.vm.requestTab(2) }
         hotKeys.register(keyCode: kVK_ANSI_3, modifiers: m) { [weak self] in self?.vm.requestTab(3) }
-        // ⌥⇧N → popup tab Files (mở rộng) canh giữa màn hình đang focus.
-        hotKeys.register(keyCode: kVK_ANSI_N, modifiers: UInt32(optionKey | shiftKey)) {
-            [weak self] in self?.filesPopup.toggle()
-        }
+        // Chụp màn hình kiểu CleanShot: ⌘⇧4 vùng · ⌘⇧5 cửa sổ · ⌘⇧3 cả màn hình · ⌘⇧6 quay.
+        // macOS giữ sẵn ⌘⇧3/4/5 cho công cụ chụp của hệ thống → người dùng cần tắt các phím đó
+        // trong System Settings › Keyboard › Keyboard Shortcuts › Screenshots thì phím của app mới ăn.
+        let shot = UInt32(cmdKey | shiftKey)
+        hotKeys.register(keyCode: kVK_ANSI_4, modifiers: shot) { ScreenshotController.shared.captureArea() }
+        hotKeys.register(keyCode: kVK_ANSI_5, modifiers: shot) { ScreenshotController.shared.captureWindow() }
+        hotKeys.register(keyCode: kVK_ANSI_3, modifiers: shot) { ScreenshotController.shared.captureFullScreen() }
+        // ⌘⇧6: quay màn hình (bấm lần nữa để dừng).
+        hotKeys.register(keyCode: kVK_ANSI_6, modifiers: shot) { RecordingController.shared.toggle() }
     }
 
     /// Cài/gỡ global hotkey F1…F6 → đưa app đã gán ra trước.

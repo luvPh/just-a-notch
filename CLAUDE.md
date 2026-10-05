@@ -22,3 +22,9 @@ Các quy tắc dưới đây được đọc lại ở **mỗi session mới**. 
   Privacy & Security → Full Disk Access.
 - Chưa cấp: tab Notifications hiện prompt hướng dẫn (nút mở System Settings);
   app không crash, chỉ không có dữ liệu thông báo.
+
+## 4. Tính năng Chụp màn hình cần quyền Screen Recording
+- Chụp vùng / cửa sổ / màn hình (⌘⇧4 / ⌘⇧5 / ⌘⇧3) và quay màn hình (⌘⇧6); cần tắt phím Screenshots của macOS trong Keyboard Shortcuts dùng ScreenCaptureKit → cần bật
+  "Just a Notch" trong System Settings → Privacy & Security → Screen & System Audio Recording.
+- Chưa cấp: bấm phím tắt sẽ hiện hộp thoại hướng dẫn mở System Settings; app không crash.
+- Ảnh chụp tự vào tab Clipboard; xem trước giao diện bằng `NOTCH_SNAP=<dir> swift test --filter ScreenshotSnapshotCheck`.

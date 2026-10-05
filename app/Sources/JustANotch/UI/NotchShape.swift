@@ -31,12 +31,19 @@ struct NotchShape: Shape {
             p.addQuadCurve(to: CGPoint(x: rect.maxX - ir, y: rect.minY + ir),
                            control: CGPoint(x: rect.maxX - ir, y: rect.minY))
         }
-        p.addLine(to: CGPoint(x: rect.maxX - ir, y: rect.maxY - br))
-        p.addQuadCurve(to: CGPoint(x: rect.maxX - ir - br, y: rect.maxY),
-                       control: CGPoint(x: rect.maxX - ir, y: rect.maxY))
-        p.addLine(to: CGPoint(x: rect.minX + ir + br, y: rect.maxY))
-        p.addQuadCurve(to: CGPoint(x: rect.minX + ir, y: rect.maxY - br),
-                       control: CGPoint(x: rect.minX + ir, y: rect.maxY))
+        // Góc dưới "continuous" (squircle) như Apple: đường cong bắt đầu sớm hơn
+        // bán kính (×1.28) và kéo tiếp tuyến dài → không còn điểm gãy độ cong.
+        let k: CGFloat = 1.28
+        let bs = min(br * k, (rect.width / 2 - ir), rect.height - ir)
+        let rx = rect.maxX - ir, lx = rect.minX + ir, by = rect.maxY
+        p.addLine(to: CGPoint(x: rx, y: by - bs))
+        p.addCurve(to: CGPoint(x: rx - bs, y: by),
+                   control1: CGPoint(x: rx, y: by - bs * 0.36),
+                   control2: CGPoint(x: rx - bs * 0.36, y: by))
+        p.addLine(to: CGPoint(x: lx + bs, y: by))
+        p.addCurve(to: CGPoint(x: lx, y: by - bs),
+                   control1: CGPoint(x: lx + bs * 0.36, y: by),
+                   control2: CGPoint(x: lx, y: by - bs * 0.36))
         p.addLine(to: CGPoint(x: rect.minX + ir, y: rect.minY + ir))
         if ir > 0 {
             p.addQuadCurve(to: CGPoint(x: rect.minX, y: rect.minY),
@@ -65,7 +72,10 @@ struct Artwork: View {
     var corner: CGFloat = 6
     var body: some View {
         if let data, let img = NSImage(data: data) {
-            Image(nsImage: img).resizable().aspectRatio(contentMode: .fill)
+            // Ảnh nằm trong overlay của khung → lấp đầy rồi CẮT đúng theo khung
+            // (ảnh 16:9 như thumbnail YouTube không tràn ra hai bên).
+            Color.clear
+                .overlay(Image(nsImage: img).resizable().aspectRatio(contentMode: .fill))
                 .clipShape(RoundedRectangle(cornerRadius: corner, style: .continuous))
         } else {
             RoundedRectangle(cornerRadius: corner, style: .continuous)

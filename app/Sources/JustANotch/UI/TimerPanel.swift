@@ -11,7 +11,7 @@ struct TimerPanel: View {
     @State private var customMinutes = 15
     @State private var customMessage = ""
 
-    private let accent = Color(red: 0.64, green: 0.55, blue: 0.98)
+    private let accent = NotchTheme.accent
 
     private var shownSeconds: Int { max(0, Int(timer.remaining.rounded())) }
     private var mm: String { String(format: "%02d", shownSeconds / 60) }

@@ -19,7 +19,7 @@ enum LauncherFeature: String, CaseIterable, Identifiable {
         switch self {
         case .calculator: return "Máy tính & tỷ giá"
         case .gold:       return "Giá vàng"
-        case .claude:     return "Claude Code"
+        case .claude:     return "Claude & Codex"
         }
     }
 

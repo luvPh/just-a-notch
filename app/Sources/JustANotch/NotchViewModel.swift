@@ -27,7 +27,6 @@ final class NotchViewModel: ObservableObject {
     /// True khi tab đang mở là Lịch — panel cần chiều cao lớn hơn player.
     @Published var panelWantsTall = false
     /// Cây shortcut cho tab Files.
-    let fileStore = FileShortcutStore()
     /// Clipboard history store backing the Clipboard tab.
     let clipboard = ClipboardStore()
     let learn = LearnStore.shared
@@ -60,24 +59,12 @@ final class NotchViewModel: ObservableObject {
     var anyTimerRunning: Bool {
         timerSingle.isRunning || timerPomodoro.isRunning || timerSequence.isRunning
     }
-    /// True khi người dùng bấm ⤢ để phóng to panel Files. Ghi nhớ qua UserDefaults.
-    @Published var filesExpanded: Bool = UserDefaults.standard.bool(forKey: "filesExpanded") {
-        didSet {
-            UserDefaults.standard.set(filesExpanded, forKey: "filesExpanded")
-            noteInteraction()
-        }
-    }
-    /// Panel Files đang mở? (do NotchRootView set khi railTab == .files)
-    @Published var filesTabActive = false
     /// Tab Clipboard đang mở → notch rộng/cao hơn cho dải thẻ.
     @Published var clipTabActive = false
-    /// Số favorite đang chọn ở tab Files nhỏ — hiển thị ở wing trái (FilesPanel cập nhật).
-    @Published var filesSelCount = 0
-    /// Người dùng bấm nút ghim (📌) để GIỮ notch mở dù bấm ra ngoài — cho kéo-thả
-    /// ở dạng nhỏ. Ghi nhớ qua UserDefaults.
-    @Published var pinnedOpen: Bool = UserDefaults.standard.bool(forKey: "pinnedOpen") {
-        didSet { UserDefaults.standard.set(pinnedOpen, forKey: "pinnedOpen") }
-    }
+    /// Tab Hẹn giờ đang mở → cao hơn một chút cho thanh công cụ + hàng nút.
+    @Published var timerTabActive = false
+    /// Tab Đang phát → cao hơn cho ảnh bìa lớn.
+    @Published var musicTabActive = true   // tab mặc định là music
     /// Panel Lịch đang mở? (do NotchRootView set khi railTab == .calendar)
     @Published var calTabActive = false
     /// Panel Notifications đang mở? (do NotchRootView set khi railTab == .notifications)
@@ -275,7 +262,8 @@ final class NotchViewModel: ObservableObject {
     let hudWidth: CGFloat = 412
     /// Must clear the physical camera core (notchHeight) AND leave room for the
     /// two-line banner body below it; a fixed 56 left only ~6pt for the text.
-    var hudHeight: CGFloat { notchHeight + 48 }
+    /// Pill không có camera → bỏ khoảng chừa phía trên, chỉ giữ lề đều.
+    var hudHeight: CGFloat { pillMode ? 52 : notchHeight + 48 }
 
     enum CompactState { case quiet, resting, reading }
     var compactState: CompactState {
@@ -290,23 +278,28 @@ final class NotchViewModel: ObservableObject {
     // (the 150pt title expansion), keeping the right wing steady.
     var leftReveal: CGFloat {
         if breakActive { return breakLeftWing }
-        if claudeAlert != nil { return claudeAlertLeftWing }
-        // Clawd (25pt) thay chỗ icon nguồn nhạc (18pt) → wing trái nhỉnh hơn một chút.
+        if claudeAlert != nil { return pillMode ? pillAlertWing : claudeAlertLeftWing }
+        // Hình agent (25pt) thay chỗ icon nguồn nhạc (18pt) → wing trái nhỉnh hơn một chút;
+        // Claude + Codex cùng chạy thì đứng cạnh nhau, mỗi hình thêm 31pt.
         let clawd = claudeIndicatorVisible
+        let extra = CGFloat(max(0, claudeBadges.count - 1)) * 31
+        let cw: CGFloat = pillMode ? 46 : 54   // pill: hình agent sát trái → wing gọn hơn
         switch compactState {
-        case .quiet:   return clawd ? 54 : 10
-        case .resting: return clawd ? 54 : 40
-        case .reading: return clawd ? 166 : 150
+        case .quiet:   return clawd ? cw + extra : 10
+        case .resting: return clawd ? cw + extra : (pillMode ? 33 : 40)
+        case .reading: return clawd ? cw + 112 + extra : 150
         }
     }
     var rightReveal: CGFloat {
         if breakActive { return breakRightWing }
-        if claudeAlert != nil { return claudeAlertRightWing }
+        if claudeAlert != nil { return pillMode ? pillAlertWing : claudeAlertRightWing }
         // Bấm soundwave → ◀ ⏯ ▶ ở wing phải, nới rộng cho vừa 3 nút.
         if hoverControls { return 106 }
-        var base: CGFloat = compactState == .quiet ? 10 : 40
+        // Pill: không có "tai" notch để né → wing gọn hơn.
+        var base: CGFloat = compactState == .quiet ? 10 : (pillMode ? 31 : 40)
         // Đồng hồ đếm ngược chiếm chỗ waveform ở wing phải → nới rộng để badge đủ chỗ.
         if anyTimerRunning { base = max(base, 42) }
+        if pillMode && compactState != .reading { base = max(base, leftReveal) }
         return base
     }
     /// True khi người dùng đã bấm soundwave — morph waveform thành nút và nới wing phải.
@@ -356,13 +349,30 @@ final class NotchViewModel: ObservableObject {
     private var claudeAlertWork: DispatchWorkItem?
     let claudeAlertLeftWing: CGFloat = 212
     let claudeAlertRightWing: CGFloat = 12
+    /// Pill: thông báo Claude canh GIỮA — hai wing bằng nhau, tổng bề ngang ~236pt.
+    var pillAlertWing: CGFloat { max(40, (236 - coreWidth) / 2) }
     /// Lượt làm ngắn hơn chừng này thì không bung "xong rồi" (tránh ồn).
     let claudeDoneMinDuration: TimeInterval = 10
 
-    var claudeIndicatorVisible: Bool {
-        AppSettings.shared.claudeOn && claudeSessions.contains(where: \.isActive)
+    /// Một hình cho mỗi agent đang có phiên chạy/chờ duyệt (thứ tự cố định Claude → Codex).
+    struct AgentBadge: Identifiable, Equatable {
+        let agent: AgentKind
+        /// Phiên đại diện: đang chờ duyệt trước, rồi mới nhất (claudeSessions đã sắp sẵn).
+        let session: ClaudeSession
+        let count: Int
+        let waiting: Bool
+        var id: String { agent.rawValue }
     }
-    var claudeWaiting: Bool { claudeSessions.contains { $0.state == .waiting } }
+    var claudeBadges: [AgentBadge] {
+        guard AppSettings.shared.claudeOn else { return [] }
+        return [AgentKind.claude, .codex].compactMap { a in
+            let active = claudeSessions.filter { $0.agent == a && $0.isActive }
+            guard let first = active.first else { return nil }
+            return AgentBadge(agent: a, session: first, count: active.count,
+                              waiting: active.contains { $0.state == .waiting })
+        }
+    }
+    var claudeIndicatorVisible: Bool { !claudeBadges.isEmpty }
     /// Compact có gì để hiện ở wing không (nhạc hoặc Clawd).
     var hasCompactContent: Bool { hasMedia || claudeIndicatorVisible }
 
@@ -381,12 +391,31 @@ final class NotchViewModel: ObservableObject {
         if s.claudeSoundOn { ClaudeChime.play(kind) }
         // Notch đang bận thì chỉ kêu, chỉ báo ở wing vẫn cập nhật.
         guard !expanded, !showingHUD, !shelfActive, !breakActive, !launcherOpen else { return }
+        // Đang hiện một thông báo (vd Claude và Codex xong gần cùng lúc) → xếp hàng, không đè.
+        if claudeAlert != nil { enqueueClaudeAlert(t); return }
+        presentClaudeAlert(t)
+    }
+
+    /// Thông báo chờ hiện sau thông báo hiện tại. "Cần duyệt" chen lên trước "xong";
+    /// cùng một phiên thì chỉ giữ thông báo mới nhất.
+    private var claudeAlertQueue: [ClaudeTransition] = []
+
+    private func enqueueClaudeAlert(_ t: ClaudeTransition) {
+        claudeAlertQueue.removeAll { $0.session.id == t.session.id }
+        if case .waiting = t, let i = claudeAlertQueue.firstIndex(where: { if case .done = $0 { return true }; return false }) {
+            claudeAlertQueue.insert(t, at: i)
+        } else {
+            claudeAlertQueue.append(t)
+        }
+    }
+
+    private func presentClaudeAlert(_ t: ClaudeTransition) {
         hideTransport()
         withAnimation(.spring(response: 0.45, dampingFraction: 0.8)) { claudeAlert = t }
         claudeAlertWork?.cancel()
         let work = DispatchWorkItem { [weak self] in self?.dismissClaudeAlert() }
         claudeAlertWork = work
-        let hold: TimeInterval = kind == .waiting ? 8 : 5
+        let hold: TimeInterval = { if case .waiting = t { return 8 }; return 5 }()
         DispatchQueue.main.asyncAfter(deadline: .now() + hold, execute: work)
     }
 
@@ -394,6 +423,15 @@ final class NotchViewModel: ObservableObject {
         claudeAlertWork?.cancel(); claudeAlertWork = nil
         guard claudeAlert != nil else { return }
         withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) { claudeAlert = nil }
+        // Còn thông báo xếp hàng → hiện tiếp sau một nhịp (notch rảnh mới hiện).
+        guard !claudeAlertQueue.isEmpty else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) { [weak self] in
+            guard let self, claudeAlert == nil, !claudeAlertQueue.isEmpty else { return }
+            guard !expanded, !showingHUD, !shelfActive, !breakActive, !launcherOpen else {
+                claudeAlertQueue.removeAll(); return
+            }
+            presentClaudeAlert(claudeAlertQueue.removeFirst())
+        }
     }
 
     #if DEBUG
@@ -475,15 +513,13 @@ final class NotchViewModel: ObservableObject {
             launcherFeature = nil
         }
     }
-    var compactHeight: CGFloat { compactState == .quiet ? 38 : 40 }
+    var compactHeight: CGFloat { pillMode ? max(24, (menuBarHeight - 3) / 0.75) : (compactState == .quiet ? 36 : 38) }
     var compactWidth: CGFloat { leftReveal + coreWidth + rightReveal }
     /// Fixed marquee viewport for the title (left reading wing minus icon + pads).
     var titleViewport: CGFloat { 150 - 18 - 13 - 8 }
-    /// Phiên nên nhảy tới khi bấm Clawd: đang chờ duyệt trước, rồi đang chạy.
-    var claudeFocusTarget: ClaudeSession? { claudeSessions.first(where: \.isActive) }
 
     // Expanded window. (Bề ngang gọn; chiều cao giữ nguyên.)
-    let expandedWidth: CGFloat = 560
+    let expandedWidth: CGFloat = 640
     let expandedHeight: CGFloat = 150
     // Taller window while the queue/playlist is open (list scrolls within).
     let listExpandedHeight: CGFloat = 340
@@ -496,37 +532,28 @@ final class NotchViewModel: ObservableObject {
     }
     /// Chiều cao lớn nhất tab Lịch có thể cần (6 hàng) — dùng cho canvas cố định.
     var calendarMaxHeight: CGFloat { calendarBaseHeight + 6 * calendarRowSlot }
-    /// Chiều cao panel Files khi bấm ⤢ (đủ chỗ cho nhiều hàng).
-    let filesExpandedHeight: CGFloat = 340
-    /// Bề ngang panel Files khi bấm ⤢ — mở rộng để làm việc chính với tab này.
-    let filesExpandedWidth: CGFloat = 640
-    let clipboardWidth: CGFloat = 640
+    let clipboardWidth: CGFloat = 640   // = expandedWidth: đổi tab chỉ đổi chiều cao, không co giãn ngang
     let clipboardHeight: CGFloat = 210
     /// Chiều cao canvas cố định lớn nhất — panel window phải đủ cao cho mọi state.
     var maxSurfaceHeight: CGFloat {
-        max(expandedHeight, listExpandedHeight, calendarMaxHeight, filesExpandedHeight, shelfHeight)
+        max(expandedHeight, listExpandedHeight, calendarMaxHeight, shelfHeight)
     }
     /// Bề ngang canvas cố định lớn nhất — panel window phải đủ rộng cho mọi state.
     var maxSurfaceWidth: CGFloat {
-        max(expandedWidth, hudWidth, filesExpandedWidth, shelfWidth)
+        max(expandedWidth, hudWidth, clipboardWidth, shelfWidth)
     }
 
     var isListOpen: Bool { expanded && showList }
 
-    /// Files đang mở rộng toàn chiều ngang (ẩn sidebar, làm việc chính với tab).
-    var filesWide: Bool { expanded && filesTabActive && filesExpanded }
 
-    /// KHÔNG thu notch khi bấm ra ngoài khi: Files wide (⤢) HOẶC người dùng bật ghim
-    /// (📌). Còn lại (dạng nhỏ không ghim, tab khác) vẫn thu như cũ.
-    var keepOpenOnOutsideClick: Bool { filesWide || (filesTabActive && pinnedOpen) }
+    /// Bấm ra ngoài luôn thu notch (tính năng giữ-mở chỉ dành cho tab Files đã bỏ).
+    var keepOpenOnOutsideClick: Bool { false }
 
     var surfaceWidth: CGFloat {
         if shelfActive { return shelfWidth }
         if showingHUD { return hudWidth }
         if launcherVisible { return launcherWidth }
         if expanded && learnPopup { return learnPopupWidth }
-        if filesWide { return filesExpandedWidth }
-        if expanded && clipTabActive { return clipboardWidth }
         return expanded ? expandedWidth : compactWidth
     }
     /// Tab Chuỗi tự tạo đang mở trình sửa → panel cao 300px cho thoải mái.
@@ -540,8 +567,9 @@ final class NotchViewModel: ObservableObject {
         if learnPopup { return learnPopupHeight }
         if timerEditorTall { return 300 }
         if isListOpen { return listExpandedHeight }
+        if musicTabActive { return 196 }
         if clipTabActive { return clipboardHeight }
-        if filesTabActive { return filesExpanded ? filesExpandedHeight : expandedHeight }
+        if timerTabActive { return 206 }
         if calTabActive { return calExpanded ? calendarExpandedHeight : expandedHeight }
         if notifTabActive { return expandedHeight }   // 150px như tab mặc định
         if panelWantsTall { return calendarExpandedHeight }
@@ -553,7 +581,7 @@ final class NotchViewModel: ObservableObject {
     /// Lệch tâm do hai wing không đều — hàng wing trong launcher bù lại đúng chừng này.
     var wingImbalance: CGFloat { (rightReveal - leftReveal) / 2 }
     /// Bề mặt canh giữa notch (thay vì canh theo lõi camera + wing trái).
-    var isCentred: Bool { expanded || showingHUD || shelfActive || launcherVisible }
+    var isCentred: Bool { pillMode || expanded || showingHUD || shelfActive || launcherVisible }
     /// Phóng nhẹ khi hover (và giữ nguyên suốt lúc launcher mở) — neo ở mép trên.
     var hoverScale: CGFloat { !expanded && (hovering || launcherVisible) ? 1.03 : 1.0 }
 
@@ -569,8 +597,19 @@ final class NotchViewModel: ObservableObject {
     var topRadius: CGFloat { pillMode ? 0 : ((expanded || shelfActive) ? 12 : 9) }
     /// Màn hình không có notch vật lý → hiển thị dạng pill nổi (bo cả 4 góc, cách mép trên).
     @Published var pillMode = false
+    /// Đang chuyển màn: thu notch về 0 trước khi dời sang màn mới.
+    @Published var screenHopHidden = false
     /// Khoảng cách pill ↔ mép trên màn hình.
-    let pillGap: CGFloat = 6
+    /// Chiều cao thanh menu của màn đang hiển thị (đặt bởi controller).
+    @Published var menuBarHeight: CGFloat = 24
+    /// Pill thu gọn nhỏ 25% để nằm gọn trong thanh menu; mở ra thì về kích thước đầy đủ.
+    var pillScale: CGFloat { pillMode && !(expanded || shelfActive || launcherVisible) ? 0.75 : 1 }
+    /// Thu gọn: canh giữa pill theo chiều dọc trong thanh menu. Mở: cách mép trên 3pt.
+    var pillGap: CGFloat {
+        guard pillMode else { return 0 }
+        if pillScale < 1 { return max(0, (menuBarHeight - compactHeight * pillScale) / 2 - 1) }
+        return 3
+    }
     /// Bo góc trên ở chế độ pill: thu gọn = capsule, mở = khớp góc dưới.
     var pillTopRadius: CGFloat {
         guard pillMode else { return 0 }
@@ -618,6 +657,8 @@ final class NotchViewModel: ObservableObject {
 
     /// Popup Learn gọn: notch bung ra đúng 1 thẻ (không rail tab), kèm âm báo.
     @Published var learnPopup = false
+    /// Người dùng bấm vào ô nhập của popup → lúc này mới cho panel nhận bàn phím.
+    @Published var learnPopupWantsKey = false
     let learnPopupWidth: CGFloat = 400
     let learnPopupHeight: CGFloat = 250
 
@@ -701,7 +742,7 @@ final class NotchViewModel: ObservableObject {
 
     // MARK: Actions
     func toggleExpanded() { expanded.toggle(); if expanded { clearHUD() } }
-    func collapse() { expanded = false; showList = false; filesSelCount = 0; learnPopup = false }
+    func collapse() { expanded = false; showList = false; learnPopup = false; learnPopupWantsKey = false }
 
     /// Xong lượt trong popup → ghi nhận và thu notch (lượt sau popup chọn từ kế).
     func finishLearnPopup() {
@@ -722,12 +763,11 @@ final class NotchViewModel: ObservableObject {
     func noteInteraction() {
         autoShrinkWork?.cancel()
         autoShrinkWork = nil
-        guard filesExpanded || calExpanded else { return }
+        guard calExpanded else { return }
         let work = DispatchWorkItem { [weak self] in
             guard let self else { return }
             if hovering || !expanded { noteInteraction(); return }
             withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-                self.filesExpanded = false
                 self.calExpanded = false
             }
         }
@@ -771,6 +811,14 @@ final class NotchViewModel: ObservableObject {
     /// sending app provided one (jumps straight to the conversation/section),
     /// otherwise just activate the app.
     func openNotification(_ record: NotificationRecord) {
+        // Ưu tiên bấm chính thông báo đó trong Notification Center → app gốc xử lý
+        // y như native (đúng cuộc trò chuyện/email). Không được thì dùng deep link / mở app.
+        NotificationClicker.click(record) { [weak self] ok in
+            if !ok { self?.openNotificationFallback(record) }
+        }
+    }
+
+    private func openNotificationFallback(_ record: NotificationRecord) {
         guard let link = record.deepLink else {
             openApp(bundleId: record.bundleId)
             return

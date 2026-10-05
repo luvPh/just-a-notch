@@ -10,15 +10,17 @@ struct PracticeQuestionView: View {
     /// Trạng thái TRƯỚC khi trả lời (để hiện "ôn lại sau N ngày").
     let stateBefore: ReviewState?
     var compact = false
+    /// Popup định kỳ: nil = không tự focus ô nhập; true = panel vừa nhận bàn phím → focus ô nhập.
+    var keyboardReady: Bool?
     let onAnswer: (Bool) -> Void
     let onNext: () -> Void
-    let onSkip: () -> Void
     /// Đánh dấu đã thuộc — không bao giờ hỏi lại từ này. nil = ẩn nút (bài kiểm tra bài cũ).
     var onKnown: (() -> Void)?
 
     @State private var picked: Int?
     @State private var input = ""
     @State private var result: Bool?
+    @State private var skipped = false
     @FocusState private var focused: Bool
 
     private var fs: CGFloat { compact ? 1 : 1.6 }
@@ -32,22 +34,26 @@ struct PracticeQuestionView: View {
                 Spacer()
                 if let onKnown { KnownButton(size: 10 * fs, action: onKnown) }
                 if result == nil {
-                    Button("Bỏ qua", action: onSkip).buttonStyle(.plain)
+                    Button("Bỏ qua") { skipped = true; finish(false) }.buttonStyle(.plain)
                         .font(.system(size: 10 * fs)).foregroundStyle(.secondary)
-                        .help("Tính là sai, gặp lại sau")
+                        .help("Tính là sai → xem lại từ rồi được hỏi lại")
                         .learnHover(scale: 1.05, brighten: 0.25)
                 }
             }
-            prompt
-            switch q.mode {
-            case .mcqWord, .mcqMeaning: options
-            case .fill: fillField
+            if result == false {
+                relearn            // sai / bỏ qua → thẻ học lại thay chỗ câu hỏi
+            } else {
+                prompt
+                switch q.mode {
+                case .mcqWord, .mcqMeaning: options
+                case .fill: fillField
+                }
+                if let result { feedback(result) }
             }
-            if let result { feedback(result) }
         }
         .onAppear {
             if q.mode == .mcqWord { Pronouncer.speak(word.headword, uk: false) }
-            if q.mode == .fill { focused = true }
+            if q.mode == .fill && keyboardReady != false { focused = true }
         }
         .background {
             // Enter = sang câu tiếp khi đã trả lời.
@@ -103,13 +109,19 @@ struct PracticeQuestionView: View {
         VStack(alignment: .leading, spacing: compact ? 3 : 8) {
             Text(q.charHint).font(.system(size: 12 * fs, design: .monospaced)).foregroundStyle(.secondary)
             HStack {
-                TextField("Gõ từ tiếng Anh…", text: $input)
+                TextField(keyboardReady == false ? "Bấm vào đây để gõ…" : "Gõ từ tiếng Anh…", text: $input)
                     .textFieldStyle(.plain)
                     .font(.system(size: 13 * fs))
                     .padding(.horizontal, 8).padding(.vertical, compact ? 3 : 8)
                     .background(RoundedRectangle(cornerRadius: 7).fill(.white.opacity(0.1)))
                     .focused($focused)
                     .disabled(result != nil)
+                    .onChange(of: keyboardReady) { _, ready in
+                        if ready == true {
+                            // Chờ panel thành key window rồi mới đặt focus.
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) { focused = true }
+                        }
+                    }
                     .onSubmit(submitFill)
                 if result == nil {
                     Button("Kiểm tra", action: submitFill).disabled(input.trimmingCharacters(in: .whitespaces).isEmpty)
@@ -142,6 +154,43 @@ struct PracticeQuestionView: View {
                  ? "🎉 Đã thuộc từ này!"
                  : "Đúng \(min(after.correct, ReviewState.masterAt))/\(ReviewState.masterAt) lần · dạng \(Set(after.modes).count)/3 · \(ReviewState.intervalText(days: after.intervalDays))")
                 .font(.system(size: 9.5 * fs)).foregroundStyle(.secondary)
+        }
+    }
+
+    /// Thẻ học lại: đáp án đã chọn sai + mục từ đầy đủ, rồi mới đi tiếp.
+    @ViewBuilder private var relearn: some View {
+        let after = (stateBefore ?? .new(now: Date())).recorded(correct: false, mode: q.mode, now: Date())
+        HStack(spacing: 6) {
+            Image(systemName: skipped ? "arrow.uturn.forward.circle.fill" : "xmark.circle.fill")
+                .foregroundStyle(pal.bad)
+            Text(skipped ? "Đã bỏ qua — học lại từ này nhé" : "Chưa đúng — học lại từ này nhé")
+                .font(.system(size: 11.5 * fs, weight: .semibold))
+        }
+        if let wrong = wrongAnswer {
+            Text("Bạn chọn: \(wrong)").font(.system(size: 10.5 * fs)).foregroundStyle(pal.bad.opacity(0.9))
+                .strikethrough().lineLimit(1)
+        }
+        WordHeadline(word: word, sense: sense, scale: compact ? 1 : 1.5)
+        SenseDetail(sense: sense, scale: compact ? 1 : 1.35)
+        HStack {
+            Text("Đúng \(min(after.correct, ReviewState.masterAt))/\(ReviewState.masterAt) lần · dạng \(Set(after.modes).count)/3 · sẽ được hỏi lại")
+                .font(.system(size: 9.5 * fs)).foregroundStyle(pal.secondary)
+            Spacer()
+            Button(action: onNext) {
+                Label("Đã học lại", systemImage: "arrow.right")
+                    .font(.system(size: 11 * fs, weight: .semibold))
+                    .padding(.horizontal, 12).padding(.vertical, compact ? 4 : 8)
+                    .background(Capsule().fill(Color.white.opacity(0.14)))
+            }
+            .buttonStyle(.plain).learnHover(scale: 1.04)
+        }
+    }
+
+    private var wrongAnswer: String? {
+        if skipped { return nil }
+        switch q.mode {
+        case .mcqWord, .mcqMeaning: return picked.map { q.options[$0] }
+        case .fill: return input.isEmpty ? nil : input
         }
     }
 

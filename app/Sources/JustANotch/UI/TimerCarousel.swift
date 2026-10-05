@@ -33,6 +33,8 @@ struct TimerCarousel: View {
             if showingSettings {
                 TimerGeneralSettings(settings: settings, onBack: { showingSettings = false })
             } else {
+              VStack(spacing: 6) {
+                toolbar
                 GeometryReader { geo in
                     let w = geo.size.width
                     let h = geo.size.height
@@ -56,6 +58,8 @@ struct TimerCarousel: View {
                             ScrollWheelCatcher(onScroll: { handleScroll($0, w: w) }, onEnded: { acc = 0 })
                         }
                     }
+                    .onAppear { pageWidth = w }
+                    .onChange(of: w) { _, nw in pageWidth = nw }
                     .onAppear {
                         if !didInit, w > 0 {
                             // Nhảy THẲNG tới trang đã lưu, KHÔNG animate (nếu không sẽ
@@ -68,10 +72,48 @@ struct TimerCarousel: View {
                         }
                     }
                 }
+              }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .clipped()
+    }
+
+    // MARK: Toolbar — tên trang + chấm trang (bấm để chuyển) + nút cài đặt, cùng chuẩn các tab.
+
+    @State private var pageWidth: CGFloat = 0
+    private static let pageTitles = ["Hẹn giờ nhanh", "Pomodoro", "Chuỗi tự tạo"]
+    private var currentPage: Int { pageWidth > 0 ? wrap(Int((offset / pageWidth).rounded())) : settings.timerPage }
+
+    private var toolbar: some View {
+        HStack(spacing: 8) {
+            Text(Self.pageTitles[currentPage])
+                .font(NotchTheme.toolbarTitle).foregroundStyle(.white)
+                .contentTransition(.opacity)
+                .animation(.easeOut(duration: 0.15), value: currentPage)
+            HStack(spacing: 4) {
+                ForEach(0..<pageCount, id: \.self) { i in
+                    Capsule()
+                        .fill(i == currentPage ? NotchTheme.accent : Color.white.opacity(0.22))
+                        .frame(width: i == currentPage ? 14 : 5, height: 5)
+                        .contentShape(Rectangle().inset(by: -4))
+                        .onTapGesture { go(to: i) }
+                }
+            }
+            .animation(.spring(response: 0.3, dampingFraction: 0.8), value: currentPage)
+            Spacer(minLength: 0)
+            NotchIconButton(symbol: "gearshape.fill", help: "Cài đặt hẹn giờ") { showingSettings = true }
+        }
+    }
+
+    private func go(to i: Int) {
+        guard pageWidth > 0, !locked else { return }
+        let cur = Int((offset / pageWidth).rounded())
+        var delta = i - wrap(cur)
+        if delta > 1 { delta -= pageCount }
+        if delta < -1 { delta += pageCount }
+        withAnimation(.spring(response: 0.42, dampingFraction: 0.85)) { offset = CGFloat(cur + delta) * pageWidth }
+        settings.timerPage = i
     }
 
     // Mỗi trang bị kẹp CỨNG trong slot w của nó (compositingGroup + clip) → nội

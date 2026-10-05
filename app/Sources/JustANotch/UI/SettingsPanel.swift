@@ -25,16 +25,61 @@ struct SettingsPanel: View {
                     toggleRow("Mở cùng lúc đăng nhập", icon: "power",
                               isOn: Binding(get: { settings.launchAtLogin },
                                             set: { settings.setLaunchAtLogin($0) }))
+                    displayRow
+                    toggleRow("Clawd chill giữa pill", icon: "moon.stars.fill", isOn: $settings.pillMascot)
+                }
+
+                // MARK: Chụp màn hình
+                section("Chụp màn hình") {
+                    HStack(spacing: 6) {
+                        shotButton("Vùng", "⌘⇧4", "rectangle.dashed") { ScreenshotController.shared.captureArea() }
+                        shotButton("Cửa sổ", "⌘⇧5", "macwindow") { ScreenshotController.shared.captureWindow() }
+                        shotButton("Màn hình", "⌘⇧3", "display") { ScreenshotController.shared.captureFullScreen() }
+                        shotButton("Quay", "⌘⇧6", "record.circle") { RecordingController.shared.toggle() }
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 6)
+                    // ⌘⇧3/4/5 trùng phím chụp của macOS → hướng dẫn tắt phím hệ thống.
+                    Button {
+                        if let u = URL(string: "x-apple.systempreferences:com.apple.Keyboard-Settings.extension?Shortcuts") {
+                            NSWorkspace.shared.open(u)
+                        }
+                    } label: {
+                        HStack(alignment: .top, spacing: 8) {
+                            Image(systemName: "info.circle").font(.system(size: 11, weight: .semibold))
+                                .foregroundStyle(NotchTheme.accent)
+                            Text("⌘⇧3/4/5 trùng phím chụp của macOS. Tắt mục Screenshots trong Keyboard Shortcuts để dùng phím của Just a Notch →")
+                                .font(.system(size: 10.5)).foregroundStyle(NotchTheme.secondaryText)
+                                .multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
+                        }
+                        .padding(.horizontal, 8).padding(.vertical, 4)
+                    }
+                    .buttonStyle(.plain)
+                    toggleRow("Tự sao chép sau khi chụp", icon: "doc.on.doc", isOn: $settings.shotAutoCopy)
+                    toggleRow("Tự lưu vào thư mục", icon: "square.and.arrow.down", isOn: $settings.shotAutoSave)
+                    toggleRow("Bóng đổ khi chụp cửa sổ", icon: "shadow", isOn: $settings.shotWindowShadow)
+                    toggleRow("Quay kèm âm thanh hệ thống", icon: "speaker.wave.2", isOn: $settings.recordAudio)
+                    HStack(spacing: 9) {
+                        Image(systemName: "folder").font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
+                        Text("Lưu vào").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+                        Text((settings.shotFolder as NSString).abbreviatingWithTildeInPath)
+                            .font(.system(size: 11)).foregroundStyle(NotchTheme.secondaryText)
+                            .lineLimit(1).truncationMode(.middle)
+                        Spacer(minLength: 0)
+                        Button("Đổi…") { pickShotFolder() }
+                            .buttonStyle(.plain).font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(NotchTheme.accent)
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 6)
                 }
 
                 // MARK: Tabs
                 section("Tabs") {
-                    toggleRow("Files", icon: "folder.fill", isOn: $settings.showFiles)
-                    toggleRow("Notifications", icon: "bell.fill", isOn: $settings.showNotifications)
+                    toggleRow("Thông báo", icon: "bell.fill", isOn: $settings.showNotifications)
                     toggleRow("Lịch", icon: "calendar", isOn: $settings.showCalendar)
                     toggleRow("Clipboard", icon: "doc.on.clipboard", isOn: $settings.showClipboard)
-                    toggleRow("Timer", icon: "timer", isOn: $settings.showTimer)
-                    toggleRow("Learn", icon: "graduationcap.fill", isOn: $settings.showLearn)
+                    toggleRow("Hẹn giờ", icon: "timer", isOn: $settings.showTimer)
+                    toggleRow("Học", icon: "graduationcap.fill", isOn: $settings.showLearn)
                     Text("Now Playing và Settings luôn được bật.")
                         .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
                         .padding(.horizontal, 4).padding(.top, 1)
@@ -52,7 +97,7 @@ struct SettingsPanel: View {
                         Stepper("", value: $settings.learnPopupMinutes, in: 5...180, step: 5).labelsHidden()
                     }
                     .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
                     HStack(spacing: 9) {
                         Image(systemName: settings.learnPaused ? "pause.circle.fill" : "pause.circle")
                             .font(.system(size: 11, weight: .semibold))
@@ -74,7 +119,7 @@ struct SettingsPanel: View {
                         }
                     }
                     .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
                     toggleRow("Bỏ qua khi app full màn hình", icon: "arrow.up.left.and.arrow.down.right", isOn: $settings.learnSkipFullscreen)
                     toggleRow("Âm báo khi bung", icon: "bell.and.waves.left.and.right", isOn: $settings.learnSoundEnabled)
                     HStack(spacing: 9) {
@@ -87,12 +132,12 @@ struct SettingsPanel: View {
                             .foregroundStyle(.white.opacity(0.8))
                     }
                     .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
                     linkButton("Mở cửa sổ học", icon: "macwindow") { LearnWindowController.shared.show() }
                 }
 
                 // MARK: Claude Code
-                section("Claude Code") {
+                section("Claude Code & Codex") {
                     toggleRow("Hiện tiến trình + báo xong/chờ duyệt", icon: "sparkle", isOn: $settings.claudeOn)
                     HStack(spacing: 9) {
                         Image(systemName: "bell.and.waves.left.and.right").font(.system(size: 11, weight: .semibold))
@@ -106,7 +151,7 @@ struct SettingsPanel: View {
                         Toggle("", isOn: $settings.claudeSoundOn).labelsHidden().toggleStyle(GlowToggleStyle())
                     }
                     .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
                     HStack(spacing: 8) {
                         statusDot(claude.receivedAny ? .green : .orange)
                         Text(claude.receivedAny ? "Đã nhận sự kiện từ hook" : "Chưa nhận sự kiện hook nào")
@@ -114,7 +159,7 @@ struct SettingsPanel: View {
                         Spacer(minLength: 0)
                     }
                     .padding(.horizontal, 8).padding(.vertical, 6)
-                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
                     linkButton("Copy đường dẫn thư mục sự kiện", icon: "doc.on.doc") {
                         NSPasteboard.general.clearContents()
                         NSPasteboard.general.setString(ClaudeActivityStore.eventsDir.path, forType: .string)
@@ -138,7 +183,7 @@ struct SettingsPanel: View {
                             .foregroundStyle(.white.opacity(0.8))
                     }
                     .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
                     linkButton("Xem thử lời nhắc", icon: "eye") {
                         vm.collapse()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { vm.showBreak() }
@@ -157,7 +202,7 @@ struct SettingsPanel: View {
                         Spacer(minLength: 0)
                     }
                     .padding(.horizontal, 8).padding(.vertical, 6)
-                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
 
                     linkButton("Mở Full Disk Access", icon: "arrow.up.forward.app") {
                         if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles") {
@@ -177,7 +222,7 @@ struct SettingsPanel: View {
                         StyledSoundPicker(selection: $settings.notifSoundName)
                     }
                     .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
 
                     HStack(spacing: 9) {
                         Image(systemName: "speaker.wave.2.fill")
@@ -196,7 +241,7 @@ struct SettingsPanel: View {
                         .background(RoundedRectangle(cornerRadius: 6, style: .continuous).fill(.white.opacity(0.08)))
                     }
                     .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
                 }
 
                 // MARK: Phím tắt
@@ -258,10 +303,13 @@ struct SettingsPanel: View {
     private func section<Content: View>(_ title: String, @ViewBuilder _ content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title.uppercased())
-                .font(.system(size: 9, weight: .bold)).tracking(0.8)
-                .foregroundStyle(.white.opacity(0.35))
+                .font(.system(size: 9.5, weight: .semibold)).tracking(0.6)
+                .foregroundStyle(NotchTheme.secondaryText)
                 .padding(.horizontal, 4)
-            content()
+            // Nhóm kiểu macOS: các dòng chung một khối kính, ngăn bằng vạch mảnh.
+            VStack(spacing: 0) { content() }
+                .padding(.vertical, 2)
+                .notchGlass(cornerRadius: 10)
         }
     }
 
@@ -315,7 +363,7 @@ struct SettingsPanel: View {
             }
         }
         .padding(.horizontal, 8).padding(.vertical, 4)
-        .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+        .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
     }
 
     /// Chọn app bằng NSOpenPanel (lọc đúng bundle .app), lưu bundle id + tên.
@@ -337,6 +385,67 @@ struct SettingsPanel: View {
         settings.fKeyApps[i] = FKeyApp(bundleID: id, name: name)
     }
 
+    /// Chọn màn hình hiển thị notch: Tự động + từng màn đang cắm.
+    private var displayRow: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 9) {
+                Image(systemName: "display")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.7))
+                    .frame(width: 18)
+                Text("Màn hình hiển thị").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+            }
+            ScrollView(.horizontal) {
+                HStack(spacing: 5) {
+                    NotchChip(title: "Tự động", symbol: "sparkles", on: settings.displayName.isEmpty) {
+                        settings.displayName = ""
+                    }
+                    NotchChip(title: "Theo màn đang dùng", symbol: "cursorarrow.motionlines",
+                              on: settings.displayName == "__follow__") {
+                        settings.displayName = "__follow__"
+                    }
+                    ForEach(NSScreen.screens.map(\.localizedName), id: \.self) { name in
+                        NotchChip(title: name,
+                                  symbol: name.localizedCaseInsensitiveContains("built") ? "laptopcomputer" : "display",
+                                  on: settings.displayName == name) {
+                            settings.displayName = name
+                        }
+                    }
+                }
+            }
+            .scrollIndicators(.never)
+            .edgeFade(.horizontal, 14)
+        }
+        .padding(.horizontal, 8).padding(.vertical, 6)
+        .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
+    }
+
+    private func shotButton(_ title: String, _ keys: String, _ icon: String, _ action: @escaping () -> Void) -> some View {
+        GlassCard(cornerRadius: 9) {
+            Button(action: action) {
+                VStack(spacing: 3) {
+                    Image(systemName: icon).font(.system(size: 14, weight: .semibold))
+                    Text(title).font(.system(size: 11, weight: .semibold))
+                    Text(keys).font(.system(size: 9.5, weight: .medium)).foregroundStyle(NotchTheme.secondaryText)
+                }
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity).padding(.vertical, 8)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    private func pickShotFolder() {
+        let p = NSOpenPanel()
+        p.canChooseDirectories = true
+        p.canChooseFiles = false
+        p.allowsMultipleSelection = false
+        p.directoryURL = URL(fileURLWithPath: settings.shotFolder)
+        NSApp.activate(ignoringOtherApps: true)
+        if p.runModal() == .OK, let url = p.url { settings.shotFolder = url.path }
+    }
+
     private func toggleRow(_ label: String, icon: String, isOn: Binding<Bool>) -> some View {
         HStack(spacing: 9) {
             Image(systemName: icon)
@@ -350,7 +459,7 @@ struct SettingsPanel: View {
                 .toggleStyle(GlowToggleStyle())
         }
         .padding(.horizontal, 8).padding(.vertical, 4)
-        .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+        .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
     }
 
     private func stepperRow(_ label: String, value: Binding<Int>, range: ClosedRange<Int>, suffix: String) -> some View {
@@ -362,7 +471,7 @@ struct SettingsPanel: View {
                 .labelsHidden()
         }
         .padding(.horizontal, 8).padding(.vertical, 4)
-        .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white.opacity(0.05)))
+        .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
     }
 
     private func linkButton(_ label: String, icon: String, destructive: Bool = false,
@@ -399,7 +508,7 @@ struct StyledSoundPicker: View {
     var options: [String] = SoundLibrary.shared.names
 
     @State private var hovering = false
-    private let purple = Color(red: 0.64, green: 0.55, blue: 0.98)
+    private let purple = NotchTheme.accent
 
     var body: some View {
         Menu {
@@ -440,7 +549,7 @@ struct StyledSoundPicker: View {
 /// Compact switch: soft purple track + glow when ON, neutral grey when OFF.
 struct GlowToggleStyle: ToggleStyle {
     // A gentle lavender that reads as "purple" without being loud.
-    private let purple = Color(red: 0.64, green: 0.55, blue: 0.98)
+    private let purple = NotchTheme.accent
 
     func makeBody(configuration: Configuration) -> some View {
         let on = configuration.isOn

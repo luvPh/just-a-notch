@@ -144,6 +144,33 @@ final class NotchSnapshotCheck: XCTestCase {
         vm.openLauncherFeature(.claude)
         try snap("14-claude-sessions", NotchRootView(vm: vm), wait: 1.0)
 
+        // 15–17. Codex: terminal / logo OpenAI ở wing, chờ duyệt, danh sách chung.
+        let cx1 = ClaudeSession(id: "codex:s-term-1", agent: .codex, cwd: "/Users/x/repo/api", state: .working,
+                                tool: "Bash", detail: "npm test", updatedAt: now)
+        (vm, _) = makeVM(media: true)
+        vm._previewClaude(sessions: [cx1])
+        try snap("15-codex-wing", NotchRootView(vm: vm), wait: 0.8)
+        let cxw = ClaudeSession(id: "codex:w", agent: .codex, cwd: "/Users/x/repo/api", state: .waiting,
+                                tool: "Bash", message: "Cần duyệt: Bash", updatedAt: now)
+        (vm, _) = makeVM(media: true)
+        vm._previewClaude(sessions: [cxw], alert: .waiting(cxw))
+        try snap("16-codex-waiting", NotchRootView(vm: vm), wait: 0.8)
+        (vm, _) = makeVM(media: true)
+        vm._previewClaude(sessions: [cxw, working, cx1])
+        vm.hovering = true
+        RunLoop.main.run(until: Date().addingTimeInterval(1.0))
+        vm.openLauncherFeature(.claude)
+        try snap("17-agents-sessions", NotchRootView(vm: vm), wait: 1.0)
+
+        // 18–19. Claude (2 phiên) + Codex (chờ duyệt) cùng chạy: hai hình cạnh nhau.
+        let working2 = ClaudeSession(id: "a2", cwd: "/Users/x/repo/web", state: .working, updatedAt: now)
+        (vm, _) = makeVM(media: true)
+        vm._previewClaude(sessions: [cxw, working, working2])
+        try snap("18-both-agents", NotchRootView(vm: vm), wait: 0.8)
+        (vm, _) = makeVM(media: false)
+        vm._previewClaude(sessions: [working, cx1])
+        try snap("19-both-agents-nomedia", NotchRootView(vm: vm), wait: 0.8)
+
         // 8. Sprite phóng to từng khung để soát pixel art.
         let frames = [0, 11, 18, 30, 34].map(PixelCat.frame)
         let sheet = HStack(spacing: 24) {
@@ -165,6 +192,36 @@ final class NotchSnapshotCheck: XCTestCase {
                  size: CGSize(width: 620, height: 170), wait: 0.4)
     }
 
+    /// Ghi khung hình hiệu ứng chuyển màn (thu → nở) để QC.
+    func testHopFrames() throws {
+        guard let dir = ProcessInfo.processInfo.environment["NOTCH_SNAP"] else { throw XCTSkip("no NOTCH_SNAP") }
+        let (vm, _) = makeVM(media: true)
+        // Bắt đầu ở dạng notch, chuyển sang pill (ca khó nhất).
+        let size = CGSize(width: 400, height: 60)
+        let host = NSHostingView(rootView: NotchRootView(vm: vm).frame(width: size.width, height: size.height)
+            .background(Color(white: 0.9)))
+        let w = NSWindow(contentRect: NSRect(origin: .zero, size: size), styleMask: [.borderless],
+                         backing: .buffered, defer: false)
+        w.contentView = host
+        RunLoop.main.run(until: Date().addingTimeInterval(0.6))
+        var frames: [NSBitmapImageRep] = []
+        func grab() {
+            let rep = host.bitmapImageRepForCachingDisplay(in: host.bounds)!
+            host.cacheDisplay(in: host.bounds, to: rep); frames.append(rep)
+        }
+        withAnimation(.easeInOut(duration: 0.26)) { vm.screenHopHidden = true }
+        for _ in 0..<10 { RunLoop.main.run(until: Date().addingTimeInterval(0.033)); grab() }
+        var t = Transaction(); t.disablesAnimations = true
+        withTransaction(t) { vm.pillMode = true; vm.notchHeight = 30; vm.coreWidth = 22 }
+        RunLoop.main.run(until: Date().addingTimeInterval(0.06))
+        withAnimation(.timingCurve(0.2, 0.9, 0.3, 1, duration: 0.42)) { vm.screenHopHidden = false }
+        for _ in 0..<16 { RunLoop.main.run(until: Date().addingTimeInterval(0.033)); grab() }
+        for (i, f) in frames.enumerated() {
+            try f.representation(using: .png, properties: [:])!
+                .write(to: URL(fileURLWithPath: "\(dir)/hop-\(String(format: "%02d", i)).png"))
+        }
+    }
+
     /// Mỗi tab ở trạng thái mở rộng — để rà UI toàn app.
     func testTabSnapshots() throws {
         guard let dir = ProcessInfo.processInfo.environment["NOTCH_SNAP"] else { throw XCTSkip("no NOTCH_SNAP") }
@@ -172,21 +229,23 @@ final class NotchSnapshotCheck: XCTestCase {
         for tab in RailTab.allCases {
             let (vm, _) = makeVM(media: true)
             vm.expanded = true
-            vm.filesTabActive = tab == .files
-            vm.clipTabActive = tab == .clipboard
+            vm.clipTabActive = tab == .clipboard; vm.timerTabActive = tab == .timer; vm.musicTabActive = tab == .music
             vm.calTabActive = tab == .calendar
             vm.notifTabActive = tab == .notifications
             vm.panelWantsTall = [.calendar, .settings, .learn].contains(tab)
+            if tab == .timer { AppSettings.shared.timerPage = 1 }
             try snap("tab-\(tab.rawValue)", NotchRootView(vm: vm, initialTab: tab),
                      size: CGSize(width: 700, height: 380), wait: 1.2)
         }
         // Pill (màn hình không notch): thu gọn + mở.
         var (pv, _) = makeVM(media: true)
-        pv.pillMode = true
+        pv.pillMode = true; pv.notchHeight = 30; pv.coreWidth = 82
         try snap("pill-compact", NotchRootView(vm: pv), size: CGSize(width: 700, height: 120), wait: 0.6)
+        pv.titleReveal = false
+        try snap("pill-resting", NotchRootView(vm: pv), size: CGSize(width: 700, height: 120), wait: 0.6)
         (pv, _) = makeVM(media: true)
-        pv.pillMode = true; pv.expanded = true
-        try snap("pill-expanded", NotchRootView(vm: pv), size: CGSize(width: 700, height: 260), wait: 1.0)
+        pv.pillMode = true; pv.notchHeight = 30; pv.expanded = true; pv.notifTabActive = true
+        try snap("pill-expanded", NotchRootView(vm: pv, initialTab: .notifications), size: CGSize(width: 700, height: 260), wait: 1.0)
     }
 }
 
@@ -280,7 +339,7 @@ final class LearnPracticeSnapshotCheck: XCTestCase {
                                  options: ["đánh giá quá cao", "đại tu, cải tổ", "làm đau, bị thương", "giới hạn"],
                                  correct: 0, answer: "đánh giá quá cao")
         let view = PracticeQuestionView(q: q, word: w, sense: w.senses[0], stateBefore: nil, compact: true,
-                                        onAnswer: { _ in }, onNext: {}, onSkip: {}, onKnown: {})
+                                        onAnswer: { _ in }, onNext: {}, onKnown: {})
             .environment(\.learnOnNotch, true).foregroundStyle(.white)
             .frame(width: 356, height: 220).background(.black)
         let host = NSHostingView(rootView: view)
@@ -290,5 +349,58 @@ final class LearnPracticeSnapshotCheck: XCTestCase {
         let rep = host.bitmapImageRepForCachingDisplay(in: host.bounds)!
         host.cacheDisplay(in: host.bounds, to: rep)
         try rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: "\(out)/learn-long.png"))
+    }
+}
+
+@MainActor
+final class CodexVisualCheck: XCTestCase {
+    private func render<V: View>(_ view: V, size: CGSize, to url: URL) throws {
+        let host = NSHostingView(rootView: view.frame(width: size.width, height: size.height))
+        let w = NSWindow(contentRect: NSRect(origin: .zero, size: size), styleMask: [.borderless], backing: .buffered, defer: false)
+        w.contentView = host
+        host.layoutSubtreeIfNeeded()
+        RunLoop.main.run(until: Date().addingTimeInterval(0.02))
+        let rep = host.bitmapImageRepForCachingDisplay(in: host.bounds)!
+        host.cacheDisplay(in: host.bounds, to: rep)
+        try rep.representation(using: .png, properties: [:])!.write(to: url)
+    }
+
+    func testRenderKnot() throws {
+        guard let dir = ProcessInfo.processInfo.environment["NOTCH_VIDEO"] else { throw XCTSkip("no NOTCH_VIDEO") }
+        let sub = URL(fileURLWithPath: dir).appendingPathComponent("knot")
+        try? FileManager.default.removeItem(at: sub)
+        try FileManager.default.createDirectory(at: sub, withIntermediateDirectories: true)
+        let n = OpenAIKnot.keyframes.count * OpenAIKnot.framesPerMorph * 2
+        for i in 0..<n {
+            let p = OpenAIKnot.pose(at: Double(i) / OpenAIKnot.fps)
+            let view = VStack(spacing: 22) {
+                OpenAIKnotCanvas(shape: p.shape, angle: p.angle, size: 200)
+                Text("Codex · logo biến hình").font(.system(size: 22, weight: .semibold, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.7))
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity).background(Color.black)
+            try render(view, size: CGSize(width: 720, height: 480), to: sub.appendingPathComponent(String(format: "%03d.png", i)))
+        }
+    }
+}
+
+
+@MainActor
+final class AgentBadgeTests: XCTestCase {
+    func testOneBadgePerAgentWithCountAndWaiting() {
+        let vm = NotchViewModel(media: NotchSnapshotCheck.FakeMedia(), notifier: NotchSnapshotCheck.FakeNotifier())
+        let now = Date()
+        let c1 = ClaudeSession(id: "c1", cwd: "/r/a", state: .working, updatedAt: now)
+        let c2 = ClaudeSession(id: "c2", cwd: "/r/b", state: .working, updatedAt: now)
+        let x1 = ClaudeSession(id: "codex:x1", agent: .codex, cwd: "/r/c", state: .waiting, updatedAt: now)
+        let done = ClaudeSession(id: "c3", cwd: "/r/d", state: .done, updatedAt: now)
+        vm._previewClaude(sessions: [x1, c1, c2, done])
+        let b = vm.claudeBadges
+        XCTAssertEqual(b.map(\.agent), [.claude, .codex])      // thứ tự cố định
+        XCTAssertEqual(b[0].count, 2)                             // phiên "done" không tính
+        XCTAssertFalse(b[0].waiting)
+        XCTAssertTrue(b[1].waiting)
+        vm._previewClaude(sessions: [done])
+        XCTAssertTrue(vm.claudeBadges.isEmpty)
     }
 }

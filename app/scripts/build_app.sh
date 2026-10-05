@@ -26,6 +26,11 @@ if [ -d "$ROOT/Resources/Learn" ]; then
   rm -rf "$BUNDLE/Contents/Resources/Learn"
   cp -R "$ROOT/Resources/Learn" "$BUNDLE/Contents/Resources/Learn"
 fi
+# Cảnh "Clawd chill" giữa pill (sprite sheet sinh bởi scripts/gen_chill_hd.py --export).
+if [ -d "$ROOT/Resources/Chill" ]; then
+  rm -rf "$BUNDLE/Contents/Resources/Chill"
+  cp -R "$ROOT/Resources/Chill" "$BUNDLE/Contents/Resources/Chill"
+fi
 if [ -d "$ROOT/Resources/Sounds" ]; then
   cp -R "$ROOT/Resources/Sounds" "$BUNDLE/Contents/Resources/Sounds"
 fi

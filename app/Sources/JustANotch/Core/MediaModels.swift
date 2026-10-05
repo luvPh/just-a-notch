@@ -36,6 +36,8 @@ struct MediaTrack: Equatable {
     /// The source's own volume 0...1 when it exposes one (independent of the
     /// system volume). Nil when the source can't report/accept a volume.
     var volume: Double?
+    /// Thời lượng bài (giây) khi nguồn cho biết — để hiện "đã nghe / còn lại".
+    var duration: Double? = nil
 
     init(title: String, artist: String? = nil, album: String? = nil,
          sourceAppName: String, sourceBundleID: String? = nil,

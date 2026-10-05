@@ -85,6 +85,26 @@ final class ClipboardStore: ObservableObject {
         }
     }
 
+    /// Ảnh chụp màn hình → treo thẳng vào lịch sử clipboard (icon app = Just a Notch).
+    /// `copy`: đồng thời đặt lên clipboard hệ thống (đánh dấu tự-copy để poll không ghi trùng).
+    func addScreenshot(png: Data, copy: Bool) {
+        guard let dir = imagesDir else { return }
+        let fileName = "\(UUID().uuidString).png"
+        try? png.write(to: dir.appendingPathComponent(fileName), options: .atomic)
+        let item = ClipboardItem(id: UUID(), createdAt: Date(), pinned: false,
+                                 kind: .image(fileName: fileName),
+                                 sourceApp: Bundle.main.bundleIdentifier)
+        applyRecorded(history.record(item))
+        if copy {
+            let pb = NSPasteboard.general
+            pb.clearContents()
+            pb.setData(png, forType: .png)
+            if let img = NSImage(data: png), let tiff = img.tiffRepresentation { pb.setData(tiff, forType: .tiff) }
+            selfChangeCount = pb.changeCount
+            lastSeenChangeCount = pb.changeCount
+        }
+    }
+
     // MARK: Internals
     private func applyRecorded(_ removed: [ClipboardItem]) {
         removed.forEach(cleanupFile(for:))

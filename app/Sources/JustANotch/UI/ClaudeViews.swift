@@ -176,14 +176,20 @@ struct ClaudeSparkCanvas: View {
 // MARK: - Dấu hiệu "đang làm" — mỗi phiên một kiểu: gõ phím / đi bộ / logo
 
 struct ClaudeWorkingMark: View {
-    enum Variant: CaseIterable { case typing, walk, logo }
+    /// Claude: gõ phím / đi bộ / logo ✻ · Codex: terminal >_ / logo OpenAI.
+    enum Variant: CaseIterable { case typing, walk, logo, terminal, openai }
+
+    static func pool(_ agent: AgentKind) -> [Variant] {
+        agent == .claude ? [.typing, .walk, .logo] : [.terminal, .openai]
+    }
 
     /// Kiểu cố định cho một phiên, "ngẫu nhiên" theo session_id (FNV-1a — ổn định
     /// qua các lần mở app, khác `hashValue` vốn đổi mỗi tiến trình).
-    static func variant(for sessionID: String) -> Variant {
+    static func variant(for sessionID: String, agent: AgentKind = .claude) -> Variant {
         var h: UInt64 = 0xcbf29ce484222325
         for b in sessionID.utf8 { h = (h ^ UInt64(b)) &* 0x100000001b3 }
-        return Variant.allCases[Int(h % UInt64(Variant.allCases.count))]
+        let p = pool(agent)
+        return p[Int(h % UInt64(p.count))]
     }
 
     let variant: Variant
@@ -198,6 +204,8 @@ struct ClaudeWorkingMark: View {
             case .typing: ClawdSprite(mode: .work, pixel: pixel, reduceMotion: reduceMotion)
             case .walk:   ClawdSprite(mode: .walk, pixel: pixel, reduceMotion: reduceMotion)
             case .logo:   ClaudeSpark(size: size.height * 0.95, reduceMotion: reduceMotion)
+            case .terminal: CodexTermSprite(mode: .work, pixel: pixel, reduceMotion: reduceMotion)
+            case .openai: OpenAIKnot(size: size.height * 0.95, reduceMotion: reduceMotion)
             }
         }
         .id(variant)
@@ -206,21 +214,39 @@ struct ClaudeWorkingMark: View {
     }
 }
 
+// MARK: - Hình theo agent cho các trạng thái chờ duyệt / xong / rảnh
+
+enum ClaudeAgentMark {
+    @ViewBuilder static func waiting(_ a: AgentKind, pixel: CGFloat, reduceMotion: Bool) -> some View {
+        if a == .claude { ClawdSprite(mode: .alert, pixel: pixel, reduceMotion: reduceMotion) }
+        else { CodexTermSprite(mode: .alert, pixel: pixel, reduceMotion: reduceMotion) }
+    }
+    @ViewBuilder static func done(_ a: AgentKind, pixel: CGFloat, reduceMotion: Bool) -> some View {
+        if a == .claude { ClawdSprite(mode: .happy, pixel: pixel, reduceMotion: reduceMotion) }
+        else { CodexTermSprite(mode: .happy, pixel: pixel, reduceMotion: reduceMotion) }
+    }
+    @ViewBuilder static func still(_ a: AgentKind, pixel: CGFloat) -> some View {
+        if a == .claude { ClawdSprite(mode: .still, pixel: pixel, reduceMotion: true) }
+        else { CodexTermSprite(mode: .happy, pixel: pixel, reduceMotion: true) }
+    }
+}
+
 // MARK: - Chỉ báo ở wing khi có phiên đang chạy
 
 struct ClaudeWingIndicator: View {
     let waiting: Bool
-    /// Phiên đang hiển thị (quyết định kiểu gõ phím / đi bộ / logo).
+    /// Phiên đang hiển thị (quyết định kiểu gõ phím / đi bộ / logo…).
     let sessionID: String
+    var agent: AgentKind = .claude
     let reduceMotion: Bool
     @State private var pulse = false
 
     var body: some View {
         Group {
             if waiting {
-                ClawdSprite(mode: .alert, pixel: 1.4, reduceMotion: reduceMotion)
+                ClaudeAgentMark.waiting(agent, pixel: 1.4, reduceMotion: reduceMotion)
             } else {
-                ClaudeWorkingMark(variant: ClaudeWorkingMark.variant(for: sessionID),
+                ClaudeWorkingMark(variant: ClaudeWorkingMark.variant(for: sessionID, agent: agent),
                                   pixel: 1.4, reduceMotion: reduceMotion)
             }
         }
@@ -237,7 +263,7 @@ struct ClaudeWingIndicator: View {
                         }
                 }
             }
-            .help(waiting ? "Claude đang chờ bạn duyệt" : "Claude đang làm việc")
+            .help(waiting ? "\(agent.displayName) đang chờ bạn duyệt" : "\(agent.displayName) đang làm việc")
     }
 }
 
@@ -254,12 +280,40 @@ struct ClaudeAlertView: View {
     private var isWaiting: Bool { if case .waiting = alert { return true }; return false }
 
     var body: some View {
+        if vm.pillMode {
+            // Pill không có camera → Clawd + chữ canh giữa cả bề ngang.
+            content
+                .padding(.horizontal, 12)
+                .frame(width: vm.compactWidth, height: vm.compactHeight)
+        } else {
+            notchBody
+        }
+    }
+
+    private var content: some View {
+        HStack(spacing: 10) {
+            if isWaiting { ClaudeAgentMark.waiting(session.agent, pixel: 1.9, reduceMotion: reduceMotion) }
+            else { ClaudeAgentMark.done(session.agent, pixel: 1.9, reduceMotion: reduceMotion) }
+            VStack(alignment: .leading, spacing: 1) {
+                Text(isWaiting ? "\(session.agent.displayName) cần bạn duyệt" : "\(session.agent.displayName) xong rồi")
+                    .font(.system(size: 11.5, weight: .bold, design: .rounded))
+                    .foregroundStyle(isWaiting ? Color(red: 1.0, green: 0.8, blue: 0.4) : .white)
+                Text(subtitle)
+                    .font(.system(size: 9.5, weight: .medium))
+                    .foregroundStyle(.white.opacity(0.6))
+            }
+            .lineLimit(1)
+        }
+    }
+
+    private var notchBody: some View {
         HStack(spacing: 0) {
             // Clawd + chữ đều ở wing trái (Clawd thường trực cũng ở bên trái).
             HStack(spacing: 10) {
-                ClawdSprite(mode: isWaiting ? .alert : .happy, pixel: 1.9, reduceMotion: reduceMotion)
+                if isWaiting { ClaudeAgentMark.waiting(session.agent, pixel: 1.9, reduceMotion: reduceMotion) }
+                else { ClaudeAgentMark.done(session.agent, pixel: 1.9, reduceMotion: reduceMotion) }
                 VStack(alignment: .leading, spacing: 1) {
-                Text(isWaiting ? "Claude cần bạn duyệt" : "Claude xong rồi")
+                Text(isWaiting ? "\(session.agent.displayName) cần bạn duyệt" : "\(session.agent.displayName) xong rồi")
                     .font(.system(size: 11.5, weight: .bold, design: .rounded))
                     .foregroundStyle(isWaiting ? Color(red: 1.0, green: 0.8, blue: 0.4) : .white)
                 Text(subtitle)
@@ -325,7 +379,7 @@ struct ClaudeSessionsView: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 6) {
                 LauncherBackButton(action: onBack)
-                Text("CLAUDE CODE")
+                Text("CLAUDE & CODEX")
                     .font(.system(size: 9, weight: .bold)).tracking(0.8)
                     .foregroundStyle(.white.opacity(0.4))
                 Spacer(minLength: 0)
@@ -360,9 +414,9 @@ struct ClaudeSessionsView: View {
         HStack(spacing: 10) {
             ClawdSprite(mode: .still, pixel: 1.6, reduceMotion: true).opacity(0.7)
             VStack(alignment: .leading, spacing: 2) {
-                Text("Chưa có phiên nào đang chạy")
+                Text("Chưa có phiên Claude / Codex nào")
                     .font(.system(size: 11, weight: .semibold)).foregroundStyle(.white.opacity(0.75))
-                Text(store.receivedAny ? "Mở Claude Code và giao việc — tiến trình hiện ở đây."
+                Text(store.receivedAny ? "Mở Claude Code hoặc Codex và giao việc — tiến trình hiện ở đây."
                                        : "Chưa nhận được sự kiện hook — xem Settings → Claude Code.")
                     .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.4))
                     .fixedSize(horizontal: false, vertical: true)
@@ -382,16 +436,25 @@ private struct ClaudeSessionRow: View {
             HStack(spacing: 9) {
                 Group {
                     if session.state == .working {
-                        ClaudeWorkingMark(variant: ClaudeWorkingMark.variant(for: session.id),
+                        ClaudeWorkingMark(variant: ClaudeWorkingMark.variant(for: session.id, agent: session.agent),
                                           pixel: 1.1, reduceMotion: reduceMotion)
+                    } else if session.state == .waiting {
+                        ClaudeAgentMark.waiting(session.agent, pixel: 1.1, reduceMotion: reduceMotion)
                     } else {
-                        ClawdSprite(mode: mode, pixel: 1.1, reduceMotion: reduceMotion || !session.isActive)
+                        ClaudeAgentMark.still(session.agent, pixel: 1.1)
                     }
                 }
                     .opacity(session.isActive ? 1 : 0.45)
                 VStack(alignment: .leading, spacing: 1) {
-                    Text(session.project)
-                        .font(.system(size: 11.5, weight: .bold)).foregroundStyle(.white.opacity(0.92))
+                    HStack(spacing: 5) {
+                        Text(session.project)
+                            .font(.system(size: 11.5, weight: .bold)).foregroundStyle(.white.opacity(0.92))
+                        Text(session.agent.displayName.uppercased())
+                            .font(.system(size: 7.5, weight: .heavy)).tracking(0.5)
+                            .padding(.horizontal, 4).padding(.vertical, 1)
+                            .background(Capsule().fill(.white.opacity(0.1)))
+                            .foregroundStyle(.white.opacity(0.55))
+                    }
                     Text(status)
                         .font(.system(size: 9.5)).foregroundStyle(statusColor)
                 }

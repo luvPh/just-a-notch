@@ -1,5 +1,6 @@
 // File: Sources/NotchIsland/Services/YouTubeBrowserAdapter.swift
 import AppKit
+import os
 
 /// Best-effort "now playing" for YouTube running in Safari or Google Chrome.
 ///
@@ -30,13 +31,16 @@ final class YouTubeBrowserAdapter: MediaAdapter {
                 let clean = title
                     .replacingOccurrences(of: " - YouTube", with: "")
                     .trimmingCharacters(in: .whitespaces)
-                let (state, progress, volume) = playbackStatus(browser: browser)
-                let track = MediaTrack(title: clean.isEmpty ? "YouTube" : clean,
-                                       artist: nil,
+                let st = playbackStatus(browser: browser)
+                var track = MediaTrack(title: clean.isEmpty ? "YouTube" : clean,
+                                       artist: st.channel,
                                        sourceAppName: browserName(browser),
                                        sourceBundleID: browser,
-                                       progress: progress,
-                                       volume: volume)
+                                       progress: st.progress,
+                                       artworkData: st.videoID.flatMap(Self.thumbnail),
+                                       volume: st.volume)
+                track.duration = st.duration
+                let state = st.state
                 return (track, state ?? .playing)
             }
         }
@@ -240,14 +244,23 @@ final class YouTubeBrowserAdapter: MediaAdapter {
     /// Reads `video.paused`, `currentTime/duration` and the tab's volume via
     /// injected JS in one call. Returns nils if JS-from-Apple-Events is disabled
     /// or no video is found.
-    private func playbackStatus(browser: String) -> (state: PlaybackState?, progress: Double?, volume: Double?) {
+    private struct Status {
+        var state: PlaybackState?, progress: Double?, volume: Double?
+        var duration: Double?, videoID: String?, channel: String?
+    }
+
+    private func playbackStatus(browser: String) -> Status {
+        // trạng thái | tiến độ | âm lượng | thời lượng | mã video | tên kênh
         let js = """
         var v=document.querySelector('video'); \
+        var pp=location.pathname.split('/'); var id=new URLSearchParams(location.search).get('v')||((pp[1]=='shorts'||pp[1]=='live')?pp[2]:'')||''; \
+        var ch=document.querySelector('#owner ytd-channel-name a, ytd-video-owner-renderer #channel-name a, #channel-name a'); \
         v ? ((v.paused ? 'paused' : 'playing') + '|' + \
         (v.duration > 0 ? (v.currentTime / v.duration) : 0) + '|' + \
-        (v.muted ? 0 : v.volume)) : 'none';
+        (v.muted ? 0 : v.volume) + '|' + (isFinite(v.duration) ? v.duration : 0) + '|' + id + '|' + \
+        (ch ? ch.textContent.trim().split('|').join(' ') : '')) : 'none';
         """
-        guard let out = runJSReading(js, browser: browser) else { return (nil, nil, nil) }
+        guard let out = runJSReading(js, browser: browser) else { return Status() }
         let parts = out.components(separatedBy: "|")
         let state: PlaybackState?
         switch parts.first {
@@ -263,16 +276,40 @@ final class YouTubeBrowserAdapter: MediaAdapter {
         if parts.count >= 3, let v = Double(parts[2].trimmingCharacters(in: .whitespaces)), v.isFinite {
             volume = min(1, max(0, v))
         }
-        return (state, progress, volume)
+        var st = Status(state: state, progress: progress, volume: volume)
+        if parts.count >= 4, let d = Double(parts[3].trimmingCharacters(in: .whitespaces)), d.isFinite, d > 0 {
+            st.duration = d
+        }
+        if parts.count >= 5 { let id = parts[4].trimmingCharacters(in: .whitespaces); st.videoID = id.isEmpty ? nil : id }
+        if parts.count >= 6 { let c = parts[5].trimmingCharacters(in: .whitespaces); st.channel = c.isEmpty ? nil : c }
+        return st
     }
 
+    /// Thumbnail 16:9 của video (cache theo mã; tải đồng bộ trên luồng poll, ~10KB).
+    private static var thumbCache: [String: Data] = [:]
+    private static let thumbLock = NSLock()
+    private static func thumbnail(_ id: String) -> Data? {
+        thumbLock.lock(); if let d = thumbCache[id] { thumbLock.unlock(); return d }; thumbLock.unlock()
+        guard let url = URL(string: "https://i.ytimg.com/vi/\(id)/mqdefault.jpg"),
+              let d = try? Data(contentsOf: url), !d.isEmpty else { return nil }
+        thumbLock.lock(); thumbCache[id] = d; thumbLock.unlock()
+        return d
+    }
+
+    /// Lệnh ĐIỀU KHIỂN gửi vào tab (play/pause, volume, next…) — ghi log để truy vết
+    /// khi nhạc bị dừng/tắt tiếng bất ngờ: `log show --predicate 'subsystem == "com.justanotch.app"'`.
+    private static let log = Logger(subsystem: "com.justanotch.app", category: "youtube")
+
     private func runJS(_ body: String) {
+        Self.log.notice("control → \(body, privacy: .public)")
         for browser in runningBrowsers { _ = runJSReading("var v=document.querySelector('video'); if(v){\(body)} 'ok';", browser: browser) }
     }
 
     @discardableResult
     private func runJSReading(_ js: String, browser: String) -> String? {
-        let escaped = js.replacingOccurrences(of: "\"", with: "\\\"")
+        // AppleScript: escape \ trước rồi tới " (dấu \ trong JS sẽ làm hỏng cả script).
+        let escaped = js.replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "\"", with: "\\\"")
         let script: String
         if browser == chromeID {
             script = """

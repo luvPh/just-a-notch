@@ -18,7 +18,6 @@ final class AppSettings: ObservableObject {
     private let d = UserDefaults.standard
 
     // MARK: Tabs — which rail tabs are shown. Music + Settings are always on.
-    @Published var showFiles: Bool { didSet { d.set(showFiles, forKey: "cfg.showFiles") } }
     @Published var showNotifications: Bool { didSet { d.set(showNotifications, forKey: "cfg.showNotifications") } }
     // MARK: Notifications — âm báo khi có thông báo mới (độc lập với chuông timer).
     @Published var notifSoundEnabled: Bool { didSet { d.set(notifSoundEnabled, forKey: "cfg.notifSoundOn") } }
@@ -87,6 +86,23 @@ final class AppSettings: ObservableObject {
     // MARK: Motion — force reduced motion regardless of the system setting.
     @Published var forceReduceMotion: Bool { didSet { d.set(forceReduceMotion, forKey: "cfg.forceReduceMotion") } }
 
+    // MARK: Màn hình — "" = tự động (ưu tiên màn có notch), ngược lại là tên màn hình.
+    /// Clawd ngồi chill ở giữa pill (màn không có notch).
+    // MARK: Chụp màn hình
+    /// Thư mục lưu ảnh khi bấm "Lưu" (mặc định Desktop).
+    @Published var shotFolder: String { didSet { d.set(shotFolder, forKey: "cfg.shotFolder") } }
+    /// Chụp xong tự sao chép vào clipboard hệ thống.
+    @Published var shotAutoCopy: Bool { didSet { d.set(shotAutoCopy, forKey: "cfg.shotAutoCopy") } }
+    /// Chụp xong tự lưu vào thư mục.
+    @Published var shotAutoSave: Bool { didSet { d.set(shotAutoSave, forKey: "cfg.shotAutoSave") } }
+    /// Quay màn hình kèm âm thanh hệ thống.
+    @Published var recordAudio: Bool { didSet { d.set(recordAudio, forKey: "cfg.recordAudio") } }
+    /// Giữ bóng đổ khi chụp cửa sổ.
+    @Published var shotWindowShadow: Bool { didSet { d.set(shotWindowShadow, forKey: "cfg.shotWindowShadow") } }
+
+    @Published var pillMascot: Bool { didSet { d.set(pillMascot, forKey: "cfg.pillMascot") } }
+    @Published var displayName: String { didSet { d.set(displayName, forKey: "cfg.displayName") } }
+
     // MARK: Hotkey — nhấn nhanh ⌘ hai lần để bung/đóng notch (cần quyền Accessibility).
     @Published var doubleTapCommand: Bool { didSet { d.set(doubleTapCommand, forKey: "cfg.doubleTapCommand") } }
     /// F1…F6 (bàn phím Apple: fn+F1…) đưa app đã gán ra trước, ở mọi nơi.
@@ -123,7 +139,6 @@ final class AppSettings: ObservableObject {
         // Default the tab toggles to ON the first time (register defaults so a
         // brand-new install shows everything).
         d.register(defaults: [
-            "cfg.showFiles": true,
             "cfg.showNotifications": true,
             "cfg.showCalendar": true,
             "cfg.showClipboard": true,
@@ -136,6 +151,8 @@ final class AppSettings: ObservableObject {
             "cfg.learnSoundVolume": 0.6,
             "cfg.forceReduceMotion": false,
             "cfg.doubleTapCommand": false,
+            "cfg.pillMascot": true,
+            "cfg.shotAutoCopy": true, "cfg.shotAutoSave": false, "cfg.shotWindowShadow": true,
             "cfg.fKeyAppsOn": true,
             "cfg.pomoWork": 25, "cfg.pomoShort": 5, "cfg.pomoLong": 15,
             "cfg.pomoRounds": 4, "cfg.pomoAutoStart": true,
@@ -144,7 +161,6 @@ final class AppSettings: ObservableObject {
             "cfg.breakOn": true, "cfg.breakSound": true, "cfg.breakVolume": 0.6,
             "cfg.notifSoundOn": true, "cfg.notifSound": "Ping", "cfg.notifVolume": 0.7,
         ])
-        showFiles = d.bool(forKey: "cfg.showFiles")
         showNotifications = d.bool(forKey: "cfg.showNotifications")
         notifSoundEnabled = d.bool(forKey: "cfg.notifSoundOn")
         notifSoundName = d.string(forKey: "cfg.notifSound") ?? "Ping"
@@ -175,6 +191,14 @@ final class AppSettings: ObservableObject {
         breakVolume = d.double(forKey: "cfg.breakVolume")
         forceReduceMotion = d.bool(forKey: "cfg.forceReduceMotion")
         doubleTapCommand = d.bool(forKey: "cfg.doubleTapCommand")
+        displayName = d.string(forKey: "cfg.displayName") ?? ""
+        pillMascot = d.bool(forKey: "cfg.pillMascot")
+        shotFolder = d.string(forKey: "cfg.shotFolder")
+            ?? FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask)[0].path
+        shotAutoCopy = d.bool(forKey: "cfg.shotAutoCopy")
+        shotAutoSave = d.bool(forKey: "cfg.shotAutoSave")
+        shotWindowShadow = d.bool(forKey: "cfg.shotWindowShadow")
+        recordAudio = d.bool(forKey: "cfg.recordAudio")
         fKeyAppsEnabled = d.bool(forKey: "cfg.fKeyAppsOn")
         fKeyApps = Self.loadFKeyApps(d)
         launchAtLogin = (SMAppService.mainApp.status == .enabled)
