@@ -179,6 +179,17 @@ final class SpriteVideoCheck: XCTestCase {
             let t = Double(i) / ClaudeSpark.fps
             let p = ClaudeSpark.pose(at: t)
             let view = VStack(spacing: 22) {
+
+        // 20. Clipboard dạng thẻ ngang.
+        let tmp = FileManager.default.temporaryDirectory.appendingPathComponent("clip-snap-\(UUID()).json")
+        let clip = ClipboardStore(fileURL: tmp, imagesDir: nil, autoPoll: false)
+        clip.recordText("Palette for the autumn set: Hokusai's Prussian blue as the base, ochre and vermilion accents.")
+        clip.recordText("https://github.com/anthropics/claude-code")
+        clip.recordText("#1F4E79")
+        clip.recordText("const palette = {\n  ink: \"#1F4E79\",\n  ochre: \"#C8963E\",\n};")
+        clip.togglePin(clip.items[2].id)
+        try snap("20-clipboard", ClipboardPanel(store: clip).padding(12).background(.black),
+                 size: CGSize(width: 620, height: 170), wait: 0.4)
                 ClaudeSparkCanvas(shape: p.shape, angle: p.angle, size: 180, twinkle: ClaudeSpark.twinkle(at: t))
                 Text("logo Claude biến hình · 8 khung/giây").font(.system(size: 22, weight: .semibold, design: .rounded))
                     .foregroundStyle(.white.opacity(0.7))

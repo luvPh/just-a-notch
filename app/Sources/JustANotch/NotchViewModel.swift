@@ -69,6 +69,8 @@ final class NotchViewModel: ObservableObject {
     }
     /// Panel Files đang mở? (do NotchRootView set khi railTab == .files)
     @Published var filesTabActive = false
+    /// Tab Clipboard đang mở → notch rộng/cao hơn cho dải thẻ.
+    @Published var clipTabActive = false
     /// Số favorite đang chọn ở tab Files nhỏ — hiển thị ở wing trái (FilesPanel cập nhật).
     @Published var filesSelCount = 0
     /// Người dùng bấm nút ghim (📌) để GIỮ notch mở dù bấm ra ngoài — cho kéo-thả
@@ -541,6 +543,8 @@ final class NotchViewModel: ObservableObject {
         if panelWantsTall { return calendarExpandedHeight }
         return expandedHeight
     }
+    let clipboardWidth: CGFloat = 640
+    let clipboardHeight: CGFloat = 210
     /// Keep the camera core centred on the notch: shift by half the reveal imbalance.
     /// HUD and expanded are both centred, so no shift.
     var centerXOffset: CGFloat { isCentred ? 0 : wingImbalance }
@@ -565,6 +569,7 @@ final class NotchViewModel: ObservableObject {
     /// đang hiển thị rồi tự xoá về nil. 1-based.
     @Published var pendingTabIndex: Int?
     /// Yêu cầu nhảy tới một tab cụ thể (dùng cho auto-popup Learn).
+        if expanded && clipTabActive { return clipboardWidth }
     @Published var pendingTab: RailTab?
 
     // MARK: Learn auto-popup
@@ -578,6 +583,7 @@ final class NotchViewModel: ObservableObject {
     private let launchedAt = Date()
     /// Không bung ngay lúc vừa mở app (kể cả khi đã quá hạn).
     private let learnLaunchGrace: TimeInterval = 60
+        if clipTabActive { return clipboardHeight }
     private var learnCollapseWork: DispatchWorkItem?
     /// Popup tự thu sau chừng này giây nếu người dùng chưa trả lời.
     private let learnPopupLinger: TimeInterval = 45

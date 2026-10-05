@@ -50,7 +50,8 @@ final class ClipboardStore: ObservableObject {
 
     // MARK: Public mutations (UI + tests)
     func recordText(_ s: String) {
-        let item = ClipboardItem(id: UUID(), createdAt: Date(), pinned: false, kind: .text(s))
+        let item = ClipboardItem(id: UUID(), createdAt: Date(), pinned: false, kind: .text(s),
+                                 sourceApp: Self.frontmostBundleID())
         applyRecorded(history.record(item))
     }
 
@@ -149,7 +150,8 @@ final class ClipboardStore: ObservableObject {
         let fileName = "\(UUID().uuidString).png"
         try? png.write(to: dir.appendingPathComponent(fileName), options: .atomic)
         let item = ClipboardItem(id: UUID(), createdAt: Date(), pinned: false,
-                                 kind: .image(fileName: fileName))
+                                 kind: .image(fileName: fileName),
+                                 sourceApp: Self.frontmostBundleID())
         applyRecorded(history.record(item))
     }
 
@@ -157,6 +159,33 @@ final class ClipboardStore: ObservableObject {
     func image(for item: ClipboardItem) -> NSImage? {
         guard case let .image(fileName) = item.kind, let dir = imagesDir else { return nil }
         return NSImage(contentsOf: dir.appendingPathComponent(fileName))
+    }
+
+    /// Dung lượng hiển thị: text theo UTF-8, ảnh theo file PNG.
+    func byteSize(of item: ClipboardItem) -> Int {
+        switch item.kind {
+        case let .text(s): return s.utf8.count
+        case let .image(fileName):
+            guard let dir = imagesDir,
+                  let a = try? FileManager.default.attributesOfItem(atPath: dir.appendingPathComponent(fileName).path)
+            else { return 0 }
+            return (a[.size] as? Int) ?? 0
+        }
+    }
+
+    /// Icon app nguồn (cache theo bundle ID).
+    func appIcon(for item: ClipboardItem) -> NSImage? {
+        guard let id = item.sourceApp else { return nil }
+        if let c = iconCache[id] { return c }
+        guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: id) else { return nil }
+        let img = NSWorkspace.shared.icon(forFile: url.path)
+        iconCache[id] = img
+        return img
+    }
+    private var iconCache: [String: NSImage] = [:]
+
+    private static func frontmostBundleID() -> String? {
+        NSWorkspace.shared.frontmostApplication?.bundleIdentifier
     }
 
     deinit { pollTimer?.invalidate() }

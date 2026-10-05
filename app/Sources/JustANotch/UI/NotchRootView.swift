@@ -202,6 +202,7 @@ struct NotchRootView: View {
         vm.panelWantsTall = (tab == .calendar || tab == .settings || tab == .learn)
         vm.filesTabActive = (tab == .files)
         vm.calTabActive = (tab == .calendar)
+        vm.clipTabActive = (tab == .clipboard)
         vm.notifTabActive = (tab == .notifications)
         if tab != .files { vm.filesSelCount = 0 }
         if vm.showList { withAnimation(openSpring) { vm.showList = false } }
@@ -474,7 +475,7 @@ struct NotchRootView: View {
                 ThemeCarousel(tabs: visibleTabs, selection: $railTab, reduceMotion: reduceMotion)
                     .onChange(of: railTab) { _, newTab in
                         vm.panelWantsTall = (newTab == .calendar || newTab == .settings || newTab == .learn)
-                        vm.filesTabActive = (newTab == .files)
+                        vm.filesTabActive = (newTab == .files); vm.clipTabActive = (newTab == .clipboard)
                         vm.calTabActive = (newTab == .calendar)
                         vm.notifTabActive = (newTab == .notifications)
                         if newTab != .files { vm.filesSelCount = 0 }   // rời tab Files → xoá đếm
