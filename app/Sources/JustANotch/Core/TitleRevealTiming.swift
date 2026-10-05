@@ -18,7 +18,8 @@ struct TitleRevealTiming {
     let retractionDelay: TimeInterval
 
     init(pan: TimeInterval) {
-        trailingHold = max(1, 3 - pan)
+        // Giữ đủ lâu để kịp cảm nhận (dải phình + ambient light): tối thiểu ~6s.
+        trailingHold = max(2, 6 - pan)
         retractionDelay = pan + trailingHold
     }
 }

@@ -192,6 +192,30 @@ final class NotchSnapshotCheck: XCTestCase {
                  size: CGSize(width: 620, height: 170), wait: 0.4)
     }
 
+    /// Khung hình ambient light quét qua thông báo (nhắc nghỉ, đổi bài).
+    func testAmbientSweepFrames() throws {
+        guard let dir = ProcessInfo.processInfo.environment["NOTCH_SNAP"] else { throw XCTSkip("no NOTCH_SNAP") }
+        for (label, setup) in [("break", { (vm: NotchViewModel) in vm.showBreak() }),
+                               ("track", { (vm: NotchViewModel) in vm.titleReveal = true })] as [(String, (NotchViewModel) -> Void)] {
+            let (vm, _) = makeVM(media: true)
+            let size = CGSize(width: 520, height: 120)
+            let host = NSHostingView(rootView: NotchRootView(vm: vm).frame(width: size.width, height: size.height)
+                .background(Color(white: 0.85)))
+            let w = NSWindow(contentRect: CGRect(origin: .zero, size: size), styleMask: [.borderless],
+                             backing: .buffered, defer: false)
+            w.contentView = host
+            RunLoop.main.run(until: Date().addingTimeInterval(0.3))
+            setup(vm)
+            for (i, t) in [0.35, 0.65, 0.95, 1.6].enumerated() {
+                RunLoop.main.run(until: Date().addingTimeInterval(i == 0 ? t : t - [0.35, 0.65, 0.95, 1.6][i - 1]))
+                let rep = host.bitmapImageRepForCachingDisplay(in: host.bounds)!
+                host.cacheDisplay(in: host.bounds, to: rep)
+                try rep.representation(using: .png, properties: [:])!
+                    .write(to: URL(fileURLWithPath: "\(dir)/sweep-\(label)-\(i).png"))
+            }
+        }
+    }
+
     /// Đo bề rộng notch từng khung khi thu vào (hover → thôi hover, mở → đóng):
     /// không khung nào được nhỏ hơn kích thước cuối (không co lố nhỏ hơn camera).
     func testCollapseNoOvershoot() throws {

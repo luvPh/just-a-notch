@@ -92,7 +92,7 @@ final class NotchViewModel: ObservableObject {
     @Published var notificationsPermissionDenied = false
     private var hudClearWork: DispatchWorkItem?
     private var autoShrinkWork: DispatchWorkItem?
-    let hudDuration: TimeInterval = 4
+    let hudDuration: TimeInterval = 7
     private var lastIdentity: String?
     private var titleResetWork: DispatchWorkItem?
     let titleEntranceDuration: TimeInterval = 0.42
@@ -428,7 +428,7 @@ final class NotchViewModel: ObservableObject {
         claudeAlertWork?.cancel()
         let work = DispatchWorkItem { [weak self] in self?.dismissClaudeAlert() }
         claudeAlertWork = work
-        let hold: TimeInterval = { if case .waiting = t { return 8 }; return 5 }()
+        let hold: TimeInterval = { if case .waiting = t { return 12 }; return 9 }()
         DispatchQueue.main.asyncAfter(deadline: .now() + hold, execute: work)
     }
 
@@ -707,7 +707,7 @@ final class NotchViewModel: ObservableObject {
     /// Mèo + chữ nằm hết ở wing trái (đồng bộ với Clawd); wing phải chỉ còn mép nhỏ.
     let breakLeftWing: CGFloat = 176
     let breakRightWing: CGFloat = 12
-    let breakDuration: TimeInterval = 6
+    let breakDuration: TimeInterval = 10
     private var breakTick: Timer?
     private var breakHideWork: DispatchWorkItem?
     /// Mốc gần nhất đã xử lý (đã nhắc hoặc đã bỏ) — lưu bền để khởi động lại app

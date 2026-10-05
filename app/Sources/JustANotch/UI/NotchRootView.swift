@@ -225,6 +225,12 @@ struct NotchRootView: View {
             shape.fill(.black)
                 .shadow(color: .black.opacity(0.5), radius: vm.expanded ? 26 : 10, y: vm.expanded ? 14 : 5)
 
+            // Ambient light cho thông báo: quầng màu toả từ đáy + một vệt sáng quét ngang.
+            if let amb = notificationAmbient {
+                AmbientSweep(tint: amb.tint, key: amb.key, reduceMotion: reduceMotion)
+                    .transition(.opacity)
+            }
+
             if vm.showingHUD {
                 hudBanner.transition(.blurFade)
             } else if vm.shelfActive {
@@ -318,6 +324,22 @@ struct NotchRootView: View {
                     .allowsHitTesting(false)
                     .transition(.opacity)
             }
+        }
+    }
+
+    /// Màu + khoá (đổi khoá = quét lại) của ambient light theo loại thông báo đang hiện.
+    private var notificationAmbient: (tint: Color, key: String)? {
+        if vm.showingHUD, let n = vm.hudNotification {
+            return (Color(red: 0.35, green: 0.62, blue: 1.0), "hud-\(n.id)")
+        }
+        if vm.expanded && vm.learnPopup {
+            return (Color(red: 0.30, green: 0.85, blue: 0.62), "learn")
+        }
+        switch vm.bulge {
+        case .track:         return (musicTint.secondary, "track-\(vm.track?.title ?? "")")
+        case .breakReminder: return (Color(red: 0.42, green: 0.78, blue: 1.0), "break")
+        case .claude:        return (Color(red: 0.93, green: 0.52, blue: 0.38), "claude")
+        case nil:            return nil
         }
     }
 
@@ -1590,5 +1612,40 @@ struct DeferredMount<Content: View>: View {
             try? await Task.sleep(nanoseconds: 200_000_000)
             withAnimation(.easeOut(duration: 0.2)) { ready = true }
         }
+    }
+}
+
+/// Ambient light của thông báo (chill): quầng màu dịu toả lên từ đáy, hiện ra chậm,
+/// rồi "thở" nhẹ và trôi rất chậm qua lại — không có dải sáng chạy ngang.
+struct AmbientSweep: View {
+    let tint: Color
+    let key: String
+    let reduceMotion: Bool
+    @State private var shown = false
+    @State private var breathe = false
+    @State private var drift = false
+
+    var body: some View {
+        GeometryReader { g in
+            RadialGradient(colors: [tint.opacity(breathe ? 0.34 : 0.22), tint.opacity(0.06), .clear],
+                           center: UnitPoint(x: drift ? 0.62 : 0.38, y: 1.05),
+                           startRadius: 0, endRadius: g.size.width * 0.6)
+        }
+        .opacity(shown ? 1 : 0)
+        .allowsHitTesting(false)
+        .onAppear { start() }
+        .onChange(of: key) { _, _ in
+            // Thông báo mới: hạ nhẹ rồi hiện lại từ từ.
+            var t = Transaction(); t.disablesAnimations = true
+            withTransaction(t) { shown = false }
+            start()
+        }
+    }
+
+    private func start() {
+        withAnimation(.easeInOut(duration: 1.2)) { shown = true }
+        guard !reduceMotion else { return }
+        withAnimation(.easeInOut(duration: 3.5).repeatForever(autoreverses: true)) { breathe = true }
+        withAnimation(.easeInOut(duration: 9).repeatForever(autoreverses: true)) { drift = true }
     }
 }

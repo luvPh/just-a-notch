@@ -15,11 +15,11 @@ struct TitleRevealTimingCheck {
         assertEqual(longMarquee.panDuration, 100 / 34, "long title pan duration must use the measured overflow")
 
         let shortTitle = TitleRevealTiming(pan: 0)
-        assertEqual(shortTitle.trailingHold, 3, "short title should remain visible for three seconds")
-        assertEqual(shortTitle.retractionDelay, 3, "short title should retract after three seconds")
+        assertEqual(shortTitle.trailingHold, 6, "short title should remain visible for six seconds")
+        assertEqual(shortTitle.retractionDelay, 6, "short title should retract after six seconds")
 
-        let longTitle = TitleRevealTiming(pan: 4)
-        assertEqual(longTitle.trailingHold, 1, "long title should hold its trailing edge for one second")
-        assertEqual(longTitle.retractionDelay, 5, "long title should retract after pan and hold")
+        let longTitle = TitleRevealTiming(pan: 5)
+        assertEqual(longTitle.trailingHold, 2, "long title should hold its trailing edge for two seconds")
+        assertEqual(longTitle.retractionDelay, 7, "long title should retract after pan and hold")
     }
 }
