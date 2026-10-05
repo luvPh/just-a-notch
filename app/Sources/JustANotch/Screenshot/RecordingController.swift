@@ -54,7 +54,6 @@ final class RecordingController: ObservableObject {
         let scale = screen.backingScaleFactor
         let id = ScreenGrabber.displayID(screen)
         guard let display = content.displays.first(where: { $0.displayID == id }) else { NSSound.beep(); return }
-        let me = content.applications.filter { $0.bundleIdentifier == Bundle.main.bundleIdentifier }
 
         let filter: SCContentFilter
         var pixel: CGSize
@@ -62,10 +61,10 @@ final class RecordingController: ObservableObject {
         var frame: CGRect?          // khung vùng quay (cục bộ màn hình, gốc trên-trái) để vẽ viền
         switch pick {
         case .full:
-            filter = SCContentFilter(display: display, excludingApplications: me, exceptingWindows: [])
+            filter = ScreenGrabber.displayFilter(display, content: content)
             pixel = CGSize(width: CGFloat(display.width) * scale, height: CGFloat(display.height) * scale)
         case .area(let r):
-            filter = SCContentFilter(display: display, excludingApplications: me, exceptingWindows: [])
+            filter = ScreenGrabber.displayFilter(display, content: content)
             pixel = CGSize(width: r.width * scale, height: r.height * scale)
             source = r
             frame = r
@@ -74,7 +73,7 @@ final class RecordingController: ObservableObject {
                 filter = SCContentFilter(desktopIndependentWindow: w)
                 pixel = CGSize(width: w.frame.width * scale, height: w.frame.height * scale)
             } else {
-                filter = SCContentFilter(display: display, excludingApplications: me, exceptingWindows: [])
+                filter = ScreenGrabber.displayFilter(display, content: content)
                 pixel = CGSize(width: r.width * scale, height: r.height * scale)
                 source = r
             }

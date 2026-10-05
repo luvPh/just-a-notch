@@ -19,7 +19,8 @@ struct SettingsPanel: View {
 
     var body: some View {
         ScrollView(.vertical) {
-            VStack(alignment: .leading, spacing: 14) {
+            // Lazy: chỉ dựng các mục đang hiện → chuyển tab tới đây không khựng.
+            LazyVStack(alignment: .leading, spacing: 14) {
                 // MARK: Chung
                 section("Chung") {
                     toggleRow("Mở cùng lúc đăng nhập", icon: "power",
@@ -290,10 +291,13 @@ struct SettingsPanel: View {
                     }
                 }
             }
-            .padding(.bottom, 4)
+            // Chừa đáy: mục cuối cuộn được lên khỏi vùng mờ + bo góc notch (không bị cắt lẹm).
+            .padding(.bottom, 22)
+            .padding(.top, 2)
         }
         .scrollIndicators(.never)
         .scrollBounceBehavior(.basedOnSize)
+        .edgeFade(.vertical, 28, leading: false)   // đáy mờ dần, không cắt cụt
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 
@@ -313,12 +317,21 @@ struct SettingsPanel: View {
         }
     }
 
+    /// Icon app theo bundle ID — cache lại: tra Launch Services + đọc icon mỗi lần vẽ
+    /// làm tab Cài đặt khựng khi lướt tới (tab này vẽ lại liên tục theo trạng thái Claude).
+    @MainActor private static var iconCache: [String: NSImage] = [:]
+    @MainActor private static func appIcon(_ bundleID: String) -> NSImage? {
+        if let i = iconCache[bundleID] { return i }
+        guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else { return nil }
+        let i = NSWorkspace.shared.icon(forFile: url.path)
+        iconCache[bundleID] = i
+        return i
+    }
+
     /// Một ô gán app cho F(i+1): icon app, tên, nút chọn / bỏ gán.
     private func fKeyRow(_ i: Int) -> some View {
         let slot = settings.fKeyApps.indices.contains(i) ? settings.fKeyApps[i] : nil
-        let appURL = slot.flatMap {
-            NSWorkspace.shared.urlForApplication(withBundleIdentifier: $0.bundleID)
-        }
+        let icon = slot.flatMap { Self.appIcon($0.bundleID) }
         return HStack(spacing: 9) {
             Text("F\(i + 1)")
                 .font(.system(size: 10.5, weight: .bold, design: .rounded))
@@ -327,8 +340,8 @@ struct SettingsPanel: View {
                 .padding(.vertical, 2)
                 .background(RoundedRectangle(cornerRadius: 5, style: .continuous)
                     .fill(.white.opacity(0.09)))
-            if let appURL {
-                Image(nsImage: NSWorkspace.shared.icon(forFile: appURL.path))
+            if let icon {
+                Image(nsImage: icon)
                     .resizable().interpolation(.high).frame(width: 15, height: 15)
             } else {
                 Image(systemName: "app.dashed")

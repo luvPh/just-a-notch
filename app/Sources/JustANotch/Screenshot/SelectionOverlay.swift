@@ -157,7 +157,6 @@ struct SelectionView: View {
             }
 
             if dragRect == nil, !model.windowMode, let p = hover { crosshair(p) }
-            if let p = current ?? hover { loupe(p) }
             hint
         }
         .frame(width: size.width, height: size.height)

@@ -14,15 +14,28 @@ enum ScreenGrabber {
         (screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber)?.uint32Value ?? CGMainDisplayID()
     }
 
-    /// Toàn bộ một màn hình, KHÔNG gồm cửa sổ của chính app (notch, overlay…).
+    /// Cửa sổ của chính app VẪN được chụp (notch). Các cửa sổ khác của app (thumbnail,
+    /// overlay chọn vùng, khung quay…) bị loại. Controller đăng ký id cửa sổ notch ở đây.
+    /// Đọc lúc chụp (cửa sổ chỉ có số hiệu sau khi đã hiện lên màn hình).
+    static var keptOwnWindows: () -> Set<CGWindowID> = { [] }
+
+    /// Bộ lọc màn hình: mọi thứ + notch, trừ các cửa sổ phụ của app.
+    static func displayFilter(_ display: SCDisplay, content: SCShareableContent) -> SCContentFilter {
+        let keep = keptOwnWindows()
+        let mine = content.windows.filter {
+            $0.owningApplication?.bundleIdentifier == Bundle.main.bundleIdentifier && !keep.contains($0.windowID)
+        }
+        return SCContentFilter(display: display, excludingWindows: mine)
+    }
+
+    /// Toàn bộ một màn hình (kể cả notch), không gồm các cửa sổ phụ của app.
     static func captureDisplay(_ screen: NSScreen) async throws -> CGImage {
         let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
         let id = displayID(screen)
         guard let display = content.displays.first(where: { $0.displayID == id }) ?? content.displays.first else {
             throw NSError(domain: "ScreenGrabber", code: 1)
         }
-        let me = content.applications.filter { $0.bundleIdentifier == Bundle.main.bundleIdentifier }
-        let filter = SCContentFilter(display: display, excludingApplications: me, exceptingWindows: [])
+        let filter = displayFilter(display, content: content)
         let cfg = SCStreamConfiguration()
         let scale = screen.backingScaleFactor
         cfg.width = Int(CGFloat(display.width) * scale)

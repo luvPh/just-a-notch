@@ -124,6 +124,11 @@ final class NotchWindowController {
 
         // Đổi màn hình hiển thị trong Settings → đặt lại vị trí ngay.
         ScreenshotController.shared.clipboard = vm.clipboard
+        // Ảnh chụp / video giữ lại notch (chỉ loại thumbnail, overlay của chính tính năng chụp).
+        ScreenGrabber.keptOwnWindows = { [weak self] in
+            guard let n = self?.panel.windowNumber, n > 0 else { return [] }
+            return [CGWindowID(n)]
+        }
 
         AppSettings.shared.$pillMascot
             .dropFirst()

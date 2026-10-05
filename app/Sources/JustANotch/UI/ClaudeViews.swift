@@ -273,6 +273,8 @@ struct ClaudeAlertView: View {
     @ObservedObject var vm: NotchViewModel
     let alert: ClaudeTransition
     let reduceMotion: Bool
+    /// Hiện ở dải phình dưới notch: chỉ nội dung, canh giữa.
+    var centered = false
 
     private var session: ClaudeSession {
         switch alert { case .waiting(let s): return s; case .done(let s, _): return s }
@@ -280,7 +282,9 @@ struct ClaudeAlertView: View {
     private var isWaiting: Bool { if case .waiting = alert { return true }; return false }
 
     var body: some View {
-        if vm.pillMode {
+        if centered {
+            content
+        } else if vm.pillMode {
             // Pill không có camera → Clawd + chữ canh giữa cả bề ngang.
             content
                 .padding(.horizontal, 12)

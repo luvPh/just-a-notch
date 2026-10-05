@@ -247,7 +247,7 @@ final class NotchViewModel: ObservableObject {
         titleResetWork?.cancel()
         let timing = TitleRevealTiming(pan: panDuration)
         let work = DispatchWorkItem { [weak self] in
-            withAnimation(.spring(response: 0.42, dampingFraction: 0.85)) { self?.titleReveal = false }
+            withAnimation(.spring(response: 0.42, dampingFraction: 1)) { self?.titleReveal = false }
         }
         titleResetWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + timing.retractionDelay, execute: work)
@@ -277,8 +277,6 @@ final class NotchViewModel: ObservableObject {
     // Symmetric wings while playing; the reading state only grows the LEFT wing
     // (the 150pt title expansion), keeping the right wing steady.
     var leftReveal: CGFloat {
-        if breakActive { return breakLeftWing }
-        if claudeAlert != nil { return pillMode ? pillAlertWing : claudeAlertLeftWing }
         // Hình agent (25pt) thay chỗ icon nguồn nhạc (18pt) → wing trái nhỉnh hơn một chút;
         // Claude + Codex cùng chạy thì đứng cạnh nhau, mỗi hình thêm 31pt.
         let clawd = claudeIndicatorVisible
@@ -287,12 +285,11 @@ final class NotchViewModel: ObservableObject {
         switch compactState {
         case .quiet:   return clawd ? cw + extra : 10
         case .resting: return clawd ? cw + extra : (pillMode ? 33 : 40)
-        case .reading: return clawd ? cw + 112 + extra : 150
+        // Tên bài giờ hiện ở dải phình bên dưới → wing không nới ra nữa.
+        case .reading: return clawd ? cw + extra : (pillMode ? 33 : 40)
         }
     }
     var rightReveal: CGFloat {
-        if breakActive { return breakRightWing }
-        if claudeAlert != nil { return pillMode ? pillAlertWing : claudeAlertRightWing }
         // Bấm soundwave → ◀ ⏯ ▶ ở wing phải, nới rộng cho vừa 3 nút.
         if hoverControls { return 106 }
         // Pill: không có "tai" notch để né → wing gọn hơn.
@@ -314,7 +311,7 @@ final class NotchViewModel: ObservableObject {
     }
     private func hideTransport() {
         guard transportVisible else { return }
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.78)) { transportVisible = false }
+        withAnimation(.spring(response: 0.4, dampingFraction: 1)) { transportVisible = false }
     }
 
     // MARK: Launcher (hover lâu → dải icon tính năng nhanh)
@@ -376,6 +373,22 @@ final class NotchViewModel: ObservableObject {
     /// Compact có gì để hiện ở wing không (nhạc hoặc Clawd).
     var hasCompactContent: Bool { hasMedia || claudeIndicatorVisible }
 
+    // MARK: Dải phình bên dưới (thay cho việc nới rộng wing)
+
+    /// Thông báo hiện ở dải phình dưới notch: nhắc nghỉ, Claude xong/cần duyệt, đổi bài.
+    enum Bulge: Equatable { case breakReminder, claude, track }
+
+    var bulge: Bulge? {
+        guard !expanded, !shelfActive, !showingHUD, !launcherVisible else { return nil }
+        if breakActive { return .breakReminder }
+        if claudeAlert != nil { return .claude }
+        if compactState == .reading { return .track }
+        return nil
+    }
+    var bulgeHeight: CGFloat { bulge == nil ? 0 : 46 }
+    /// Bề ngang tối thiểu khi phình (đủ chỗ cho chữ).
+    let bulgeMinWidth: CGFloat = 300
+
     private func handleClaude(_ t: ClaudeTransition) {
         let s = AppSettings.shared
         guard s.claudeOn else { return }
@@ -422,7 +435,7 @@ final class NotchViewModel: ObservableObject {
     func dismissClaudeAlert() {
         claudeAlertWork?.cancel(); claudeAlertWork = nil
         guard claudeAlert != nil else { return }
-        withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) { claudeAlert = nil }
+        withAnimation(.spring(response: 0.45, dampingFraction: 1)) { claudeAlert = nil }
         // Còn thông báo xếp hàng → hiện tiếp sau một nhịp (notch rảnh mới hiện).
         guard !claudeAlertQueue.isEmpty else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) { [weak self] in
@@ -453,7 +466,8 @@ final class NotchViewModel: ObservableObject {
     var launcherBodyHeight: CGFloat { launcherFeature?.bodyHeight ?? launcherStripHeight }
     /// Canh giữa notch: đủ rộng cho tính năng và cho hàng wing (bù lệch tâm hai wing).
     var launcherWidth: CGFloat {
-        max(launcherFeature?.width ?? 240, compactWidth + abs(rightReveal - leftReveal))
+        // Không hẹp hơn dải phình (300) → hover lúc đang hiện tên bài không bị "hụt" một nhịp.
+        max(launcherFeature?.width ?? bulgeMinWidth, compactWidth + abs(rightReveal - leftReveal))
     }
 
     private func scheduleLauncherReveal() {
@@ -501,14 +515,14 @@ final class NotchViewModel: ObservableObject {
     /// ← trong tính năng: về hàng icon (hoặc thu hẳn nếu chuột đã rời notch).
     func launcherBack() {
         guard launcherFeature != nil else { closeLauncher(); return }
-        withAnimation(.spring(response: 0.42, dampingFraction: 0.82)) { launcherFeature = nil }
+        withAnimation(.spring(response: 0.42, dampingFraction: 1)) { launcherFeature = nil }
         if !hovering { closeLauncher() }
     }
     func closeLauncher() {
         launcherWork?.cancel(); launcherWork = nil
         launcherIdleWork?.cancel(); launcherIdleWork = nil
         guard launcherOpen || launcherFeature != nil else { return }
-        withAnimation(.spring(response: 0.42, dampingFraction: 0.85)) {
+        withAnimation(.spring(response: 0.42, dampingFraction: 1)) {
             launcherOpen = false
             launcherFeature = nil
         }
@@ -554,7 +568,8 @@ final class NotchViewModel: ObservableObject {
         if showingHUD { return hudWidth }
         if launcherVisible { return launcherWidth }
         if expanded && learnPopup { return learnPopupWidth }
-        return expanded ? expandedWidth : compactWidth
+        if expanded { return expandedWidth }
+        return bulge != nil ? max(compactWidth, bulgeMinWidth) : compactWidth
     }
     /// Tab Chuỗi tự tạo đang mở trình sửa → panel cao 300px cho thoải mái.
     @Published var timerEditorTall = false
@@ -563,7 +578,7 @@ final class NotchViewModel: ObservableObject {
         if shelfActive { return shelfHeight }
         if showingHUD { return hudHeight }
         if launcherVisible { return compactHeight + launcherBodyHeight }
-        if !expanded { return compactHeight }
+        if !expanded { return compactHeight + bulgeHeight }
         if learnPopup { return learnPopupHeight }
         if timerEditorTall { return 300 }
         if isListOpen { return listExpandedHeight }
@@ -589,6 +604,7 @@ final class NotchViewModel: ObservableObject {
         if shelfActive { return 26 }
         if showingHUD { return 22 }
         if launcherVisible { return launcherFeature == nil ? 20 : 22 }
+        if bulge != nil { return 20 }
         if pillMode && !expanded { return surfaceHeight / 2 }
         return expanded ? 26 : (compactState == .quiet ? 10 : 14)
     }
@@ -613,7 +629,7 @@ final class NotchViewModel: ObservableObject {
     /// Bo góc trên ở chế độ pill: thu gọn = capsule, mở = khớp góc dưới.
     var pillTopRadius: CGFloat {
         guard pillMode else { return 0 }
-        return (expanded || shelfActive || showingHUD || launcherVisible) ? bottomRadius : surfaceHeight / 2
+        return (expanded || shelfActive || showingHUD || launcherVisible || bulge != nil) ? bottomRadius : surfaceHeight / 2
     }
 
     /// Đặt bởi global hotkey (⌃⌥1/2/3) — NotchRootView phân giải theo danh sách tab
@@ -737,7 +753,7 @@ final class NotchViewModel: ObservableObject {
     func dismissBreak() {
         breakHideWork?.cancel(); breakHideWork = nil
         guard breakActive else { return }
-        withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) { breakActive = false }
+        withAnimation(.spring(response: 0.45, dampingFraction: 1)) { breakActive = false }
     }
 
     // MARK: Actions
@@ -794,7 +810,7 @@ final class NotchViewModel: ObservableObject {
         hudClearWork?.cancel()
         withAnimation(.spring(response: 0.42, dampingFraction: 0.8)) { hudNotification = record }
         let work = DispatchWorkItem { [weak self] in
-            withAnimation(.spring(response: 0.42, dampingFraction: 0.85)) { self?.hudNotification = nil }
+            withAnimation(.spring(response: 0.42, dampingFraction: 1)) { self?.hudNotification = nil }
         }
         hudClearWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + hudDuration, execute: work)
@@ -851,7 +867,7 @@ final class NotchViewModel: ObservableObject {
 
     func clearHUD() {
         hudClearWork?.cancel()
-        withAnimation(.spring(response: 0.42, dampingFraction: 0.85)) { hudNotification = nil }
+        withAnimation(.spring(response: 0.42, dampingFraction: 1)) { hudNotification = nil }
     }
 
     /// Toggle the queue panel; (re)fetch the list whenever it opens.

@@ -63,6 +63,10 @@ struct NotchRootView: View {
     private var openSpring: Animation {
         reduceMotion ? .easeInOut(duration: 0.22) : .spring(response: 0.5, dampingFraction: 0.8)
     }
+    /// Thu vào: lò xo KHÔNG nảy (damping 1) — tránh notch co lố nhỏ hơn camera rồi bật lại.
+    private var closeSpring: Animation {
+        reduceMotion ? .easeInOut(duration: 0.2) : .spring(response: 0.42, dampingFraction: 1)
+    }
     private var revealSpring: Animation {
         reduceMotion ? .easeInOut(duration: 0.2) : .spring(response: 0.42, dampingFraction: 0.74)
     }
@@ -91,24 +95,25 @@ struct NotchRootView: View {
                 .opacity(vm.screenHopHidden ? 0 : 1)
                 .offset(x: vm.centerXOffset, y: vm.pillMode ? vm.pillGap : 0)
                 .onHover { vm.hovering = vm.screenHopHidden ? false : $0 }
-                .animation(hoverSpring, value: vm.hovering)
-                .animation(revealSpring, value: vm.compactState)
-                .animation(openSpring, value: vm.expanded)
-                .animation(openSpring, value: vm.shelfActive)
-                .animation(openSpring, value: vm.showList)
+                .animation(vm.hovering ? hoverSpring : closeSpring, value: vm.hovering)   // rời chuột: co về 1.0 không lố
+                // Mở ra được nảy nhẹ; THU VÀO luôn dùng closeSpring (không co lố).
+                .animation(vm.compactState == .reading ? revealSpring : closeSpring, value: vm.compactState)
+                .animation(vm.expanded ? openSpring : closeSpring, value: vm.expanded)
+                .animation(vm.shelfActive ? openSpring : closeSpring, value: vm.shelfActive)
+                .animation(vm.showList ? openSpring : closeSpring, value: vm.showList)
                 // Notch phình ra/thu lại mềm khi mở tab cao hơn (Lịch).
-                .animation(openSpring, value: vm.panelWantsTall)
-                // Lịch co/giãn theo số hàng tuần của tháng (5 vs 6 tuần).
-                .animation(openSpring, value: vm.surfaceHeight)
+                .animation(vm.panelWantsTall ? openSpring : closeSpring, value: vm.panelWantsTall)
+                // Đổi kích thước (tab, dải phình…): không nảy để không bao giờ co lố.
+                .animation(closeSpring, value: vm.surfaceHeight)
                 // Files mở rộng cả chiều ngang (ẩn sidebar) — phình mềm sang hai bên.
-                .animation(openSpring, value: vm.surfaceWidth)
-                .animation(revealSpring, value: vm.showingHUD)
-                .animation(openSpring, value: vm.launcherOpen)
-                .animation(openSpring, value: vm.launcherFeature)
-                .animation(revealSpring, value: vm.breakActive)
-                .animation(revealSpring, value: vm.claudeAlert)
-                .animation(revealSpring, value: vm.claudeIndicatorVisible)
-                .animation(revealSpring, value: vm.claudeBadges.count)
+                .animation(closeSpring, value: vm.surfaceWidth)
+                .animation(vm.showingHUD ? revealSpring : closeSpring, value: vm.showingHUD)
+                .animation(vm.launcherOpen ? openSpring : closeSpring, value: vm.launcherOpen)
+                .animation(vm.launcherFeature != nil ? openSpring : closeSpring, value: vm.launcherFeature)
+                .animation(vm.breakActive ? revealSpring : closeSpring, value: vm.breakActive)
+                .animation(vm.claudeAlert != nil ? revealSpring : closeSpring, value: vm.claudeAlert)
+                .animation(vm.claudeIndicatorVisible ? revealSpring : closeSpring, value: vm.claudeIndicatorVisible)
+                .animation(closeSpring, value: vm.claudeBadges.count)
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -163,7 +168,7 @@ struct NotchRootView: View {
 
         switch event.keyCode {
         case 53:                                    // Esc → collapse
-            withAnimation(openSpring) { vm.collapse() }
+            withAnimation(closeSpring) { vm.collapse() }
             return true
         case 49:                                    // Space → play/pause
             vm.playPause()
@@ -210,7 +215,7 @@ struct NotchRootView: View {
         vm.clipTabActive = (tab == .clipboard); vm.timerTabActive = (tab == .timer); vm.musicTabActive = (tab == .music)
         vm.calTabActive = (tab == .calendar)
         vm.notifTabActive = (tab == .notifications)
-        if vm.showList { withAnimation(openSpring) { vm.showList = false } }
+        if vm.showList { withAnimation(closeSpring) { vm.showList = false } }
         vm.noteInteraction()
     }
 
@@ -224,10 +229,10 @@ struct NotchRootView: View {
                 hudBanner.transition(.blurFade)
             } else if vm.shelfActive {
                 ShelfPanel(store: vm.shelf,
-                           onClose: { withAnimation(openSpring) { vm.dismissShelf() } })
+                           onClose: { withAnimation(closeSpring) { vm.dismissShelf() } })
                     .transition(.blurFade)
             } else if vm.expanded && vm.learnPopup {
-                LearnPopupCard(store: vm.learn, onDone: { withAnimation(openSpring) { vm.finishLearnPopup() } },
+                LearnPopupCard(store: vm.learn, onDone: { withAnimation(closeSpring) { vm.finishLearnPopup() } },
                                keyboardReady: vm.learnPopupWantsKey)
                     .padding(.top, vm.notchHeight + 6)
                     .padding(.horizontal, 22).padding(.bottom, 14)
@@ -245,13 +250,7 @@ struct NotchRootView: View {
                     .allowsHitTesting(false)
                     .transition(.opacity)
                 player.transition(.blurFade)
-            } else if vm.breakActive {
-                BreakReminderView(vm: vm, reduceMotion: reduceMotion)
-                    .transition(.blurFade)
-            } else if let alert = vm.claudeAlert {
-                ClaudeAlertView(vm: vm, alert: alert, reduceMotion: reduceMotion)
-                    .transition(.blurFade)
-            } else if vm.hasCompactContent || vm.launcherVisible {
+            } else if vm.hasCompactContent || vm.launcherVisible || vm.bulge != nil {
                 // Launcher: bề mặt canh giữa notch, hàng wing bù lệch tâm để lõi camera
                 // vẫn nằm giữa; dải icon / tính năng thả xuống ngay dưới.
                 VStack(spacing: 0) {
@@ -259,6 +258,15 @@ struct NotchRootView: View {
                         compact.offset(x: vm.launcherVisible ? vm.wingImbalance : 0)
                     } else {
                         Color.clear.frame(height: vm.compactHeight)
+                    }
+                    // Thông báo phình xuống dưới notch (không nới rộng wing).
+                    if let b = vm.bulge {
+                        bulgeContent(b)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: vm.bulgeHeight)
+                            .padding(.bottom, 2)
+                            .transition(.asymmetric(insertion: .opacity.combined(with: .offset(y: -6)),
+                                                    removal: .opacity))
                     }
                     if vm.launcherVisible {
                         LauncherBody(vm: vm, reduceMotion: reduceMotion)
@@ -297,7 +305,7 @@ struct NotchRootView: View {
                 Color.clear
                     .frame(width: 220, height: 40)
                     .contentShape(Rectangle())
-                    .onTapGesture { withAnimation(openSpring) { vm.collapse() } }
+                    .onTapGesture { withAnimation(closeSpring) { vm.collapse() } }
             }
         }
         // Không có media → không có compact wing/waveform, nên hiện badge đếm ngược
@@ -309,6 +317,43 @@ struct NotchRootView: View {
                     .padding(.trailing, 12).padding(.top, 12)
                     .allowsHitTesting(false)
                     .transition(.opacity)
+            }
+        }
+    }
+
+    /// Nội dung dải phình: nhắc nghỉ · Claude · đổi bài.
+    @ViewBuilder private func bulgeContent(_ b: NotchViewModel.Bulge) -> some View {
+        switch b {
+        case .breakReminder:
+            HStack(spacing: 10) {
+                PixelCatSprite(reduceMotion: reduceMotion)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text("Đứng dậy nào").font(.system(size: 12, weight: .bold, design: .rounded))
+                        .foregroundStyle(.white)
+                    HStack(spacing: 3) {
+                        Text("uống ngụm nước").font(.system(size: 10, weight: .medium))
+                            .foregroundStyle(.white.opacity(0.62))
+                        Image(systemName: "drop.fill").font(.system(size: 8, weight: .bold))
+                            .foregroundStyle(Color(red: 0.42, green: 0.78, blue: 1.0))
+                    }
+                }
+                .lineLimit(1).fixedSize()
+            }
+        case .claude:
+            if let alert = vm.claudeAlert {
+                ClaudeAlertView(vm: vm, alert: alert, reduceMotion: reduceMotion, centered: true)
+            }
+        case .track:
+            if let t = vm.track {
+                VStack(spacing: 1) {
+                    MarqueeText(text: t.title, viewport: vm.surfaceWidth - 40,
+                                onPanDuration: vm.scheduleTitleRetraction, centerIfFits: true)
+                        .edgeFade(.horizontal, 10)
+                    Text([t.artist, t.sourceAppName].compactMap { $0 }.joined(separator: " · "))
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.5)).lineLimit(1)
+                }
+                .padding(.horizontal, 20)
             }
         }
     }
@@ -371,11 +416,6 @@ struct NotchRootView: View {
                     .padding(.trailing, -6)   // khung bấm 30pt nhưng giữ khoảng cách tới tiêu đề như cũ
                     .offset(x: vm.pillMode ? -1 : 0, y: vm.pillMode ? -1 : 0)   // canh quang học trong pill
                     .transition(.blurFade)
-                }
-                if vm.compactState == .reading, let track = vm.track {
-                    MarqueeText(text: track.title, viewport: vm.titleViewport,
-                                onPanDuration: vm.scheduleTitleRetraction)
-                        .edgeFade(.horizontal, 10)   // chữ tan dần ở hai mép, không cắt cụt
                 }
             }
             .padding(.leading, vm.pillMode ? 4 : 7)
@@ -513,7 +553,7 @@ struct NotchRootView: View {
                 vm.calTabActive = (newTab == .calendar)
                 vm.notifTabActive = (newTab == .notifications)
                 // Rời music → thu queue để notch co về chiều cao mặc định.
-                if vm.showList { withAnimation(openSpring) { vm.showList = false } }
+                if vm.showList { withAnimation(closeSpring) { vm.showList = false } }
             }
 
             // Player controls stay fixed at the top; only the queue list scrolls
@@ -564,7 +604,7 @@ struct NotchRootView: View {
         case .timer:         TimerCarousel(single: vm.timerSingle, pomodoro: vm.timerPomodoro,
                                            sequence: vm.timerSequence, settings: AppSettings.shared,
                                            showingSettings: $timerSettingsOpen, tall: $vm.timerEditorTall)
-        case .settings:      SettingsPanel(settings: settings, vm: vm)
+        case .settings:      DeferredMount { SettingsPanel(settings: settings, vm: vm) }
         default:             placeholderPanel(railTab)
         }
     }
@@ -718,7 +758,7 @@ struct NotchRootView: View {
                 }
                 Spacer(minLength: 0)
                 ctlButton(vm.showList ? "list.bullet.circle.fill" : "list.bullet", 15) {
-                    withAnimation(revealSpring) { vm.toggleList() }
+                    withAnimation(vm.showList ? closeSpring : revealSpring) { vm.toggleList() }
                 }
             }
         }
@@ -750,6 +790,7 @@ struct NotchRootView: View {
                 }
                 .scrollIndicators(.never)
                 .scrollBounceBehavior(.basedOnSize)
+                .edgeFade(.vertical, 24, leading: false)
             }
         }
     }
@@ -835,6 +876,7 @@ struct NotchRootView: View {
                 }
                 .scrollIndicators(.never)
                 .scrollBounceBehavior(.basedOnSize)
+                .edgeFade(.vertical, 24, leading: false)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -992,7 +1034,7 @@ struct NotchRootView: View {
                 Spacer()
             }
             ctlButton(vm.showList ? "list.bullet.circle.fill" : "list.bullet", 15) {
-                withAnimation(revealSpring) { vm.toggleList() }
+                withAnimation(vm.showList ? closeSpring : revealSpring) { vm.toggleList() }
             }
         }
     }
@@ -1530,5 +1572,23 @@ private struct SkipButton: View {
         .help(help)
         .onHover { hover = $0 }
         .animation(.spring(response: 0.25, dampingFraction: 0.75), value: hover)
+    }
+}
+
+/// Dựng nội dung nặng SAU khi hiệu ứng chuyển tab chạy xong (~0.2s) rồi mờ vào —
+/// tránh khựng giữa lúc vuốt (việc dựng nhiều control AppKit chen vào khung hình).
+struct DeferredMount<Content: View>: View {
+    @ViewBuilder let content: () -> Content
+    @State private var ready = false
+
+    var body: some View {
+        ZStack {
+            if ready { content().transition(.opacity) }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .task {
+            try? await Task.sleep(nanoseconds: 200_000_000)
+            withAnimation(.easeOut(duration: 0.2)) { ready = true }
+        }
     }
 }

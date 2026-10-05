@@ -110,13 +110,16 @@ struct MarqueeText: View {
     var font: Font = .system(size: 11, weight: .semibold)
     let viewport: CGFloat
     let onPanDuration: (TimeInterval) -> Void
+    /// Chữ ngắn hơn khung thì canh giữa (dải phình) thay vì dính trái.
+    var centerIfFits = false
     @State private var offset: CGFloat = 0
 
     var body: some View {
+        let fits = Self.textWidth(text) <= viewport
         Text(text)
             .font(font).foregroundStyle(.white).lineLimit(1).fixedSize()
             .offset(x: offset)
-            .frame(width: viewport, alignment: .leading)
+            .frame(width: viewport, alignment: centerIfFits && fits ? .center : .leading)
             .clipped()
             .onAppear { schedule() }
             // New title: snap back to the start immediately (show the beginning),

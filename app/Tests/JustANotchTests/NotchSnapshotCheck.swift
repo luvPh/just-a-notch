@@ -192,6 +192,49 @@ final class NotchSnapshotCheck: XCTestCase {
                  size: CGSize(width: 620, height: 170), wait: 0.4)
     }
 
+    /// Đo bề rộng notch từng khung khi thu vào (hover → thôi hover, mở → đóng):
+    /// không khung nào được nhỏ hơn kích thước cuối (không co lố nhỏ hơn camera).
+    func testCollapseNoOvershoot() throws {
+        let (vm, _) = makeVM(media: true)
+        let size = CGSize(width: 700, height: 300)
+        let host = NSHostingView(rootView: NotchRootView(vm: vm).frame(width: size.width, height: size.height)
+            .background(Color.white))
+        let w = NSWindow(contentRect: CGRect(origin: .zero, size: size), styleMask: [.borderless],
+                         backing: .buffered, defer: false)
+        w.contentView = host
+        func blackWidth() -> Int {
+            let rep = host.bitmapImageRepForCachingDisplay(in: host.bounds)!
+            host.cacheDisplay(in: host.bounds, to: rep)
+            let y = 6   // hàng điểm ảnh sát mép trên
+            var n = 0
+            for x in 0..<rep.pixelsWide { if let c = rep.colorAt(x: x, y: y), c.brightnessComponent < 0.2 { n += 1 } }
+            return n
+        }
+        RunLoop.main.run(until: Date().addingTimeInterval(0.6))
+        let rest = blackWidth()
+        for (label, on, off) in [("hover", { vm.hovering = true }, { vm.hovering = false }),
+                                 ("expand", { vm.expanded = true }, { vm.collapse() })] as [(String, () -> Void, () -> Void)] {
+            on(); RunLoop.main.run(until: Date().addingTimeInterval(0.8))
+            off()
+            var minW = Int.max
+            var trace: [Int] = []
+            for i in 0..<40 {
+                RunLoop.main.run(until: Date().addingTimeInterval(0.016)); let b = blackWidth(); trace.append(b); minW = min(minW, b)
+                if let dir = ProcessInfo.processInfo.environment["NOTCH_SNAP"], [0, 6, 30].contains(i) {
+                    let rep = host.bitmapImageRepForCachingDisplay(in: host.bounds)!
+                    host.cacheDisplay(in: host.bounds, to: rep)
+                    try? rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: "\(dir)/col-\(label)-\(i).png"))
+                }
+            }
+            print("STATE \(label): reveal=\(vm.leftReveal)/\(vm.rightReveal) core=\(vm.coreWidth) h=\(vm.compactHeight) state=\(vm.compactState) bulge=\(String(describing: vm.bulge))")
+            print("TRACE \(label):", trace)
+            // So với kích thước SAU KHI DỪNG (trạng thái cuối có thể khác lúc đầu, vd tên bài đã ẩn).
+            let settled = trace.last ?? rest
+            print("COLLAPSE \(label): start=\(rest) settled=\(settled) min=\(minW)")
+            XCTAssertGreaterThanOrEqual(minW, settled - 2, "\(label): co lố nhỏ hơn kích thước cuối")
+        }
+    }
+
     /// Ghi khung hình hiệu ứng chuyển màn (thu → nở) để QC.
     func testHopFrames() throws {
         guard let dir = ProcessInfo.processInfo.environment["NOTCH_SNAP"] else { throw XCTSkip("no NOTCH_SNAP") }
