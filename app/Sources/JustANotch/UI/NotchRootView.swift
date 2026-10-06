@@ -54,6 +54,7 @@ struct NotchRootView: View {
     @State private var lastSentVolume: Double = -1
     @State private var artHover = false
     @State private var waveHover = false
+    @State private var queueRevealed = false
     @State private var hoveredQueueID: String?
     // Notifications: which app-piles are expanded (by bundleId).
     @State private var expandedGroups: Set<String> = []
@@ -779,9 +780,16 @@ struct NotchRootView: View {
                     }
                 }
                 Spacer(minLength: 0)
-                ctlButton(vm.showList ? "list.bullet.circle.fill" : "list.bullet", 15) {
+                // Bật: glyph đỏ trên nền viên thuốc mờ (thay cho list.bullet.circle.fill trông cục).
+                CompactCtlButton(name: "list.bullet", size: 14, tint: vm.showList ? alcoveRed : .white) {
                     withAnimation(vm.showList ? closeSpring : revealSpring) { vm.toggleList() }
                 }
+                .background {
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(alcoveRed.opacity(vm.showList ? 0.16 : 0))
+                        .frame(width: 30, height: 24)
+                }
+                .animation(.easeOut(duration: 0.18), value: vm.showList)
             }
         }
     }
@@ -805,53 +813,78 @@ struct NotchRootView: View {
                     .font(.system(size: 11)).foregroundStyle(.white.opacity(0.4))
                     .padding(.vertical, 6)
             } else {
-                ScrollView(.vertical) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        ForEach(vm.playlist) { item in queueRow(item) }
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: 8) {
+                        ForEach(Array(vm.playlist.enumerated()), id: \.element.id) { i, item in
+                            queueCard(item)
+                                // Giống Clipboard: lần lượt nổi lên, trễ 45ms mỗi thẻ.
+                                .opacity(queueRevealed ? 1 : 0)
+                                .offset(y: queueRevealed ? 0 : 10)
+                                .scaleEffect(queueRevealed ? 1 : 0.96, anchor: .bottom)
+                                .animation(.spring(response: 0.42, dampingFraction: 0.86)
+                                    .delay(queueRevealed ? Double(min(i, 8)) * 0.045 : 0), value: queueRevealed)
+                        }
                     }
+                    .padding(.vertical, 3)   // chừa chỗ cho viền kính + hover khỏi bị gọt
+                    .padding(.horizontal, 10)
+                    .background(VerticalWheelToHorizontal())
                 }
+                .frame(height: 138)          // cố định = thẻ (~132) + đệm, không để khung co cắt thẻ
                 .scrollIndicators(.never)
-                .scrollBounceBehavior(.basedOnSize)
-                .edgeFade(.vertical, 24, leading: false)
+                .edgeFade(.horizontal, 22)
+                .onAppear {
+                    queueRevealed = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { queueRevealed = true }
+                }
+                .onDisappear { queueRevealed = false }
             }
         }
     }
 
-    private func queueRow(_ item: MediaListItem) -> some View {
-        Button { vm.playListItem(item) } label: {
-            HStack(spacing: 9) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 5, style: .continuous).fill(.white.opacity(0.06))
+    private func queueCard(_ item: MediaListItem) -> some View {
+        let hovering = hoveredQueueID == item.id
+        return Button { vm.playListItem(item) } label: {
+            VStack(alignment: .leading, spacing: 0) {
+                ZStack(alignment: .bottomTrailing) {
+                    Color.white.opacity(0.06)
                     if let s = item.thumbnailURL, let url = URL(string: s) {
-                        AsyncImage(url: url) { img in
-                            img.resizable().aspectRatio(contentMode: .fill)
-                        } placeholder: { Color.clear }
+                        Color.clear.overlay(
+                            AsyncImage(url: url) { img in
+                                img.resizable().scaledToFill()
+                            } placeholder: { Color.clear }
+                        ).clipped()
                     }
                     if item.isCurrent {
-                        Rectangle().fill(.black.opacity(0.35))
+                        Color.black.opacity(0.35)
                         Image(systemName: "speaker.wave.2.fill")
-                            .font(.system(size: 10, weight: .bold)).foregroundStyle(.white)
+                            .font(.system(size: 16, weight: .bold)).foregroundStyle(.white)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
+                    if let d = item.duration {
+                        Text(d).font(.system(size: 9.5, weight: .semibold).monospacedDigit())
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 5).padding(.vertical, 2)
+                            .background(Capsule().fill(.black.opacity(0.6)))
+                            .padding(5)
                     }
                 }
-                .frame(width: 48, height: 27)
-                .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
+                .frame(height: 84)
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .padding([.horizontal, .top], 4)
 
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(item.title).font(.system(size: 11, weight: item.isCurrent ? .semibold : .regular))
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(item.title).font(.system(size: 11.5, weight: item.isCurrent ? .semibold : .medium))
                         .foregroundStyle(item.isCurrent ? alcoveRed : .white.opacity(0.92))
                         .lineLimit(1)
-                    Text([item.channel, item.duration].compactMap { $0 }.joined(separator: " · "))
-                        .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.45)).lineLimit(1)
+                    if let c = item.channel {
+                        Text(c).font(.system(size: 10)).foregroundStyle(.white.opacity(0.45)).lineLimit(1)
+                    }
                 }
-                Spacer(minLength: 0)
+                .padding(.horizontal, 8).padding(.top, 6).padding(.bottom, 7)
             }
-            .padding(.vertical, 5)
-            .padding(.horizontal, 5)
-            .background {
-                RoundedRectangle(cornerRadius: 7, style: .continuous)
-                    .fill(.white.opacity(hoveredQueueID == item.id ? 0.09 : 0))
-            }
-            .contentShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+            .frame(width: 156)
+            .notchGlass(hover: hovering)
+            .contentShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
         .buttonStyle(CompactCtlStyle())
         .onHover { h in
@@ -1209,6 +1242,7 @@ private struct CompactCtlButton: View {
     let name: String
     let size: CGFloat
     var hitHeight: CGFloat = 30
+    var tint: Color = .white
     let action: () -> Void
     @State private var hovering = false
 
@@ -1222,7 +1256,7 @@ private struct CompactCtlButton: View {
                     .blur(radius: 4)
                 Image(systemName: name)
                     .font(.system(size: size, weight: .semibold))
-                    .foregroundStyle(.white.opacity(hovering ? 1 : 0.9))
+                    .foregroundStyle(tint.opacity(hovering ? 1 : 0.9))
             }
             // Generous invisible hit target so you don't have to nail the glyph.
             .frame(width: size + 16, height: hitHeight)

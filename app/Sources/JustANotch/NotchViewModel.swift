@@ -536,7 +536,7 @@ final class NotchViewModel: ObservableObject {
     let expandedWidth: CGFloat = 640
     let expandedHeight: CGFloat = 150
     // Taller window while the queue/playlist is open (list scrolls within).
-    let listExpandedHeight: CGFloat = 340
+    let listExpandedHeight: CGFloat = 372
     /// Chiều cao panel khi mở tab Lịch — co giãn theo số hàng tuần thực tế của tháng
     /// (mỗi hàng ~30px). 6 hàng = 322 (đủ chỗ, không cắt ngày); 5 hàng thấp hơn 30px…
     private let calendarRowSlot: CGFloat = 30
