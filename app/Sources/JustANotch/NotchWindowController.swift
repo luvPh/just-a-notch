@@ -62,6 +62,7 @@ final class NotchWindowController {
                 guard let vm else { return }
                 // Catcher phủ lõi notch nên phải thay luôn hành vi bấm island:
                 // đang mở shelf → thu shelf; đang expand → THU notch; còn lại → mở.
+                if vm.showingHUD { vm.openSourceApp(); return }   // pill: bấm thông báo → mở đúng nơi
                 if vm.shelfActive { vm.dismissShelf(); return }
                 if vm.breakActive { vm.dismissBreak(); return }
                 if vm.claudeAlert != nil { vm.openClaudeAlert(); return }

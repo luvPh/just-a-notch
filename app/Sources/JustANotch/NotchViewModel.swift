@@ -827,14 +827,6 @@ final class NotchViewModel: ObservableObject {
     /// sending app provided one (jumps straight to the conversation/section),
     /// otherwise just activate the app.
     func openNotification(_ record: NotificationRecord) {
-        // Ưu tiên bấm chính thông báo đó trong Notification Center → app gốc xử lý
-        // y như native (đúng cuộc trò chuyện/email). Không được thì dùng deep link / mở app.
-        NotificationClicker.click(record) { [weak self] ok in
-            if !ok { self?.openNotificationFallback(record) }
-        }
-    }
-
-    private func openNotificationFallback(_ record: NotificationRecord) {
         guard let link = record.deepLink else {
             openApp(bundleId: record.bundleId)
             return
