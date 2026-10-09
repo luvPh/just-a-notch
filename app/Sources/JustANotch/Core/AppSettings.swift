@@ -27,6 +27,11 @@ final class AppSettings: ObservableObject {
     @Published var showClipboard: Bool { didSet { d.set(showClipboard, forKey: "cfg.showClipboard") } }
     @Published var showTimer: Bool { didSet { d.set(showTimer, forKey: "cfg.showTimer") } }
     @Published var showLearn: Bool { didSet { d.set(showLearn, forKey: "cfg.showLearn") } }
+    @Published var showTools: Bool { didSet { d.set(showTools, forKey: "cfg.showTools") } }
+    /// Ánh nền + hiệu ứng của notch mở rộng đổi theo thời tiết (tính năng thêm, mặc định tắt).
+    /// Giao diện notch mở rộng: "dark" (mặc định, như cũ) · "light" (kính sáng) · "system".
+    @Published var appearanceMode: String { didSet { d.set(appearanceMode, forKey: "cfg.appearance") } }
+    @Published var weatherAmbient: Bool { didSet { d.set(weatherAmbient, forKey: "cfg.weatherAmbient") } }
     // MARK: Learn — notch tự bung 1 lượt học sau mỗi N phút.
     @Published var learnAutoPopup: Bool { didSet { d.set(learnAutoPopup, forKey: "cfg.learnAutoPopup") } }
     @Published var learnPopupMinutes: Int { didSet { d.set(learnPopupMinutes, forKey: "cfg.learnPopupMinutes") } }
@@ -144,6 +149,7 @@ final class AppSettings: ObservableObject {
             "cfg.showClipboard": true,
             "cfg.showTimer": true,
             "cfg.showLearn": true,
+            "cfg.showTools": true,
             "cfg.learnAutoPopup": true,
             "cfg.learnPopupMinutes": 15,
             "cfg.learnSound": true,
@@ -169,6 +175,9 @@ final class AppSettings: ObservableObject {
         showClipboard = d.bool(forKey: "cfg.showClipboard")
         showTimer = d.bool(forKey: "cfg.showTimer")
         showLearn = d.bool(forKey: "cfg.showLearn")
+        showTools = d.bool(forKey: "cfg.showTools")
+        weatherAmbient = d.bool(forKey: "cfg.weatherAmbient")
+        appearanceMode = d.string(forKey: "cfg.appearance") ?? "dark"
         learnAutoPopup = d.bool(forKey: "cfg.learnAutoPopup")
         learnPopupMinutes = d.integer(forKey: "cfg.learnPopupMinutes")
         learnSoundEnabled = d.bool(forKey: "cfg.learnSound")
@@ -183,7 +192,11 @@ final class AppSettings: ObservableObject {
         timerSoundEnabled = d.bool(forKey: "cfg.timerSoundOn")
         timerSoundName = d.string(forKey: "cfg.timerSound") ?? "Glass"
         timerVolume = d.double(forKey: "cfg.timerVolume")
-        timerPage = d.integer(forKey: "cfg.timerPage")
+        // Pomodoro + Chuỗi đã gộp thành "Nhịp": 4 trang cũ → 3 trang (đổi một lần).
+        let oldPage = d.integer(forKey: "cfg.timerPage")
+        let newPage = d.bool(forKey: "cfg.timerPageV2") ? oldPage : [0, 1, 1, 2][min(3, max(0, oldPage))]
+        timerPage = newPage
+        d.set(newPage, forKey: "cfg.timerPage"); d.set(true, forKey: "cfg.timerPageV2")
         claudeOn = d.bool(forKey: "cfg.claudeOn")
         claudeSoundOn = d.bool(forKey: "cfg.claudeSound")
         breakReminderOn = d.bool(forKey: "cfg.breakOn")

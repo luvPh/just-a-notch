@@ -10,6 +10,7 @@ struct NotchRootView: View {
     @ObservedObject private var timerPomodoro: TimerService
     @ObservedObject private var timerSequence: TimerService
     @ObservedObject private var settings = AppSettings.shared
+    @ObservedObject private var weather = WeatherStore.shared
 
     // Đồng hồ để hiển thị ở wing (ưu tiên cái đang chạy).
     private var timer: TimerService { vm.displayTimer }
@@ -17,12 +18,16 @@ struct NotchRootView: View {
     init(vm: NotchViewModel, initialTab: RailTab = .music) {
         _vm = ObservedObject(wrappedValue: vm)
         _railTab = State(initialValue: initialTab)
+        _prevTab = State(initialValue: initialTab)
         _timerSingle = ObservedObject(wrappedValue: vm.timerSingle)
         _timerPomodoro = ObservedObject(wrappedValue: vm.timerPomodoro)
         _timerSequence = ObservedObject(wrappedValue: vm.timerSequence)
     }
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @State private var railTab: RailTab = .music
+    @State private var prevTab: RailTab = .music
+    /// Tab đang mở trước khi bấm nút Cài đặt — bấm lại thì quay về đây.
+    @State private var tabBeforeSettings: RailTab = .music
     // Nút ⚙️ ở wing phải notch (tab Timer) mở panel cài đặt tổng.
     @State private var timerSettingsOpen = false
 
@@ -37,7 +42,8 @@ struct NotchRootView: View {
         if settings.showClipboard { t.append(.clipboard) }
         if settings.showTimer { t.append(.timer) }
         if settings.showLearn { t.append(.learn) }
-        t.append(.settings)
+        if settings.showTools { t.append(.tools) }
+        // Cài đặt không nằm trong vòng tab — mở bằng nút bánh răng ở góc phải header.
         return t
     }
     @State private var calMode: CalMode = .solar
@@ -96,28 +102,22 @@ struct NotchRootView: View {
                 .opacity(vm.screenHopHidden ? 0 : 1)
                 .offset(x: vm.centerXOffset, y: vm.pillMode ? vm.pillGap : 0)
                 .onHover { vm.hovering = vm.screenHopHidden ? false : $0 }
-                .animation(vm.hovering ? hoverSpring : closeSpring, value: vm.hovering)   // rời chuột: co về 1.0 không lố
-                // Mở ra được nảy nhẹ; THU VÀO luôn dùng closeSpring (không co lố).
-                .animation(vm.compactState == .reading ? revealSpring : closeSpring, value: vm.compactState)
-                .animation(vm.expanded ? openSpring : closeSpring, value: vm.expanded)
-                .animation(vm.shelfActive ? openSpring : closeSpring, value: vm.shelfActive)
-                .animation(vm.showList ? openSpring : closeSpring, value: vm.showList)
-                // Notch phình ra/thu lại mềm khi mở tab cao hơn (Lịch).
-                .animation(vm.panelWantsTall ? openSpring : closeSpring, value: vm.panelWantsTall)
-                // Đổi kích thước (tab, dải phình…): không nảy để không bao giờ co lố.
-                .animation(closeSpring, value: vm.surfaceHeight)
-                // Files mở rộng cả chiều ngang (ẩn sidebar) — phình mềm sang hai bên.
-                .animation(closeSpring, value: vm.surfaceWidth)
-                .animation(vm.showingHUD ? revealSpring : closeSpring, value: vm.showingHUD)
-                .animation(vm.launcherOpen ? openSpring : closeSpring, value: vm.launcherOpen)
-                .animation(vm.launcherFeature != nil ? openSpring : closeSpring, value: vm.launcherFeature)
-                .animation(vm.breakActive ? revealSpring : closeSpring, value: vm.breakActive)
-                .animation(vm.claudeAlert != nil ? revealSpring : closeSpring, value: vm.claudeAlert)
-                .animation(vm.claudeIndicatorVisible ? revealSpring : closeSpring, value: vm.claudeIndicatorVisible)
-                .animation(closeSpring, value: vm.claudeBadges.count)
+                .modifier(SurfaceAnimations(vm: vm, reduceMotion: reduceMotion))
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        // Kính hệ thống: khung cố định cả panel, chỉ mặt nạ chạy theo bề mặt (xem SurfaceGlass).
+        .background {
+            if glassActive, !Self.nativeGlass {
+                SurfaceGlass(width: vm.surfaceWidth, height: vm.surfaceHeight,
+                             offsetX: vm.centerXOffset, offsetY: vm.pillMode ? vm.pillGap : 0,
+                             scale: vm.hoverScale * vm.pillScale,
+                             bottom: vm.bottomRadius, inverse: vm.topRadius, top: vm.pillTopRadius)
+                    .opacity(vm.screenHopHidden ? 0 : 1)
+                    .modifier(SurfaceAnimations(vm: vm, reduceMotion: reduceMotion))
+                    .transition(.opacity)
+            }
+        }
         .onAppear { installKeyMonitor() }
         .onDisappear {
             if let m = keyMonitor { NSEvent.removeMonitor(m); keyMonitor = nil }
@@ -213,18 +213,76 @@ struct NotchRootView: View {
         guard tab != railTab else { return }
         withAnimation(openSpring) { railTab = tab }
         vm.panelWantsTall = (tab == .calendar || tab == .settings || (tab == .learn && learnHasContent))
-        vm.clipTabActive = (tab == .clipboard); vm.timerTabActive = (tab == .timer); vm.musicTabActive = (tab == .music)
+        vm.clipTabActive = (tab == .clipboard); vm.timerTabActive = (tab == .timer); vm.toolsTabActive = (tab == .tools); vm.musicTabActive = (tab == .music)
         vm.calTabActive = (tab == .calendar)
         vm.notifTabActive = (tab == .notifications)
+        vm.settingsTabActive = (tab == .settings)
         if vm.showList { withAnimation(closeSpring) { vm.showList = false } }
         vm.noteInteraction()
+    }
+
+    @Environment(\.colorScheme) private var systemScheme
+
+    /// Giao diện sáng đang được chọn (hoặc "Theo hệ thống" và hệ thống đang sáng).
+    private var lightUI: Bool {
+        switch settings.appearanceMode {
+        case "light": return true
+        case "system": return systemScheme == .light
+        default: return false
+        }
+    }
+    /// Kính sáng chỉ khi mở rộng (dạng notch) hoặc luôn (dạng pill); notch thu gọn giữ đen.
+    private var glassActive: Bool { lightUI && (vm.expanded || vm.pillMode) }
+
+    /// Có Liquid Glass thật (macOS 26+) không.
+    /// Cần cả SDK macOS 26 (Swift ≥ 6.2) lúc build lẫn macOS 26 lúc chạy.
+    private static var nativeGlass: Bool {
+        #if compiler(>=6.2)
+        if #available(macOS 26, *) { return true }
+        #endif
+        return false
+    }
+
+    @ViewBuilder private func nativeGlassSurface(_ shape: NotchShape) -> some View {
+        #if compiler(>=6.2)
+        if #available(macOS 26, *) {
+            Color.clear
+                .glassEffect(.regular, in: shape)
+                .overlay(alignment: .top) {
+                    NotchGlassBackdrop(pill: vm.pillMode, frosted: false,
+                                       coreWidth: vm.coreWidth, notchHeight: vm.notchHeight)
+                        .clipShape(shape)
+                }
+        }
+        #endif
     }
 
     private var surface: some View {
         let shape = NotchShape(bottom: vm.bottomRadius, inverse: vm.topRadius, top: vm.pillTopRadius)
         return ZStack(alignment: .top) {
-            shape.fill(.black)
-                .shadow(color: .black.opacity(0.5), radius: vm.expanded ? 26 : 10, y: vm.expanded ? 14 : 5)
+            if glassActive, Self.nativeGlass {
+                // macOS 26+: Liquid Glass thật của hệ thống, cắt đúng hình notch/pill.
+                nativeGlassSurface(shape)
+                    .shadow(color: Color(red: 0.16, green: 0.12, blue: 0.3).opacity(0.25),
+                            radius: vm.expanded ? 24 : 10, y: vm.expanded ? 12 : 5)
+                    .transition(.opacity)
+            } else if glassActive {
+                NotchGlassBackdrop(pill: vm.pillMode, coreWidth: vm.coreWidth, notchHeight: vm.notchHeight)
+                    // Không viền: chỉ một vệt sáng rất mảnh hắt ở mép trên (pill) rồi tắt hẳn.
+                    .overlay(alignment: .top) {
+                        LinearGradient(colors: [Color.white.opacity(0.55), Color.white.opacity(0)],
+                                       startPoint: .top, endPoint: .bottom)
+                            .frame(height: 10)
+                            .opacity(vm.pillMode ? 1 : 0)
+                    }
+                    .clipShape(shape)
+                    .shadow(color: Color(red: 0.16, green: 0.12, blue: 0.3).opacity(0.3),
+                            radius: vm.expanded ? 26 : 10, y: vm.expanded ? 14 : 5)
+                    .transition(.opacity)
+            } else {
+                shape.fill(.black)
+                    .shadow(color: .black.opacity(0.5), radius: vm.expanded ? 26 : 10, y: vm.expanded ? 14 : 5)
+            }
 
             // Ambient light cho thông báo: quầng màu toả từ đáy + một vệt sáng quét ngang.
             if let amb = notificationAmbient {
@@ -247,15 +305,28 @@ struct NotchRootView: View {
             } else if vm.expanded {
                 // Ambient light: mỗi tab một bộ màu toả nhẹ từ góc trái, gọn trong notch.
                 // Tab nhạc lấy màu từ ảnh bìa.
-                let amb = ambient(for: railTab)
-                RadialGradient(stops: [.init(color: amb.secondary.opacity(amb.strength), location: 0),
-                                       .init(color: amb.primary.opacity(amb.strength * 0.6), location: 0.4),
-                                       .init(color: .clear, location: 0.78)],
-                               center: amb.center, startRadius: 0, endRadius: 440)
-                    .animation(.easeInOut(duration: 0.6), value: railTab)
-                    .animation(.easeInOut(duration: 0.8), value: musicTint)
+                // Đổi tab: crossfade mềm — mọi lớp màu vẽ sẵn chồng nhau, chỉ animate opacity
+                // (gradient không nội suy màu được → đổi màu trực tiếp sẽ bị "rụp").
+                // Animation chỉ gắn vào opacity (`.animation(_:body:)`) — KHÔNG lan ra KHUNG,
+                // tránh khung giãn chậm hơn nhịp lò xo của notch → lộ viền đen.
+                let activeKey = weatherAmbient == nil ? railTab.rawValue : "weather"
+                let layers: [(String, Ambient)] = RailTab.allCases.map { ($0.rawValue, ambient(for: $0)) }
+                    + (weatherAmbient.map { [("weather", $0)] } ?? [])
+                ZStack {
+                    ForEach(layers, id: \.0) { key, amb in
+                        ambientGradient(amb)
+                            .animation(.easeInOut(duration: 0.9)) { content in
+                                content.opacity(key == activeKey ? 1 : 0)
+                            }
+                    }
+                }
                     .allowsHitTesting(false)
                     .transition(.opacity)
+                    .onAppear { if settings.weatherAmbient { weather.start() } }
+                if settings.weatherAmbient, let w = weather.now {
+                    WeatherAmbientLayer(kind: w.kind, isDay: w.isDay, reduceMotion: reduceMotion)
+                        .transition(.opacity)
+                }
                 player.transition(.blurFade)
             } else if vm.hasCompactContent || vm.launcherVisible || vm.bulge != nil {
                 // Launcher: bề mặt canh giữa notch, hàng wing bù lệch tâm để lõi camera
@@ -286,6 +357,9 @@ struct NotchRootView: View {
             }
         }
         .clipShape(shape)
+        // Kính sáng → nội dung dùng bảng màu sáng (ink = gần đen); notch đen → tối.
+        .environment(\.colorScheme, glassActive ? .light : .dark)
+        .animation(.easeInOut(duration: 0.35), value: glassActive)
         // Viền notch nhấp nháy chậm khi đóng + đang giữ file (mời hover mở shelf).
         // Đặt SAU clipShape để glow/nửa ngoài của nét không bị cắt.
         .overlay {
@@ -352,10 +426,10 @@ struct NotchRootView: View {
                 PixelCatSprite(reduceMotion: reduceMotion)
                 VStack(alignment: .leading, spacing: 1) {
                     Text("Đứng dậy nào").font(.system(size: 12, weight: .bold, design: .rounded))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.ink)
                     HStack(spacing: 3) {
                         Text("uống ngụm nước").font(.system(size: 10, weight: .medium))
-                            .foregroundStyle(.white.opacity(0.62))
+                            .foregroundStyle(.ink.opacity(0.62))
                         Image(systemName: "drop.fill").font(.system(size: 8, weight: .bold))
                             .foregroundStyle(Color(red: 0.42, green: 0.78, blue: 1.0))
                     }
@@ -374,7 +448,7 @@ struct NotchRootView: View {
                         .edgeFade(.horizontal, 10)
                     Text([t.artist, t.sourceAppName].compactMap { $0 }.joined(separator: " · "))
                         .font(.system(size: 10, weight: .medium))
-                        .foregroundStyle(.white.opacity(0.5)).lineLimit(1)
+                        .foregroundStyle(.ink.opacity(0.5)).lineLimit(1)
                 }
                 .padding(.horizontal, 20)
             }
@@ -393,7 +467,7 @@ struct NotchRootView: View {
                 .frame(width: 15, height: 15)
             Text("\(max(0, Int(timer.remaining / 60)))")
                 .font(.system(size: 9, weight: .bold, design: .rounded))
-                .foregroundStyle(.white)
+                .foregroundStyle(.ink)
         }
     }
 
@@ -420,7 +494,7 @@ struct NotchRootView: View {
                                             .font(.system(size: 7.5, weight: .heavy, design: .rounded))
                                             .foregroundStyle(.black)
                                             .frame(minWidth: 10, minHeight: 10)
-                                            .background(Circle().fill(.white.opacity(0.9)))
+                                            .background(Circle().fill(.ink.opacity(0.9)))
                                             .offset(x: 3, y: 2)
                                     }
                                 }
@@ -527,18 +601,18 @@ struct NotchRootView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
                 VStack(alignment: .leading, spacing: 2) {
                     Text(n.title.isEmpty ? n.appName : n.title)
-                        .font(.system(size: 12.5, weight: .bold)).foregroundStyle(.white).lineLimit(1)
+                        .font(.system(size: 12.5, weight: .bold)).foregroundStyle(.ink).lineLimit(1)
                     if !n.detailLine.isEmpty {
                         Text(n.detailLine)
-                            .font(.system(size: 11)).foregroundStyle(.white.opacity(0.62)).lineLimit(1)
+                            .font(.system(size: 11)).foregroundStyle(.ink.opacity(0.62)).lineLimit(1)
                     }
                 }
                 Spacer(minLength: 0)
             }
         }
-        .padding(.top, vm.pillMode ? 0 : vm.notchHeight + 4)
+        // Canh giữa dọc: notch → giữa phần dưới lõi camera; pill → giữa cả khối.
+        .padding(.top, vm.pillMode ? 0 : vm.notchHeight)
         .padding(.horizontal, 18)
-        .padding(.bottom, 8)
         .frame(width: vm.hudWidth, height: vm.hudHeight, alignment: .leading)
     }
 
@@ -553,28 +627,39 @@ struct NotchRootView: View {
                     if !vm.pillMode {
                         TabWheel(tabs: visibleTabs, selection: $railTab, reduceMotion: reduceMotion)
                             .frame(width: headerSideWidth, height: vm.notchHeight)
+                            .modifier(WheelDim(on: railTab == .settings))
                     }
                     Spacer(minLength: 0)
-                    HStack(spacing: 8) {
+                    ZStack(alignment: .trailing) {
                         Text(railTab.title)
                             .font(.system(size: 12, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.6))
+                            .foregroundStyle(.ink.opacity(0.6))
                             .lineLimit(1)
-                            .id(railTab).transition(.opacity)
+                            .id(railTab).transition(tabSwap(distance: 10))
                     }
+                    NotchIconButton(symbol: "gearshape.fill",
+                                    help: railTab == .settings ? "Đóng cài đặt" : "Cài đặt",
+                                    active: railTab == .settings) {
+                        if railTab == .settings { selectTab(tabBeforeSettings) }
+                        else { tabBeforeSettings = railTab; selectTab(.settings) }
+                    }
+                    .padding(.leading, 6)
                 }
                 if vm.pillMode {
                     TabWheel(tabs: visibleTabs, selection: $railTab, reduceMotion: reduceMotion)
                         .frame(width: 150, height: vm.notchHeight)
+                        .modifier(WheelDim(on: railTab == .settings))
                 }
             }
             .padding(.top, vm.pillMode ? 6 : 0)
             .frame(height: vm.notchHeight)
             .onChange(of: railTab) { _, newTab in
+                prevTab = newTab
                 vm.panelWantsTall = (newTab == .calendar || newTab == .settings || (newTab == .learn && learnHasContent))
-                vm.clipTabActive = (newTab == .clipboard); vm.timerTabActive = (newTab == .timer); vm.musicTabActive = (newTab == .music)
+                vm.clipTabActive = (newTab == .clipboard); vm.timerTabActive = (newTab == .timer); vm.toolsTabActive = (newTab == .tools); vm.musicTabActive = (newTab == .music)
                 vm.calTabActive = (newTab == .calendar)
                 vm.notifTabActive = (newTab == .notifications)
+                vm.settingsTabActive = (newTab == .settings)
                 // Rời music → thu queue để notch co về chiều cao mặc định.
                 if vm.showList { withAnimation(closeSpring) { vm.showList = false } }
             }
@@ -582,9 +667,15 @@ struct NotchRootView: View {
             // Player controls stay fixed at the top; only the queue list scrolls
             // (the list has its own ScrollView). Fill the fixed window height so
             // that inner ScrollView gets a bounded height to scroll within.
-            content
-                .id(railTab)                 // re-run the transition on tab change
-                .transition(.opacity)        // mờ nhanh, không blur/scale → không "gắt"
+            // ZStack: tab cũ và mới CHỒNG lên nhau lúc chuyển (trong VStack chúng bị xếp
+            // nối đuôi → tab mới bị đẩy xuống rồi giật lên).
+            ZStack(alignment: .topLeading) {
+                content
+                    .id(railTab)                 // re-run the transition on tab change
+                    // Trượt nhẹ theo chiều xoay của chip + mờ, cùng đường cong ease-in-out.
+                    .transition(tabSwap(distance: 56))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            }
                 .padding(.top, 8)
                 .padding(.bottom, 8)
                 .frame(maxHeight: .infinity, alignment: .top)
@@ -599,8 +690,6 @@ struct NotchRootView: View {
                     }
                     .padding(.horizontal, -24).padding(.top, -24)
                 )
-                .animation(reduceMotion ? .easeInOut(duration: 0.18) : .spring(response: 0.34, dampingFraction: 0.82),
-                           value: railTab)
         }
         .padding(.horizontal, 24)
         .padding(.bottom, 6)
@@ -624,9 +713,14 @@ struct NotchRootView: View {
         case .calendar:      calendarPanel
         case .clipboard:     ClipboardPanel(store: vm.clipboard)
         case .learn:         LearnPanel(store: vm.learn)
-        case .timer:         TimerCarousel(single: vm.timerSingle, pomodoro: vm.timerPomodoro,
+        case .timer:         TimerCarousel(single: vm.timerSingle,
                                            sequence: vm.timerSequence, settings: AppSettings.shared,
-                                           showingSettings: $timerSettingsOpen, tall: $vm.timerEditorTall)
+                                           showingSettings: $timerSettingsOpen, tall: $vm.timerEditorTall,
+                                           onPreviewBreak: {
+                                               vm.collapse()
+                                               DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { vm.showBreak() }
+                                           })
+        case .tools:         ToolsPanel(vm: vm, reduceMotion: reduceMotion)
         case .settings:      DeferredMount { SettingsPanel(settings: settings, vm: vm) }
         default:             placeholderPanel(railTab)
         }
@@ -646,8 +740,49 @@ struct NotchRootView: View {
                          : String(format: "%d:%02d", s / 60, s % 60)
     }
 
+    private func ambientGradient(_ amb: Ambient) -> some View {
+        RadialGradient(stops: [.init(color: amb.secondary.opacity(amb.strength), location: 0),
+                               .init(color: amb.primary.opacity(amb.strength * 0.6), location: 0.4),
+                               .init(color: .clear, location: 0.78)],
+                       center: amb.center, startRadius: 0, endRadius: 440)
+    }
+
+    /// Chiều xoay của lần đổi tab đang diễn ra: +1 sang phải, −1 sang trái (đường ngắn nhất).
+    /// `prevTab` chỉ cập nhật SAU khi đổi → trong khung hình đổi tab vẫn so được tab cũ.
+    private var tabDirection: CGFloat {
+        let tabs = visibleTabs
+        guard let a = tabs.firstIndex(of: prevTab), let b = tabs.firstIndex(of: railTab), a != b else { return 1 }
+        var d = b - a
+        if d > tabs.count / 2 { d -= tabs.count }
+        if d < -tabs.count / 2 { d += tabs.count }
+        return d > 0 ? 1 : -1
+    }
+
+    /// Nội dung tab mới trượt vào từ phía chiều xoay, tab cũ trượt ra phía ngược lại;
+    /// kèm mờ + blur nhẹ. Animation gắn vào transition → không kéo khung notch theo.
+    private func tabSwap(distance: CGFloat) -> AnyTransition {
+        if reduceMotion { return .opacity.animation(.easeInOut(duration: 0.15)) }
+        let d = distance * tabDirection
+        // Tab cũ rút đi NHANH (không nhoè) rồi tab mới mới trượt vào → không chồng hai lớp đục.
+        return .asymmetric(
+            insertion: .modifier(active: TabSwapFx(x: d, blur: 0, opacity: 0, scale: 0.985),
+                                 identity: TabSwapFx(x: 0, blur: 0, opacity: 1, scale: 1))
+                .animation(.timingCurve(0.25, 0.1, 0.1, 1, duration: 0.55).delay(0.06)),
+            // Tab cũ chỉ mờ tại chỗ — không xê dịch (dịch ngang trong 0.14s trông như bị giật).
+            removal: .modifier(active: TabSwapFx(x: 0, blur: 0, opacity: 0, scale: 1),
+                               identity: TabSwapFx(x: 0, blur: 0, opacity: 1, scale: 1))
+                .animation(.easeIn(duration: 0.14)))
+    }
+
     private struct Ambient {
         var primary: Color, secondary: Color, strength: Double, center: UnitPoint
+    }
+
+    /// Bật "Notch theo thời tiết" → mọi tab dùng màu thời tiết hiện tại.
+    private var weatherAmbient: Ambient? {
+        guard settings.weatherAmbient, let w = weather.now else { return nil }
+        let (p, s) = w.kind.ambient(day: w.isDay)
+        return .init(primary: p, secondary: s, strength: 0.26, center: UnitPoint(x: 0.85, y: 0.1))
     }
 
     /// Bộ màu ambient cho từng tab.
@@ -662,6 +797,7 @@ struct NotchRootView: View {
         case .calendar:      return .init(primary: NotchTheme.accent,  secondary: c(1.00, 0.72, 0.40), strength: 0.22, center: corner)
         case .clipboard:     return .init(primary: c(0.55, 0.45, 1.00), secondary: c(0.92, 0.50, 0.85), strength: 0.20, center: corner)
         case .timer:         return .init(primary: NotchTheme.accent,  secondary: c(1.00, 0.55, 0.30), strength: 0.24, center: corner)
+        case .tools:         return .init(primary: c(1.00, 0.70, 0.36), secondary: c(0.93, 0.56, 0.43), strength: 0.20, center: corner)
         case .learn:         return .init(primary: c(0.30, 0.75, 0.55), secondary: c(0.30, 0.70, 0.95), strength: 0.22, center: corner)
         case .settings:      return .init(primary: c(0.55, 0.60, 0.72), secondary: c(0.70, 0.74, 0.85), strength: 0.14, center: corner)
         }
@@ -682,7 +818,7 @@ struct NotchRootView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(vm.track?.title ?? "Chưa phát gì")
                                 .font(.system(size: 17, weight: .bold)).tracking(-0.2)
-                                .foregroundStyle(.white).lineLimit(1)
+                                .foregroundStyle(.ink).lineLimit(1)
                             Text([vm.track?.artist, vm.track?.sourceAppName].compactMap { $0 }.joined(separator: " · "))
                                 .font(.system(size: 12.5)).foregroundStyle(NotchTheme.secondaryText).lineLimit(1)
                         }
@@ -701,7 +837,7 @@ struct NotchRootView: View {
                                 Text("-" + Self.clock((1 - p) * d))
                             }
                             .font(.system(size: 10, weight: .semibold).monospacedDigit())
-                            .foregroundStyle(.white.opacity(0.45))
+                            .foregroundStyle(.ink.opacity(0.45))
                         }
                     }
                     musicTransport.frame(height: 38)
@@ -724,14 +860,14 @@ struct NotchRootView: View {
                 .frame(width: side, height: side)
                 .overlay {
                     RoundedRectangle(cornerRadius: r, style: .continuous)
-                        .strokeBorder(.white.opacity(0.14), lineWidth: 0.6)
+                        .strokeBorder(.ink.opacity(0.14), lineWidth: 0.6)
                 }
                 .overlay {
                     ZStack {
                         RoundedRectangle(cornerRadius: r, style: .continuous).fill(.black.opacity(artHover ? 0.35 : 0))
                         Image(systemName: "arrow.up.forward.app.fill")
                             .font(.system(size: 22, weight: .semibold))
-                            .foregroundStyle(.white.opacity(artHover ? 0.95 : 0))
+                            .foregroundStyle(.ink.opacity(artHover ? 0.95 : 0))
                     }
                 }
                 // Bóng đổ gọn, sắc — không quầng blur.
@@ -781,7 +917,7 @@ struct NotchRootView: View {
                 }
                 Spacer(minLength: 0)
                 // Bật: glyph đỏ trên nền viên thuốc mờ (thay cho list.bullet.circle.fill trông cục).
-                CompactCtlButton(name: "list.bullet", size: 14, tint: vm.showList ? alcoveRed : .white) {
+                CompactCtlButton(name: "list.bullet", size: 14, tint: vm.showList ? alcoveRed : .ink) {
                     withAnimation(vm.showList ? closeSpring : revealSpring) { vm.toggleList() }
                 }
                 .background {
@@ -798,19 +934,19 @@ struct NotchRootView: View {
     // The header + player controls above stay fixed; only the rows scroll here.
     @ViewBuilder private var queueList: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Divider().overlay(.white.opacity(0.10))
+            Divider().overlay(.ink.opacity(0.10))
             HStack {
                 Text("Up Next").font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.55))
+                    .foregroundStyle(.ink.opacity(0.55))
                 Spacer()
                 if !vm.playlist.isEmpty {
                     Text("\(vm.playlist.count)").font(.system(size: 11, weight: .medium))
-                        .foregroundStyle(.white.opacity(0.35))
+                        .foregroundStyle(.ink.opacity(0.35))
                 }
             }
             if vm.playlist.isEmpty {
                 Text("Không có danh sách\n(mở video YouTube có playlist / up-next)")
-                    .font(.system(size: 11)).foregroundStyle(.white.opacity(0.4))
+                    .font(.system(size: 11)).foregroundStyle(.ink.opacity(0.4))
                     .padding(.vertical, 6)
             } else {
                 ScrollView(.horizontal) {
@@ -846,7 +982,7 @@ struct NotchRootView: View {
         return Button { vm.playListItem(item) } label: {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .bottomTrailing) {
-                    Color.white.opacity(0.06)
+                    Color.ink.opacity(0.06)
                     if let s = item.thumbnailURL, let url = URL(string: s) {
                         Color.clear.overlay(
                             AsyncImage(url: url) { img in
@@ -857,12 +993,12 @@ struct NotchRootView: View {
                     if item.isCurrent {
                         Color.black.opacity(0.35)
                         Image(systemName: "speaker.wave.2.fill")
-                            .font(.system(size: 16, weight: .bold)).foregroundStyle(.white)
+                            .font(.system(size: 16, weight: .bold)).foregroundStyle(.ink)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                     if let d = item.duration {
                         Text(d).font(.system(size: 9.5, weight: .semibold).monospacedDigit())
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.ink)
                             .padding(.horizontal, 5).padding(.vertical, 2)
                             .background(Capsule().fill(.black.opacity(0.6)))
                             .padding(5)
@@ -874,10 +1010,10 @@ struct NotchRootView: View {
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(item.title).font(.system(size: 11.5, weight: item.isCurrent ? .semibold : .medium))
-                        .foregroundStyle(item.isCurrent ? alcoveRed : .white.opacity(0.92))
+                        .foregroundStyle(item.isCurrent ? alcoveRed : .ink.opacity(0.92))
                         .lineLimit(1)
                     if let c = item.channel {
-                        Text(c).font(.system(size: 10)).foregroundStyle(.white.opacity(0.45)).lineLimit(1)
+                        Text(c).font(.system(size: 10)).foregroundStyle(.ink.opacity(0.45)).lineLimit(1)
                     }
                 }
                 .padding(.horizontal, 8).padding(.top, 6).padding(.bottom, 7)
@@ -899,12 +1035,12 @@ struct NotchRootView: View {
             HStack(spacing: 10) {
                 Image(systemName: tab.icon)
                     .font(.system(size: 15, weight: .semibold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.ink)
                     .frame(width: 36, height: 36)
-                    .background(Circle().fill(.white.opacity(0.08)))
+                    .background(Circle().fill(.ink.opacity(0.08)))
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(tab.title).font(.system(size: 13, weight: .bold)).foregroundStyle(.white)
-                    Text("Coming soon").font(.system(size: 11)).foregroundStyle(.white.opacity(0.5))
+                    Text(tab.title).font(.system(size: 13, weight: .bold)).foregroundStyle(.ink)
+                    Text("Coming soon").font(.system(size: 11)).foregroundStyle(.ink.opacity(0.5))
                 }
                 Spacer(minLength: 0)
             }
@@ -957,7 +1093,7 @@ struct NotchRootView: View {
                             Text("Thu gọn \(count) thông báo").font(.system(size: 9.5, weight: .medium))
                             Spacer(minLength: 0)
                         }
-                        .foregroundStyle(.white.opacity(0.45))
+                        .foregroundStyle(.ink.opacity(0.45))
                         .padding(.horizontal, 8).padding(.vertical, 3)
                         .contentShape(Rectangle())
                     }
@@ -977,15 +1113,15 @@ struct NotchRootView: View {
                                     .font(.system(size: 9.5, weight: .bold))
                                     .foregroundStyle(.black)
                                     .frame(minWidth: 16, minHeight: 16)
-                                    .background(Circle().fill(.white.opacity(0.92)))
+                                    .background(Circle().fill(.ink.opacity(0.92)))
                                     .padding(6)
                             }
                         RoundedRectangle(cornerRadius: 4, style: .continuous)
-                            .fill(.white.opacity(0.10))
+                            .fill(.ink.opacity(0.10))
                             .frame(height: 4).padding(.horizontal, 10)
                         if count > 2 {
                             RoundedRectangle(cornerRadius: 4, style: .continuous)
-                                .fill(.white.opacity(0.05))
+                                .fill(.ink.opacity(0.05))
                                 .frame(height: 4).padding(.horizontal, 20)
                         }
                     }
@@ -1016,15 +1152,15 @@ struct NotchRootView: View {
                 HStack(alignment: .firstTextBaseline, spacing: 6) {
                     SlidingText(text: rec.title.isEmpty ? rec.appName : rec.title,
                                 font: .system(size: 11.5, weight: .semibold),
-                                color: .white.opacity(0.92), loops: loops, lineHeight: 15)
+                                color: .ink.opacity(0.92), loops: loops, lineHeight: 15)
                     Text(Self.relativeTime(rec.date))
-                        .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
+                        .font(.system(size: 9.5)).foregroundStyle(.ink.opacity(0.35))
                         .fixedSize()
                 }
                 if !rec.detailLine.isEmpty {
                     SlidingText(text: rec.detailLine,
                                 font: .system(size: 10.5, weight: .regular),
-                                color: .white.opacity(0.5), loops: loops, lineHeight: 14)
+                                color: .ink.opacity(0.5), loops: loops, lineHeight: 14)
                 }
             }
         }
@@ -1042,9 +1178,9 @@ struct NotchRootView: View {
     private var notificationsPermissionPrompt: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Cần Full Disk Access")
-                .font(.system(size: 13, weight: .bold)).foregroundStyle(.white)
+                .font(.system(size: 13, weight: .bold)).foregroundStyle(.ink)
             Text("Để hiện thông báo hệ thống, cấp quyền Full Disk Access cho Just a Notch trong System Settings.")
-                .font(.system(size: 11)).foregroundStyle(.white.opacity(0.55)).fixedSize(horizontal: false, vertical: true)
+                .font(.system(size: 11)).foregroundStyle(.ink.opacity(0.55)).fixedSize(horizontal: false, vertical: true)
             Button {
                 if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles") {
                     NSWorkspace.shared.open(url)
@@ -1053,7 +1189,7 @@ struct NotchRootView: View {
                 Text("Mở System Settings")
                     .font(.system(size: 11, weight: .semibold)).foregroundStyle(.black)
                     .padding(.horizontal, 12).padding(.vertical, 6)
-                    .background(Capsule().fill(.white.opacity(0.9)))
+                    .background(Capsule().fill(.ink.opacity(0.9)))
             }
             .buttonStyle(.plain)
         }
@@ -1071,7 +1207,7 @@ struct NotchRootView: View {
     // Bright hairline between rail and body (brighter in the middle).
     private var divider: some View {
         Capsule()
-            .fill(LinearGradient(colors: [.white.opacity(0.02), .white.opacity(0.26), .white.opacity(0.02)],
+            .fill(LinearGradient(colors: [.ink.opacity(0.02), .ink.opacity(0.26), .ink.opacity(0.02)],
                                  startPoint: .top, endPoint: .bottom))
             .frame(width: 1).frame(maxHeight: .infinity)
     }
@@ -1158,9 +1294,9 @@ struct NotchRootView: View {
             let cx = r + CGFloat(level) * usable
             let d: CGFloat = dragging ? 10 : 7
             ZStack(alignment: .leading) {
-                Capsule().fill(.white.opacity(0.12)).frame(height: 3)
-                Capsule().fill(.white.opacity(0.75)).frame(width: max(3, cx), height: 3)
-                Circle().fill(.white.opacity(0.9)).frame(width: d, height: d)
+                Capsule().fill(.ink.opacity(0.12)).frame(height: 3)
+                Capsule().fill(.ink.opacity(0.75)).frame(width: max(3, cx), height: 3)
+                Circle().fill(.ink.opacity(0.9)).frame(width: d, height: d)
                     .offset(x: cx - d / 2)
             }
             .frame(maxHeight: .infinity, alignment: .center)
@@ -1202,9 +1338,9 @@ struct NotchRootView: View {
             let cx = r + progress * usable           // thumb centre, always in [r, w-r]
             let d: CGFloat = dragging ? 13 : 9
             ZStack(alignment: .leading) {
-                Capsule().fill(.white.opacity(0.14)).frame(height: 3)
-                Capsule().fill(.white).frame(width: max(3, cx), height: 3)
-                Circle().fill(.white).frame(width: d, height: d)
+                Capsule().fill(.ink.opacity(0.14)).frame(height: 3)
+                Capsule().fill(.ink).frame(width: max(3, cx), height: 3)
+                Circle().fill(.ink).frame(width: d, height: d)
                     .shadow(color: .black.opacity(0.45), radius: 2, y: 1)
                     .offset(x: cx - d / 2)
             }
@@ -1242,7 +1378,7 @@ private struct CompactCtlButton: View {
     let name: String
     let size: CGFloat
     var hitHeight: CGFloat = 30
-    var tint: Color = .white
+    var tint: Color = .ink
     let action: () -> Void
     @State private var hovering = false
 
@@ -1250,7 +1386,7 @@ private struct CompactCtlButton: View {
         Button(action: action) {
             ZStack {
                 Circle()
-                    .fill(.white.opacity(hovering ? 0.18 : 0))
+                    .fill(.ink.opacity(hovering ? 0.18 : 0))
                     .frame(width: 26, height: 26)
                     .scaleEffect(hovering ? 1 : 0.6)
                     .blur(radius: 4)
@@ -1282,7 +1418,7 @@ private struct CompactCtlStyle: ButtonStyle {
 // MARK: - Rail tabs
 
 enum RailTab: String, CaseIterable, Identifiable {
-    case music, notifications, calendar, clipboard, timer, learn, settings
+    case music, notifications, calendar, clipboard, timer, learn, tools, settings
 
     var id: String { rawValue }
 
@@ -1293,6 +1429,7 @@ enum RailTab: String, CaseIterable, Identifiable {
         case .calendar:      return "calendar"
         case .clipboard:     return "doc.on.clipboard"
         case .timer:         return "timer"
+        case .tools:         return "square.grid.2x2.fill"
         case .learn:         return "graduationcap.fill"
         case .settings:      return "gearshape.fill"
         }
@@ -1305,6 +1442,7 @@ enum RailTab: String, CaseIterable, Identifiable {
         case .calendar:      return "Lịch"
         case .clipboard:     return "Clipboard"
         case .timer:         return "Hẹn giờ"
+        case .tools:         return "Tiện ích"
         case .learn:         return "Học"
         case .settings:      return "Cài đặt"
         }
@@ -1321,9 +1459,9 @@ private struct WingGearButton: View {
         Button(action: action) {
             Image(systemName: open ? "xmark" : "gearshape.fill")
                 .font(.system(size: 13, weight: .semibold))          // 12 → 13 (~+10%)
-                .foregroundStyle(.white.opacity(hovering ? 1 : 0.7))
+                .foregroundStyle(.ink.opacity(hovering ? 1 : 0.7))
                 .frame(width: 26, height: 26)                        // 24 → 26 (~+10%)
-                .background(Circle().fill(.white.opacity(hovering ? 0.16 : 0.08)))
+                .background(Circle().fill(.ink.opacity(hovering ? 0.16 : 0.08)))
                 .scaleEffect(hovering ? 1.12 : 1.0)
         }
         .buttonStyle(.plain)
@@ -1449,15 +1587,15 @@ struct ThemeCarousel: View {
     private func icon(_ tab: RailTab, focus: Double) -> some View {
         let pill: Double = max(0, (focus - 0.62) / 0.38)          // only the centred item lights up
         let scale: CGFloat = reduceMotion ? 1 : CGFloat(0.82 + 0.18 * focus)
-        let tint: Color = pill > 0.5 ? Color.black : Color.white.opacity(0.32 + 0.4 * focus)
+        let tint: Color = pill > 0.5 ? Color.inkInverse : Color.ink.opacity(0.32 + 0.4 * focus)
         let selfOpacity: Double = reduceMotion ? (focus > 0.5 ? 1 : 0.45) : (0.45 + 0.55 * focus)
         return Image(systemName: tab.icon)
             .font(.system(size: 13, weight: .semibold))
             .foregroundStyle(tint)
             .frame(width: itemSize, height: itemSize)
             .background(
-                Circle().fill(.white).opacity(pill)
-                    .shadow(color: .white.opacity(0.9 * pill), radius: 2.5 * pill)   // subtle white glow (kept tight so it doesn't clip on the notch edge)
+                Circle().fill(.ink).opacity(pill)
+                    .shadow(color: .ink.opacity(0.9 * pill), radius: 2.5 * pill)   // subtle white glow (kept tight so it doesn't clip on the notch edge)
             )
             .scaleEffect(scale)
             .opacity(selfOpacity)
@@ -1535,6 +1673,7 @@ struct TabWheel: View {
     @State private var vIndex = 0
     @State private var acc: CGFloat = 0
     @State private var cooling = false
+    @State private var stretch = false
 
     private let slot: CGFloat = 26
     private let reach = 2   // số tab hiện mỗi bên
@@ -1545,6 +1684,12 @@ struct TabWheel: View {
         GeometryReader { geo in
             let cx = geo.size.width / 2, cy = geo.size.height / 2
             ZStack {
+                // Viên trắng cố định ở giữa: hơi "giãn" ngang khi đang xoay (cảm giác quán tính).
+                Circle().fill(Color.ink)
+                    .frame(width: 26, height: 26)
+                    .scaleEffect(x: stretch ? 1.22 : 1, y: stretch ? 0.92 : 1)
+                    .shadow(color: .ink.opacity(0.35), radius: 3)
+                    .position(x: cx, y: cy)
                 ForEach((vIndex - reach - 1)...(vIndex + reach + 1), id: \.self) { vi in
                     cell(vi).position(x: cx + CGFloat(vi - vIndex) * slot, y: cy)
                 }
@@ -1573,26 +1718,35 @@ struct TabWheel: View {
         let on: Bool = vi == vIndex
         let visible: Bool = dist <= CGFloat(reach)
         Button { rotate(to: vi) } label: {
+            // Viên trắng đứng yên ở giữa (vẽ riêng); icon chỉ đổi màu khi trượt vào/ra.
             Image(systemName: tab.icon)
-                .font(.system(size: on ? 12 : 11, weight: .semibold))
-                .foregroundStyle(on ? Color.black : Color.white.opacity(0.7))
-                .frame(width: on ? 26 : 22, height: on ? 26 : 22)
-                .background(Circle().fill(on ? Color.white : Color.clear))
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(on ? Color.inkInverse : Color.ink.opacity(0.7))
+                .frame(width: 26, height: 26)
                 .contentShape(Circle())
         }
         .buttonStyle(.plain)
         .help(tab.title)
         .scaleEffect(1 - 0.14 * min(dist, 3))
+        .blur(radius: reduceMotion ? 0 : 0.6 * max(0, dist - 1))
         .opacity(visible ? 1 - 0.32 * Double(dist) : 0)
         .allowsHitTesting(visible)
     }
 
+    /// Ease-in-out mềm (kiểu iOS): tăng tốc êm, hãm êm, không nảy.
     private var anim: Animation {
-        reduceMotion ? .easeInOut(duration: 0.15) : .spring(response: 0.32, dampingFraction: 0.8)
+        reduceMotion ? .easeInOut(duration: 0.15) : .timingCurve(0.65, 0, 0.35, 1, duration: 0.46)
     }
 
     private func rotate(to vi: Int) {
+        guard vi != vIndex else { return }
         withAnimation(anim) { vIndex = vi }
+        if !reduceMotion {
+            withAnimation(.easeOut(duration: 0.16)) { stretch = true }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.16) {
+                withAnimation(.spring(response: 0.38, dampingFraction: 0.62)) { stretch = false }
+            }
+        }
         selection = wrap(vi)
     }
 
@@ -1619,7 +1773,7 @@ private struct SkipButton: View {
             // Kiểu << >> trần, không nền tròn: hover sáng hẳn + phóng nhẹ.
             Image(systemName: symbol)
                 .font(.system(size: 11, weight: .semibold))   // 18 → 11 (−40%)
-                .foregroundStyle(.white.opacity(hover ? 1 : 0.8))
+                .foregroundStyle(.ink.opacity(hover ? 1 : 0.8))
                 .frame(width: 34, height: 34)
                 .scaleEffect(hover ? 1.12 : 1)
                 .contentShape(Rectangle())
@@ -1633,6 +1787,23 @@ private struct SkipButton: View {
 
 /// Dựng nội dung nặng SAU khi hiệu ứng chuyển tab chạy xong (~0.2s) rồi mờ vào —
 /// tránh khựng giữa lúc vuốt (việc dựng nhiều control AppKit chen vào khung hình).
+/// Đang mở Cài đặt → vòng chip mờ + hơi nhoè, nhưng vẫn bấm được để quay lại tab.
+private struct WheelDim: ViewModifier {
+    let on: Bool
+    func body(content: Content) -> some View {
+        content.animation(.easeInOut(duration: 0.3)) {
+            $0.opacity(on ? 0.35 : 1).saturation(on ? 0 : 1).blur(radius: on ? 0.8 : 0)
+        }
+    }
+}
+
+private struct TabSwapFx: ViewModifier {
+    let x: CGFloat, blur: CGFloat, opacity: Double, scale: CGFloat
+    func body(content: Content) -> some View {
+        content.offset(x: x).scaleEffect(scale).blur(radius: blur).opacity(opacity)
+    }
+}
+
 struct DeferredMount<Content: View>: View {
     @ViewBuilder let content: () -> Content
     @State private var ready = false
@@ -1681,5 +1852,49 @@ struct AmbientSweep: View {
         guard !reduceMotion else { return }
         withAnimation(.easeInOut(duration: 3.5).repeatForever(autoreverses: true)) { breathe = true }
         withAnimation(.easeInOut(duration: 9).repeatForever(autoreverses: true)) { drift = true }
+    }
+}
+
+/// Chuỗi hiệu ứng của bề mặt notch — dùng chung cho `surface` và lớp kính gốc
+/// (`SurfaceGlass`) để hai lớp chạy đồng bộ khung-theo-khung.
+private struct SurfaceAnimations: ViewModifier {
+    @ObservedObject var vm: NotchViewModel
+    let reduceMotion: Bool
+
+    private var openSpring: Animation {
+        reduceMotion ? .easeInOut(duration: 0.22) : .spring(response: 0.5, dampingFraction: 0.8)
+    }
+    /// Thu vào: lò xo KHÔNG nảy (damping 1) — tránh notch co lố nhỏ hơn camera rồi bật lại.
+    private var closeSpring: Animation {
+        reduceMotion ? .easeInOut(duration: 0.2) : .spring(response: 0.42, dampingFraction: 1)
+    }
+    private var revealSpring: Animation {
+        reduceMotion ? .easeInOut(duration: 0.2) : .spring(response: 0.42, dampingFraction: 0.74)
+    }
+    private var hoverSpring: Animation {
+        reduceMotion ? .easeInOut(duration: 0.2) : .spring(response: 0.4, dampingFraction: 0.78)
+    }
+
+    func body(content: Content) -> some View {
+        content
+            .animation(vm.hovering ? hoverSpring : closeSpring, value: vm.hovering)   // rời chuột: co về 1.0 không lố
+            // Mở ra được nảy nhẹ; THU VÀO luôn dùng closeSpring (không co lố).
+            .animation(vm.compactState == .reading ? revealSpring : closeSpring, value: vm.compactState)
+            .animation(vm.expanded ? openSpring : closeSpring, value: vm.expanded)
+            .animation(vm.shelfActive ? openSpring : closeSpring, value: vm.shelfActive)
+            .animation(vm.showList ? openSpring : closeSpring, value: vm.showList)
+            // Notch phình ra/thu lại mềm khi mở tab cao hơn (Lịch).
+            .animation(vm.panelWantsTall ? openSpring : closeSpring, value: vm.panelWantsTall)
+            // Đổi kích thước (tab, dải phình…): không nảy để không bao giờ co lố.
+            .animation(closeSpring, value: vm.surfaceHeight)
+            // Files mở rộng cả chiều ngang (ẩn sidebar) — phình mềm sang hai bên.
+            .animation(closeSpring, value: vm.surfaceWidth)
+            .animation(vm.showingHUD ? revealSpring : closeSpring, value: vm.showingHUD)
+            .animation(vm.launcherOpen ? openSpring : closeSpring, value: vm.launcherOpen)
+            .animation(vm.launcherFeature != nil ? openSpring : closeSpring, value: vm.launcherFeature)
+            .animation(vm.breakActive ? revealSpring : closeSpring, value: vm.breakActive)
+            .animation(vm.claudeAlert != nil ? revealSpring : closeSpring, value: vm.claudeAlert)
+            .animation(vm.claudeIndicatorVisible ? revealSpring : closeSpring, value: vm.claudeIndicatorVisible)
+            .animation(closeSpring, value: vm.claudeBadges.count)
     }
 }

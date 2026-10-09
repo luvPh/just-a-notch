@@ -89,10 +89,13 @@ struct PracticeQuestionView: View {
     }
 
     private var options: some View {
-        VStack(spacing: compact ? 3 : 8) {
+        // Lưới 2×2 để 4 đáp án không đẩy notch phình cao.
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: compact ? 4 : 8), count: 2),
+                  spacing: compact ? 4 : 8) {
             ForEach(q.options.indices, id: \.self) { i in
                 Button { choose(i) } label: {
-                    Text(q.options[i]).font(.system(size: 11 * fs)).lineLimit(2)
+                    Text(q.options[i]).font(.system(size: 11 * fs)).lineLimit(compact ? 1 : 2)
+                        .truncationMode(.tail)
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, compact ? 8 : 14).padding(.vertical, compact ? 3 : 10)

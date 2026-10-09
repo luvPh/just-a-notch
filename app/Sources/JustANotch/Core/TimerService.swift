@@ -22,9 +22,11 @@ final class TimerService: ObservableObject {
     private var endDate: Date?
     private var ticker: Timer?
 
-    // Trạng thái chạy chuỗi đoạn (mode .plain, runSegments không rỗng).
-    private var runSegments: [TimerSegment] = []
-    private var segIndex = 0
+    // Trạng thái chạy chuỗi đoạn (mode .plain, runSegments không rỗng) — công khai để UI vẽ vòng chặng.
+    @Published private(set) var runSegments: [TimerSegment] = []
+    @Published private(set) var segIndex = 0
+    /// false = hết một chặng thì dừng chờ bấm chạy tiếp (Pomodoro "Tự chạy pha kế" tắt).
+    private var autoAdvance = true
     private var countingUp = false
 
     // Injectable cho test; production dùng AppSettings + Date().
@@ -68,7 +70,8 @@ final class TimerService: ObservableObject {
     }
 
     /// Chạy một chuỗi đoạn đã trải phẳng; mỗi đoạn phát âm riêng khi kết thúc.
-    func startSequence(_ segments: [TimerSegment], label: String = "") {
+    func startSequence(_ segments: [TimerSegment], label: String = "", autoAdvance: Bool = true) {
+        self.autoAdvance = autoAdvance
         mode = .plain
         phase = .work
         justFinished = false
@@ -155,7 +158,8 @@ final class TimerService: ObservableObject {
             let next = runSegments[segIndex]
             currentSegmentName = next.name
             phaseLength = TimeInterval(max(1, next.minutes) * 60)
-            arm(phaseLength)
+            if autoAdvance { arm(phaseLength) }
+            else { remaining = phaseLength; isRunning = false; endDate = nil; stopTicker() }
             return
         }
         chime(defaultSound())

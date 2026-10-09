@@ -74,11 +74,11 @@ struct ClipboardPanel: View {
                 if searching {
                     HStack(spacing: 5) {
                         Image(systemName: "magnifyingglass").font(.system(size: 10, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.5))
+                            .foregroundStyle(.ink.opacity(0.5))
                         TextField("Tìm, hoặc @link @image @code…", text: $query)
                             .textFieldStyle(.plain)
                             .font(.system(size: 11))
-                            .foregroundStyle(query.hasPrefix("@") ? NotchTheme.accent : .white)
+                            .foregroundStyle(query.hasPrefix("@") ? NotchTheme.accent : .ink)
                             .focused($searchFocused)
                             .onExitCommand { closeSearch() }
                     }
@@ -163,7 +163,7 @@ private struct ClipboardCard: View {
                 } else if category == .color {
                     Text(item.plainText.trimmingCharacters(in: .whitespacesAndNewlines).uppercased())
                         .font(.system(size: 12, weight: .bold, design: .monospaced))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.ink)
                         .padding(8)
                 }
             }
@@ -209,12 +209,12 @@ private struct ClipboardCard: View {
         case .link:
             VStack(alignment: .leading, spacing: 4) {
                 Label(URL(string: s)?.host ?? s, systemImage: "link")
-                    .font(.system(size: 11.5, weight: .semibold)).foregroundStyle(.white)
+                    .font(.system(size: 11.5, weight: .semibold)).foregroundStyle(.ink)
                     .lineLimit(1)
-                Text(s).font(.system(size: 10)).foregroundStyle(.white.opacity(0.5))
+                Text(s).font(.system(size: 10)).foregroundStyle(.ink.opacity(0.5))
             }
         default:
-            Text(s).font(.system(size: 11.5, weight: .medium)).foregroundStyle(.white.opacity(0.92))
+            Text(s).font(.system(size: 11.5, weight: .medium)).foregroundStyle(.ink.opacity(0.92))
         }
     }
 
@@ -231,9 +231,9 @@ private struct ClipboardCard: View {
             Spacer(minLength: 2)
             if item.pinned { Image(systemName: "pin.fill").font(.system(size: 8)) }
             Text(Self.size(store.byteSize(of: item))).font(.system(size: 9))
-                .foregroundStyle(.white.opacity(0.5))
+                .foregroundStyle(.ink.opacity(0.5))
         }
-        .foregroundStyle(.white.opacity(0.85))
+        .foregroundStyle(.ink.opacity(0.85))
         .padding(.horizontal, 9).frame(height: 24)
     }
 
@@ -274,10 +274,10 @@ private struct CardActionButton: View {
         Button(action: action) {
             Image(systemName: symbol)
                 .font(.system(size: 10, weight: .bold))
-                .foregroundStyle(hover && destructive ? NotchTheme.accent : .white)
+                .foregroundStyle(hover && destructive ? NotchTheme.accent : .ink)
                 .frame(width: 24, height: 24)
                 .background(Circle().fill(.black.opacity(hover ? 0.8 : 0.6)))
-                .overlay(Circle().strokeBorder(.white.opacity(hover ? 0.35 : 0.12), lineWidth: 0.8))
+                .overlay(Circle().strokeBorder(.ink.opacity(hover ? 0.35 : 0.12), lineWidth: 0.8))
                 .contentShape(Circle())
                 .scaleEffect(hover ? 1.08 : 1)
         }

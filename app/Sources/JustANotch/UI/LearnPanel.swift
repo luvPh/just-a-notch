@@ -61,7 +61,7 @@ struct LearnPanel: View {
 
     private var header: some View {
         HStack(spacing: 10) {
-            Text("Hôm nay").font(NotchTheme.toolbarTitle).foregroundStyle(.white)
+            Text("Hôm nay").font(NotchTheme.toolbarTitle).foregroundStyle(.ink)
             stat("flame.fill", "\(store.streak())", "ngày streak")
                 .padding(.horizontal, 8).frame(height: 22)
                 .background(Capsule().fill(NotchTheme.card))
@@ -74,7 +74,7 @@ struct LearnPanel: View {
         HStack(spacing: 3) {
             Image(systemName: icon).font(.system(size: 9, weight: .semibold)).foregroundStyle(NotchTheme.accent)
             Text(value).font(.system(size: 11, weight: .bold)).monospacedDigit()
-            Text(label).font(.system(size: 10)).foregroundStyle(.white.opacity(0.5))
+            Text(label).font(.system(size: 10)).foregroundStyle(.ink.opacity(0.5))
         }
     }
 }
@@ -115,7 +115,7 @@ struct LearnPopupCard: View {
                 .help("Tạm dừng popup học")
                 .learnHover(scale: 1.1, brighten: 0.3)
             }
-            .foregroundStyle(.white.opacity(0.45))
+            .foregroundStyle(.ink.opacity(0.45))
             if let p = store.current, let w = store.word(p.key), w.senses.indices.contains(p.key.index) {
                 let s = w.senses[p.key.index]
                 switch p {
@@ -208,7 +208,7 @@ struct LevelBadge: View {
         Text(level).font(.system(size: 9, weight: .heavy))
             .padding(.horizontal, 5).padding(.vertical, 1)
             .background(Capsule().fill(pal.badgeFill))
-            .foregroundStyle(.white)
+            .foregroundStyle(.ink)
     }
 }
 

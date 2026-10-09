@@ -301,10 +301,10 @@ struct ClaudeAlertView: View {
             VStack(alignment: .leading, spacing: 1) {
                 Text(isWaiting ? "\(session.agent.displayName) cần bạn duyệt" : "\(session.agent.displayName) xong rồi")
                     .font(.system(size: 11.5, weight: .bold, design: .rounded))
-                    .foregroundStyle(isWaiting ? Color(red: 1.0, green: 0.8, blue: 0.4) : .white)
+                    .foregroundStyle(isWaiting ? Color(red: 1.0, green: 0.8, blue: 0.4) : .ink)
                 Text(subtitle)
                     .font(.system(size: 9.5, weight: .medium))
-                    .foregroundStyle(.white.opacity(0.6))
+                    .foregroundStyle(.ink.opacity(0.6))
             }
             .lineLimit(1)
         }
@@ -319,10 +319,10 @@ struct ClaudeAlertView: View {
                 VStack(alignment: .leading, spacing: 1) {
                 Text(isWaiting ? "\(session.agent.displayName) cần bạn duyệt" : "\(session.agent.displayName) xong rồi")
                     .font(.system(size: 11.5, weight: .bold, design: .rounded))
-                    .foregroundStyle(isWaiting ? Color(red: 1.0, green: 0.8, blue: 0.4) : .white)
+                    .foregroundStyle(isWaiting ? Color(red: 1.0, green: 0.8, blue: 0.4) : .ink)
                 Text(subtitle)
                     .font(.system(size: 9.5, weight: .medium))
-                    .foregroundStyle(.white.opacity(0.6))
+                    .foregroundStyle(.ink.opacity(0.6))
                 }
                 .lineLimit(1)
             }
@@ -376,16 +376,17 @@ struct ClaudeSessionsView: View {
     @ObservedObject var vm: NotchViewModel
     let onBack: () -> Void
     let reduceMotion: Bool
+    var embedded = false
     @ObservedObject private var store = ClaudeActivityStore.shared
     private var sessions: [ClaudeSession] { vm.claudeSessions }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 6) {
-                LauncherBackButton(action: onBack)
+                if !embedded { LauncherBackButton(action: onBack) }
                 Text("CLAUDE & CODEX")
                     .font(.system(size: 9, weight: .bold)).tracking(0.8)
-                    .foregroundStyle(.white.opacity(0.4))
+                    .foregroundStyle(.ink.opacity(0.4))
                 Spacer(minLength: 0)
                 let active = sessions.filter(\.isActive).count
                 if active > 0 {
@@ -394,6 +395,7 @@ struct ClaudeSessionsView: View {
                         .foregroundStyle(Clawd.clay)
                 }
             }
+            AgentUsageStrip()
             if sessions.isEmpty {
                 empty
             } else {
@@ -419,10 +421,10 @@ struct ClaudeSessionsView: View {
             ClawdSprite(mode: .still, pixel: 1.6, reduceMotion: true).opacity(0.7)
             VStack(alignment: .leading, spacing: 2) {
                 Text("Chưa có phiên Claude / Codex nào")
-                    .font(.system(size: 11, weight: .semibold)).foregroundStyle(.white.opacity(0.75))
+                    .font(.system(size: 11, weight: .semibold)).foregroundStyle(.ink.opacity(0.75))
                 Text(store.receivedAny ? "Mở Claude Code hoặc Codex và giao việc — tiến trình hiện ở đây."
                                        : "Chưa nhận được sự kiện hook — xem Settings → Claude Code.")
-                    .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.4))
+                    .font(.system(size: 9.5)).foregroundStyle(.ink.opacity(0.4))
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
@@ -452,12 +454,12 @@ private struct ClaudeSessionRow: View {
                 VStack(alignment: .leading, spacing: 1) {
                     HStack(spacing: 5) {
                         Text(session.project)
-                            .font(.system(size: 11.5, weight: .bold)).foregroundStyle(.white.opacity(0.92))
+                            .font(.system(size: 11.5, weight: .bold)).foregroundStyle(.ink.opacity(0.92))
                         Text(session.agent.displayName.uppercased())
                             .font(.system(size: 7.5, weight: .heavy)).tracking(0.5)
                             .padding(.horizontal, 4).padding(.vertical, 1)
-                            .background(Capsule().fill(.white.opacity(0.1)))
-                            .foregroundStyle(.white.opacity(0.55))
+                            .background(Capsule().fill(.ink.opacity(0.1)))
+                            .foregroundStyle(.ink.opacity(0.55))
                     }
                     Text(status)
                         .font(.system(size: 9.5)).foregroundStyle(statusColor)
@@ -468,13 +470,13 @@ private struct ClaudeSessionRow: View {
                     TimelineView(.periodic(from: .now, by: 1)) { ctx in
                         Text(ClaudeFormat.duration(ctx.date.timeIntervalSince(start)))
                             .font(.system(size: 10, weight: .semibold, design: .rounded)).monospacedDigit()
-                            .foregroundStyle(.white.opacity(0.5))
+                            .foregroundStyle(.ink.opacity(0.5))
                     }
                 }
             }
             .padding(.horizontal, 8).padding(.vertical, 5)
             .background(RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(.white.opacity(hovering ? 0.1 : 0.05)))
+                .fill(.ink.opacity(hovering ? 0.1 : 0.05)))
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -505,7 +507,83 @@ private struct ClaudeSessionRow: View {
         switch session.state {
         case .waiting: return Color(red: 1.0, green: 0.8, blue: 0.4)
         case .working: return Clawd.clay.opacity(0.95)
-        default: return .white.opacity(0.4)
+        default: return .ink.opacity(0.4)
+        }
+    }
+}
+
+// MARK: - Usage
+
+/// Dải usage: Codex (% hạn mức 5 giờ / tuần) + Claude Code (token hôm nay / 5 giờ).
+struct AgentUsageStrip: View {
+    @ObservedObject private var store = AgentUsageStore.shared
+
+    var body: some View {
+        HStack(spacing: 6) {
+            card(tint: Clawd.clay) {
+                ClaudeAgentMark.still(.claude, pixel: 0.9)
+            } content: {
+                if let c = store.claude {
+                    stat(UsageFormat.tokens(c.todayTokens), "hôm nay")
+                    stat(UsageFormat.tokens(c.blockTokens), "5 giờ qua")
+                } else {
+                    Text("Chưa có dữ liệu").font(.system(size: 9.5)).foregroundStyle(.ink.opacity(0.4))
+                }
+            }
+            card(tint: .ink) {
+                ClaudeAgentMark.still(.codex, pixel: 0.9)
+            } content: {
+                if let c = store.codex {
+                    bar(c.primary, "5 giờ")
+                    bar(c.secondary, "Tuần")
+                } else {
+                    Text("Chưa có dữ liệu").font(.system(size: 9.5)).foregroundStyle(.ink.opacity(0.4))
+                }
+            }
+        }
+        .onAppear { store.start(); store.refresh() }
+    }
+
+    private func card<M: View, C: View>(tint: Color, @ViewBuilder mark: () -> M,
+                                        @ViewBuilder content: () -> C) -> some View {
+        HStack(spacing: 8) {
+            mark()
+            VStack(alignment: .leading, spacing: 3) { content() }
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal, 8).padding(.vertical, 6)
+        .frame(maxWidth: .infinity, minHeight: 42)
+        .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.ink.opacity(0.05)))
+    }
+
+    private func stat(_ value: String, _ label: String) -> some View {
+        HStack(spacing: 4) {
+            Text(value).font(.system(size: 11, weight: .bold, design: .rounded)).monospacedDigit()
+                .foregroundStyle(.ink.opacity(0.92))
+            Text(label).font(.system(size: 9)).foregroundStyle(.ink.opacity(0.45))
+        }
+    }
+
+    @ViewBuilder private func bar(_ w: UsageWindow?, _ label: String) -> some View {
+        if let w {
+            let f = min(max(w.usedPercent / 100, 0), 1)
+            HStack(spacing: 5) {
+                Text(label).font(.system(size: 9)).foregroundStyle(.ink.opacity(0.45))
+                    .frame(width: 28, alignment: .leading)
+                GeometryReader { g in
+                    ZStack(alignment: .leading) {
+                        Capsule().fill(.ink.opacity(0.1))
+                        Capsule().fill(f > 0.85 ? Color(red: 1, green: 0.45, blue: 0.4) : .ink.opacity(0.8))
+                            .frame(width: max(3, g.size.width * f))
+                    }
+                }
+                .frame(height: 4)
+                Text("\(Int(w.usedPercent.rounded()))%")
+                    .font(.system(size: 9.5, weight: .semibold, design: .rounded)).monospacedDigit()
+                    .foregroundStyle(.ink.opacity(0.8))
+                    .frame(width: 28, alignment: .trailing)
+            }
+            .help(UsageFormat.until(w.resetsAt).map { "Reset sau \($0)" } ?? "")
         }
     }
 }

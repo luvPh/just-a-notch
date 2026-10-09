@@ -193,6 +193,21 @@ final class NotchSnapshotCheck: XCTestCase {
     }
 
     /// Khung hình ambient light quét qua thông báo (nhắc nghỉ, đổi bài).
+    func testHUDSnapshots() throws {
+        guard let dir = ProcessInfo.processInfo.environment["NOTCH_SNAP"] else { throw XCTSkip("no NOTCH_SNAP") }
+        out = dir
+        let rec = NotificationRecord(id: 1, bundleId: "com.tinyspeck.slackmacgap", appName: "Slack",
+                                     title: "New message in ai1st-silk-team", subtitle: "",
+                                     body: "Tung: em ơi trong tuần bọn anh còn việc", date: Date())
+        for pill in [false, true] {
+            let (vm, _) = makeVM(media: false)
+            vm.pillMode = pill
+            if pill { vm.coreWidth = 22 }
+            vm.hudNotification = rec
+            try snap(pill ? "hud-pill" : "hud-notch", NotchRootView(vm: vm), wait: 1.0)
+        }
+    }
+
     func testAmbientSweepFrames() throws {
         guard let dir = ProcessInfo.processInfo.environment["NOTCH_SNAP"] else { throw XCTSkip("no NOTCH_SNAP") }
         for (label, setup) in [("break", { (vm: NotchViewModel) in vm.showBreak() }),
@@ -303,6 +318,59 @@ final class NotchSnapshotCheck: XCTestCase {
             if tab == .timer { AppSettings.shared.timerPage = 1 }
             try snap("tab-\(tab.rawValue)", NotchRootView(vm: vm, initialTab: tab),
                      size: CGSize(width: 700, height: 380), wait: 1.2)
+        }
+        // Tab Timer: đủ 3 chế độ (cột trái chọn chế độ).
+        for page in 0..<3 {
+            let (vm, _) = makeVM(media: true)
+            vm.expanded = true; vm.timerTabActive = true
+            AppSettings.shared.timerPage = page
+            try snap("timer-page\(page)", NotchRootView(vm: vm, initialTab: .timer),
+                     size: CGSize(width: 700, height: 300), wait: 1.0)
+        }
+        do {   // Nhịp đang chạy: Pomodoro, đã qua chặng đầu.
+            let (vm, _) = makeVM(media: true)
+            vm.expanded = true; vm.timerTabActive = true
+            AppSettings.shared.timerPage = 1
+            let cfg = AppSettings.shared.pomodoroConfig
+            vm.timerSequence.startSequence(flatten(.pomodoro(cfg, sound: "Glass")), label: "Pomodoro")
+            vm.timerSequence.skip()
+            try snap("timer-flow-running", NotchRootView(vm: vm, initialTab: .timer),
+                     size: CGSize(width: 700, height: 300), wait: 1.5)
+            vm.timerSequence.reset()
+        }
+        for f in LauncherFeature.allCases {   // Tab Tiện ích: từng tính năng.
+            let (vm, _) = makeVM(media: true)
+            vm.expanded = true; vm.toolsTabActive = true
+            UserDefaults.standard.set(f.rawValue, forKey: "cfg.toolsPage")
+            try snap("tools-\(f.rawValue)", NotchRootView(vm: vm, initialTab: .tools),
+                     size: CGSize(width: 700, height: 320), wait: 1.0)
+        }
+        do {   // Notch theo thời tiết (dữ liệu thật/cache của WeatherStore).
+            WeatherStore.shared.start()
+            RunLoop.main.run(until: Date().addingTimeInterval(3))
+            AppSettings.shared.weatherAmbient = true
+            let (vm, _) = makeVM(media: true)
+            vm.expanded = true; vm.timerTabActive = true
+            try snap("weather-ambient", NotchRootView(vm: vm, initialTab: .timer),
+                     size: CGSize(width: 700, height: 300), wait: 1.0)
+            AppSettings.shared.weatherAmbient = false
+        }
+        do {   // Giao diện sáng (kính): mọi tab + pill.
+            AppSettings.shared.appearanceMode = "light"
+            for tab in RailTab.allCases {
+                let (vm, _) = makeVM(media: true)
+                vm.expanded = true
+                vm.clipTabActive = tab == .clipboard; vm.timerTabActive = tab == .timer; vm.musicTabActive = tab == .music
+                vm.calTabActive = tab == .calendar; vm.notifTabActive = tab == .notifications
+                vm.toolsTabActive = tab == .tools
+                vm.panelWantsTall = [.calendar, .settings, .learn].contains(tab)
+                try snap("light-\(tab.rawValue)", NotchRootView(vm: vm, initialTab: tab),
+                         size: CGSize(width: 700, height: 380), wait: 1.2)
+            }
+            let (pv, _) = makeVM(media: true)
+            pv.pillMode = true; pv.notchHeight = 30; pv.coreWidth = 82; pv.expanded = true; pv.timerTabActive = true
+            try snap("light-pill", NotchRootView(vm: pv, initialTab: .timer), size: CGSize(width: 700, height: 300), wait: 1.0)
+            AppSettings.shared.appearanceMode = "dark"
         }
         // Pill (màn hình không notch): thu gọn + mở.
         var (pv, _) = makeVM(media: true)
@@ -470,4 +538,5 @@ final class AgentBadgeTests: XCTestCase {
         vm._previewClaude(sessions: [done])
         XCTAssertTrue(vm.claudeBadges.isEmpty)
     }
+
 }

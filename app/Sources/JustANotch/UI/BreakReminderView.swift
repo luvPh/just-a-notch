@@ -14,11 +14,11 @@ struct BreakReminderView: View {
                 VStack(alignment: .leading, spacing: 1) {
                 Text("Đứng dậy nào")
                     .font(.system(size: 11.5, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.ink)
                 HStack(spacing: 3) {
                     Text("uống ngụm nước")
                         .font(.system(size: 9.5, weight: .medium))
-                        .foregroundStyle(.white.opacity(0.62))
+                        .foregroundStyle(.ink.opacity(0.62))
                     Image(systemName: "drop.fill")
                         .font(.system(size: 8, weight: .bold))
                         .foregroundStyle(Color(red: 0.42, green: 0.78, blue: 1.0))

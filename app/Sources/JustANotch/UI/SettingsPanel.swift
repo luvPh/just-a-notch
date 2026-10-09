@@ -17,21 +17,25 @@ struct SettingsPanel: View {
         return b.map { "\(v) (\($0))" } ?? v
     }
 
+    /// Lộ dần các nhóm khi mở tab (giống Clipboard).
+    @State private var revealed = false
+
     var body: some View {
         ScrollView(.vertical) {
             // Lazy: chỉ dựng các mục đang hiện → chuyển tab tới đây không khựng.
             LazyVStack(alignment: .leading, spacing: 14) {
                 // MARK: Chung
-                section("Chung") {
+                section("Chung", index: 0) {
                     toggleRow("Mở cùng lúc đăng nhập", icon: "power",
                               isOn: Binding(get: { settings.launchAtLogin },
                                             set: { settings.setLaunchAtLogin($0) }))
                     displayRow
                     toggleRow("Clawd chill giữa pill", icon: "moon.stars.fill", isOn: $settings.pillMascot)
+                    appearanceRow
                 }
 
                 // MARK: Chụp màn hình
-                section("Chụp màn hình") {
+                section("Chụp màn hình", index: 1) {
                     HStack(spacing: 6) {
                         shotButton("Vùng", "⌘⇧4", "rectangle.dashed") { ScreenshotController.shared.captureArea() }
                         shotButton("Cửa sổ", "⌘⇧5", "macwindow") { ScreenshotController.shared.captureWindow() }
@@ -61,8 +65,8 @@ struct SettingsPanel: View {
                     toggleRow("Quay kèm âm thanh hệ thống", icon: "speaker.wave.2", isOn: $settings.recordAudio)
                     HStack(spacing: 9) {
                         Image(systemName: "folder").font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
-                        Text("Lưu vào").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+                            .foregroundStyle(.ink.opacity(0.7)).frame(width: 18)
+                        Text("Lưu vào").font(.system(size: 11.5)).foregroundStyle(.ink.opacity(0.9))
                         Text((settings.shotFolder as NSString).abbreviatingWithTildeInPath)
                             .font(.system(size: 11)).foregroundStyle(NotchTheme.secondaryText)
                             .lineLimit(1).truncationMode(.middle)
@@ -75,41 +79,43 @@ struct SettingsPanel: View {
                 }
 
                 // MARK: Tabs
-                section("Tabs") {
+                section("Tabs", index: 2) {
                     toggleRow("Thông báo", icon: "bell.fill", isOn: $settings.showNotifications)
                     toggleRow("Lịch", icon: "calendar", isOn: $settings.showCalendar)
                     toggleRow("Clipboard", icon: "doc.on.clipboard", isOn: $settings.showClipboard)
                     toggleRow("Hẹn giờ", icon: "timer", isOn: $settings.showTimer)
                     toggleRow("Học", icon: "graduationcap.fill", isOn: $settings.showLearn)
-                    Text("Now Playing và Settings luôn được bật.")
-                        .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
+                    toggleRow("Tiện ích", icon: "square.grid.2x2.fill", isOn: $settings.showTools)
+                    toggleRow("Notch theo thời tiết", icon: "cloud.sun.rain.fill", isOn: $settings.weatherAmbient)
+                    Text("Đang phát luôn được bật. Cài đặt mở bằng nút bánh răng.")
+                        .font(.system(size: 9.5)).foregroundStyle(.ink.opacity(0.35))
                         .padding(.horizontal, 4).padding(.top, 1)
                 }
 
                 // MARK: Learn
-                section("Learn") {
+                section("Learn", index: 3) {
                     toggleRow("Tự bung 1 từ định kỳ", icon: "sparkles", isOn: $settings.learnAutoPopup)
                     HStack(spacing: 9) {
                         Image(systemName: "clock").font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
+                            .foregroundStyle(.ink.opacity(0.7)).frame(width: 18)
                         Text("Mỗi \(settings.learnPopupMinutes) phút").font(.system(size: 11.5))
-                            .foregroundStyle(.white.opacity(0.9))
+                            .foregroundStyle(.ink.opacity(0.9))
                         Spacer(minLength: 0)
                         Stepper("", value: $settings.learnPopupMinutes, in: 5...180, step: 5).labelsHidden()
                     }
                     .padding(.horizontal, 8).padding(.vertical, 4)
-                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
+                    .overlay(alignment: .bottom) { Rectangle().fill(.ink.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
                     HStack(spacing: 9) {
                         Image(systemName: settings.learnPaused ? "pause.circle.fill" : "pause.circle")
                             .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
+                            .foregroundStyle(.ink.opacity(0.7)).frame(width: 18)
                         Text(settings.learnPauseLabel ?? "Tạm dừng popup").font(.system(size: 11.5))
-                            .foregroundStyle(.white.opacity(0.9))
+                            .foregroundStyle(.ink.opacity(0.9))
                         Spacer(minLength: 0)
                         if settings.learnPaused {
                             Button("Tiếp tục") { settings.learnPausedUntil = nil }
                                 .buttonStyle(.plain).font(.system(size: 10.5, weight: .semibold))
-                                .foregroundStyle(.white.opacity(0.8))
+                                .foregroundStyle(.ink.opacity(0.8))
                         } else {
                             Menu("Chọn") {
                                 ForEach(AppSettings.learnPauseOptions(), id: \.0) { opt in
@@ -120,90 +126,66 @@ struct SettingsPanel: View {
                         }
                     }
                     .padding(.horizontal, 8).padding(.vertical, 4)
-                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
+                    .overlay(alignment: .bottom) { Rectangle().fill(.ink.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
                     toggleRow("Bỏ qua khi app full màn hình", icon: "arrow.up.left.and.arrow.down.right", isOn: $settings.learnSkipFullscreen)
                     toggleRow("Âm báo khi bung", icon: "bell.and.waves.left.and.right", isOn: $settings.learnSoundEnabled)
                     HStack(spacing: 9) {
                         Image(systemName: "speaker.wave.2.fill").font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
-                        Text("Âm lượng").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
-                        Slider(value: $settings.learnSoundVolume, in: 0...1)
+                            .foregroundStyle(.ink.opacity(0.7)).frame(width: 18)
+                        Text("Âm lượng").font(.system(size: 11.5)).foregroundStyle(.ink.opacity(0.9))
+                        NotchSlider(value: $settings.learnSoundVolume)
                         Button("Nghe thử") { LearnChime.play(volume: Float(settings.learnSoundVolume)) }
                             .buttonStyle(.plain).font(.system(size: 10.5, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.8))
+                            .foregroundStyle(.ink.opacity(0.8))
                     }
                     .padding(.horizontal, 8).padding(.vertical, 4)
-                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
+                    .overlay(alignment: .bottom) { Rectangle().fill(.ink.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
                     linkButton("Mở cửa sổ học", icon: "macwindow") { LearnWindowController.shared.show() }
                 }
 
                 // MARK: Claude Code
-                section("Claude Code & Codex") {
+                section("Claude Code & Codex", index: 4) {
                     toggleRow("Hiện tiến trình + báo xong/chờ duyệt", icon: "sparkle", isOn: $settings.claudeOn)
                     HStack(spacing: 9) {
                         Image(systemName: "bell.and.waves.left.and.right").font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
-                        Text("Âm báo").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+                            .foregroundStyle(.ink.opacity(0.7)).frame(width: 18)
+                        Text("Âm báo").font(.system(size: 11.5)).foregroundStyle(.ink.opacity(0.9))
                         Spacer(minLength: 0)
                         Button("Xong") { ClaudeChime.play(.done) }
-                            .buttonStyle(.plain).font(.system(size: 10.5, weight: .semibold)).foregroundStyle(.white.opacity(0.8))
+                            .buttonStyle(.plain).font(.system(size: 10.5, weight: .semibold)).foregroundStyle(.ink.opacity(0.8))
                         Button("Chờ duyệt") { ClaudeChime.play(.waiting) }
-                            .buttonStyle(.plain).font(.system(size: 10.5, weight: .semibold)).foregroundStyle(.white.opacity(0.8))
+                            .buttonStyle(.plain).font(.system(size: 10.5, weight: .semibold)).foregroundStyle(.ink.opacity(0.8))
                         Toggle("", isOn: $settings.claudeSoundOn).labelsHidden().toggleStyle(GlowToggleStyle())
                     }
                     .padding(.horizontal, 8).padding(.vertical, 4)
-                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
+                    .overlay(alignment: .bottom) { Rectangle().fill(.ink.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
                     HStack(spacing: 8) {
                         statusDot(claude.receivedAny ? .green : .orange)
                         Text(claude.receivedAny ? "Đã nhận sự kiện từ hook" : "Chưa nhận sự kiện hook nào")
-                            .font(.system(size: 11)).foregroundStyle(.white.opacity(0.7))
+                            .font(.system(size: 11)).foregroundStyle(.ink.opacity(0.7))
                         Spacer(minLength: 0)
                     }
                     .padding(.horizontal, 8).padding(.vertical, 6)
-                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
+                    .overlay(alignment: .bottom) { Rectangle().fill(.ink.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
                     linkButton("Copy đường dẫn thư mục sự kiện", icon: "doc.on.doc") {
                         NSPasteboard.general.clearContents()
                         NSPasteboard.general.setString(ClaudeActivityStore.eventsDir.path, forType: .string)
                     }
                     Text("Notch đọc sự kiện hook Claude Code (mỗi sự kiện một file .json trong thư mục trên). Cần đăng ký hook SessionStart · UserPromptSubmit · PreToolUse · Notification · Stop · SessionEnd ghi stdin vào đó.")
-                        .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
-                        .padding(.horizontal, 4).padding(.top, 1)
-                }
-
-                // MARK: Nhắc nghỉ
-                section("Nhắc đứng dậy · uống nước") {
-                    toggleRow("Nhắc mỗi 30 phút trong giờ làm", icon: "figure.stand", isOn: $settings.breakReminderOn)
-                    toggleRow("Âm báo", icon: "drop.fill", isOn: $settings.breakSoundOn)
-                    HStack(spacing: 9) {
-                        Image(systemName: "speaker.wave.2.fill").font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.7)).frame(width: 18)
-                        Text("Âm lượng").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
-                        Slider(value: $settings.breakVolume, in: 0...1)
-                        Button("Nghe thử") { BreakChime.play(volume: Float(settings.breakVolume)) }
-                            .buttonStyle(.plain).font(.system(size: 10.5, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.8))
-                    }
-                    .padding(.horizontal, 8).padding(.vertical, 4)
-                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
-                    linkButton("Xem thử lời nhắc", icon: "eye") {
-                        vm.collapse()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { vm.showBreak() }
-                    }
-                    Text("T2–T6, 9:30–11:30 và 13:30–17:30 (bỏ giờ trưa, ngày lễ). Rời máy quá 5 phút thì bỏ lượt; app full màn hình thì không kêu.")
-                        .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
+                        .font(.system(size: 9.5)).foregroundStyle(.ink.opacity(0.35))
                         .padding(.horizontal, 4).padding(.top, 1)
                 }
 
                 // MARK: Notifications
-                section("Notifications") {
+                section("Notifications", index: 5) {
                     HStack(spacing: 8) {
                         statusDot(vm.notificationsPermissionDenied ? .red : .green)
                         Text(vm.notificationsPermissionDenied ? "Chưa cấp Full Disk Access" : "Đã cấp quyền")
-                            .font(.system(size: 11)).foregroundStyle(.white.opacity(0.7))
+                            .font(.system(size: 11)).foregroundStyle(.ink.opacity(0.7))
                         Spacer(minLength: 0)
                     }
                     .padding(.horizontal, 8).padding(.vertical, 6)
-                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
+                    .overlay(alignment: .bottom) { Rectangle().fill(.ink.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
 
                     linkButton("Mở Full Disk Access", icon: "arrow.up.forward.app") {
                         if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles") {
@@ -216,37 +198,37 @@ struct SettingsPanel: View {
                     HStack(spacing: 9) {
                         Image(systemName: "music.note")
                             .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.7))
+                            .foregroundStyle(.ink.opacity(0.7))
                             .frame(width: 18)
-                        Text("Âm báo").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+                        Text("Âm báo").font(.system(size: 11.5)).foregroundStyle(.ink.opacity(0.9))
                         Spacer(minLength: 0)
                         StyledSoundPicker(selection: $settings.notifSoundName)
                     }
                     .padding(.horizontal, 8).padding(.vertical, 4)
-                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
+                    .overlay(alignment: .bottom) { Rectangle().fill(.ink.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
 
                     HStack(spacing: 9) {
                         Image(systemName: "speaker.wave.2.fill")
                             .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.7))
+                            .foregroundStyle(.ink.opacity(0.7))
                             .frame(width: 18)
-                        Text("Âm lượng").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
-                        Slider(value: $settings.notifVolume, in: 0...1)
+                        Text("Âm lượng").font(.system(size: 11.5)).foregroundStyle(.ink.opacity(0.9))
+                        NotchSlider(value: $settings.notifVolume)
                         Button("Nghe thử") {
                             SoundLibrary.shared.play(settings.notifSoundName, volume: Float(settings.notifVolume))
                         }
                         .buttonStyle(.plain)
                         .font(.system(size: 10.5, weight: .medium))
-                        .foregroundStyle(.white.opacity(0.75))
+                        .foregroundStyle(.ink.opacity(0.75))
                         .padding(.horizontal, 8).padding(.vertical, 3)
-                        .background(RoundedRectangle(cornerRadius: 6, style: .continuous).fill(.white.opacity(0.08)))
+                        .background(RoundedRectangle(cornerRadius: 6, style: .continuous).fill(.ink.opacity(0.08)))
                     }
                     .padding(.horizontal, 8).padding(.vertical, 4)
-                    .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
+                    .overlay(alignment: .bottom) { Rectangle().fill(.ink.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
                 }
 
                 // MARK: Phím tắt
-                section("Phím tắt") {
+                section("Phím tắt", index: 6) {
                     toggleRow("Nhấn nhanh ⌘ hai lần để bật/tắt notch",
                               icon: "command", isOn: $settings.doubleTapCommand)
                     toggleRow("F1–F6 mở app ở mọi nơi",
@@ -255,29 +237,29 @@ struct SettingsPanel: View {
                         ForEach(0..<AppSettings.fKeyCount, id: \.self) { i in fKeyRow(i) }
                     }
                     Text("F1–F6 (bàn phím Apple: fn+F1–F6) đưa app đã gán ra trước — đang chạy thì giữ nguyên cửa sổ, chưa chạy thì mở mới. Khi bật, 6 phím này thuộc về app nên chức năng gốc của chúng (độ sáng, Mission Control…) tạm nghỉ.")
-                        .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
+                        .font(.system(size: 9.5)).foregroundStyle(.ink.opacity(0.35))
                         .padding(.horizontal, 4).padding(.top, 1)
                     Text("Cần cấp Accessibility lần đầu. Ngoài ra: ⌥N bật/tắt · ⌥Space play/pause · ⌥←/→ đổi bài · ⌥1/2/3 chọn tab.")
-                        .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
+                        .font(.system(size: 9.5)).foregroundStyle(.ink.opacity(0.35))
                         .padding(.horizontal, 4).padding(.top, 1)
                 }
 
                 // MARK: Motion
-                section("Motion") {
+                section("Motion", index: 7) {
                     toggleRow("Giảm chuyển động", icon: "wind", isOn: $settings.forceReduceMotion)
                     Text("Tắt các hiệu ứng lò xo/trượt để notch phản hồi tức thì.")
-                        .font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.35))
+                        .font(.system(size: 9.5)).foregroundStyle(.ink.opacity(0.35))
                         .padding(.horizontal, 4).padding(.top, 1)
                 }
 
                 // MARK: About
-                section("About") {
+                section("About", index: 8) {
                     HStack(spacing: 8) {
                         Image(systemName: "rectangle.topthird.inset.filled")
-                            .font(.system(size: 13, weight: .semibold)).foregroundStyle(.white.opacity(0.8))
+                            .font(.system(size: 13, weight: .semibold)).foregroundStyle(.ink.opacity(0.8))
                         VStack(alignment: .leading, spacing: 1) {
-                            Text("Just a Notch").font(.system(size: 12, weight: .bold)).foregroundStyle(.white)
-                            Text("Phiên bản \(appVersion)").font(.system(size: 9.5)).foregroundStyle(.white.opacity(0.4))
+                            Text("Just a Notch").font(.system(size: 12, weight: .bold)).foregroundStyle(.ink)
+                            Text("Phiên bản \(appVersion)").font(.system(size: 9.5)).foregroundStyle(.ink.opacity(0.4))
                         }
                         Spacer(minLength: 0)
                     }
@@ -299,12 +281,14 @@ struct SettingsPanel: View {
         .scrollBounceBehavior(.basedOnSize)
         .edgeFade(.vertical, 28, leading: false)   // đáy mờ dần, không cắt cụt
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .onAppear { DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { revealed = true } }
     }
 
     // MARK: - Building blocks
 
     @ViewBuilder
-    private func section<Content: View>(_ title: String, @ViewBuilder _ content: () -> Content) -> some View {
+    private func section<Content: View>(_ title: String, index i: Int,
+                                        @ViewBuilder _ content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title.uppercased())
                 .font(.system(size: 9.5, weight: .semibold)).tracking(0.6)
@@ -315,6 +299,12 @@ struct SettingsPanel: View {
                 .padding(.vertical, 2)
                 .notchGlass(cornerRadius: 10)
         }
+        // Lộ dần giống Clipboard: mỗi nhóm trễ 45ms, nổi lên 10pt + mờ → rõ, lò xo êm.
+        .opacity(revealed ? 1 : 0)
+        .offset(y: revealed ? 0 : 10)
+        .scaleEffect(revealed ? 1 : 0.96, anchor: .bottom)
+        .animation(.spring(response: 0.42, dampingFraction: 0.86)
+            .delay(revealed ? Double(min(i, 8)) * 0.045 : 0), value: revealed)
     }
 
     /// Icon app theo bundle ID — cache lại: tra Launch Services + đọc icon mỗi lần vẽ
@@ -335,48 +325,48 @@ struct SettingsPanel: View {
         return HStack(spacing: 9) {
             Text("F\(i + 1)")
                 .font(.system(size: 10.5, weight: .bold, design: .rounded))
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(.ink.opacity(0.8))
                 .frame(width: 24)
                 .padding(.vertical, 2)
                 .background(RoundedRectangle(cornerRadius: 5, style: .continuous)
-                    .fill(.white.opacity(0.09)))
+                    .fill(.ink.opacity(0.09)))
             if let icon {
                 Image(nsImage: icon)
                     .resizable().interpolation(.high).frame(width: 15, height: 15)
             } else {
                 Image(systemName: "app.dashed")
                     .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.4))
+                    .foregroundStyle(.ink.opacity(0.4))
                     .frame(width: 15)
             }
             Text(slot?.name ?? "Chưa gán")
                 .font(.system(size: 11.5))
-                .foregroundStyle(.white.opacity(slot == nil ? 0.4 : 0.9))
+                .foregroundStyle(.ink.opacity(slot == nil ? 0.4 : 0.9))
                 .lineLimit(1)
             Spacer(minLength: 0)
             Button(slot == nil ? "Chọn app…" : "Đổi") { pickApp(for: i) }
                 .buttonStyle(.plain)
                 .font(.system(size: 10.5, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.85))
+                .foregroundStyle(.ink.opacity(0.85))
                 .padding(.horizontal, 8).padding(.vertical, 3)
                 .background(RoundedRectangle(cornerRadius: 6, style: .continuous)
-                    .fill(.white.opacity(0.1)))
+                    .fill(.ink.opacity(0.1)))
             if slot != nil {
                 Button {
                     settings.fKeyApps[i] = nil
                 } label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 9, weight: .bold))
-                        .foregroundStyle(.white.opacity(0.6))
+                        .foregroundStyle(.ink.opacity(0.6))
                         .frame(width: 18, height: 18)
                         .background(RoundedRectangle(cornerRadius: 5, style: .continuous)
-                            .fill(.white.opacity(0.08)))
+                            .fill(.ink.opacity(0.08)))
                 }
                 .buttonStyle(.plain)
             }
         }
         .padding(.horizontal, 8).padding(.vertical, 4)
-        .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
+        .overlay(alignment: .bottom) { Rectangle().fill(.ink.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
     }
 
     /// Chọn app bằng NSOpenPanel (lọc đúng bundle .app), lưu bundle id + tên.
@@ -404,9 +394,9 @@ struct SettingsPanel: View {
             HStack(spacing: 9) {
                 Image(systemName: "display")
                     .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.7))
+                    .foregroundStyle(.ink.opacity(0.7))
                     .frame(width: 18)
-                Text("Màn hình hiển thị").font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+                Text("Màn hình hiển thị").font(.system(size: 11.5)).foregroundStyle(.ink.opacity(0.9))
             }
             ScrollView(.horizontal) {
                 HStack(spacing: 5) {
@@ -430,7 +420,7 @@ struct SettingsPanel: View {
             .edgeFade(.horizontal, 14)
         }
         .padding(.horizontal, 8).padding(.vertical, 6)
-        .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
+        .overlay(alignment: .bottom) { Rectangle().fill(.ink.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
     }
 
     private func shotButton(_ title: String, _ keys: String, _ icon: String, _ action: @escaping () -> Void) -> some View {
@@ -441,7 +431,7 @@ struct SettingsPanel: View {
                     Text(title).font(.system(size: 11, weight: .semibold))
                     Text(keys).font(.system(size: 9.5, weight: .medium)).foregroundStyle(NotchTheme.secondaryText)
                 }
-                .foregroundStyle(.white)
+                .foregroundStyle(.ink)
                 .frame(maxWidth: .infinity).padding(.vertical, 8)
                 .contentShape(Rectangle())
             }
@@ -459,32 +449,59 @@ struct SettingsPanel: View {
         if p.runModal() == .OK, let url = p.url { settings.shotFolder = url.path }
     }
 
+    /// Giao diện notch mở rộng: Tối (như cũ) · Sáng (kính) · Theo hệ thống.
+    private var appearanceRow: some View {
+        HStack(spacing: 9) {
+            Image(systemName: "circle.lefthalf.filled")
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(.ink.opacity(0.7))
+                .frame(width: 18)
+            Text("Giao diện").font(.system(size: 11.5)).foregroundStyle(.ink.opacity(0.9))
+            Spacer(minLength: 0)
+            HStack(spacing: 2) {
+                ForEach([("dark", "Tối"), ("light", "Sáng"), ("system", "Hệ thống")], id: \.0) { key, title in
+                    let on = settings.appearanceMode == key
+                    Button { withAnimation(.easeInOut(duration: 0.35)) { settings.appearanceMode = key } } label: {
+                        Text(title).font(.system(size: 10.5, weight: on ? .semibold : .regular))
+                            .foregroundStyle(on ? Color.inkInverse : .ink.opacity(0.7))
+                            .padding(.horizontal, 9).frame(height: 20)
+                            .background(Capsule().fill(on ? Color.ink : .clear))
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(2)
+            .background(Capsule().fill(.ink.opacity(0.08)))
+        }
+        .padding(.horizontal, 8).padding(.vertical, 4)
+    }
+
     private func toggleRow(_ label: String, icon: String, isOn: Binding<Bool>) -> some View {
         HStack(spacing: 9) {
             Image(systemName: icon)
                 .font(.system(size: 11, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.7))
+                .foregroundStyle(.ink.opacity(0.7))
                 .frame(width: 18)
-            Text(label).font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+            Text(label).font(.system(size: 11.5)).foregroundStyle(.ink.opacity(0.9))
             Spacer(minLength: 0)
             Toggle("", isOn: isOn)
                 .labelsHidden()
                 .toggleStyle(GlowToggleStyle())
         }
         .padding(.horizontal, 8).padding(.vertical, 4)
-        .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
+        .overlay(alignment: .bottom) { Rectangle().fill(.ink.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
     }
 
     private func stepperRow(_ label: String, value: Binding<Int>, range: ClosedRange<Int>, suffix: String) -> some View {
         HStack(spacing: 9) {
             Text("\(label): \(value.wrappedValue)\(suffix)")
-                .font(.system(size: 11.5)).foregroundStyle(.white.opacity(0.9))
+                .font(.system(size: 11.5)).foregroundStyle(.ink.opacity(0.9))
             Spacer(minLength: 0)
             Stepper("", value: value, in: range)
                 .labelsHidden()
         }
         .padding(.horizontal, 8).padding(.vertical, 4)
-        .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
+        .overlay(alignment: .bottom) { Rectangle().fill(.ink.opacity(0.06)).frame(height: 0.5).padding(.leading, 35) }
     }
 
     private func linkButton(_ label: String, icon: String, destructive: Bool = false,
@@ -497,10 +514,10 @@ struct SettingsPanel: View {
                 Text(label).font(.system(size: 11.5, weight: .medium))
                 Spacer(minLength: 0)
             }
-            .foregroundStyle(destructive ? Color(red: 0.98, green: 0.45, blue: 0.42) : .white.opacity(0.9))
+            .foregroundStyle(destructive ? Color(red: 0.98, green: 0.45, blue: 0.42) : .ink.opacity(0.9))
             .padding(.horizontal, 8).padding(.vertical, 7)
             .background(RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(.white.opacity(destructive ? 0.04 : 0.06)))
+                .fill(.ink.opacity(destructive ? 0.04 : 0.06)))
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -539,14 +556,14 @@ struct StyledSoundPicker: View {
             HStack(spacing: 6) {
                 Text(selection)
                     .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(.white.opacity(hovering ? 1 : 0.9))
+                    .foregroundStyle(.ink.opacity(hovering ? 1 : 0.9))
                 Image(systemName: "chevron.up.chevron.down")
                     .font(.system(size: 8, weight: .bold))
-                    .foregroundStyle(.white.opacity(hovering ? 0.85 : 0.5))
+                    .foregroundStyle(.ink.opacity(hovering ? 0.85 : 0.5))
             }
             .padding(.horizontal, 10).padding(.vertical, 5)
             .background(RoundedRectangle(cornerRadius: 7, style: .continuous)
-                .fill(.white.opacity(hovering ? 0.18 : 0.10)))
+                .fill(.ink.opacity(hovering ? 0.18 : 0.10)))
             .overlay(RoundedRectangle(cornerRadius: 7, style: .continuous)
                 .stroke(purple.opacity(hovering ? 0.7 : 0), lineWidth: 1))
             .shadow(color: purple.opacity(hovering ? 0.3 : 0), radius: 4)
@@ -571,7 +588,7 @@ struct GlowToggleStyle: ToggleStyle {
         } label: {
             ZStack(alignment: on ? .trailing : .leading) {
                 Capsule()
-                    .fill(on ? purple.opacity(0.9) : Color.white.opacity(0.14))
+                    .fill(on ? purple.opacity(0.9) : Color.ink.opacity(0.14))
                     .overlay(
                         Capsule().stroke(purple.opacity(on ? 0.9 : 0), lineWidth: 0.5)
                     )

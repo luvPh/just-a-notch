@@ -26,6 +26,8 @@ struct LauncherBody: View {
                            onInteract: { vm.noteLauncherInteraction() })
         case .gold:
             GoldView(onBack: { vm.launcherBack() })
+        case .weather:
+            WeatherToolBody().padding(.horizontal, 28).padding(.bottom, 12)
         case .claude:
             ClaudeSessionsView(vm: vm, onBack: { vm.launcherBack() }, reduceMotion: reduceMotion)
         }
@@ -64,7 +66,7 @@ struct LauncherStrip: View {
                 if let f = hovered {
                     Text(f.title)
                         .font(.system(size: 10, weight: .semibold))
-                        .foregroundStyle(.white.opacity(0.75))
+                        .foregroundStyle(.ink.opacity(0.75))
                         .id(f)
                         .transition(.opacity.combined(with: .offset(y: -2)))
                 }
@@ -96,10 +98,10 @@ struct LauncherIconButton: View {
                     .fill(LinearGradient(colors: feature.tint, startPoint: .topLeading, endPoint: .bottomTrailing))
                     .frame(width: 20, height: 20)
                     .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous)
-                        .strokeBorder(.white.opacity(hovering ? 0.45 : 0.18), lineWidth: 0.7))
+                        .strokeBorder(.ink.opacity(hovering ? 0.45 : 0.18), lineWidth: 0.7))
                 Image(systemName: feature.icon)
                     .font(.system(size: 9.5, weight: .bold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.ink)
                     .shadow(color: .black.opacity(0.25), radius: 1, y: 0.5)
             }
             .scaleEffect(hovering ? 1.15 : 1)
@@ -107,7 +109,7 @@ struct LauncherIconButton: View {
                     radius: hovering ? 7 : 3)
             .frame(width: 28, height: 28)
             .background(RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(.white.opacity(hovering ? 0.1 : 0)))
+                .fill(.ink.opacity(hovering ? 0.1 : 0)))
             .contentShape(Rectangle())
         }
         .buttonStyle(LauncherPressStyle())

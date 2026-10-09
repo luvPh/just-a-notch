@@ -75,6 +75,12 @@ final class NotchWindowController {
             onBegan: { [weak vm] in vm?.beginSystemFileDrag() },
             onEnded: { [weak vm] in vm?.endSystemFileDrag() })
 
+        // Pill mở rộng: catcher nằm ngay giữa đỉnh, đè lên vòng chip tab → nuốt click
+        // (và còn thu notch). Lúc đó cho click xuyên qua; kéo file vẫn do dragWatcher lo.
+        vm.$expanded.combineLatest(vm.$pillMode)
+            .sink { [weak self] exp, pill in self?.shelfCatcher.setPassthrough(exp && pill) }
+            .store(in: &bag)
+
         applyGeometry()
         layoutPanel()
         installMonitors()
@@ -321,6 +327,13 @@ final class NotchWindowController {
         hotKeys.register(keyCode: kVK_ANSI_1, modifiers: m) { [weak self] in self?.vm.requestTab(1) }
         hotKeys.register(keyCode: kVK_ANSI_2, modifiers: m) { [weak self] in self?.vm.requestTab(2) }
         hotKeys.register(keyCode: kVK_ANSI_3, modifiers: m) { [weak self] in self?.vm.requestTab(3) }
+        #if DEBUG
+        // QC tự động: `justanotch.debug.tab` (object = "N") → như bấm ⌥N.
+        DistributedNotificationCenter.default().addObserver(forName: .init("justanotch.debug.tab"),
+                                                            object: nil, queue: .main) { [weak self] n in
+            if let k = (n.object as? String).flatMap(Int.init) { MainActor.assumeIsolated { self?.vm.requestTab(k) } }
+        }
+        #endif
         // Chụp màn hình kiểu CleanShot: ⌘⇧4 vùng · ⌘⇧5 cửa sổ · ⌘⇧3 cả màn hình · ⌘⇧6 quay.
         // macOS giữ sẵn ⌘⇧3/4/5 cho công cụ chụp của hệ thống → người dùng cần tắt các phím đó
         // trong System Settings › Keyboard › Keyboard Shortcuts › Screenshots thì phím của app mới ăn.

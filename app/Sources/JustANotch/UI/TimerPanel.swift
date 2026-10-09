@@ -1,210 +1,172 @@
 import SwiftUI
 
-// Trang "Đơn" của carousel Timer: hẹn giờ một lần (đếm ngược). Không dính tới
-// Pomodoro (trang riêng).
+/// Khung chung cho mọi trang của tab Timer: mặt tròn cố định bên trái (cùng tâm ở
+/// mọi trang), cột thông tin + nút căn trái bên phải.
+struct TimerPageLayout<Dial: View, Info: View>: View {
+    @ViewBuilder let dial: () -> Dial
+    @ViewBuilder let info: () -> Info
+
+    static var dialSize: CGFloat { 124 }
+    /// Nội dung cột thông tin phải vừa chiều rộng này.
+    static var infoWidth: CGFloat { 226 }
+
+    var body: some View {
+        // Cụm (mặt tròn + cột thông tin) rộng cố định, đặt giữa thẻ → hai bên cân,
+        // và mặt tròn trùng tâm ở mọi trang.
+        HStack(alignment: .center, spacing: 22) {
+            dial().frame(width: Self.dialSize, height: Self.dialSize)
+            VStack(alignment: .leading, spacing: 8) { info() }
+                .frame(width: Self.infoWidth, alignment: .leading)
+        }
+        .padding(.vertical, 10)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        // Bấm chỗ trống trong thẻ → rời ô nhập (không bị kẹt focus).
+        .contentShape(Rectangle())
+        .onTapGesture { NSApp.keyWindow?.makeFirstResponder(nil) }
+    }
+}
+
+/// Tiêu đề + dòng phụ dùng chung đầu cột thông tin.
+struct TimerPageHeading: View {
+    let title: String
+    let subtitle: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 1) {
+            Text(title).font(.system(size: 14, weight: .bold)).foregroundStyle(.ink)
+            Text(subtitle).font(.system(size: 10, weight: .medium).monospacedDigit())
+                .foregroundStyle(.ink.opacity(0.45))
+                .contentTransition(.numericText())
+        }
+        .lineLimit(1)
+    }
+}
+
+/// Nút tròn phụ (nền mờ) dùng chung.
+func timerCtl(_ name: String, help: String = "", _ action: @escaping () -> Void) -> some View {
+    Button(action: action) {
+        Image(systemName: name).font(.system(size: 11, weight: .semibold))
+            .foregroundStyle(.ink.opacity(0.85))
+            .frame(width: 28, height: 28)
+            .background(Circle().fill(.ink.opacity(0.08)))
+    }
+    .buttonStyle(.plain).help(help)
+}
+
+/// Nút chính (chạy/tạm dừng) tô màu, toả sáng khi đang chạy.
+func timerPrimary(running: Bool, color: Color, _ action: @escaping () -> Void) -> some View {
+    Button(action: action) {
+        Image(systemName: running ? "pause.fill" : "play.fill")
+            .font(.system(size: 13, weight: .bold)).foregroundStyle(.black)
+            .contentTransition(.symbolEffect(.replace))
+            .frame(width: 34, height: 34)
+            .background(Circle().fill(color).shadow(color: color.opacity(0.6), radius: running ? 8 : 0))
+    }
+    .buttonStyle(.plain)
+}
+
+// Trang "Hẹn giờ nhanh": đếm ngược một lần, dùng chung mặt OrbitClock (một cung).
 struct TimerPanel: View {
     @ObservedObject var timer: TimerService
     @ObservedObject var settings: AppSettings
     @Binding var locked: Bool
 
-    @State private var editing = false
-    @State private var customMinutes = 15
-    @State private var customMessage = ""
+    @AppStorage("cfg.quickMinutes") private var minutes = 15
+    @State private var message = ""
+    @FocusState private var messageFocused: Bool
 
-    private let accent = NotchTheme.accent
+    private static let color = "#FF9F43"
+    private static let presets = [5, 15, 25, 45]
 
-    private var shownSeconds: Int { max(0, Int(timer.remaining.rounded())) }
-    private var mm: String { String(format: "%02d", shownSeconds / 60) }
-    private var ss: String { String(format: "%02d", shownSeconds % 60) }
+    /// Đang có phiên (chạy hoặc tạm dừng).
+    private var inSession: Bool { timer.isRunning || timer.remaining > 0 }
+    private var seconds: Int { inSession ? max(0, Int(timer.remaining.rounded())) : minutes * 60 }
+    private var fraction: Double {
+        guard inSession, timer.phaseLength > 0 else { return 0 }
+        return min(1, max(0, 1 - timer.remaining / timer.phaseLength))
+    }
+    private var plan: [TimerSegment] {
+        let m = inSession ? max(1, Int((timer.phaseLength / 60).rounded())) : minutes
+        return [TimerSegment(id: TimerSequence.pomodoroID, name: timer.label.isEmpty ? "Hẹn giờ" : timer.label,
+                             minutes: m, soundName: "", colorHex: Self.color)]
+    }
 
     var body: some View {
-        Group {
-            if timer.justFinished {
-                doneView
-            } else if editing {
-                editorView
-            } else {
-                clockView
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        .onChange(of: editing) { _, v in locked = v }
-    }
-
-    // MARK: Clock
-
-    // Đồng hồ nhỏ (trái) + điều khiển (phải), gọn trong khung.
-    private var clockView: some View {
-        HStack(alignment: .center, spacing: 14) {
-            clockDigits
-            HStack(spacing: 7) {
-                if timer.isRunning {
-                    ctl("pause.fill", tint: accent) { timer.pause() }
-                } else {
-                    ctl("play.fill", tint: accent) {
-                        if timer.remaining > 0 { timer.resume() }
-                        else { timer.startPlain(minutes: customMinutes) }
-                    }
-                }
-                ctl("arrow.counterclockwise") { timer.reset() }
-            }
-        }
-        .frame(maxWidth: .infinity)
-    }
-
-    private var clockDigits: some View {
-        HStack(spacing: 3) {
-            FlipDigit(char: mm.first!, accent: accent, fontSize: 24, w: 24, h: 34)
-            FlipDigit(char: mm.last!,  accent: accent, fontSize: 24, w: 24, h: 34)
-            Text(":")
-                .font(.system(size: 22, weight: .bold, design: .rounded))
-                .foregroundStyle(.white.opacity(0.55)).padding(.bottom, 2)
-            FlipDigit(char: ss.first!, accent: accent, fontSize: 24, w: 24, h: 34)
-            FlipDigit(char: ss.last!,  accent: accent, fontSize: 24, w: 24, h: 34)
-        }
-        // Bấm vào đồng hồ (khi rảnh) để nhập phút tuỳ chỉnh.
-        .contentShape(Rectangle())
-        .onTapGesture {
-            guard !timer.isRunning else { return }
-            customMessage = ""
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) { editing = true }
-        }
-    }
-
-    // MARK: Editor (custom minutes + message)
-
-    private var editorView: some View {
-        VStack(spacing: 8) {
+        TimerPageLayout {
+            OrbitClock(plan: plan, index: 0, fraction: fraction, seconds: seconds,
+                       running: timer.isRunning, finished: timer.justFinished)
+        } info: {
+            TimerPageHeading(title: timer.justFinished ? (timer.label.isEmpty ? "Hết giờ!" : timer.label) : "Hẹn giờ nhanh",
+                             subtitle: subtitle)
             HStack(spacing: 8) {
-                Text("Phút").font(.system(size: 11, weight: .semibold)).foregroundStyle(.white.opacity(0.6))
-                stepBtn("minus") { customMinutes = max(1, customMinutes - 1) }
-                Text("\(customMinutes)")
-                    .font(.system(size: 18, weight: .heavy, design: .rounded))
-                    .foregroundStyle(.white).monospacedDigit()
-                    .frame(minWidth: 34)
-                stepBtn("plus") { customMinutes = min(180, customMinutes + 1) }
-                Spacer(minLength: 0)
-                ForEach([5, 15, 30], id: \.self) { m in
-                    Button { customMinutes = m } label: {
-                        Text("\(m)")
-                            .font(.system(size: 10, weight: .semibold))
-                            .foregroundStyle(customMinutes == m ? .black : .white.opacity(0.7))
-                            .frame(width: 22, height: 20)
-                            .background(RoundedRectangle(cornerRadius: 5, style: .continuous)
-                                .fill(customMinutes == m ? .white.opacity(0.9) : .white.opacity(0.08)))
+                if timer.justFinished {
+                    Button { timer.dismissFinished(); timer.reset() } label: {
+                        Text("OK").font(.system(size: 11, weight: .bold)).foregroundStyle(.black)
+                            .padding(.horizontal, 20).frame(height: 30)
+                            .background(Capsule().fill(Color(hex: Self.color)))
                     }
                     .buttonStyle(.plain)
+                } else {
+                    timerPrimary(running: timer.isRunning, color: Color(hex: Self.color), playPause)
+                    timerCtl("arrow.counterclockwise", help: "Đặt lại") { timer.reset() }
+                    TextField("Lời nhắc khi hết giờ…", text: $message)
+                        .textFieldStyle(.plain).font(.system(size: 11)).foregroundStyle(.ink)
+                        .focused($messageFocused)
+                        .padding(.horizontal, 10).frame(height: 28)
+                        .background(Capsule().fill(.ink.opacity(0.07)))
+                        .disabled(inSession)
+                        .opacity(inSession ? 0.4 : 1)
+                        .onSubmit(playPause)
                 }
             }
-
-            TextField("Lời nhắc khi hết giờ…", text: $customMessage)
-                .textFieldStyle(.plain)
-                .font(.system(size: 12))
-                .foregroundStyle(.white)
-                .padding(.horizontal, 9).padding(.vertical, 6)
-                .background(RoundedRectangle(cornerRadius: 7, style: .continuous).fill(.white.opacity(0.08)))
-
-            HStack(spacing: 8) {
-                Button {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) { editing = false }
-                } label: {
-                    Text("Huỷ").font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(.white.opacity(0.7))
-                        .frame(maxWidth: .infinity).frame(height: 26)
-                        .background(RoundedRectangle(cornerRadius: 7, style: .continuous).fill(.white.opacity(0.08)))
-                }
-                .buttonStyle(.plain)
-                Button {
-                    timer.startPlain(minutes: customMinutes, label: customMessage)
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) { editing = false }
-                } label: {
-                    Text("Bắt đầu").font(.system(size: 11, weight: .bold))
-                        .foregroundStyle(.black)
-                        .frame(maxWidth: .infinity).frame(height: 26)
-                        .background(RoundedRectangle(cornerRadius: 7, style: .continuous).fill(accent))
-                }
-                .buttonStyle(.plain)
-            }
+            .animation(.spring(response: 0.3, dampingFraction: 0.8), value: timer.isRunning)
+            presetRow
+                .disabled(inSession)
+                .opacity(inSession ? 0.35 : 1)
         }
-        .padding(.horizontal, 2)
+        .onExitCommand { messageFocused = false }
     }
 
-    // MARK: Done
-
-    private var doneView: some View {
-        VStack(spacing: 8) {
-            Image(systemName: "checkmark.circle.fill")
-                .font(.system(size: 26))
-                .foregroundStyle(Color(red: 0.30, green: 0.82, blue: 0.52))
-            Text(timer.label.isEmpty ? "Hết giờ!" : timer.label)
-                .font(.system(size: 13, weight: .bold)).foregroundStyle(.white)
-                .lineLimit(2).multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-            Button { timer.dismissFinished() } label: {
-                Text("OK").font(.system(size: 11, weight: .bold)).foregroundStyle(.black)
-                    .padding(.horizontal, 22).frame(height: 26)
-                    .background(Capsule().fill(.white.opacity(0.9)))
-            }
-            .buttonStyle(.plain)
+    private var subtitle: String {
+        if timer.justFinished { return "Bấm OK để tắt" }
+        if timer.isRunning {
+            let end = Date().addingTimeInterval(timer.remaining)
+            return "Kết thúc lúc \(end.formatted(date: .omitted, time: .shortened))"
         }
-        .padding(.horizontal, 12)
+        if inSession { return "Đang tạm dừng" }
+        return "\(minutes) phút · chọn nhanh bên dưới"
     }
 
-    // MARK: Buttons
-
-    private func ctl(_ name: String, tint: Color = .white, _ action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Image(systemName: name)
-                .font(.system(size: 12, weight: .semibold))
-                .foregroundStyle(tint == .white ? .white.opacity(0.85) : Color.black)
-                .frame(width: 28, height: 28)
-                .background(Circle().fill(tint == .white ? .white.opacity(0.08) : tint))
+    private var presetRow: some View {
+        HStack(spacing: 5) {
+            ForEach(Self.presets, id: \.self) { m in
+                let on = m == minutes
+                Button { withAnimation(.snappy(duration: 0.25)) { minutes = m } } label: {
+                    Text("\(m)′").font(.system(size: 10, weight: on ? .bold : .medium)).monospacedDigit()
+                        .foregroundStyle(on ? Color.inkInverse : .ink.opacity(0.75))
+                        .frame(width: 30, height: 22)
+                        .background(Capsule().fill(on ? .ink.opacity(0.9) : .ink.opacity(0.08)))
+                }
+                .buttonStyle(.plain)
+            }
+            Rectangle().fill(.ink.opacity(0.12)).frame(width: 1, height: 14).padding(.horizontal, 2)
+            stepBtn("minus") { minutes = max(1, minutes - 1) }
+            stepBtn("plus") { minutes = min(180, minutes + 1) }
         }
-        .buttonStyle(.plain)
     }
 
     private func stepBtn(_ name: String, _ action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Image(systemName: name)
-                .font(.system(size: 11, weight: .bold)).foregroundStyle(.white.opacity(0.85))
-                .frame(width: 24, height: 24)
-                .background(Circle().fill(.white.opacity(0.1)))
+        Button { withAnimation(.snappy(duration: 0.2)) { action() } } label: {
+            Image(systemName: name).font(.system(size: 9, weight: .bold)).foregroundStyle(.ink.opacity(0.8))
+                .frame(width: 22, height: 22)
+                .background(Circle().fill(.ink.opacity(0.08)))
         }
         .buttonStyle(.plain)
     }
-}
 
-// A single split-flap digit card with a center seam; the digit flips vertically
-// when it changes. Dùng chung cho các trang timer.
-struct FlipDigit: View {
-    let char: Character
-    let accent: Color
-    var fontSize: CGFloat = 30
-    var w: CGFloat = 30
-    var h: CGFloat = 44
-
-    var body: some View {
-        Text(String(char))
-            .font(.system(size: fontSize, weight: .heavy, design: .rounded))
-            .monospacedDigit()
-            .foregroundStyle(.white)
-            .frame(width: w, height: h)
-            .background(
-                ZStack {
-                    RoundedRectangle(cornerRadius: 6, style: .continuous)
-                        .fill(LinearGradient(colors: [Color.white.opacity(0.10),
-                                                      Color.white.opacity(0.03)],
-                                             startPoint: .top, endPoint: .bottom))
-                    RoundedRectangle(cornerRadius: 6, style: .continuous)
-                        .stroke(.white.opacity(0.08), lineWidth: 1)
-                    Rectangle().fill(.black.opacity(0.55)).frame(height: 1)
-                }
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
-            .id(char)
-            .transition(.asymmetric(
-                insertion: .move(edge: .top).combined(with: .opacity),
-                removal: .move(edge: .bottom).combined(with: .opacity)))
-            .animation(.spring(response: 0.32, dampingFraction: 0.7), value: char)
+    private func playPause() {
+        if timer.isRunning { timer.pause() }
+        else if inSession { timer.resume() }
+        else { timer.startPlain(minutes: minutes, label: message); messageFocused = false }
     }
 }

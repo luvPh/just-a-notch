@@ -83,7 +83,7 @@ struct Artwork: View {
                                               Color(red: 0.78, green: 0.42, blue: 0.92)],
                                      startPoint: .topLeading, endPoint: .bottomTrailing))
                 .overlay(Image(systemName: "music.note")
-                    .font(.system(size: 12, weight: .bold)).foregroundStyle(.white.opacity(0.9)))
+                    .font(.system(size: 12, weight: .bold)).foregroundStyle(.ink.opacity(0.9)))
         }
     }
 }

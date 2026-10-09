@@ -33,3 +33,26 @@ func flatten(_ s: TimerSequence) -> [TimerSegment] {
     out += s.segments[(end + 1)...]
     return out
 }
+
+// MARK: - Pomodoro dưới dạng chuỗi
+
+extension TimerSequence {
+    /// Id cố định cho chuỗi Pomodoro dựng sẵn (không lưu trong SequenceStore).
+    static let pomodoroID = UUID(uuidString: "00000000-0000-0000-0000-00000000F0C5")!
+
+    /// Pomodoro = (Làm → Nghỉ ngắn) × (vòng − 1) → Làm → Nghỉ dài.
+    static func pomodoro(_ cfg: PomodoroConfig, sound: String) -> TimerSequence {
+        let rounds = max(1, cfg.roundsBeforeLongBreak)
+        var segs: [TimerSegment] = []
+        for r in 1...rounds {
+            segs.append(TimerSegment(id: UUID(), name: "Làm \(r)", minutes: max(1, cfg.workMinutes),
+                                     soundName: sound, colorHex: "#F25C54"))
+            let long = r == rounds
+            segs.append(TimerSegment(id: UUID(), name: long ? "Nghỉ dài" : "Nghỉ",
+                                     minutes: max(1, long ? cfg.longBreakMinutes : cfg.shortBreakMinutes),
+                                     soundName: sound, colorHex: long ? "#5AA9FF" : "#4DD185"))
+        }
+        return TimerSequence(id: pomodoroID, name: "Pomodoro", segments: segs,
+                             loopStart: nil, loopEnd: nil, loopCount: 1)
+    }
+}

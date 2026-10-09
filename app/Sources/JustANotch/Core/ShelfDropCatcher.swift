@@ -37,6 +37,8 @@ final class ShelfDropCatcher {
 
     func setFrame(_ rect: CGRect) { panel.setFrame(rect, display: true) }
     func orderFront() { panel.orderFrontRegardless() }
+    /// Cho click xuyên qua (pill đang mở: catcher nằm đè vòng chip tab).
+    func setPassthrough(_ on: Bool) { panel.ignoresMouseEvents = on }
 
     /// NSView đích của drag: chỉ quan tâm file URL.
     final class DraggingView: NSView {

@@ -6,6 +6,10 @@ import AppKit
 struct CalculatorView: View {
     let onBack: () -> Void
     let onInteract: () -> Void
+    /// Nằm trong tab Tiện ích → không có nút quay lại.
+    var embedded = false
+    /// Màu số kết quả (tab Tiện ích tô theo màu tính năng).
+    var tint: Color = .ink
 
     @ObservedObject private var rates = CurrencyRates.shared
     @AppStorage("calc.lastInput") private var input = ""
@@ -21,14 +25,14 @@ struct CalculatorView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 7) {
-            header
+            if !embedded { header }
             field
             resultArea
         }
         // NotchShape có "tai" ngược 12pt ở hai mép trên → thân thật hẹp hơn bề mặt 2×12.
-        .padding(.horizontal, 28)
-        .padding(.top, 2)
-        .padding(.bottom, 12)
+        .padding(.horizontal, embedded ? 0 : 28)
+        .padding(.top, embedded ? 0 : 2)
+        .padding(.bottom, embedded ? 0 : 12)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .onAppear {
             rates.refreshIfStale()
@@ -44,18 +48,18 @@ struct CalculatorView: View {
 
     private var header: some View {
         HStack(spacing: 6) {
-            Button(action: onBack) {
+            if !embedded { Button(action: onBack) {
                 Image(systemName: "chevron.left")
                     .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(.white.opacity(0.75))
+                    .foregroundStyle(.ink.opacity(0.75))
                     .frame(width: 20, height: 18)
-                    .background(RoundedRectangle(cornerRadius: 5, style: .continuous).fill(.white.opacity(0.08)))
+                    .background(RoundedRectangle(cornerRadius: 5, style: .continuous).fill(.ink.opacity(0.08)))
                     .contentShape(Rectangle())
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.plain) }
             Text("MÁY TÍNH & TỶ GIÁ")
                 .font(.system(size: 9, weight: .bold)).tracking(0.8)
-                .foregroundStyle(.white.opacity(0.4))
+                .foregroundStyle(.ink.opacity(0.4))
             Spacer(minLength: 0)
             ratesStatus
         }
@@ -63,13 +67,13 @@ struct CalculatorView: View {
 
     @ViewBuilder private var ratesStatus: some View {
         if rates.loading && rates.rates == nil {
-            Text("đang tải tỷ giá…").font(.system(size: 9)).foregroundStyle(.white.opacity(0.35))
+            Text("đang tải tỷ giá…").font(.system(size: 9)).foregroundStyle(.ink.opacity(0.35))
         } else if let at = rates.updatedAt {
             Text("tỷ giá \(Self.stamp(at))")
-                .font(.system(size: 9)).foregroundStyle(.white.opacity(0.35))
+                .font(.system(size: 9)).foregroundStyle(.ink.opacity(0.35))
                 .help("Nguồn: open.er-api.com (tỷ giá tham khảo, cập nhật hằng ngày)")
         } else {
-            Text("chưa có tỷ giá").font(.system(size: 9)).foregroundStyle(.white.opacity(0.35))
+            Text("chưa có tỷ giá").font(.system(size: 9)).foregroundStyle(.ink.opacity(0.35))
         }
     }
 
@@ -77,27 +81,27 @@ struct CalculatorView: View {
         HStack(spacing: 8) {
             Image(systemName: "function")
                 .font(.system(size: 11, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.45))
+                .foregroundStyle(.ink.opacity(0.45))
             TextField("", text: $input, prompt: Text("100usd · 2.5tr × 3 · 50eur to usd")
-                .foregroundStyle(.white.opacity(0.28)))
+                .foregroundStyle(.ink.opacity(0.28)))
                 .textFieldStyle(.plain)
                 .font(.system(size: 14, weight: .medium, design: .rounded))
-                .foregroundStyle(.white)
+                .foregroundStyle(.ink)
                 .focused($focused)
                 .onSubmit(copyResult)
                 .onExitCommand(perform: onBack)
             if !input.isEmpty {
                 Button { input = "" } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 11)).foregroundStyle(.white.opacity(0.35))
+                        .font(.system(size: 11)).foregroundStyle(.ink.opacity(0.35))
                 }
                 .buttonStyle(.plain)
             }
         }
         .padding(.horizontal, 10).padding(.vertical, 7)
-        .background(RoundedRectangle(cornerRadius: 9, style: .continuous).fill(.white.opacity(0.08)))
+        .background(RoundedRectangle(cornerRadius: 9, style: .continuous).fill(.ink.opacity(0.08)))
         .overlay(RoundedRectangle(cornerRadius: 9, style: .continuous)
-            .strokeBorder(.white.opacity(focused ? 0.16 : 0.05), lineWidth: 0.8))
+            .strokeBorder(.ink.opacity(focused ? 0.16 : 0.05), lineWidth: 0.8))
     }
 
     @ViewBuilder private var resultArea: some View {
@@ -105,32 +109,32 @@ struct CalculatorView: View {
         case .success(let r):
             VStack(alignment: .leading, spacing: 2) {
                 HStack(alignment: .firstTextBaseline, spacing: 8) {
-                    Text("= " + QuickCalc.format(r.value))
-                        .font(.system(size: 17, weight: .bold, design: .rounded))
-                        .foregroundStyle(.white)
+                    Text((embedded ? "" : "= ") + QuickCalc.format(r.value))
+                        .font(.system(size: embedded ? 22 : 17, weight: .bold, design: .rounded))
+                        .foregroundStyle(tint)
                         .lineLimit(1).minimumScaleFactor(0.6)
                         .contentTransition(.numericText())
                         .animation(.snappy(duration: 0.2), value: QuickCalc.format(r.value))
                     Spacer(minLength: 0)
                     Text(copied ? "Đã copy ✓" : "⏎ copy")
                         .font(.system(size: 9.5, weight: .semibold))
-                        .foregroundStyle(copied ? Color(red: 0.45, green: 0.9, blue: 0.6) : .white.opacity(0.3))
+                        .foregroundStyle(copied ? Color(red: 0.45, green: 0.9, blue: 0.6) : .ink.opacity(0.3))
                         .animation(.easeOut(duration: 0.15), value: copied)
                 }
                 if let src = r.source, let rateLine = rateLine(src, r.value) {
                     Text(rateLine)
-                        .font(.system(size: 10)).foregroundStyle(.white.opacity(0.45))
+                        .font(.system(size: 10)).foregroundStyle(.ink.opacity(0.45))
                         .lineLimit(1)
                 }
             }
         case .failure(.syntax) where lastGood != nil:
             Text("= " + QuickCalc.format(lastGood!.value))
                 .font(.system(size: 17, weight: .bold, design: .rounded))
-                .foregroundStyle(.white.opacity(0.3))
+                .foregroundStyle(.ink.opacity(0.3))
                 .lineLimit(1).minimumScaleFactor(0.6)
         case .failure(let e):
             Text(message(e))
-                .font(.system(size: 10.5)).foregroundStyle(.white.opacity(0.35))
+                .font(.system(size: 10.5)).foregroundStyle(.ink.opacity(0.35))
                 .padding(.top, 3)
         }
     }

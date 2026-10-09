@@ -33,6 +33,8 @@ final class GoldPrices: ObservableObject {
     @Published private(set) var world: World?
     @Published private(set) var local: [Local] = []
     @Published private(set) var loading = false
+    /// Giá XAU trong ngày (mốc 30′, Yahoo GC=F) — để vẽ sparkline. Không lưu cache.
+    @Published private(set) var intraday: [Double] = []
     @Published private(set) var failed = false
     private var fetchedAt: Date?
 
@@ -60,7 +62,9 @@ final class GoldPrices: ObservableObject {
         Task {
             async let w = Self.fetchWorld()
             async let l = Self.fetchLocal()
-            let (world, local) = await (w, l)
+            async let i = Self.fetchIntraday()
+            let (world, local, intraday) = await (w, l, i)
+            if let intraday, intraday.count > 1 { self.intraday = intraday }
             self.loading = false
             self.failed = world == nil && local == nil
             if let world { self.world = world }
@@ -114,6 +118,23 @@ final class GoldPrices: ObservableObject {
     nonisolated static func parseGoldAPI(_ data: Data) -> Double? {
         struct P: Decodable { let price: Double }
         return (try? JSONDecoder().decode(P.self, from: data))?.price
+    }
+
+    nonisolated static func fetchIntraday() async -> [Double]? {
+        guard let d = await get(URL(string: "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?range=1d&interval=30m")!)
+        else { return nil }
+        return parseYahooCloses(d)
+    }
+
+    nonisolated static func parseYahooCloses(_ data: Data) -> [Double]? {
+        struct Root: Decodable { let chart: Chart }
+        struct Chart: Decodable { let result: [R]? }
+        struct R: Decodable { let indicators: I }
+        struct I: Decodable { let quote: [Q] }
+        struct Q: Decodable { let close: [Double?]? }
+        guard let c = (try? JSONDecoder().decode(Root.self, from: data))?.chart.result?.first?.indicators.quote.first?.close
+        else { return nil }
+        return c.compactMap { $0 }
     }
 
     nonisolated static func parseYahoo(_ data: Data) -> (price: Double, prevClose: Double?)? {

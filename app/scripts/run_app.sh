@@ -19,5 +19,7 @@ fi
 
 # Kill any running instance, then relaunch fresh.
 pkill -x JustANotch 2>/dev/null || true
-open "$BUNDLE"
+# Chờ bản cũ thoát hẳn (mở ngay khi nó còn đang thoát → LaunchServices báo lỗi -600).
+for _ in $(seq 1 30); do pgrep -x JustANotch >/dev/null || break; sleep 0.1; done
+open "$BUNDLE" || { sleep 0.5; open "$BUNDLE"; }
 echo "==> Relaunched $BUNDLE"

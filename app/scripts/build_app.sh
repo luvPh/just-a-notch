@@ -7,7 +7,14 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 APP_NAME="Just a Notch"
 BUNDLE="$ROOT/build/$APP_NAME.app"
 
-echo "==> swift build ($CONFIG)"
+# SDK 27 của Command Line Tools cần plugin macro SwiftUI chỉ có trong Xcode.app →
+# nếu chưa đặt SDKROOT thì dùng SDK macOS 26.x mới nhất (đã có .glassEffect).
+if [ -z "${SDKROOT:-}" ]; then
+  SDK26="$(ls -d /Library/Developer/CommandLineTools/SDKs/MacOSX26.*.sdk 2>/dev/null | sort -V | tail -1 || true)"
+  [ -n "$SDK26" ] && export SDKROOT="$SDK26"
+fi
+
+echo "==> swift build ($CONFIG)${SDKROOT:+ · SDK $(basename "$SDKROOT")}"
 swift build -c "$CONFIG" --product JustANotch
 BIN_PATH="$(swift build -c "$CONFIG" --product JustANotch --show-bin-path)"
 

@@ -144,6 +144,10 @@ enum ClaudeReducer {
         guard let json = try? JSONSerialization.jsonObject(with: body) as? [String: Any],
               let session = json["session_id"] as? String,
               let name = json["hook_event_name"] as? String else { return nil }
+        // Codex tự sinh phiên nền (guardian tự duyệt lệnh…) — không phải người dùng làm → bỏ.
+        if agent == .codex, isCodexBackgroundSession(session, transcript: json["transcript_path"] as? String) {
+            return nil
+        }
         let tool = json["tool_name"] as? String
         var detail: String?
         if let input = json["tool_input"] as? [String: Any] { detail = summarize(tool: tool ?? "", input: input) }
@@ -151,6 +155,32 @@ enum ClaudeReducer {
         return ClaudeHookEvent(agent: agent, session: session, cwd: json["cwd"] as? String ?? "", name: name,
                                tool: tool, detail: detail, message: json["message"] as? String,
                                bundleID: (bundle?.isEmpty ?? true) ? nil : bundle, at: at)
+    }
+
+    private static var codexBackgroundCache: [String: Bool] = [:]
+    private static let codexCacheLock = NSLock()
+
+    /// Phiên Codex chạy ngầm (không do người dùng gõ): đọc dòng `session_meta` đầu
+    /// transcript — `thread_source` = "guardian_review" hoặc `source.subagent.other`
+    /// (guardian, memory…). Subagent do phiên người dùng spawn (`thread_spawn`) vẫn giữ.
+    static func isCodexBackgroundSession(_ session: String, transcript: String?) -> Bool {
+        codexCacheLock.lock()
+        if let hit = codexBackgroundCache[session] { codexCacheLock.unlock(); return hit }
+        codexCacheLock.unlock()
+        guard let path = transcript, let fh = FileHandle(forReadingAtPath: path) else { return false }
+        defer { try? fh.close() }
+        let chunk = (try? fh.read(upToCount: 64 * 1024)) ?? Data()
+        guard !chunk.isEmpty else { return false }   // transcript chưa ghi → thử lại lần sau
+        let firstLine = chunk.split(separator: UInt8(ascii: "\n"), maxSplits: 1).first.map { Data($0) } ?? chunk
+        var bg = false
+        if let obj = try? JSONSerialization.jsonObject(with: firstLine) as? [String: Any],
+           let meta = obj["payload"] as? [String: Any] {
+            let threadSource = meta["thread_source"] as? String
+            let sub = (meta["source"] as? [String: Any])?["subagent"] as? [String: Any]
+            bg = threadSource == "guardian_review" || sub?["other"] != nil
+        }
+        codexCacheLock.lock(); codexBackgroundCache[session] = bg; codexCacheLock.unlock()
+        return bg
     }
 
     static func summarize(tool: String, input: [String: Any]) -> String? {

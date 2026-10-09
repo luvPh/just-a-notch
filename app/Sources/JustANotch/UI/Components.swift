@@ -23,7 +23,7 @@ struct SourceIcon: View {
                 .frame(width: size, height: size)
                 .overlay(Image(systemName: sym)
                     .font(.system(size: size * 0.5, weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.95)))
+                    .foregroundStyle(.ink.opacity(0.95)))
                 .offset(x: isVideo ? 2 : 0)   // nhích cả icon (nền + glyph) sang phải 2px
         }
     }
@@ -73,10 +73,10 @@ struct SourceIconButton: View {
                     .shadow(color: tint.opacity(hovering ? 0.8 : 0), radius: 5)
                 Image(systemName: "arrow.up.right")
                     .font(.system(size: 6.5, weight: .heavy))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.ink)
                     .frame(width: 11, height: 11)
                     .background(Circle().fill(.black))
-                    .overlay(Circle().strokeBorder(.white.opacity(0.35), lineWidth: 0.6))
+                    .overlay(Circle().strokeBorder(.ink.opacity(0.35), lineWidth: 0.6))
                     .offset(x: 10, y: -8)
                     .opacity(hovering ? 1 : 0)
                     .scaleEffect(hovering ? 1 : 0.4)
@@ -117,7 +117,7 @@ struct MarqueeText: View {
     var body: some View {
         let fits = Self.textWidth(text) <= viewport
         Text(text)
-            .font(font).foregroundStyle(.white).lineLimit(1).fixedSize()
+            .font(font).foregroundStyle(.ink).lineLimit(1).fixedSize()
             .offset(x: offset)
             .frame(width: viewport, alignment: centerIfFits && fits ? .center : .leading)
             .clipped()

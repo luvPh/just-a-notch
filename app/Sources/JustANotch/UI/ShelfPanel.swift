@@ -32,16 +32,16 @@ struct ShelfPanel: View {
             Image(systemName: "tray.full.fill").font(.system(size: 12, weight: .semibold))
                 .foregroundStyle(accent)
                 .shadow(color: accent.opacity(0.6), radius: 5)
-            Text("Kệ tạm").font(.system(size: 13, weight: .bold)).foregroundStyle(.white)
+            Text("Kệ tạm").font(.system(size: 13, weight: .bold)).foregroundStyle(.ink)
             if !store.isEmpty {
                 Text("\(store.count)").font(.system(size: 11.5, weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.5))
+                    .foregroundStyle(.ink.opacity(0.5))
             }
             Spacer(minLength: 4)
             if !store.isEmpty {
                 shelfButton("trash", tint: Color(red: 1, green: 0.42, blue: 0.42)) { store.clear() }
             }
-            shelfButton("xmark", tint: .white.opacity(0.7)) { onClose() }
+            shelfButton("xmark", tint: .ink.opacity(0.7)) { onClose() }
         }
     }
 
@@ -76,9 +76,9 @@ struct ShelfPanel: View {
                         .font(.system(size: 24)).foregroundStyle(accent.opacity(0.92))
                         .shadow(color: accent.opacity(dropTargeted ? 0.7 : 0.4), radius: dropTargeted ? 10 : 6)
                     Text("Thả để giữ tạm")
-                        .font(.system(size: 14, weight: .semibold)).foregroundStyle(.white.opacity(0.9))
+                        .font(.system(size: 14, weight: .semibold)).foregroundStyle(.ink.opacity(0.9))
                     Text("Kéo file ra sau bằng cách kéo từ đây")
-                        .font(.system(size: 11)).foregroundStyle(.white.opacity(0.4))
+                        .font(.system(size: 11)).foregroundStyle(.ink.opacity(0.4))
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -87,7 +87,7 @@ struct ShelfPanel: View {
 
     private var dropHint: some View {
         Label("Thả để thêm", systemImage: "plus.circle.fill")
-            .font(.system(size: 12, weight: .semibold)).foregroundStyle(.white)
+            .font(.system(size: 12, weight: .semibold)).foregroundStyle(.ink)
             .padding(.horizontal, 12).padding(.vertical, 6)
             .background(Capsule().fill(.black.opacity(0.6)))
             .allowsHitTesting(false)
@@ -99,14 +99,14 @@ struct ShelfPanel: View {
                 .resizable().interpolation(.high)
                 .frame(width: 44, height: 44)
             Text(item.name).font(.system(size: 9.5, weight: .medium))
-                .foregroundStyle(.white.opacity(0.9))
+                .foregroundStyle(.ink.opacity(0.9))
                 .lineLimit(2).truncationMode(.middle).multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity)
                 .frame(height: 26, alignment: .top)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 9).padding(.horizontal, 4)
-        .background(RoundedRectangle(cornerRadius: 12).fill(.white.opacity(0.06)))
+        .background(RoundedRectangle(cornerRadius: 12).fill(.ink.opacity(0.06)))
         .contentShape(RoundedRectangle(cornerRadius: 12))
         // Nguồn kéo AppKit: kéo ra thành công ⇒ mục rời shelf luôn.
         // Phủ TRƯỚC nút ✕ ở trên và tự chừa góc trên-phải cho nó.
@@ -122,7 +122,7 @@ struct ShelfPanel: View {
             Button { store.remove(id: item.id) } label: {
                 Image(systemName: "xmark.circle.fill")
                     .font(.system(size: 13))
-                    .foregroundStyle(.white.opacity(0.85), .black.opacity(0.55))
+                    .foregroundStyle(.ink.opacity(0.85), .black.opacity(0.55))
             }
             .buttonStyle(.plain)
             .padding(3)

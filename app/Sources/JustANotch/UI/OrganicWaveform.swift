@@ -7,6 +7,7 @@ struct OrganicWaveform: View {
     var reduceMotion: Bool = false
     var tint: Color = Color(red: 0.96, green: 0.36, blue: 0.33)
     var bars: Int = 6
+    @State private var holding = false
 
     private let amp:   [Double] = [0.55, 0.78, 0.95, 1.0, 0.9, 0.72, 0.58]
     private let speed: [Double] = [6.4, 8.5, 7.2, 9.0, 7.6, 8.0, 6.8]
@@ -22,11 +23,16 @@ struct OrganicWaveform: View {
                 let total = barW * CGFloat(n) + gap * CGFloat(n - 1)
                 let startX = (size.width - total) / 2
                 let minH: CGFloat = 2.5
+                let live = reduceMotion ? nil : AudioSpectrum.shared.levels
                 for i in 0..<n {
                     let a = amp[i % amp.count]
                     let s = speed[i % speed.count], ph = phase[i % phase.count]
                     let p: Double
-                    if reduceMotion {
+                    if let live {
+                        // Âm thật: cột i lấy dải tương ứng (trải đều qua các dải tần).
+                        let bi = min(live.count - 1, i * live.count / n)
+                        p = Double(live[bi])
+                    } else if reduceMotion {
                         p = a * 0.6
                     } else {
                         let v = sin(t * s + ph) * 0.60
@@ -43,5 +49,11 @@ struct OrganicWaveform: View {
             }
         }
         .accessibilityHidden(true)
+        .onAppear { if active { AudioSpectrum.shared.acquire(); holding = true } }
+        .onDisappear { if holding { AudioSpectrum.shared.release(); holding = false } }
+        .onChange(of: active) { _, on in
+            if on, !holding { AudioSpectrum.shared.acquire(); holding = true }
+            if !on, holding { AudioSpectrum.shared.release(); holding = false }
+        }
     }
 }

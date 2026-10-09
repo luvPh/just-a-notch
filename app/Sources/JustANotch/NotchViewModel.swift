@@ -63,6 +63,7 @@ final class NotchViewModel: ObservableObject {
     @Published var clipTabActive = false
     /// Tab Hẹn giờ đang mở → cao hơn một chút cho thanh công cụ + hàng nút.
     @Published var timerTabActive = false
+    @Published var toolsTabActive = false
     /// Tab Đang phát → cao hơn cho ảnh bìa lớn.
     @Published var musicTabActive = true   // tab mặc định là music
     /// Panel Lịch đang mở? (do NotchRootView set khi railTab == .calendar)
@@ -263,7 +264,7 @@ final class NotchViewModel: ObservableObject {
     /// Must clear the physical camera core (notchHeight) AND leave room for the
     /// two-line banner body below it; a fixed 56 left only ~6pt for the text.
     /// Pill không có camera → bỏ khoảng chừa phía trên, chỉ giữ lề đều.
-    var hudHeight: CGFloat { pillMode ? 52 : notchHeight + 48 }
+    var hudHeight: CGFloat { pillMode ? 56 : notchHeight + 48 }
 
     enum CompactState { case quiet, resting, reading }
     var compactState: CompactState {
@@ -283,7 +284,7 @@ final class NotchViewModel: ObservableObject {
         let extra = CGFloat(max(0, claudeBadges.count - 1)) * 31
         let cw: CGFloat = pillMode ? 46 : 54   // pill: hình agent sát trái → wing gọn hơn
         switch compactState {
-        case .quiet:   return clawd ? cw + extra : 10
+        case .quiet:   return clawd ? cw + extra : (wingsBare ? 10 : (pillMode ? 33 : 40))
         case .resting: return clawd ? cw + extra : (pillMode ? 33 : 40)
         // Tên bài giờ hiện ở dải phình bên dưới → wing không nới ra nữa.
         case .reading: return clawd ? cw + extra : (pillMode ? 33 : 40)
@@ -293,12 +294,16 @@ final class NotchViewModel: ObservableObject {
         // Bấm soundwave → ◀ ⏯ ▶ ở wing phải, nới rộng cho vừa 3 nút.
         if hoverControls { return 106 }
         // Pill: không có "tai" notch để né → wing gọn hơn.
-        var base: CGFloat = compactState == .quiet ? 10 : (pillMode ? 31 : 40)
+        var base: CGFloat = wingsBare ? 10 : (pillMode ? 31 : 40)
         // Đồng hồ đếm ngược chiếm chỗ waveform ở wing phải → nới rộng để badge đủ chỗ.
         if anyTimerRunning { base = max(base, 42) }
         if pillMode && compactState != .reading { base = max(base, leftReveal) }
         return base
     }
+    /// Không wing nào có nội dung → notch ôm sát lõi camera. Chỉ một wing có nội dung
+    /// (Clawd / đồng hồ, không nhạc) thì vẫn dùng khổ đầy đủ: cao ≥ notch thật, wing kia
+    /// đủ rộng để bọc góc bo — không thì notch giả trông bé hơn notch thật.
+    var wingsBare: Bool { compactState == .quiet && !claudeIndicatorVisible && !anyTimerRunning }
     /// True khi người dùng đã bấm soundwave — morph waveform thành nút và nới wing phải.
     var hoverControls: Bool { transportVisible }
 
@@ -332,8 +337,10 @@ final class NotchViewModel: ObservableObject {
     /// Hàng icon + một dòng tên tool đang hover bên dưới.
     let launcherStripHeight: CGFloat = 50
 
+    /// Launcher khi hover đã tắt — các tính năng giờ nằm ở tab Tiện ích.
+    private let launcherOnHover = false
     private var canShowLauncher: Bool {
-        !expanded && !showingHUD && !shelfActive && !systemFileDragActive && !breakActive
+        launcherOnHover && !expanded && !showingHUD && !shelfActive && !systemFileDragActive && !breakActive
             && claudeAlert == nil && !transportVisible && !LauncherFeature.allCases.isEmpty
     }
     var launcherVisible: Bool { launcherOpen && !expanded && !showingHUD && !shelfActive }
@@ -527,7 +534,7 @@ final class NotchViewModel: ObservableObject {
             launcherFeature = nil
         }
     }
-    var compactHeight: CGFloat { pillMode ? max(24, (menuBarHeight - 3) / 0.75) : (compactState == .quiet ? 36 : 38) }
+    var compactHeight: CGFloat { pillMode ? max(24, (menuBarHeight - 3) / 0.75) : (wingsBare ? 36 : max(38, notchHeight)) }
     var compactWidth: CGFloat { leftReveal + coreWidth + rightReveal }
     /// Fixed marquee viewport for the title (left reading wing minus icon + pads).
     var titleViewport: CGFloat { 150 - 18 - 13 - 8 }
@@ -547,10 +554,15 @@ final class NotchViewModel: ObservableObject {
     /// Chiều cao lớn nhất tab Lịch có thể cần (6 hàng) — dùng cho canvas cố định.
     var calendarMaxHeight: CGFloat { calendarBaseHeight + 6 * calendarRowSlot }
     let clipboardWidth: CGFloat = 640   // = expandedWidth: đổi tab chỉ đổi chiều cao, không co giãn ngang
-    let clipboardHeight: CGFloat = 210
+    let clipboardHeight: CGFloat = 196
+    /// Chiều cao chuẩn cho mọi tab (lấy theo tab Music).
+    let tabHeight: CGFloat = 196
+    /// Cài đặt (mở bằng nút bánh răng) phình cao gấp 3 tab thường.
+    var settingsHeight: CGFloat { tabHeight * 3 }
+    @Published var settingsTabActive = false
     /// Chiều cao canvas cố định lớn nhất — panel window phải đủ cao cho mọi state.
     var maxSurfaceHeight: CGFloat {
-        max(expandedHeight, listExpandedHeight, calendarMaxHeight, shelfHeight)
+        max(tabHeight, listExpandedHeight, calendarMaxHeight, shelfHeight, settingsHeight)
     }
     /// Bề ngang canvas cố định lớn nhất — panel window phải đủ rộng cho mọi state.
     var maxSurfaceWidth: CGFloat {
@@ -582,13 +594,10 @@ final class NotchViewModel: ObservableObject {
         if learnPopup { return learnPopupHeight }
         if timerEditorTall { return 300 }
         if isListOpen { return listExpandedHeight }
-        if musicTabActive { return 196 }
-        if clipTabActive { return clipboardHeight }
-        if timerTabActive { return 206 }
-        if calTabActive { return calExpanded ? calendarExpandedHeight : expandedHeight }
-        if notifTabActive { return expandedHeight }   // 150px như tab mặc định
-        if panelWantsTall { return calendarExpandedHeight }
-        return expandedHeight
+        // Mọi tab dùng chung kích thước chuẩn của tab Music (640×196).
+        if calTabActive && calExpanded { return calendarExpandedHeight }
+        if settingsTabActive { return settingsHeight }
+        return tabHeight
     }
     /// Keep the camera core centred on the notch: shift by half the reveal imbalance.
     /// HUD and expanded are both centred, so no shift.
@@ -606,7 +615,7 @@ final class NotchViewModel: ObservableObject {
         if launcherVisible { return launcherFeature == nil ? 20 : 22 }
         if bulge != nil { return 20 }
         if pillMode && !expanded { return surfaceHeight / 2 }
-        return expanded ? 26 : (compactState == .quiet ? 10 : 14)
+        return expanded ? 26 : (wingsBare ? 10 : 14)
     }
     /// Launcher giữ "tai" 9 như lúc thu gọn: tai to hơn sẽ lấn mép thân vào trong,
     /// làm icon ở wing trông như bị đẩy sát mép khi dải icon thả xuống.
@@ -619,7 +628,7 @@ final class NotchViewModel: ObservableObject {
     /// Chiều cao thanh menu của màn đang hiển thị (đặt bởi controller).
     @Published var menuBarHeight: CGFloat = 24
     /// Pill thu gọn nhỏ 25% để nằm gọn trong thanh menu; mở ra thì về kích thước đầy đủ.
-    var pillScale: CGFloat { pillMode && !(expanded || shelfActive || launcherVisible) ? 0.75 : 1 }
+    var pillScale: CGFloat { pillMode && !(expanded || shelfActive || launcherVisible || showingHUD) ? 0.75 : 1 }
     /// Thu gọn: canh giữa pill theo chiều dọc trong thanh menu. Mở: cách mép trên 3pt.
     var pillGap: CGFloat {
         guard pillMode else { return 0 }

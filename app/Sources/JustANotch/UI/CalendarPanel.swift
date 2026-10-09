@@ -73,7 +73,7 @@ struct CalendarPanel: View {
         HStack(spacing: 6) {
             // Không còn nút ◀▶: tuần thì cuộn ngày, tháng thì trượt/cuộn để đổi tháng.
             Text(title)
-                .font(NotchTheme.toolbarTitle).foregroundStyle(.white)
+                .font(NotchTheme.toolbarTitle).foregroundStyle(.ink)
                 .lineLimit(1).minimumScaleFactor(0.6)
                 // Đổi tiêu đề tức thì cho khớp với lưới (MonthPager nhảy ~ngay lập tức).
                 .contentTransition(.numericText())
@@ -103,7 +103,7 @@ struct CalendarPanel: View {
             toggleChip("Âm", isActive: mode == .lunar) { setMode(.lunar) }
         }
         .padding(2)
-        .background(Capsule().fill(.white.opacity(0.08)))
+        .background(Capsule().fill(.ink.opacity(0.08)))
     }
 
     private func toggleChip(_ label: String, isActive: Bool, _ tap: @escaping () -> Void) -> some View {
@@ -111,12 +111,12 @@ struct CalendarPanel: View {
             Text(label)
                 .font(.system(size: 10.5, weight: .semibold))
                 .lineLimit(1).fixedSize()
-                .foregroundStyle(isActive ? Color.black : .white.opacity(0.7))
+                .foregroundStyle(isActive ? Color.inkInverse : .ink.opacity(0.7))
                 .padding(.horizontal, 9).frame(height: 18)
                 .background {
                     // Viên nền trắng TRƯỢT giữa hai chip (matchedGeometry).
                     if isActive {
-                        Capsule().fill(.white.opacity(0.92))
+                        Capsule().fill(.ink.opacity(0.92))
                             .matchedGeometryEffect(id: "toggleKnob", in: toggleNS)
                     }
                 }
@@ -128,7 +128,7 @@ struct CalendarPanel: View {
         HStack(spacing: 0) {
             ForEach(weekdayLabels, id: \.self) { d in
                 Text(d).font(.system(size: 9, weight: .medium))
-                    .foregroundStyle(d == "CN" ? calAccent.opacity(0.75) : .white.opacity(0.4))
+                    .foregroundStyle(d == "CN" ? calAccent.opacity(0.75) : .ink.opacity(0.4))
                     .frame(maxWidth: .infinity)
             }
         }
@@ -211,7 +211,7 @@ struct CalendarPanel: View {
                 AnyView(weekCell(info(from: d, inMonth: true), focus: focus))
             }
         }
-        .frame(height: 62)
+        .frame(height: 96)
     }
 
     /// Ngày giữa dải đổi ⇒ đồng bộ `anchor` (để tiêu đề tháng + lưới tháng khớp).
@@ -243,20 +243,20 @@ struct CalendarPanel: View {
 
         return VStack(spacing: 2) {
             Text(weekdayLabels[info.weekdayMon0])
-                .font(.system(size: 8.5, weight: .medium))
-                .foregroundStyle(info.weekdayMon0 == 6 ? calAccent.opacity(0.7) : .white.opacity(0.4))
+                .font(.system(size: 10, weight: .medium))
+                .foregroundStyle(info.weekdayMon0 == 6 ? calAccent.opacity(0.7) : .ink.opacity(0.4))
             Text(primary)
-                .font(.system(size: 17, weight: showToday || hasPublic ? .bold : .semibold))
+                .font(.system(size: 26, weight: showToday || hasPublic ? .bold : .semibold))
                 .foregroundStyle(cellColor(info, today: showToday, hasHoliday: hasHoliday, hasPublic: hasPublic))
             Text(secondary)
-                .font(.system(size: 8, weight: .medium))
-                .foregroundStyle(hasHoliday ? calHoliday.opacity(0.8) : .white.opacity(0.35))
+                .font(.system(size: 10, weight: .medium))
+                .foregroundStyle(hasHoliday ? calHoliday.opacity(0.8) : .ink.opacity(0.35))
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 7)
+        .padding(.vertical, 14)
         .background(
             RoundedRectangle(cornerRadius: 9, style: .continuous)
-                .fill(showToday ? calAccent : .white.opacity(0.12 * pill))
+                .fill(showToday ? calAccent : .ink.opacity(0.12 * pill))
         )
         // Ô về gần tâm phóng to & rõ dần (liên tục theo vị trí cuộn).
         .scaleEffect(scale)
@@ -281,7 +281,7 @@ struct CalendarPanel: View {
             .frame(height: 28)
             .background(
                 RoundedRectangle(cornerRadius: 7, style: .continuous)
-                    .fill(showToday ? calAccent : (hovered ? .white.opacity(0.12) : .clear))
+                    .fill(showToday ? calAccent : (hovered ? .ink.opacity(0.12) : .clear))
             )
             // Hover: phóng nhẹ + TRƯỢT LÊN về phía con trỏ (phản hồi tức thì).
             .scaleEffect(hovered ? 1.06 : 1.0)
@@ -307,7 +307,7 @@ struct CalendarPanel: View {
         if today { return .white }                       // chữ trắng trên nền đỏ
         if hasHoliday { return hasPublic ? calHoliday : calHoliday.opacity(0.75) } // vàng: ngày lễ
         if info.weekdayMon0 == 6 { return calAccent.opacity(info.inMonth ? 0.9 : 0.4) } // CN đỏ
-        return .white.opacity(info.inMonth ? 0.9 : 0.4)
+        return .ink.opacity(info.inMonth ? 0.9 : 0.4)
     }
 
     // MARK: Footer
@@ -323,9 +323,9 @@ struct CalendarPanel: View {
             : "\(c.day!) tháng \(c.month!) dương lịch"
         return HStack(spacing: 6) {
             Text(dateText)
-                .font(.system(size: 10.5, weight: .medium)).foregroundStyle(.white.opacity(0.55))
+                .font(.system(size: 10.5, weight: .medium)).foregroundStyle(.ink.opacity(0.55))
             if !hols.isEmpty {
-                Text("·").font(.system(size: 10)).foregroundStyle(.white.opacity(0.28))
+                Text("·").font(.system(size: 10)).foregroundStyle(.ink.opacity(0.28))
                 Image(systemName: "party.popper.fill").font(.system(size: 9)).foregroundStyle(calHoliday)
                 Text(hols.map { $0.name }.joined(separator: " · "))
                     .font(.system(size: 10.5, weight: .semibold)).foregroundStyle(calHoliday)
@@ -362,7 +362,7 @@ struct CalendarPanel: View {
     private var yearWatermark: some View {
         Text(yearLabel)
             .font(.system(size: 74, weight: .heavy, design: .rounded))
-            .foregroundStyle(.white.opacity(0.07))
+            .foregroundStyle(.ink.opacity(0.07))
             .lineLimit(1).minimumScaleFactor(0.4)
             .padding(.horizontal, 8)
             .allowsHitTesting(false)
@@ -551,11 +551,11 @@ private struct WeekCarousel: View {
                     cell(dates[i], focus)
                         .frame(width: cw)
                         .opacity(edge)
-                        .position(x: x, y: 31)
+                        .position(x: x, y: 48)
                 }
             }
         }
-        .frame(width: viewportWidth, height: 62)
+        .frame(width: viewportWidth, height: 96)
         .clipped()                                       // chặn ô hai bên tràn khỏi khung
         .contentShape(Rectangle())
         .background(
